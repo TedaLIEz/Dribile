@@ -1,6 +1,6 @@
 package com.hustunique.jianguo.driclient.service;
 
-import com.hustunique.jianguo.driclient.pojo.User;
+import com.hustunique.jianguo.driclient.bean.User;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
