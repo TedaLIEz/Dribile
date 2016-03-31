@@ -1,10 +1,12 @@
 package com.hustunique.jianguo.driclient.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by JianGuo on 3/30/16.
  * Bean for access token, note that the first letter of <t>tokenType</t> should be uppercase
  */
-public class AccessToken {
+public class AccessToken implements Serializable{
     private String access_token;
     private String token_type;
     private String scope;

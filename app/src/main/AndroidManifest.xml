@@ -17,9 +17,7 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
-        <activity android:name=".ui.activity.LoginActivity"
-            android:parentActivityName=".ui.activity.MainActivity"
-            android:clearTaskOnLaunch="true">
+        <activity android:name=".ui.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

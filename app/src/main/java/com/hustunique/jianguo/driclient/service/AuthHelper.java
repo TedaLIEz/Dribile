@@ -38,25 +38,25 @@ public class AuthHelper {
      * @param uri the uri
      * @return the accessToken
      */
-    @Deprecated
-    public static void parseToken(@NonNull Uri uri) {
-        AccessToken accessToken = null;
-        String code = uri.getQueryParameter("code");
-        if (code != null) {
-            DribbbleAuthService authService = AuthServiceFactory.createAuthService(DribbbleAuthService.class);
-            Call<AccessToken> call = authService.getAccessToken(MyApp.client_id, MyApp.client_secret, code);
-                call.enqueue(new Callback<AccessToken>() {
-                    @Override
-                    public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
-                        Log.i("driclient", response.body() + "");
-                    }
-                    @Override
-                    public void onFailure(Call<AccessToken> call, Throwable t) {
-                        Log.e("driclient", "error" + t.getMessage());
-                    }
-                });
-        } else if (uri.getQueryParameter("error") != null) {
-            Log.e("dirclient", "error when get token");
-        }
-    }
+//    @Deprecated
+//    public static void parseToken(@NonNull Uri uri) {
+//        AccessToken accessToken = null;
+//        String code = uri.getQueryParameter("code");
+//        if (code != null) {
+//            DribbbleAuthService authService = AuthServiceFactory.createAuthService(DribbbleAuthService.class);
+//            Call<AccessToken> call = authService.getAccessToken(MyApp.client_id, MyApp.client_secret, code);
+//                call.enqueue(new Callback<AccessToken>() {
+//                    @Override
+//                    public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
+//                        Log.i("driclient", response.body() + "");
+//                    }
+//                    @Override
+//                    public void onFailure(Call<AccessToken> call, Throwable t) {
+//                        Log.e("driclient", "error" + t.getMessage());
+//                    }
+//                });
+//        } else if (uri.getQueryParameter("error") != null) {
+//            Log.e("dirclient", "error when get token");
+//        }
+//    }
 }

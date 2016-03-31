@@ -9,6 +9,7 @@ import com.hustunique.jianguo.driclient.service.api.Constants;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import rx.Observable;
 
 /**
  * Created by JianGuo on 3/29/16.
@@ -24,9 +25,8 @@ public interface DribbbleUserService {
     @GET(Constants.URL_BASE_USERS + "{name}")
     Call<User> getUser(@Path("name") String name);
 
-    @Deprecated
     @GET(Constants.OAuth.URL_AUTH_USER)
-    Call<User> getAuthUser(@Path("id") String id);
+    Observable<User> getAuthUser();
 
     /**
      * Get a user's buckets

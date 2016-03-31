@@ -5,25 +5,26 @@ package com.hustunique.jianguo.driclient.bean;
  * POJO for user with API-Key
  */
 public class OAuthUser {
-    private User mUser;
 
-    private ApiKey mKey;
+    private User mUser;
+    private AccessToken accessToken;
 
     public OAuthUser(){}
 
-    public User getmUser() {
+    public AccessToken getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(AccessToken accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public User getUser() {
         return mUser;
     }
 
-    public void setmUser(User mUser) {
-        this.mUser = mUser;
+    public void setUser(User user) {
+        this.mUser = user;
     }
 
-    public ApiKey getmKey() {
-        return mKey;
-    }
-
-    public void setmKey(ApiKey mKey) {
-        this.mKey = mKey;
-    }
 }

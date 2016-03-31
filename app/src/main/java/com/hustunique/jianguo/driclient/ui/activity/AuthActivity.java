@@ -1,10 +1,9 @@
 package com.hustunique.jianguo.driclient.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
@@ -15,17 +14,22 @@ import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.MyApp;
 import com.hustunique.jianguo.driclient.bean.AccessToken;
 import com.hustunique.jianguo.driclient.service.DribbbleAuthService;
-import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.service.api.Constants;
 import com.hustunique.jianguo.driclient.service.factories.AuthServiceFactory;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-public class AuthActivity extends AppCompatActivity {
+/**
+ * Activity for auth including a webView
+ */
+public class AuthActivity extends BaseActivity {
+    public static final String TOKEN = "token";
+    public static final String USER = "user";
     @Bind(R.id.wv_auth)
     WebView webView;
 
@@ -89,30 +93,40 @@ public class AuthActivity extends AppCompatActivity {
     private void parseToken(Uri uri) {
         String code = uri.getQueryParameter("code");
         if (code != null) {
-            Log.i("driclient", code);
-            DribbbleAuthService authService = AuthServiceFactory.createAuthService(DribbbleAuthService.class);
-            Call<AccessToken> call = authService.getAccessToken(MyApp.client_id, MyApp.client_secret, code);
-            call.enqueue(new Callback<AccessToken>() {
-                @Override
-                public void onResponse(Call<AccessToken> call, Response<AccessToken> response) {
-                    Log.i("driclient", response.body() + "");
-                    //TODO: Save token or save the auth user instead
-                    AuthActivity.this.finish();
-                }
+            DribbbleAuthService authService = AuthServiceFactory.
+                    createAuthService(DribbbleAuthService.class);
+            authService.getAccessToken(MyApp.client_id, MyApp.client_secret, code)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<AccessToken>() {
+                        @Override
+                        public void onCompleted() {
 
-                @Override
-                public void onFailure(Call<AccessToken> call, Throwable t) {
-                    Log.e("driclient", "error" + t.getMessage());
-                }
-            });
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            onLoginFailed(e);
+                        }
+
+                        @Override
+                        public void onNext(AccessToken token) {
+                            onLoginSuccess(token);
+                        }
+                    });
         } else if (uri.getQueryParameter("error") != null) {
-            Log.e("driclient", "error when get token");
-            loginFail();
+            onLoginFailed(new Throwable(uri.getQueryParameter("error")));
         }
     }
 
-    //TODO: login failed
-    private void loginFail() {
+    public void onLoginSuccess(AccessToken token) {
+        Intent intent = new Intent();
+        intent.putExtra(TOKEN, token);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    public void onLoginFailed(Throwable e) {
 
     }
 
