@@ -1,12 +1,10 @@
 package com.hustunique.jianguo.driclient.bean;
 
-import java.io.Serializable;
-
 /**
  * Created by JianGuo on 3/28/16.
  * Simple POJO for Dribbble user.
  */
-public class User implements Serializable {
+public class User extends BaseBean {
     private int id;
 
     private String name;

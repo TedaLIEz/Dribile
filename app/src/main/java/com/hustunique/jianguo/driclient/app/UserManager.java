@@ -2,6 +2,7 @@ package com.hustunique.jianguo.driclient.app;
 
 import com.hustunique.jianguo.driclient.bean.AccessToken;
 import com.hustunique.jianguo.driclient.bean.OAuthUser;
+import com.hustunique.jianguo.driclient.dao.AuthUserDataHelper;
 
 /**
  * Created by JianGuo on 3/31/16.
@@ -16,22 +17,28 @@ public class UserManager {
      */
     public static OAuthUser getCurrentUser() {
         if (user == null) {
-
+            AuthUserDataHelper helper = new AuthUserDataHelper();
+            if (helper.isAuthUserExit()) {
+                user = helper.query();
+            }
         }
         return user;
     }
 
     /**
      * set the current user
-     * @param user the user
+     * @param authUser the user
      */
-    public static void setCurrentUser(OAuthUser user) {
+    public static void setCurrentUser(OAuthUser authUser) {
+        user = authUser;
 
+        AuthUserDataHelper helper = new AuthUserDataHelper();
+        helper.save(authUser);
     }
 
     /**
      * Get the token of current user
-     * @return the token of logged user
+     * @return the {@link AccessToken} of logged user
      */
     public static AccessToken getCurrentToken() {
         return user.getAccessToken();

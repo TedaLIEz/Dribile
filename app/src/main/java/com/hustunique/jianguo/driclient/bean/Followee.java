@@ -3,7 +3,7 @@ package com.hustunique.jianguo.driclient.bean;
 /**
  * Created by JianGuo on 3/29/16.
  */
-public class Followee {
+public class Followee extends BaseBean {
     private int id;
     private String created_at;
     private User followee;

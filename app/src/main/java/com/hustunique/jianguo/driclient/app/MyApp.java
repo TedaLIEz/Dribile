@@ -12,6 +12,7 @@ import com.hustunique.jianguo.driclient.ui.activity.MainActivity;
 
 /**
  * Created by JianGuo on 3/29/16.
+ * Custom Application
  */
 public class MyApp extends Application {
 
@@ -23,10 +24,17 @@ public class MyApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        AppData.init(getApplicationContext());
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-
+                if (activity instanceof MainActivity) {
+                    if (null == UserManager.getCurrentUser()) {
+                        Intent intent = new Intent(activity, LoginActivity.class);
+                        activity.startActivity(intent);
+                        activity.finish();
+                    }
+                }
             }
 
             @Override

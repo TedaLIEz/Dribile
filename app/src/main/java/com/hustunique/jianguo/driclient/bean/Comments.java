@@ -4,7 +4,7 @@ package com.hustunique.jianguo.driclient.bean;
  * Created by JianGuo on 3/29/16.
  * POJO for comment in shots
  */
-public class Comments {
+public class Comments extends BaseBean {
     private int id;
     private String body;
     private int likes_count;

@@ -18,7 +18,6 @@ import retrofit2.Response;
  */
 public class AuthHelper {
 
-    //TODO: Cache User or token?
     private static AccessToken accessToken;
 
     public static AccessToken getAccessToken() {

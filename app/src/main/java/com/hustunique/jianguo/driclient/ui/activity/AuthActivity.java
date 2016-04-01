@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 import android.webkit.WebSettings;
@@ -13,15 +14,21 @@ import android.webkit.WebViewClient;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.MyApp;
 import com.hustunique.jianguo.driclient.bean.AccessToken;
+import com.hustunique.jianguo.driclient.bean.User;
 import com.hustunique.jianguo.driclient.service.DribbbleAuthService;
+import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.api.Constants;
+import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.service.factories.AuthServiceFactory;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -30,6 +37,10 @@ import rx.schedulers.Schedulers;
 public class AuthActivity extends BaseActivity {
     public static final String TOKEN = "token";
     public static final String USER = "user";
+    public static final String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
+    public static final String ARG_AUTH_TYPE = "AUTH_TYPE";
+    public static final String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT";
+
     @Bind(R.id.wv_auth)
     WebView webView;
 
@@ -93,7 +104,7 @@ public class AuthActivity extends BaseActivity {
     private void parseToken(Uri uri) {
         String code = uri.getQueryParameter("code");
         if (code != null) {
-            DribbbleAuthService authService = AuthServiceFactory.
+            final DribbbleAuthService authService = AuthServiceFactory.
                     createAuthService(DribbbleAuthService.class);
             authService.getAccessToken(MyApp.client_id, MyApp.client_secret, code)
                     .subscribeOn(Schedulers.newThread())
@@ -106,27 +117,29 @@ public class AuthActivity extends BaseActivity {
 
                         @Override
                         public void onError(Throwable e) {
-                            onLoginFailed(e);
+                            onAuthFailed(e);
                         }
 
                         @Override
                         public void onNext(AccessToken token) {
-                            onLoginSuccess(token);
+                            onAuthSuccess(token);
                         }
                     });
         } else if (uri.getQueryParameter("error") != null) {
-            onLoginFailed(new Throwable(uri.getQueryParameter("error")));
+            onAuthFailed(new Throwable(uri.getQueryParameter("error")));
         }
     }
 
-    public void onLoginSuccess(AccessToken token) {
+
+
+    public void onAuthSuccess(AccessToken token) {
         Intent intent = new Intent();
         intent.putExtra(TOKEN, token);
         setResult(RESULT_OK, intent);
         finish();
     }
 
-    public void onLoginFailed(Throwable e) {
+    public void onAuthFailed(Throwable e) {
 
     }
 

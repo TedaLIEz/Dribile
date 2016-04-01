@@ -22,9 +22,6 @@ import rx.subscriptions.Subscriptions;
  * Some bugs in RxJavaCallAdapterFactory-beta4
  */
 public class RxJavaCallAdapterFactory extends CallAdapter.Factory {
-    /**
-     * TODO
-     */
     public static RxJavaCallAdapterFactory create() {
         return new RxJavaCallAdapterFactory();
     }

@@ -4,7 +4,7 @@ package com.hustunique.jianguo.driclient.bean;
  * Created by JianGuo on 3/29/16.
  * POJO for bucket
  */
-public class Buckets {
+public class Buckets extends BaseBean {
     private int id;
     private String name;
     private String description;

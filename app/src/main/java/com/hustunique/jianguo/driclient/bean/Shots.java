@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by JianGuo on 3/29/16.
  */
-public class Shots {
+public class Shots extends BaseBean {
     private int id;
     private String title;
     private String description;

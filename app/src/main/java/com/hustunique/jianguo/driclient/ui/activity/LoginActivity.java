@@ -66,7 +66,10 @@ public class LoginActivity extends BaseActivity {
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {
-
+                        Log.i("driclient", "get user completed");
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
 
                     @Override
@@ -76,13 +79,14 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onNext(User user) {
+                        //TODO: Save the auth user to database, but will token be expired ?
+                        //TODO: Save authUser to Accounts
                         OAuthUser oAuthUser = new OAuthUser();
                         oAuthUser.setUser(user);
                         oAuthUser.setAccessToken(token);
                         Log.i("driclient", "get user" + user);
                     }
                 });
-//        Log.i("driclient", "login success " + token);
     }
 
 }

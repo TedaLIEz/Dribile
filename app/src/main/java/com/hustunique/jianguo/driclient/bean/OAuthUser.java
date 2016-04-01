@@ -1,10 +1,15 @@
 package com.hustunique.jianguo.driclient.bean;
 
+import android.database.Cursor;
+
+import com.google.gson.Gson;
+import com.hustunique.jianguo.driclient.dao.AuthUserDataHelper;
+
 /**
  * Created by JianGuo on 3/29/16.
  * POJO for user with API-Key
  */
-public class OAuthUser {
+public class OAuthUser extends BaseBean {
 
     private User mUser;
     private AccessToken accessToken;
@@ -25,6 +30,12 @@ public class OAuthUser {
 
     public void setUser(User user) {
         this.mUser = user;
+    }
+
+    public static OAuthUser fromCursor(Cursor cursor) {
+        cursor.moveToFirst();
+        return new Gson().fromJson(cursor.getString(cursor.getColumnIndex(AuthUserDataHelper.AuthUserTable.JSON)),
+                OAuthUser.class);
     }
 
 }
