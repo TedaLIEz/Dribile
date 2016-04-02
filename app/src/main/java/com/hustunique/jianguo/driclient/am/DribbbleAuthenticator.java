@@ -52,7 +52,7 @@ public class DribbbleAuthenticator extends AbstractAccountAuthenticator {
 
         //If there is no token, then you should re-auth the account
         Intent intent = new Intent(mContext, AuthActivity.class);
-        intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE,response);
+        intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
         intent.putExtra(AuthActivity.ARG_AUTH_TYPE, authTokenType);
         intent.putExtra(AuthActivity.ARG_ACCOUNT_TYPE, account.type);
         Bundle bundle = new Bundle();
@@ -75,7 +75,13 @@ public class DribbbleAuthenticator extends AbstractAccountAuthenticator {
 
     @Override
     public String getAuthTokenLabel(String authTokenType) {
-        return null;
+        if (authTokenType.equals(AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS)) {
+            return AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS_LABEL;
+        } else if (authTokenType.equals(AccountGeneral.AUTHTOKEN_TYPE_READ_ONLY)) {
+            return AccountGeneral.AUTHTOKEN_TYPE_READ_ONLY_LABEL;
+        } else {
+            return authTokenType + " (Label)";
+        }
     }
 
     @Override

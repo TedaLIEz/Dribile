@@ -20,10 +20,21 @@ public class AccessToken extends BaseBean {
         return token_type;
     }
 
+    /**
+     * Scopes let you specify exactly what type of access you need. Scopes limit access for OAuth tokens. They do not grant any additional permission beyond that which the user already has.
+     * Your application can request the scopes in the initial redirection. You can specify multiple scopes by separating them with a space,
+     * default is public
+     * @return the scopes
+     */
     public String getScope() {
         return scope;
     }
 
+    /**
+     * Get the accessToken with the tokenType
+     * example : Bearer ACCESS_TOKEN
+     * @return the accessToken with the tokenType
+     */
     @Override
     public String toString() {
         return getToken_type() + " " + getAccess_token();

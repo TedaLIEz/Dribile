@@ -11,6 +11,10 @@ import com.hustunique.jianguo.driclient.app.AppData;
 
 public class BaseActivity extends AppCompatActivity {
 
+
+    protected String getTag() {
+        return getClass().getSimpleName();
+    }
     protected  void startActivity(Class<? extends BaseActivity> clazz) {
         Intent intent = new Intent(this, clazz);
         startActivity(intent);

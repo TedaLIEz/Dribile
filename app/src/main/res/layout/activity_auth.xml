@@ -5,8 +5,9 @@
     android:layout_height="match_parent"
     tools:context="com.hustunique.jianguo.driclient.ui.activity.AuthActivity">
 
-    <WebView
-        android:id="@+id/wv_auth"
+
+    <com.hustunique.jianguo.driclient.ui.widget.OAuthWebView
+        android:id="@+id/view_auth"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></WebView>
+        android:layout_height="match_parent"></com.hustunique.jianguo.driclient.ui.widget.OAuthWebView>
 </RelativeLayout>
