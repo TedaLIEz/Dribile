@@ -6,6 +6,9 @@ import android.util.Log;
 import android.widget.Button;
 
 import com.hustunique.jianguo.driclient.R;
+import com.hustunique.jianguo.driclient.app.UserManager;
+import com.hustunique.jianguo.driclient.bean.AccessToken;
+import com.hustunique.jianguo.driclient.bean.OAuthUser;
 import com.hustunique.jianguo.driclient.bean.User;
 
 import butterknife.Bind;
@@ -50,7 +53,15 @@ public class LoginActivity extends BaseActivity {
                     return;
                 }
                 User authUser = (User) data.getSerializableExtra(AuthActivity.AUTH_USER);
+                AccessToken token = (AccessToken) data.getSerializableExtra(AuthActivity.TOKEN);
+                OAuthUser user = new OAuthUser();
+                user.setAccessToken(token);
+                user.setUser(authUser);
                 Log.i("driclient", getTag() + " get user " + authUser.getJson() + "successfully");
+                UserManager.setCurrentUser(user);
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
                 break;
             default:
                 break;

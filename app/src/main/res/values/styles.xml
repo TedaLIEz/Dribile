@@ -1,16 +1,24 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+    <style name="Theme.DesignDemo" parent="Base.Theme.DesignDemo">
+    </style>
+
+    <style name="Base.Theme.DesignDemo" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+
+        <!--Whether bars should rotate or not during transition-->
+        <item name="spinBars">true</item>
+
+        <item name="color">@android:color/white</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -18,6 +26,29 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
-    <style name="AppTheme.ShotTextAppearance" parent="android:TextAppearance.Holo.Small">
+
+
+    <style name="TextAppearance" parent="TextAppearance.AppCompat">
     </style>
+    <style name="TextAppearance.Shots"/>
+
+    <style name="TextAppearance.Nav" parent="TextAppearance"/>
+    <style name="TextAppearance.Nav.SubTitle" parent="TextAppearance.Nav">
+        <item name="android:textColor">@color/grey20_color</item>
+        <item name="android:textSize">@dimen/title_regular</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="TextAppearance.Nav.Title" parent="TextAppearance.Nav">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/fontColor</item>
+        <item name="android:textSize">@dimen/title_regular</item>
+    </style>
+    <style name="TextAppearance.Shots.Item">
+        <item name="android:textColor">@color/grey20_color</item>
+        <item name="android:textSize">@dimen/text_size_lv1</item>
+    </style>
+
+
+
 </resources>

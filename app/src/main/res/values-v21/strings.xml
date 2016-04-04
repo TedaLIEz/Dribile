@@ -3,4 +3,6 @@
     <string name="log_in">Log in</string>
     <string name="sign_up">Sign Up</string>
     <string name="label">Driclient</string>
+    <string name="drawer_close">close</string>
+    <string name="drawer_open">open</string>
 </resources>

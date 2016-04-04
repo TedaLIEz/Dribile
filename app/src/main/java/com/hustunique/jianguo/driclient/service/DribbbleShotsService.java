@@ -5,9 +5,14 @@ import com.hustunique.jianguo.driclient.bean.Comments;
 import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.service.api.Constants;
 
+import java.util.List;
+import java.util.Map;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
+import rx.Observable;
 
 /**
  * Created by JianGuo on 3/29/16.
@@ -16,10 +21,11 @@ import retrofit2.http.Path;
 public interface DribbbleShotsService {
     /**
      * Get all the shots
+     * @param params query params
      * @return all shots.
      */
     @GET(Constants.URL_BASE_SHOTS)
-    Call<Shots> getAllShots();
+    Observable<List<Shots>> getAllShots(@QueryMap Map<String, String> params);
 
     /**
      * Get shot by id
@@ -27,7 +33,7 @@ public interface DribbbleShotsService {
      * @return the shot
      */
     @GET(Constants.URL_BASE_SHOTS + "{id}")
-    Call<Shots> getShotById(@Path("id") String id);
+    Observable<Shots> getShotById(@Path("id") String id);
 
     /**
      * Get buckets which includes the shot
@@ -35,7 +41,7 @@ public interface DribbbleShotsService {
      * @return buckets including the shot.
      */
     @GET(Constants.URL_BASE_SHOTS + "{id}" + Constants.URL_BASE_BUCKETS)
-    Call<Buckets> getBuckets(@Path("id") String id);
+    Observable<Buckets> getBuckets(@Path("id") String id);
 
     /**
      * Get comments in the shot
@@ -43,5 +49,5 @@ public interface DribbbleShotsService {
      * @return comments in this shot.
      */
     @GET(Constants.URL_BASE_SHOTS + "{id}" + Constants.URL_BASE_COMMENTS)
-    Call<Comments> getComment(@Path("id") String id);
+    Observable<Comments> getComment(@Path("id") String id);
 }

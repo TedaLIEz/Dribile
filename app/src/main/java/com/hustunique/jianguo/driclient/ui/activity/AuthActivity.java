@@ -50,6 +50,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
     public static final int AUTH_DENIED = 0x11111111;
     public static final int AUTH_FAILED = 0x11111110;
     public static final String ERR_AUTH_MSG = "ERR_AUTH_MSG";
+    public static final String TOKEN = "TOKEN";
     @Bind(R.id.view_auth)
     OAuthWebView webView;
 
@@ -76,7 +77,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
     }
 
     private void initWebView() {
-        webView.clearCookies();
+        webView.allowCookies(false);
         webView.loadUrl(Constants.OAuth.URL_BASE_OAUTH + "authorize", MyApp.redirect_url, MyApp.client_id, scope);
         webView.setAuthListener(this);
     }
@@ -109,6 +110,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
                         public void onNext(AccessToken token) {
                             Log.i("driclient", "successfully get token -> " + token.toString()
                                     + "\n scope -> " + token.getScope());
+
                             onAuthSuccess(token);
                         }
                     });
@@ -150,6 +152,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
                         bundle.putString(AccountManager.KEY_AUTHTOKEN, token.toString());
                         bundle.putString(ARG_AUTH_TYPE, token.getScope());
                         bundle.putSerializable(AUTH_USER, user);
+                        bundle.putSerializable(TOKEN, token);
                         Intent intent = new Intent();
                         intent.putExtras(bundle);
                         finishLogin(intent);

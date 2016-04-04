@@ -5,15 +5,41 @@ package com.hustunique.jianguo.driclient.bean;
  * POJO for bucket
  */
 public class Buckets extends BaseBean {
-    private int id;
+    private String id;
     private String name;
     private String description;
-    private int shots_count;
+    private String shots_count;
     private String created_at;
     private String updated_at;
 
     //Owner of this bucket
     private User user;
 
+    public String getId() {
+        return id;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getShots_count() {
+        return shots_count;
+    }
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public String getUpdated_at() {
+        return updated_at;
+    }
+
+    public User getUser() {
+        return user;
+    }
 }

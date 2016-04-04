@@ -1,9 +1,48 @@
 <resources>
 
-    <style name="AppTheme.NoActionBar">
+
+    <style name="Base.Theme.DesignDemo" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@color/window_background</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+
+
+    <style name="TextAppearance" parent="TextAppearance.AppCompat">
+    </style>
+    <style name="TextAppearance.Shots"/>
+
+    <style name="TextAppearance.Shots.Item">
+        <item name="android:textColor">@color/grey20_color</item>
+        <item name="android:textSize">@dimen/text_size_lv1</item>
+    </style>
+
+
+    <style name="TextAppearance.Nav" parent="TextAppearance"/>
+    <style name="TextAppearance.Nav.SubTitle" parent="TextAppearance.Nav">
+        <item name="android:textColor">@color/grey20_color</item>
+        <item name="android:textSize">@dimen/title_regular</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="TextAppearance.Nav.Title" parent="TextAppearance.Nav">
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/fontColor</item>
+        <item name="android:textSize">@dimen/title_regular</item>
+    </style>
+
+
+
+
 </resources>

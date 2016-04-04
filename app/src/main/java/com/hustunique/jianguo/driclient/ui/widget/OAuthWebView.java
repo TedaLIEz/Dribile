@@ -150,11 +150,13 @@ public class OAuthWebView extends FrameLayout {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             if (url.startsWith(redirectUrl)) {
+                view.stopLoading();
                 if (mIAuth != null) {
                     mIAuth.onAuth(Uri.parse(url));
                 }
                 view.loadUrl("about:blank");
             }
+            super.onPageStarted(view, url, favicon);
         }
 
         @Override
