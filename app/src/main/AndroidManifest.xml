@@ -12,12 +12,11 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.DesignDemo">
-
         <provider
-            android:authorities="com.hustunique.provider"
             android:name=".dao.DataProvider"
+            android:authorities="com.hustunique.provider"
             android:exported="false">
-            <grant-uri-permission android:pathPattern=".*"/>
+            <grant-uri-permission android:pathPattern=".*" />
         </provider>
 
         <activity
@@ -26,24 +25,31 @@
             android:theme="@style/Base.Theme.DesignDemo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.LoginActivity">
-
-        </activity>
+        <activity android:name=".ui.activity.LoginActivity"></activity>
         <activity android:name=".ui.activity.BaseActivity" />
-        <activity android:name=".ui.activity.AuthActivity"
-            android:theme="@style/Base.Theme.DesignDemo"/>
-
+        <activity
+            android:name=".ui.activity.AuthActivity"
+            android:theme="@style/Base.Theme.DesignDemo" />
 
         <service android:name=".am.DribbbleAuthenticatorService">
             <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator"/>
+                <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
-            <meta-data android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator"/>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator" />
         </service>
+
+        <activity
+            android:theme="@style/Base.Theme.DesignDemo"
+            android:name=".ui.activity.ShotInfoActivity">
+
+        </activity>
     </application>
 
 </manifest>

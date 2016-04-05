@@ -12,10 +12,13 @@
         <item name="android:windowBackground">@color/window_background</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Base.ThemeDemo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Base.Theme.DesignDemo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Base.ThemeDemo.ShotInfo.PopupOverlay" parent="Base.Theme.DesignDemo.PopupOverlay">
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
 
 

@@ -1,6 +1,7 @@
 package com.hustunique.jianguo.driclient.ui.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.StringDef;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -17,6 +18,7 @@ import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
+import com.hustunique.jianguo.driclient.ui.activity.ShotInfoActivity;
 import com.hustunique.jianguo.driclient.ui.adapters.ShotsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
@@ -125,6 +127,9 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
             @Override
             public void onClick(View v, Shots shots) {
                 Log.i("driclient", "click on " + shots.getId());
+                Intent intent = new Intent(getActivity(), ShotInfoActivity.class);
+                intent.putExtra("shots", shots);
+                startActivity(intent);
             }
         });
         mRecyclerView.setAdapter(mAdapter);
