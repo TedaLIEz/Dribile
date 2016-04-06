@@ -20,7 +20,6 @@ import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.ui.activity.ShotInfoActivity;
 import com.hustunique.jianguo.driclient.ui.adapters.ShotsAdapter;
-import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
 
 import java.lang.annotation.Retention;
@@ -41,7 +40,7 @@ import rx.schedulers.Schedulers;
 public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String ARG_SORT_TYPE = "sort";
     //Sort type
-    public  static final String SORT_COMMENTS  = "comments";
+    public static final String SORT_COMMENTS = "comments";
     public static final String SORT_RECENT = "recent";
     public static final String SORT_VIEWS = "vies";
 
@@ -79,7 +78,8 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
 
     @StringDef({SORT_COMMENTS, SORT_RECENT, SORT_VIEWS})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface SortType{}
+    public @interface SortType {
+    }
 
     public ShotsFragment() {
         // Required empty public constructor
@@ -133,10 +133,9 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
             }
         });
         mRecyclerView.setAdapter(mAdapter);
-        // TODO: FlowLayoutManager or GridLayoutManager
+        mRecyclerView.setHasFixedSize(true);
         mGridLayoutManager = new GridLayoutManager(getActivity(), 3);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(dividerSize));
         mRecyclerView.setPadding(
                 mRecyclerView.getPaddingLeft(),
                 mRecyclerView.getPaddingTop(),
@@ -145,8 +144,8 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
                         + CommonUtils.getTransparentNavigationBarHeight(getActivity()));
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             boolean loading = true;
-            int totalItemCount;
             int visibleItemCount;
+            int totalItemCount;
             int firstVisibleItem;
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -159,24 +158,32 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
                 visibleItemCount = mRecyclerView.getChildCount();
                 totalItemCount = mGridLayoutManager.getItemCount();
                 firstVisibleItem = mGridLayoutManager.findFirstVisibleItemPosition();
-                if (loading) {
-                    loading = false;
-                }
-                if (!loading && (visibleItemCount + firstVisibleItem) == page * COUNTR_PER_PAGE) {
-                    mProgress.setVisibility(View.VISIBLE);
-                    loadNextPage();
-                    loading = true;
+                if (dy > 0) {
+                    if (loading) {
+                        loading = false;
+                    }
+                    if (!loading && (visibleItemCount + firstVisibleItem) == page * COUNTR_PER_PAGE) {
+                        mProgress.setVisibility(View.VISIBLE);
+                        loadNextPage();
+                        loading = true;
+                    }
                 }
             }
         });
     }
 
 
-
     private void initSwipeLayout() {
         swipeRefreshLayout.setColorSchemeColors(schemeColor);
+        // Show animation first time.
+        // See http://stackoverflow.com/a/26910973/4380801
+        swipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                onRefresh();
+            }
+        });
         swipeRefreshLayout.setOnRefreshListener(this);
-
     }
 
     @Override
@@ -191,18 +198,7 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
         refreshFromTop = false;
         page++;
         Log.i("driclient", ShotsFragment.class.getSimpleName() + " get more data from page " + page);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(200);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                mProgress.setVisibility(View.GONE);
-            }
-        });
-//        loadData(page);
+        loadData(page);
     }
 
     // Load data from net
@@ -232,11 +228,14 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
 
             @Override
             public void onNext(List<Shots> shotses) {
-                mAdapter.clearData();
                 data = shotses;
-                mAdapter.setDataBefore(data);
-                mRecyclerView.smoothScrollToPosition(0);
-
+                if (refreshFromTop) {
+                    mAdapter.clearData();
+                    mAdapter.setDataBefore(data);
+                    mRecyclerView.smoothScrollToPosition(0);
+                } else {
+                    mAdapter.setDataAfter(data);
+                }
             }
         });
     }

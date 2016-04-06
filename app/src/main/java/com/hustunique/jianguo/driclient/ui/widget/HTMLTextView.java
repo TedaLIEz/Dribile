@@ -1,6 +1,9 @@
 package com.hustunique.jianguo.driclient.ui.widget;
 
 import android.content.Context;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.TextView;
@@ -24,7 +27,8 @@ public class HTMLTextView extends TextView{
 
     @Override
     public void setText(CharSequence text, BufferType type) {
-        String html = TextUtils.htmlEncode(String.valueOf(text));
-        super.setText(html, type);
+        // Better use Html.fromHtml to parse the html string
+        Spanned spannable = Html.fromHtml(text.toString());
+        super.setText(spannable, type);
     }
 }

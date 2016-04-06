@@ -9,6 +9,9 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by JianGuo on 4/4/16.
@@ -66,5 +69,11 @@ public class CommonUtils {
             }
         }
         return 0;
+    }
+
+
+    public static String formatDate(String time) {
+        Date date = new Date();
+        return new SimpleDateFormat("yyyy-MM-dd").format(time);
     }
 }
