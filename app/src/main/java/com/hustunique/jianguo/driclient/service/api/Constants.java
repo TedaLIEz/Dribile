@@ -9,6 +9,7 @@ public class Constants {
     public static final String URL_BASE_USERS = "users/";
     public static final String URL_BASE_FOLLOWERS = "followers/";
     public static final String URL_BASE_FOLLOWING = "following/";
+    public static final String URL_BASE_ATTACHMENTS = "attachments/";
 
     public class OAuth {
         public static final String URL_BASE_OAUTH = "https://dribbble.com/oauth/";

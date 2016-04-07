@@ -13,73 +13,52 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/image"
-            tools:src="@drawable/source"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_pic_margin"
-            android:layout_marginLeft="@dimen/item_pic_margin"
-            android:layout_marginRight="@dimen/item_pic_margin"
-            android:layout_gravity="center_horizontal" />
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/image"
+                tools:src="@drawable/source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/item_pic_margin"
+                android:layout_marginLeft="@dimen/item_pic_margin"
+                android:scaleType="centerCrop"
+                android:layout_marginRight="@dimen/item_pic_margin"
+                android:layout_gravity="center_horizontal" />
+        </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical">
-
-
-            <View
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"/>
-            <ImageView
-                android:id="@+id/like_icon"
-                android:gravity="end"
-                android:layout_width="@dimen/item_icon_size"
-                android:layout_height="@dimen/item_icon_size"
-                android:layout_marginEnd="@dimen/item_text_icon_margin"
-                android:background="@drawable/ic_item_like"/>
-
             <TextView
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_item_like"
                 style="@style/TextAppearance.Shots.Item"
                 tools:text="1000"
                 android:id="@+id/like_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/item_icon_margin" />
-
-
-            <ImageView
-                android:id="@+id/comment_icon"
-                android:layout_width="@dimen/item_icon_size"
-                android:layout_height="@dimen/item_icon_size"
-                android:layout_marginEnd="@dimen/item_text_icon_margin"
-                android:background="@drawable/ic_comment_item"/>
+                 />
             <TextView
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_comment_item"
                 tools:text="1000"
                 style="@style/TextAppearance.Shots.Item"
                 android:id="@+id/comment_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/item_icon_margin" />
+                />
 
-
-            <ImageView
-                android:id="@+id/view_icon"
-                android:layout_width="@dimen/item_icon_size"
-                android:layout_height="@dimen/item_icon_size"
-                android:layout_marginEnd="@dimen/item_text_icon_margin"
-                android:background="@drawable/ic_item_view"/>
             <TextView
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/ic_item_view"
                 style="@style/TextAppearance.Shots.Item"
                 tools:text="1000"
                 android:id="@+id/view_count"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/item_icon_margin" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
     </android.support.v7.widget.CardView>

@@ -1,5 +1,6 @@
 package com.hustunique.jianguo.driclient.service;
 
+import com.hustunique.jianguo.driclient.bean.Attachment;
 import com.hustunique.jianguo.driclient.bean.Buckets;
 import com.hustunique.jianguo.driclient.bean.Comments;
 import com.hustunique.jianguo.driclient.bean.Shots;
@@ -8,7 +9,6 @@ import com.hustunique.jianguo.driclient.service.api.Constants;
 import java.util.List;
 import java.util.Map;
 
-import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
@@ -50,4 +50,7 @@ public interface DribbbleShotsService {
      */
     @GET(Constants.URL_BASE_SHOTS + "{id}/" + Constants.URL_BASE_COMMENTS)
     Observable<List<Comments>> getComment(@Path("id") String id);
+
+    @GET(Constants.URL_BASE_SHOTS + "{id}/" + Constants.URL_BASE_ATTACHMENTS)
+    Observable<List<Attachment>> getAttachments(@Path("id") String id);
 }

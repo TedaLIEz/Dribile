@@ -45,7 +45,9 @@
         <item name="android:textSize">@dimen/title_regular</item>
     </style>
 
+    <style name="TextAppearance.Title" parent="TextAppearance">
 
+    </style>
 
 
 </resources>

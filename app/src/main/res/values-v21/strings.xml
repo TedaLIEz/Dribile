@@ -5,4 +5,12 @@
     <string name="label">Driclient</string>
     <string name="drawer_close">close</string>
     <string name="drawer_open">open</string>
+
+
+
+
+    <!-- ShotInfoActivity-->
+    <string name="no_description">No Description</string>
+    <string name="comments"> %1$s comments</string>
+    <string name="attachments"> %1$s attachments</string>
 </resources>

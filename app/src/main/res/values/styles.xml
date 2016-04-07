@@ -46,9 +46,14 @@
         <item name="android:textColor">@color/fontColor</item>
         <item name="android:textSize">@dimen/title_regular</item>
     </style>
+
     <style name="TextAppearance.Shots.Item">
         <item name="android:textColor">@color/grey20_color</item>
         <item name="android:textSize">@dimen/text_size_lv1</item>
+    </style>
+
+    <style name="TextAppearance.Title" parent="TextAppearance">
+
     </style>
 
 

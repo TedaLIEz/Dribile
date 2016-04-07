@@ -3,12 +3,17 @@ package com.hustunique.jianguo.driclient.service;
 import com.hustunique.jianguo.driclient.bean.Buckets;
 import com.hustunique.jianguo.driclient.bean.Followee;
 import com.hustunique.jianguo.driclient.bean.Follower;
+import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.bean.User;
 import com.hustunique.jianguo.driclient.service.api.Constants;
+
+import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**
@@ -19,6 +24,7 @@ public interface DribbbleUserService {
 
     /**
      * find user by name
+     *
      * @param name the user name
      * @return the user
      */
@@ -30,6 +36,7 @@ public interface DribbbleUserService {
 
     /**
      * Get a user's buckets
+     *
      * @param name the user name
      * @return the user's buckets
      */
@@ -38,6 +45,7 @@ public interface DribbbleUserService {
 
     /**
      * return the authenticated user’s buckets.
+     *
      * @return the authenticated user’s buckets.
      */
     @Deprecated
@@ -46,6 +54,7 @@ public interface DribbbleUserService {
 
     /**
      * Get followers following the user
+     *
      * @param name user name
      * @return followers
      */
@@ -55,6 +64,7 @@ public interface DribbbleUserService {
 
     /**
      * Get the auth user's followers
+     *
      * @return the auth user's followers
      */
     @Deprecated
@@ -64,6 +74,7 @@ public interface DribbbleUserService {
 
     /**
      * Get followees
+     *
      * @param name the user name
      * @return users followed by the user
      */
@@ -72,9 +83,21 @@ public interface DribbbleUserService {
 
     /**
      * get the user's followees
+     *
      * @return the auth user's followees
      */
     @Deprecated
     @GET(Constants.OAuth.URL_AUTH_USER + Constants.URL_BASE_FOLLOWING)
     Call<Followee> getAuthFollowees();
+
+
+    /**
+     * Get shots by user id
+     *
+     * @param id     the user id
+     * @param params params
+     * @return list of shots.
+     */
+    @GET(Constants.URL_BASE_USERS + "{id}/" + Constants.URL_BASE_SHOTS)
+    Observable<List<Shots>> getShots(@Path("id") String id, @QueryMap Map<String, String> params);
 }

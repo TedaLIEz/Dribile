@@ -5,26 +5,33 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
+import com.hustunique.jianguo.driclient.bean.Attachment;
 import com.hustunique.jianguo.driclient.bean.Comments;
 import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
+import com.hustunique.jianguo.driclient.ui.adapters.AttachmentsAdapter;
 import com.hustunique.jianguo.driclient.ui.adapters.CommentsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
+import com.hustunique.jianguo.driclient.ui.widget.HTMLTextView;
+import com.hustunique.jianguo.driclient.ui.widget.PaddingItemDecoration;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -37,8 +44,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class ShotInfoActivity extends BaseActivity {
-    @Bind(R.id.rootLayout)
-    CoordinatorLayout rootLayout;
     @Bind(R.id.rv_comments)
     RecyclerView mComments;
 
@@ -60,9 +65,32 @@ public class ShotInfoActivity extends BaseActivity {
     @Bind(R.id.comment_loading)
     ProgressBar mProgress;
 
+    @Bind(R.id.shots_description)
+    HTMLTextView mShotsDescription;
+
+    @Bind(R.id.shots_information)
+    TextView mShotsTime;
+
+    @Bind(R.id.avatar_shots)
+    ImageView mAvatar;
+
+    @Bind(R.id.scroll_content)
+    NestedScrollView mContent;
+
+    @Bind(R.id.recyclerview_attachments)
+    RecyclerView mAttachments;
+
+    @Bind(R.id.attachment_layout)
+    LinearLayout mAttachmentsLayout;
+
+    @Bind(R.id.attachments_count)
+    TextView mAttachmentsCount;
+
+    @Bind(R.id.comments_count)
+    TextView mCommentsCount;
+
     @BindDimen(R.dimen.item_divider_size)
     int dividerSize;
-
     private Shots mShot;
 
     private LinearLayoutManager linearLayoutManager;
@@ -77,18 +105,70 @@ public class ShotInfoActivity extends BaseActivity {
         } else {
             throw new NullPointerException("No shots was specified in the MainActivity " + getIntent().toString());
         }
+        initShots();
         initToolbar();
         initFab();
-        initRecyclerView();
+        initComments();
+        initAttachments();
     }
 
-    // TODO: Set layout of the designer's information
-    private void initRecyclerView() {
+    private void initAttachments() {
+        if (Integer.parseInt(mShot.getAttachments_count()) == 0) {
+            hideLayout();
+            return;
+        }
+        mAttachmentsCount.setText(String.format(AppData.getString(R.string.attachments), mShot.getAttachments_count()));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        final AttachmentsAdapter attachmentsAdapter = new AttachmentsAdapter(this, R.layout.item_attachment);
+        mAttachments.addItemDecoration(new PaddingItemDecoration(dividerSize));
+        mAttachments.setAdapter(attachmentsAdapter);
+        mAttachments.setLayoutManager(linearLayoutManager);
+        mAttachments.setHasFixedSize(false);
+        DribbbleShotsService dribbbleShotsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
+        dribbbleShotsService.getAttachments(mShot.getId())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Attachment>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.wtf("client", e);
+                    }
+
+                    @Override
+                    public void onNext(List<Attachment> attachments) {
+                        attachmentsAdapter.setDataBefore(attachments);
+                    }
+                });
+    }
+
+    private void hideLayout() {
+        mAttachmentsLayout.setVisibility(View.GONE);
+    }
+
+    private void initShots() {
+        if (TextUtils.isEmpty(mShot.getDescription())) {
+            mShotsDescription.setText(AppData.getString(R.string.no_description));
+        } else {
+            mShotsDescription.setText(mShot.getDescription());
+        }
+        Picasso.with(this).load(Uri.parse(mShot.getUser().getAvatar_url()))
+               .placeholder(AppData.getDrawable(R.drawable.avatar_default))
+               .into(mAvatar);
+    }
+
+    private void initComments() {
+        mCommentsCount.setText(String.format(AppData.getString(R.string.comments), mShot.getComments_count()));
         commentsAdapter = new CommentsAdapter(this, R.layout.item_comments);
         mComments.setAdapter(commentsAdapter);
         mComments.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
         linearLayoutManager = new LinearLayoutManager(this);
-        mComments.setHasFixedSize(true);
+        // Enable recyclerview scrolled by the wrapped scrollnestedview.
+        mComments.setNestedScrollingEnabled(false);
+        mComments.setHasFixedSize(false);
         mComments.setLayoutManager(linearLayoutManager);
         DribbbleShotsService commentsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
         commentsService.getComment(mShot.getId())
@@ -162,7 +242,6 @@ public class ShotInfoActivity extends BaseActivity {
     }
 
     private void initFab() {
-        // TODO: Not very good to load the designer's avatar here!
 //        Picasso.with(this).load(Uri.parse(mShot.getUser().getAvatar_url())).placeholder(AppData.getDrawable(R.drawable.avatar_default)).into(mFab);
 
         //TODO: Add comment
@@ -174,30 +253,9 @@ public class ShotInfoActivity extends BaseActivity {
     }
 
 
-    @Override
-    public void onBackPressed() {
-
-        //TODO: When scroll down already, first back to header.
-        if (linearLayoutManager.findFirstCompletelyVisibleItemPosition() != 0) {
-            expandToolbar();
-            mComments.smoothScrollToPosition(0);
-        } else {
-            super.onBackPressed();
-        }
-
-    }
-
-
-
     public void expandToolbar(){
         // Use this in v23, some buggy in setTitle
         mAppBarLayout.setExpanded(true, false);
-//        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) mAppBarLayout.getLayoutParams();
-//        AppBarLayout.Behavior behavior = (AppBarLayout.Behavior) params.getBehavior();
-//        if(behavior!=null) {
-//            behavior.setTopAndBottomOffset(0);
-////            behavior.onNestedFling(rootLayout, mAppBarLayout, null, 0, -mAppBarLayout.getHeight(), false);
-//        }
     }
 
 
