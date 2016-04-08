@@ -2,7 +2,12 @@ package com.hustunique.jianguo.driclient.ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.support.annotation.StringDef;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,9 +18,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.google.gson.Gson;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.UserManager;
+import com.hustunique.jianguo.driclient.bean.Attachment;
 import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.dao.ShotsDataHelper;
 import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.ui.activity.ShotInfoActivity;
@@ -25,6 +33,8 @@ import com.hustunique.jianguo.driclient.utils.CommonUtils;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -72,7 +82,6 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
     ProgressBar mProgress;
 
     private boolean refreshFromTop;
-
 
     private List<Shots> data = new ArrayList<>();
 
@@ -201,6 +210,26 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
         loadData(page);
     }
 
+    private void loadFromDB() {
+        Gson gson = new Gson();
+        ShotsDataHelper helper = new ShotsDataHelper();
+        Cursor cursor = helper.getList();
+        cursor.moveToFirst();
+        while (cursor.moveToNext()) {
+            data.add(gson.fromJson(
+                    cursor.getString(cursor.getColumnIndex(ShotsDataHelper.ShotsTable.JSON)),
+                    Shots.class));
+        }
+        mAdapter.setDataBefore(data);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
     // Load data from net
     private void loadData(int page) {
         if (refreshFromTop) {
@@ -229,12 +258,38 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
             @Override
             public void onNext(List<Shots> shotses) {
                 data = shotses;
+                final ShotsDataHelper helper = new ShotsDataHelper();
                 if (refreshFromTop) {
                     mAdapter.clearData();
                     mAdapter.setDataBefore(data);
                     mRecyclerView.smoothScrollToPosition(0);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Looper.prepare();
+                            new Handler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    helper.deleteAll();
+                                    helper.bulkInsert(data);
+                                }
+                            });
+                        }
+                    }).start();
                 } else {
                     mAdapter.setDataAfter(data);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Looper.prepare();
+                            new Handler().post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    helper.bulkInsert(data);
+                                }
+                            });
+                        }
+                    }).start();
                 }
             }
         });
@@ -255,4 +310,7 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
+
+
+
 }

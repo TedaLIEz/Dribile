@@ -32,7 +32,7 @@ public class AuthUserDataHelper extends BasicDataHelper {
 
     @Override
     protected Uri getContentUri() {
-        return DataProvider.DRICLIENT_USER_CONTENT_URI;
+        return DataProvider.UATH_USER_CONTENT_URI;
     }
 
 
@@ -55,7 +55,7 @@ public class AuthUserDataHelper extends BasicDataHelper {
         ContentValues values = getContentValues(oAuthUser);
         if (isAuthUserExit()) {
             update(oAuthUser);
-            return DataProvider.DRICLIENT_USER_CONTENT_URI;
+            return DataProvider.UATH_USER_CONTENT_URI;
         }
         return insert(values);
     }

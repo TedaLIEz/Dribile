@@ -28,9 +28,9 @@ public class MyApp extends Application {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                if (activity instanceof MainActivity) {
-                    if (null == UserManager.getCurrentUser()) {
-                        Intent intent = new Intent(activity, LoginActivity.class);
+                if (activity instanceof LoginActivity) {
+                    if (null != UserManager.getCurrentUser()) {
+                        Intent intent = new Intent(activity, MainActivity.class);
                         activity.startActivity(intent);
                         activity.finish();
                     }

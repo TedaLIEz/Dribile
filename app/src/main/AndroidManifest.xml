@@ -12,24 +12,25 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.DesignDemo">
+        <!-- provider -->
         <provider
             android:name=".dao.DataProvider"
-            android:authorities="com.hustunique.provider"
+            android:authorities="us.driclient.provider"
             android:exported="false">
-            <grant-uri-permission android:pathPattern=".*" />
+            <grant-uri-permission android:pathPattern=".*"/>
         </provider>
-
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Base.Theme.DesignDemo">
+        </activity>
+        <activity android:name=".ui.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.LoginActivity"></activity>
         <activity android:name=".ui.activity.BaseActivity" />
         <activity
             android:name=".ui.activity.AuthActivity"

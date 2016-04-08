@@ -1,8 +1,11 @@
 package com.hustunique.jianguo.driclient.utils;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 import java.io.UnsupportedEncodingException;
+import java.net.CookieManager;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
@@ -41,5 +44,16 @@ public class NetUtils {
         } catch (MalformedURLException e) {
             return new Bundle();
         }
+    }
+
+
+    /**
+     * Whether device is accessible in internet
+     * @param ctx Context
+     * @return <tt>true</tt> if is available
+     */
+    public static boolean isNetworkAccessable(Context ctx) {
+        ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting();
     }
 }

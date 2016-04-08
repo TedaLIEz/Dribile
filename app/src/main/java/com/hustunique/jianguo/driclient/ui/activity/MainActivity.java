@@ -55,8 +55,10 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
+        if (UserManager.getCurrentUser() != null) {
+            Log.i("driclient", "find login user " + UserManager.getCurrentUser().getJson());
+        }
 
-        Log.i("driclient", "find login user " + UserManager.getCurrentUser().getJson());
         setSetupDrawerContent();
     }
 
@@ -81,11 +83,10 @@ public class MainActivity extends BaseActivity {
         View header = View.inflate(this, R.layout.nav_header, null);
         CircleImageView avatar = (CircleImageView) header.findViewById(R.id.auth_user_avatar);
         TextView name = (TextView) header.findViewById(R.id.auth_user_name);
-
         TextView html = (TextView) header.findViewById(R.id.auth_user_html);
+
         Picasso.with(this)
-                .load(Uri.parse(UserManager.getCurrentUser().getUser()
-                .getAvatar_url()))
+                .load(Uri.parse(UserManager.getCurrentUser().getUser().getAvatar_url()))
                 .placeholder(AppData.getDrawable(R.drawable.avatar_default))
                 .into(avatar);
         name.setText(UserManager.getCurrentUser().getUser().getName());
