@@ -5,13 +5,16 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.os.Build;
+import android.text.format.Time;
 import android.view.Display;
 import android.view.WindowManager;
 
 import java.lang.reflect.Method;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * Created by JianGuo on 4/4/16.
@@ -72,8 +75,62 @@ public class CommonUtils {
     }
 
 
+    /**
+     * Format the created_at time to word date
+     * @param time the time string
+     * @return the word date time, using in {@link com.hustunique.jianguo.driclient.ui.activity.ShotInfoActivity}
+     */
     public static String formatDate(String time) {
-        Date date = new Date();
-        return new SimpleDateFormat("yyyy-MM-dd").format(time);
+        String[] times = time.split("T");
+        String day = times[0];
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = dateFormat.parse(day);
+            DateFormat dateFormat1 = new SimpleDateFormat("MMMM dd, yyyy");
+            return dateFormat1.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
+
+
+    public static String currentTimeLine(String date) {
+        String[] times = date.split("T");
+        String day = times[0];
+        String time = times[1].substring(0, times[1].indexOf("Z"));
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date line = sdf.parse(day + " " + time);
+            Date curr = c.getTime();
+            long diff = curr.getTime() - line.getTime();
+            int mins = (int) (diff / (1000 * 60));
+            int hours = (int) (diff / (1000 * 60 * 60));
+            if (mins < 60) {
+                return mins + " mins";
+            }
+            if (hours < 24) {
+                return hours + " hrs";
+            } else {
+                DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date tmp = dateFormat.parse(day);
+                return new SimpleDateFormat("MMMM dd, yyyy").format(tmp);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /**
+     * return true if image ends with gif
+     * @param imageUrl the image url
+     * @return <tt>true</tt> if image is gif format
+     */
+    public static boolean isGif(String imageUrl) {
+        return imageUrl.endsWith("gif");
+    }
+
 }

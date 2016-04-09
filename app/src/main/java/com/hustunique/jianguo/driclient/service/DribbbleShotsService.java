@@ -46,10 +46,11 @@ public interface DribbbleShotsService {
     /**
      * Get comments in the shot
      * @param id the shot's id
+     * @param params other query params
      * @return comments in this shot.
      */
     @GET(Constants.URL_BASE_SHOTS + "{id}/" + Constants.URL_BASE_COMMENTS)
-    Observable<List<Comments>> getComment(@Path("id") String id);
+    Observable<List<Comments>> getComment(@Path("id") String id, @QueryMap Map<String, String> params);
 
     @GET(Constants.URL_BASE_SHOTS + "{id}/" + Constants.URL_BASE_ATTACHMENTS)
     Observable<List<Attachment>> getAttachments(@Path("id") String id);

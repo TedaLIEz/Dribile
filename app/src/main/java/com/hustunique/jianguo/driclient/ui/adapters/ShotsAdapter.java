@@ -1,7 +1,6 @@
 package com.hustunique.jianguo.driclient.ui.adapters;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,7 +62,7 @@ public class ShotsAdapter extends BaseDriListAdapter<Shots> {
         viewHolder.mViewCount.setText(shots.getViews_count());
 
         Picasso.with(mContext)
-                .load(Uri.parse(shots.getImages().getNormal()))
+                .load(shots.getImages().getNormal())
                 .placeholder(AppData.getDrawable(R.drawable.shots_default))
                 .into(viewHolder.mImage);
 
@@ -75,7 +74,6 @@ public class ShotsAdapter extends BaseDriListAdapter<Shots> {
                 }
             }
         });
-//        Picasso.with(mContext).load(Uri.parse(shots.getUser().getAvatar_url())).into(viewHolder.mAvator);
         super.onBindViewHolder(holder, position);
 
     }

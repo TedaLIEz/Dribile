@@ -4,22 +4,15 @@ import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.am.AccountGeneral;
 import com.hustunique.jianguo.driclient.app.MyApp;
 import com.hustunique.jianguo.driclient.bean.AccessToken;
-import com.hustunique.jianguo.driclient.bean.OAuthUser;
 import com.hustunique.jianguo.driclient.bean.User;
 import com.hustunique.jianguo.driclient.service.DribbbleAuthService;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
@@ -30,12 +23,8 @@ import com.hustunique.jianguo.driclient.ui.widget.OAuthWebView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observable;
-import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 

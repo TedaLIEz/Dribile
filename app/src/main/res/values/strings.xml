@@ -13,4 +13,5 @@
     <string name="no_description">No Description</string>
     <string name="comments"> %1$s comments</string>
     <string name="attachments"> %1$s attachments</string>
+    <string name="shots_time">on %1$s</string>
 </resources>

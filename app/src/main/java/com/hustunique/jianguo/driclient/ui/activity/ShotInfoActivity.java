@@ -1,12 +1,13 @@
 package com.hustunique.jianguo.driclient.ui.activity;
 
+import android.graphics.Color;
+import android.graphics.LightingColorFilter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -32,9 +34,12 @@ import com.hustunique.jianguo.driclient.ui.adapters.CommentsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.driclient.ui.widget.HTMLTextView;
 import com.hustunique.jianguo.driclient.ui.widget.PaddingItemDecoration;
+import com.hustunique.jianguo.driclient.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.BindDimen;
@@ -56,6 +61,9 @@ public class ShotInfoActivity extends BaseActivity {
     @Bind(R.id.shot_image)
     ImageView mImageView;
 
+    @Bind(R.id.shot_play)
+    Button mPlay;
+
     @Bind(R.id.fab_avatar)
     FloatingActionButton mFab;
 
@@ -68,14 +76,14 @@ public class ShotInfoActivity extends BaseActivity {
     @Bind(R.id.shots_description)
     HTMLTextView mShotsDescription;
 
-    @Bind(R.id.shots_information)
+    @Bind(R.id.shots_user)
+    TextView mShotsUser;
+
+    @Bind(R.id.shots_time)
     TextView mShotsTime;
 
     @Bind(R.id.avatar_shots)
     ImageView mAvatar;
-
-    @Bind(R.id.scroll_content)
-    NestedScrollView mContent;
 
     @Bind(R.id.recyclerview_attachments)
     RecyclerView mAttachments;
@@ -95,6 +103,7 @@ public class ShotInfoActivity extends BaseActivity {
 
     private LinearLayoutManager linearLayoutManager;
     private CommentsAdapter commentsAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +133,7 @@ public class ShotInfoActivity extends BaseActivity {
         mAttachments.setAdapter(attachmentsAdapter);
         mAttachments.setLayoutManager(linearLayoutManager);
         mAttachments.setHasFixedSize(false);
+        mAttachments.setNestedScrollingEnabled(false);
         DribbbleShotsService dribbbleShotsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
         dribbbleShotsService.getAttachments(mShot.getId())
                 .subscribeOn(Schedulers.newThread())
@@ -156,8 +166,10 @@ public class ShotInfoActivity extends BaseActivity {
             mShotsDescription.setText(mShot.getDescription());
         }
         Picasso.with(this).load(Uri.parse(mShot.getUser().getAvatar_url()))
-               .placeholder(AppData.getDrawable(R.drawable.avatar_default))
-               .into(mAvatar);
+                .placeholder(AppData.getDrawable(R.drawable.avatar_default))
+                .into(mAvatar);
+        mShotsUser.setText(mShot.getUser().getName());
+        mShotsTime.setText(String.format(AppData.getString(R.string.shots_time), CommonUtils.formatDate(mShot.getCreated_at())));
     }
 
     private void initComments() {
@@ -171,7 +183,10 @@ public class ShotInfoActivity extends BaseActivity {
         mComments.setHasFixedSize(false);
         mComments.setLayoutManager(linearLayoutManager);
         DribbbleShotsService commentsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
-        commentsService.getComment(mShot.getId())
+        // By default you will only 12 comments via dribbble api
+        Map<String, String> params = new HashMap<>();
+        params.put("per_page", "50");
+        commentsService.getComment(mShot.getId(), params)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Comments>>() {
@@ -199,17 +214,23 @@ public class ShotInfoActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Disable the title
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Picasso.with(this).load(Uri.parse(mShot.getImages().getNormal())).placeholder(AppData.getDrawable(R.drawable.shot_info_image_default)).into(mImageView);
+        Picasso.with(this).load(Uri.parse(mShot.getImages().getNormal())).into(mImageView);
+        //TODO: Load gif when clicks it, using shared element
+        if (CommonUtils.isGif(mShot.getImages().getNormal())) {
+            mPlay.setVisibility(View.VISIBLE);
+            mImageView.setColorFilter(new LightingColorFilter(Color.GRAY, Color.GRAY));
+        }
         // Correct way showing title only when collapsingToolbarLayout collapses, see http://stackoverflow.com/a/32724422/4380801
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
+
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (scrollRange == -1) {
                     scrollRange = mAppBarLayout.getTotalScrollRange();
                 }
-                if (scrollRange + verticalOffset == 0) {
+                if (scrollRange + verticalOffset <= mToolbar.getHeight()) {
                     toolbarLayout.setTitle(mShot.getTitle());
                     isShow = true;
                 } else if (isShow) {
@@ -242,20 +263,14 @@ public class ShotInfoActivity extends BaseActivity {
     }
 
     private void initFab() {
-//        Picasso.with(this).load(Uri.parse(mShot.getUser().getAvatar_url())).placeholder(AppData.getDrawable(R.drawable.avatar_default)).into(mFab);
 
         //TODO: Add comment
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
             }
         });
-    }
-
-
-    public void expandToolbar(){
-        // Use this in v23, some buggy in setTitle
-        mAppBarLayout.setExpanded(true, false);
     }
 
 

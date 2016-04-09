@@ -16,15 +16,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ImageView
+            <com.hustunique.jianguo.driclient.ui.widget.AspectRatioImageView
                 android:id="@+id/image"
                 tools:src="@drawable/source"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/item_pic_margin"
                 android:layout_marginLeft="@dimen/item_pic_margin"
-                android:scaleType="centerCrop"
                 android:layout_marginRight="@dimen/item_pic_margin"
+                app:aspectRatioEnabled="true"
+                app:aspectRatio="0.75"
                 android:layout_gravity="center_horizontal" />
         </LinearLayout>
         <LinearLayout
