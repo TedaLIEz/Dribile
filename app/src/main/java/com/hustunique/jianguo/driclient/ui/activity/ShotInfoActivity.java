@@ -1,13 +1,17 @@
 package com.hustunique.jianguo.driclient.ui.activity;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.ViewCompat;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +19,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -103,6 +108,7 @@ public class ShotInfoActivity extends BaseActivity {
 
     private LinearLayoutManager linearLayoutManager;
     private CommentsAdapter commentsAdapter;
+    private @ColorInt int vibrantColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,11 +221,31 @@ public class ShotInfoActivity extends BaseActivity {
         // Disable the title
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         Picasso.with(this).load(Uri.parse(mShot.getImages().getNormal())).into(mImageView);
+
+
+        mImageView.setDrawingCacheEnabled(true);
+        mImageView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        mImageView.layout(0, 0,
+                mImageView.getMeasuredWidth(), mImageView.getMeasuredHeight());
+        mImageView.buildDrawingCache(true);
+        Bitmap bmap = Bitmap.createBitmap(mImageView.getDrawingCache());
+        Palette.from(bmap).generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                vibrantColor = palette.getVibrantColor(0x000000);
+                toolbarLayout.setContentScrimColor(vibrantColor);
+            }
+        });
+        mImageView.setDrawingCacheEnabled(false);
+
+
         //TODO: Load gif when clicks it, using shared element
         if (CommonUtils.isGif(mShot.getImages().getNormal())) {
             mPlay.setVisibility(View.VISIBLE);
             mImageView.setColorFilter(new LightingColorFilter(Color.GRAY, Color.GRAY));
         }
+
         // Correct way showing title only when collapsingToolbarLayout collapses, see http://stackoverflow.com/a/32724422/4380801
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
@@ -230,11 +256,24 @@ public class ShotInfoActivity extends BaseActivity {
                 if (scrollRange == -1) {
                     scrollRange = mAppBarLayout.getTotalScrollRange();
                 }
+                //// FIXME: 4/10/16 change statusbar color if toolbarLayout is twice height of itself
+                if (scrollRange + verticalOffset <= 2 * ViewCompat.getMinimumHeight(toolbarLayout) + mToolbar.getHeight()) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(vibrantColor);
+                    }
+                    isShow = true;
+                }
                 if (scrollRange + verticalOffset <= mToolbar.getHeight()) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(vibrantColor);
+                    }
                     toolbarLayout.setTitle(mShot.getTitle());
                     isShow = true;
                 } else if (isShow) {
                     toolbarLayout.setTitle("");
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
+                    }
                     isShow = false;
                 }
             }

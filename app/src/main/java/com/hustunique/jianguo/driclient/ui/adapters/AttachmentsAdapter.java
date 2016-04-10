@@ -39,8 +39,10 @@ public class AttachmentsAdapter extends BaseDriListAdapter<Attachment> {
     public void onBindViewHolder(BaseViewHolder holder, int position) {
         AttachmentViewHolder attachmentViewHolder = (AttachmentViewHolder) holder;
         Attachment attachment = getItem(position);
-        Picasso.with(ctx).load(Uri.parse(attachment.getThumbnail_url()))
-                .into(attachmentViewHolder.mImage);
+        if (attachment.getThumbnail_url() != null) {
+            Picasso.with(ctx).load(Uri.parse(attachment.getThumbnail_url()))
+                    .into(attachmentViewHolder.mImage);
+        }
         super.onBindViewHolder(holder, position);
     }
 }
