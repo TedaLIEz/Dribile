@@ -233,47 +233,36 @@ public class ShotInfoActivity extends BaseActivity {
         Palette.from(bmap).generate(new Palette.PaletteAsyncListener() {
             @Override
             public void onGenerated(Palette palette) {
-                vibrantColor = palette.getVibrantColor(0x000000);
+                vibrantColor = palette.getVibrantColor(getResources().getColor(android.R.color.black));
                 toolbarLayout.setContentScrimColor(vibrantColor);
+                //TODO: I hate you Google!
+                toolbarLayout.setStatusBarScrimColor(vibrantColor);
             }
         });
         mImageView.setDrawingCacheEnabled(false);
 
+
+        // Correct way showing title only when collapsingToolbarLayout collapses, see http://stackoverflow.com/a/32724422/4380801
 
         //TODO: Load gif when clicks it, using shared element
         if (CommonUtils.isGif(mShot.getImages().getNormal())) {
             mPlay.setVisibility(View.VISIBLE);
             mImageView.setColorFilter(new LightingColorFilter(Color.GRAY, Color.GRAY));
         }
-
-        // Correct way showing title only when collapsingToolbarLayout collapses, see http://stackoverflow.com/a/32724422/4380801
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
-
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (scrollRange == -1) {
                     scrollRange = mAppBarLayout.getTotalScrollRange();
                 }
-                //// FIXME: 4/10/16 change statusbar color if toolbarLayout is twice height of itself
-                if (scrollRange + verticalOffset <= 2 * ViewCompat.getMinimumHeight(toolbarLayout) + mToolbar.getHeight()) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(vibrantColor);
-                    }
-                    isShow = true;
-                }
                 if (scrollRange + verticalOffset <= mToolbar.getHeight()) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(vibrantColor);
-                    }
                     toolbarLayout.setTitle(mShot.getTitle());
                     isShow = true;
                 } else if (isShow) {
                     toolbarLayout.setTitle("");
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        getWindow().setStatusBarColor(getResources().getColor(android.R.color.transparent));
-                    }
+
                     isShow = false;
                 }
             }
