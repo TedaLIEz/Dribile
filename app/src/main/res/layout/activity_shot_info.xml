@@ -36,6 +36,7 @@
                 <ImageView
                     tools:src="@drawable/source"
                     android:id="@+id/shot_image"
+                    android:transitionName="@string/shared_shot_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop" />

@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
 import com.hustunique.jianguo.driclient.ui.viewholders.ShotsViewHolder;
-import com.squareup.picasso.Picasso;
+
 
 /**
  * Created by JianGuo on 4/4/16.
@@ -60,9 +62,11 @@ public class ShotsAdapter extends BaseDriListAdapter<Shots> {
         viewHolder.mCommentCount.setText(shots.getComments_count());
         viewHolder.mLikeCount.setText(shots.getLikes_count());
         viewHolder.mViewCount.setText(shots.getViews_count());
-
-        Picasso.with(mContext)
+        //// FIXME: recyclerView reloads when scrolls down.
+        viewHolder.setIsRecyclable(false);
+        Glide.with(mContext)
                 .load(shots.getImages().getNormal())
+                .asBitmap()
                 .placeholder(AppData.getDrawable(R.drawable.shots_default))
                 .into(viewHolder.mImage);
 
@@ -74,6 +78,8 @@ public class ShotsAdapter extends BaseDriListAdapter<Shots> {
                 }
             }
         });
+
+
         super.onBindViewHolder(holder, position);
 
     }

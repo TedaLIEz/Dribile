@@ -1,8 +1,11 @@
 package com.hustunique.jianguo.driclient.ui.activity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +13,7 @@ import android.support.annotation.ColorInt;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +30,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
@@ -40,7 +50,6 @@ import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.driclient.ui.widget.HTMLTextView;
 import com.hustunique.jianguo.driclient.ui.widget.PaddingItemDecoration;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
@@ -108,7 +117,9 @@ public class ShotInfoActivity extends BaseActivity {
 
     private LinearLayoutManager linearLayoutManager;
     private CommentsAdapter commentsAdapter;
-    private @ColorInt int vibrantColor;
+    private
+    @ColorInt
+    int vibrantColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,7 +182,7 @@ public class ShotInfoActivity extends BaseActivity {
         } else {
             mShotsDescription.setText(mShot.getDescription());
         }
-        Picasso.with(this).load(Uri.parse(mShot.getUser().getAvatar_url()))
+        Glide.with(this).load(Uri.parse(mShot.getUser().getAvatar_url()))
                 .placeholder(AppData.getDrawable(R.drawable.avatar_default))
                 .into(mAvatar);
         mShotsUser.setText(mShot.getUser().getName());
@@ -220,38 +231,52 @@ public class ShotInfoActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Disable the title
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Picasso.with(this).load(Uri.parse(mShot.getImages().getNormal())).into(mImageView);
-
-
-        mImageView.setDrawingCacheEnabled(true);
-        mImageView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        mImageView.layout(0, 0,
-                mImageView.getMeasuredWidth(), mImageView.getMeasuredHeight());
-        mImageView.buildDrawingCache(true);
-        Bitmap bmap = Bitmap.createBitmap(mImageView.getDrawingCache());
-        Palette.from(bmap).generate(new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
-                vibrantColor = palette.getVibrantColor(getResources().getColor(android.R.color.black));
-                toolbarLayout.setContentScrimColor(vibrantColor);
-                //TODO: I hate you Google!
-                toolbarLayout.setStatusBarScrimColor(vibrantColor);
-            }
-        });
-        mImageView.setDrawingCacheEnabled(false);
-
-
-        // Correct way showing title only when collapsingToolbarLayout collapses, see http://stackoverflow.com/a/32724422/4380801
-
         //TODO: Load gif when clicks it, using shared element
         if (CommonUtils.isGif(mShot.getImages().getNormal())) {
             mPlay.setVisibility(View.VISIBLE);
             mImageView.setColorFilter(new LightingColorFilter(Color.GRAY, Color.GRAY));
         }
+        Glide.with(this)
+                .load(Uri.parse(mShot.getImages().getNormal()))
+                .asBitmap().listener(new RequestListener<Uri, Bitmap>() {
+            @Override
+            public boolean onException(Exception e, Uri model, Target<Bitmap> target, boolean isFirstResource) {
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(Bitmap resource, Uri model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                Palette.from(resource).generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(Palette palette) {
+                        vibrantColor = palette.getVibrantColor(getResources().getColor(android.R.color.black));
+                        toolbarLayout.setContentScrimColor(vibrantColor);
+                        //TODO: I hate you Google!
+                        toolbarLayout.setStatusBarScrimColor(vibrantColor);
+                    }
+                });
+                return false;
+            }
+        })
+                .into(mImageView);
+
+
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShotInfoActivity.this, ImageDetailActivity.class);
+                //// FIXME: 4/11/16 images sometimes is not animated in gif!
+                intent.putExtra(ImageDetailActivity.SHARED_URI, mShot.getImages().getNormal());
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(ShotInfoActivity.this, mImageView, AppData.getString(R.string.shared_shot_image));
+                startActivity(intent, options.toBundle());
+            }
+        });
+
+        // Correct way showing title only when collapsingToolbarLayout collapses, see http://stackoverflow.com/a/32724422/4380801
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
+
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 if (scrollRange == -1) {

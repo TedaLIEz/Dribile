@@ -12,6 +12,11 @@
         <item name="android:windowBackground">@color/window_background</item>
     </style>
 
+
+    <style name="Base.Theme.DesignDemo.ShotInfo" parent="Base.Theme.DesignDemo">
+        <item name="android:windowContentTransitions">true</item>
+    </style>
+
     <style name="Base.ThemeDemo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Base.Theme.DesignDemo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />

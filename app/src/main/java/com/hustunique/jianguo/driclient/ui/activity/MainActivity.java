@@ -18,12 +18,12 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.ui.fragments.BaseFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.ShotsFragment;
-import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity {
         TextView name = (TextView) header.findViewById(R.id.auth_user_name);
         TextView html = (TextView) header.findViewById(R.id.auth_user_html);
 
-        Picasso.with(this)
+        Glide.with(this)
                 .load(Uri.parse(UserManager.getCurrentUser().getUser().getAvatar_url()))
                 .placeholder(AppData.getDrawable(R.drawable.avatar_default))
                 .into(avatar);

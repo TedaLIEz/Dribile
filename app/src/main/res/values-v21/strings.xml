@@ -6,7 +6,7 @@
     <string name="drawer_close">close</string>
     <string name="drawer_open">open</string>
 
-
+    <string name="shared_shot_image">shared_shot_image</string>
 
 
     <!-- ShotInfoActivity-->

@@ -12,18 +12,19 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.DesignDemo">
+
         <!-- provider -->
         <provider
             android:name=".dao.DataProvider"
             android:authorities="us.driclient.provider"
             android:exported="false">
-            <grant-uri-permission android:pathPattern=".*"/>
+            <grant-uri-permission android:pathPattern=".*" />
         </provider>
+
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Base.Theme.DesignDemo">
-        </activity>
+            android:theme="@style/Base.Theme.DesignDemo"></activity>
         <activity android:name=".ui.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,12 +46,11 @@
                 android:name="android.accounts.AccountAuthenticator"
                 android:resource="@xml/authenticator" />
         </service>
-
         <activity
-            android:theme="@style/Base.Theme.DesignDemo"
-            android:name=".ui.activity.ShotInfoActivity">
-
-        </activity>
+            android:name=".ui.activity.ShotInfoActivity"
+            android:theme="@style/Base.Theme.DesignDemo.ShotInfo"></activity>
+        <activity android:name=".ui.activity.ImageDetailActivity"
+            android:theme="@style/Base.Theme.DesignDemo"></activity>
     </application>
 
 </manifest>
