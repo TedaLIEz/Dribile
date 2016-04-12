@@ -54,6 +54,7 @@ import com.hustunique.jianguo.driclient.utils.CommonUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.BindDimen;
@@ -231,8 +232,13 @@ public class ShotInfoActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Disable the title
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        String animated = mShot.getAnimated().equals("true") ? "gif" : "not a gif";
+        Log.i("driclient", "mShot image is " + mShot.getImages().getJson());
+        Log.i("driclient", "this shot is " + animated);
+
         //TODO: Load gif when clicks it, using shared element
         if (CommonUtils.isGif(mShot.getImages().getNormal())) {
+
             mPlay.setVisibility(View.VISIBLE);
             mImageView.setColorFilter(new LightingColorFilter(Color.GRAY, Color.GRAY));
         }
@@ -266,7 +272,7 @@ public class ShotInfoActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ShotInfoActivity.this, ImageDetailActivity.class);
                 //// FIXME: 4/11/16 images sometimes is not animated in gif!
-                intent.putExtra(ImageDetailActivity.SHARED_URI, mShot.getImages().getNormal());
+                intent.putExtra(ImageDetailActivity.SHARED_IMAGE, mShot.getImages());
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(ShotInfoActivity.this, mImageView, AppData.getString(R.string.shared_shot_image));
                 startActivity(intent, options.toBundle());
             }

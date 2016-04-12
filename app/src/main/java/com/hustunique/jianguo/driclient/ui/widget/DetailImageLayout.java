@@ -2,23 +2,25 @@ package com.hustunique.jianguo.driclient.ui.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.net.Uri;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.bumptech.glide.DrawableTypeRequest;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.gif.GifDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.felipecsl.gifimageview.library.GifImageView;
+import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by JianGuo on 4/11/16.
@@ -27,8 +29,8 @@ import com.hustunique.jianguo.driclient.utils.CommonUtils;
 public class DetailImageLayout extends FrameLayout {
 
     private Context ctx;
-    private ImageView mImageView;
     private ProgressBar mProgressBar;
+    private GifImageView mGif;
 
     public DetailImageLayout(Context context) {
         this(context, null);
@@ -45,62 +47,90 @@ public class DetailImageLayout extends FrameLayout {
     }
 
     private void initView() {
-        mImageView = new ImageView(ctx);
+        mGif = new GifImageView(ctx);
         mProgressBar = new ProgressBar(ctx);
         FrameLayout.LayoutParams imageParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         FrameLayout.LayoutParams progressParams = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         progressParams.gravity = Gravity.CENTER;
         imageParams.gravity = Gravity.CENTER;
-        mImageView.setLayoutParams(imageParams);
+        mGif.setLayoutParams(imageParams);
         mProgressBar.setLayoutParams(progressParams);
-        addView(mImageView);
+        mGif.setFitsSystemWindows(true);
+        addView(mGif);
         addView(mProgressBar);
     }
 
+    public void load(@NonNull Shots.Images images) {
+        Log.i("driclient", "loading url " + images.getJson());
+        new LoadGifTask(images, CommonUtils.isGif(images.getNormal())).execute();
 
-    public void load(@NonNull String uri) {
-        if (TextUtils.isEmpty(uri)) {
-            return;
-        }
-        Log.i("driclient", "loading url " + uri);
-        DrawableTypeRequest<Uri> request = Glide.with(ctx).load(Uri.parse(uri));
-        if (CommonUtils.isGif(uri)) {
-            request.asGif().listener(new RequestListener<Uri, GifDrawable>() {
-                @Override
-                public boolean onException(Exception e, Uri model, Target<GifDrawable> target, boolean isFirstResource) {
-                    Log.wtf("driclient", e);
-                    return false;
-                }
-
-                @Override
-                public boolean onResourceReady(GifDrawable resource, Uri model, Target<GifDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                    Log.i("driclient", "load gif completed ");
-                    mProgressBar.setVisibility(GONE);
-                    mImageView.setVisibility(VISIBLE);
-                    return false;
-                }
-            }).into(mImageView);
-        } else {
-            request.asBitmap().listener(new RequestListener<Uri, Bitmap>() {
-                @Override
-                public boolean onException(Exception e, Uri model, Target<Bitmap> target, boolean isFirstResource) {
-                    Log.wtf("driclient", e);
-                    return false;
-                }
-
-                @Override
-                public boolean onResourceReady(Bitmap resource, Uri model, Target<Bitmap> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                    Log.i("driclient", "load bitmap completed");
-                    mProgressBar.setVisibility(GONE);
-                    mImageView.setVisibility(VISIBLE);
-                    return false;
-                }
-            }).into(mImageView);
-        }
     }
 
 
+    private class LoadGifTask extends AsyncTask<Void, Void, Void> {
 
+        private String gifAddr;
+        private byte[] gifByte;
+        private boolean isGif;
+        private Bitmap bitmap;
+        public LoadGifTask(Shots.Images images, boolean isGif) {
+            if (isGif) {
+                this.gifAddr = images.getHidpi();
+            } else {
+                this.gifAddr = images.getNormal();
+            }
+            this.isGif = isGif;
+        }
 
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            if (isGif) {
+                mGif.setBytes(gifByte);
+                mGif.startAnimation();
+            } else {
+                mGif.setImageBitmap(bitmap);
+            }
+            mProgressBar.setVisibility(GONE);
+            super.onPostExecute(aVoid);
+        }
 
+        @Override
+        protected Void doInBackground(Void... params) {
+            try {
+                URL url = new URL(gifAddr);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                if (isGif) {
+                    gifByte = streamToBytes(connection.getInputStream());
+                } else {
+                    bitmap = BitmapFactory.decodeStream(connection.getInputStream());
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        private byte[] streamToBytes(InputStream inputStream) {
+            ByteArrayOutputStream os = new ByteArrayOutputStream(1024);
+            byte[] buffer = new byte[1024];
+            int len;
+            try {
+               while ((len = inputStream.read(buffer)) >= 0) {
+                    os.write(buffer, 0, len);
+               }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return os.toByteArray();
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        if (mGif.isAnimating()) {
+            mGif.stopAnimation();
+        }
+    }
 }
