@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/profile_light"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_marginTop="@dimen/profile_margin"
+            android:layout_marginBottom="96dp"
+            android:layout_gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textAppearance="@style/TextAppearance.Profile.Title"
+                android:textSize="@dimen/text_profile_lv2"
+                android:gravity="center"
+                tools:text="Shunsuke Kawai"
+                android:id="@+id/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textAppearance="@style/TextAppearance.Profile.Title"
+                android:textSize="24sp"
+                android:gravity="center"
+                tools:text="Tokyo"
+                android:id="@+id/user_location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <com.hustunique.jianguo.driclient.ui.widget.HTMLTextView
+                android:layout_marginTop="8dp"
+                android:textSize="14sp"
+                android:textAppearance="@style/TextAppearance.Profile.Title"
+                android:gravity="center"
+                tools:text="My main goal is solving a problem \n not just making a beautiful picture."
+                android:id="@+id/user_bio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginLeft="@dimen/profile_item_margin"
+                android:layout_marginRight="@dimen/profile_item_margin"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.Profile.Title"
+                    android:textSize="@dimen/text_profile_lv2"
+                    android:id="@+id/user_shot_count"
+                    tools:text="245"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textAppearance="@style/TextAppearance.Profile.Title"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_profile_lv4"
+                    android:text="shot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <View
+                android:background="@android:color/white"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"/>
+            <LinearLayout
+                android:layout_marginLeft="@dimen/profile_item_margin"
+                android:layout_marginRight="@dimen/profile_item_margin"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.Profile.Title"
+                    android:textSize="@dimen/text_profile_lv2"
+                    android:id="@+id/user_followers_count"
+                    tools:text="245"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textAppearance="@style/TextAppearance.Profile.Title"
+                    android:gravity="center"
+                    android:text="followers"
+                    android:textSize="@dimen/text_profile_lv4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <View
+                android:background="@android:color/white"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"/>
+            <LinearLayout
+                android:layout_marginLeft="@dimen/profile_item_margin"
+                android:layout_marginRight="@dimen/profile_item_margin"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.Profile.Title"
+                    android:id="@+id/user_followings_count"
+                    android:textSize="@dimen/text_profile_lv2"
+                    tools:text="245"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textAppearance="@style/TextAppearance.Profile.Title"
+                    android:textSize="@dimen/text_profile_lv4"
+                    android:gravity="center"
+                    android:text="followings"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <View
+                android:background="@android:color/white"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"/>
+            <LinearLayout
+                android:layout_marginLeft="@dimen/profile_item_margin"
+                android:layout_marginRight="@dimen/profile_item_margin"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:gravity="center"
+                    android:textAppearance="@style/TextAppearance.Profile.Title"
+                    android:id="@+id/user_like_count"
+                    android:textSize="@dimen/text_profile_lv2"
+                    tools:text="24544"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+                    android:textAppearance="@style/TextAppearance.Profile.Title"
+                    android:text="like"
+                    android:textSize="@dimen/text_profile_lv4"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_weight="1"
+                android:elevation="2dp"
+                android:src="@drawable/ic_twitter"
+                android:id="@+id/user_twitter"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+            <View
+                android:layout_weight="1"
+                android:layout_width="48dp"
+                android:layout_height="48dp"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_weight="1"
+                android:elevation="2dp"
+                android:id="@+id/user_dribbble"
+                android:src="@drawable/ic_dribbble"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+        </LinearLayout>
+        <Button
+            android:id="@+id/btn_follow"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_gravity="center"
+            android:text="Follow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

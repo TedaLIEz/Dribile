@@ -21,6 +21,17 @@ public class AttachmentsAdapter extends BaseDriListAdapter<Attachment> {
     @LayoutRes
     int layout;
 
+    public interface OnItemClickListener {
+        void onClick(View v, Attachment attachment);
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     public AttachmentsAdapter() { throw new NullPointerException("You must give an context"); }
 
     public AttachmentsAdapter(Context ctx, @LayoutRes int layout) {
@@ -36,13 +47,21 @@ public class AttachmentsAdapter extends BaseDriListAdapter<Attachment> {
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
+    public void onBindViewHolder(final BaseViewHolder holder, int position) {
         AttachmentViewHolder attachmentViewHolder = (AttachmentViewHolder) holder;
         Attachment attachment = getItem(position);
         if (attachment.getThumbnail_url() != null) {
             Picasso.with(ctx).load(Uri.parse(attachment.getThumbnail_url()))
                     .into(attachmentViewHolder.mImage);
         }
+        attachmentViewHolder.mImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onClick(v, getItem(holder.getAdapterPosition()));
+                }
+            }
+        });
         super.onBindViewHolder(holder, position);
     }
 }

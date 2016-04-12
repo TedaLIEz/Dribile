@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hustunique.jianguo.driclient.bean.Comments;
-import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
 import com.hustunique.jianguo.driclient.ui.viewholders.CommentsViewHolder;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
@@ -26,10 +25,14 @@ public class CommentsAdapter extends BaseDriListAdapter<Comments> {
 
 
     public interface OnItemClickListener {
-        void onClick(View v, Shots shots);
+        void onClick(View v, Comments comments);
     }
 
     private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
 
     public CommentsAdapter() { throw new NullPointerException("You must give an context"); }
@@ -47,7 +50,7 @@ public class CommentsAdapter extends BaseDriListAdapter<Comments> {
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
+    public void onBindViewHolder(final BaseViewHolder holder, int position) {
         CommentsViewHolder commentsViewHolder = (CommentsViewHolder) holder;
         Comments comments = getItem(position);
         commentsViewHolder.setData(comments);
@@ -59,6 +62,14 @@ public class CommentsAdapter extends BaseDriListAdapter<Comments> {
         Picasso.with(mContext)
                 .load(Uri.parse(comments.getUser().getAvatar_url()))
                 .into(commentsViewHolder.mAvatar);
+        commentsViewHolder.mAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onClick(v, getItem(holder.getAdapterPosition()));
+                }
+            }
+        });
         super.onBindViewHolder(holder, position);
     }
 }

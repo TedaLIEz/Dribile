@@ -31,6 +31,15 @@
     </style>
     <style name="TextAppearance.Shots"/>
 
+
+    <style name="TextAppearance.Profile" parent="TextAppearance">
+
+    </style>
+
+    <style name="TextAppearance.Profile.Title" parent="TextAppearance.Profile">
+        <item name="android:textColor">@color/fontColor</item>
+    </style>
+
     <style name="TextAppearance.Shots.Item">
         <item name="android:textColor">@color/grey20_color</item>
         <item name="android:textSize">@dimen/text_size_lv1</item>

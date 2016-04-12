@@ -35,6 +35,16 @@
 
     <style name="TextAppearance" parent="TextAppearance.AppCompat">
     </style>
+
+    <style name="TextAppearance.Profile" parent="TextAppearance">
+
+    </style>
+
+    <style name="TextAppearance.Profile.Title" parent="TextAppearance.Profile">
+        <item name="android:textColor">@color/fontColor</item>
+    </style>
+
+
     <style name="TextAppearance.Shots"/>
 
     <style name="TextAppearance.Nav" parent="TextAppearance"/>

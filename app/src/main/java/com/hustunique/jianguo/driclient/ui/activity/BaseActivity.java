@@ -1,6 +1,8 @@
 package com.hustunique.jianguo.driclient.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,5 +30,17 @@ public class BaseActivity extends AppCompatActivity {
                 Toast.makeText(AppData.getContext(), msg, Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void startTwitterIntent(String username) {
+        Intent intent = null;
+        try {
+            getPackageManager().getPackageInfo("com.twitter.android", 0);
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=" + username));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        } catch (Exception e) {
+            intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/" + username));
+        }
+        startActivity(intent);
     }
 }

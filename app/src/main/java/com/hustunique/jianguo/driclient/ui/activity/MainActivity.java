@@ -1,5 +1,6 @@
 package com.hustunique.jianguo.driclient.ui.activity;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -103,7 +104,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onUserSelected() {
-
+        Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra(ProfileActivity.USER, UserManager.getCurrentUser().getUser());
+        startActivity(intent);
     }
 
     private void onShotsSelected() {

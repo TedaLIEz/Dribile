@@ -22,4 +22,11 @@
     <dimen name="item_divider_size">3dp</dimen>
 
     <dimen name="item_shots_divider_size">10dp</dimen>
+
+    <dimen name="profile_margin">64dp</dimen>
+    <dimen name="profile_item_margin">4dp</dimen>
+    <dimen name="text_profile_lv1">45sp</dimen>
+    <dimen name="text_profile_lv2">34sp</dimen>
+    <dimen name="text_profile_lv3">24sp</dimen>
+    <dimen name="text_profile_lv4">14sp</dimen>
 </resources>

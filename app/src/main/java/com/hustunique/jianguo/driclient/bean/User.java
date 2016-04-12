@@ -1,5 +1,7 @@
 package com.hustunique.jianguo.driclient.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by JianGuo on 3/28/16.
  * Simple POJO for Dribbble user.
@@ -61,7 +63,7 @@ public class User extends BaseBean {
 
     private String update_at;
 
-    public class links {
+    public class Links implements Serializable {
         private String web;
 
         private String twitter;
@@ -77,7 +79,7 @@ public class User extends BaseBean {
 
     }
 
-    private links link;
+    private Links links;
 
     public String getId() {
         return id;
@@ -191,8 +193,8 @@ public class User extends BaseBean {
         return update_at;
     }
 
-    public links getLink() {
-        return link;
+    public Links getLink() {
+        return links;
     }
 
 
@@ -231,7 +233,7 @@ public class User extends BaseBean {
         if (!teams_url.equals(user.teams_url)) return false;
         if (!created_at.equals(user.created_at)) return false;
         if (!update_at.equals(user.update_at)) return false;
-        return link.equals(user.link);
+        return links.equals(user.links);
 
     }
 
@@ -265,7 +267,7 @@ public class User extends BaseBean {
         result = 31 * result + teams_url.hashCode();
         result = 31 * result + created_at.hashCode();
         result = 31 * result + update_at.hashCode();
-        result = 31 * result + link.hashCode();
+        result = 31 * result + links.hashCode();
         return result;
     }
 }

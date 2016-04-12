@@ -176,6 +176,14 @@ public class ShotInfoActivity extends BaseActivity {
         Picasso.with(this).load(Uri.parse(mShot.getUser().getAvatar_url()))
                 .placeholder(AppData.getDrawable(R.drawable.avatar_default))
                 .into(mAvatar);
+        mAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ShotInfoActivity.this, ProfileActivity.class);
+                intent.putExtra(ProfileActivity.USER, mShot.getUser());
+                startActivity(intent);
+            }
+        });
         mShotsUser.setText(mShot.getUser().getName());
         mShotsTime.setText(String.format(AppData.getString(R.string.shots_time), CommonUtils.formatDate(mShot.getCreated_at())));
     }
@@ -183,6 +191,14 @@ public class ShotInfoActivity extends BaseActivity {
     private void initComments() {
         mCommentsCount.setText(String.format(AppData.getString(R.string.comments), mShot.getComments_count()));
         commentsAdapter = new CommentsAdapter(this, R.layout.item_comments);
+        commentsAdapter.setOnItemClickListener(new CommentsAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(View v, Comments comments) {
+                Intent intent = new Intent(ShotInfoActivity.this, ProfileActivity.class);
+                intent.putExtra(ProfileActivity.USER, comments.getUser());
+                startActivity(intent);
+            }
+        });
         mComments.setAdapter(commentsAdapter);
         mComments.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
         linearLayoutManager = new LinearLayoutManager(this);
@@ -246,7 +262,7 @@ public class ShotInfoActivity extends BaseActivity {
         Palette.from(bmap).generate(new Palette.PaletteAsyncListener() {
             @Override
             public void onGenerated(Palette palette) {
-                vibrantColor = palette.getVibrantColor(0x000000);
+                vibrantColor = palette.getVibrantColor(AppData.getColor(android.R.color.holo_blue_dark));
                 toolbarLayout.setContentScrimColor(vibrantColor);
                 //TODO: I hate you Google!
                 toolbarLayout.setStatusBarScrimColor(vibrantColor);
@@ -259,8 +275,8 @@ public class ShotInfoActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ShotInfoActivity.this, ImageDetailActivity.class);
                 intent.putExtra(ImageDetailActivity.SHARED_IMAGE, mShot.getImages());
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(ShotInfoActivity.this, mImageView, AppData.getString(R.string.shared_shot_image));
-                startActivity(intent, options.toBundle());
+//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(ShotInfoActivity.this, mImageView, AppData.getString(R.string.shared_shot_image));
+                startActivity(intent);
             }
         });
 

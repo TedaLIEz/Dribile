@@ -56,4 +56,13 @@ public class NetUtils {
         ConnectivityManager cm = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo() != null && cm.getActiveNetworkInfo().isConnectedOrConnecting();
     }
+
+
+    public static String getNameFromTwitterUrl(String url) {
+        if (!url.startsWith("https://twitter.com")) {
+            throw new IllegalArgumentException("You are not given the correct twitter profile link");
+        }
+        int index = url.lastIndexOf("/");
+        return url.substring(index + 1, url.length());
+    }
 }

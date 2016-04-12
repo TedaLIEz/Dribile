@@ -2,11 +2,13 @@ package com.hustunique.jianguo.driclient.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.text.format.Time;
 import android.view.Display;
@@ -156,5 +158,10 @@ public class CommonUtils {
         drawable.draw(canvas);
         return bitmap;
     }
+
+
+
+
+
 
 }

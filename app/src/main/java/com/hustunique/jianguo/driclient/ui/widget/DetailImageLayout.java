@@ -3,6 +3,7 @@ package com.hustunique.jianguo.driclient.ui.widget;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -91,7 +92,7 @@ public class DetailImageLayout extends FrameLayout {
 
 
     @Override
-    protected void onDetachedFromWindow() {
+    public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         if (mGif.isAnimating()) {
             mGif.stopAnimation();
