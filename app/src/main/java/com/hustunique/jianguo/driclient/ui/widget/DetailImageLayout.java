@@ -1,9 +1,7 @@
 package com.hustunique.jianguo.driclient.ui.widget;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -14,13 +12,10 @@ import android.widget.ProgressBar;
 
 import com.felipecsl.gifimageview.library.GifImageView;
 import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.service.GifImageLoader;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by JianGuo on 4/11/16.
@@ -61,70 +56,39 @@ public class DetailImageLayout extends FrameLayout {
     }
 
     public void load(@NonNull Shots.Images images) {
+        //TODO: simplify code here, merge them into GifImageLoader ?
         Log.i("driclient", "loading url " + images.getJson());
-        new LoadGifTask(images, CommonUtils.isGif(images.getNormal())).execute();
-
-    }
-
-
-    private class LoadGifTask extends AsyncTask<Void, Void, Void> {
-
-        private String gifAddr;
-        private byte[] gifByte;
-        private boolean isGif;
-        private Bitmap bitmap;
-        public LoadGifTask(Shots.Images images, boolean isGif) {
-            if (isGif) {
-                this.gifAddr = images.getHidpi();
-            } else {
-                this.gifAddr = images.getNormal();
-            }
-            this.isGif = isGif;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            if (isGif) {
-                mGif.setBytes(gifByte);
-                mGif.startAnimation();
-            } else {
-                mGif.setImageBitmap(bitmap);
-            }
-            mProgressBar.setVisibility(GONE);
-            super.onPostExecute(aVoid);
-        }
-
-        @Override
-        protected Void doInBackground(Void... params) {
-            try {
-                URL url = new URL(gifAddr);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                if (isGif) {
-                    gifByte = streamToBytes(connection.getInputStream());
-                } else {
-                    bitmap = BitmapFactory.decodeStream(connection.getInputStream());
+        if (CommonUtils.isGif(images.getNormal())) {
+            new GifImageLoader(ctx).display(images.getHidpi(), mGif).callback(new GifImageLoader.Callback() {
+                @Override
+                public void onCompleted() {
+                    mProgressBar.setVisibility(GONE);
                 }
 
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
+
+                //TODO: Replace with a placeholder
+                @Override
+                public void onFailed() {
+                    mProgressBar.setVisibility(GONE);
+                }
+            });
+        } else {
+            Picasso.with(ctx).load(Uri.parse(images.getNormal())).into(mGif, new Callback() {
+                @Override
+                public void onSuccess() {
+                    mProgressBar.setVisibility(GONE);
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
         }
 
-        private byte[] streamToBytes(InputStream inputStream) {
-            ByteArrayOutputStream os = new ByteArrayOutputStream(1024);
-            byte[] buffer = new byte[1024];
-            int len;
-            try {
-               while ((len = inputStream.read(buffer)) >= 0) {
-                    os.write(buffer, 0, len);
-               }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return os.toByteArray();
-        }
     }
+
+
 
     @Override
     protected void onDetachedFromWindow() {
