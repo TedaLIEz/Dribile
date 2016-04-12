@@ -7,12 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.hustunique.jianguo.driclient.bean.Comments;
 import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
 import com.hustunique.jianguo.driclient.ui.viewholders.CommentsViewHolder;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by JianGuo on 4/6/16.
@@ -56,7 +56,7 @@ public class CommentsAdapter extends BaseDriListAdapter<Comments> {
         commentsViewHolder.mUsername.setText(comments.getUser().getName());
         commentsViewHolder.mLikeCount.setText(comments.getLikes_count());
         commentsViewHolder.mCommentBody.setText(comments.getBody());
-        Glide.with(mContext)
+        Picasso.with(mContext)
                 .load(Uri.parse(comments.getUser().getAvatar_url()))
                 .into(commentsViewHolder.mAvatar);
         super.onBindViewHolder(holder, position);

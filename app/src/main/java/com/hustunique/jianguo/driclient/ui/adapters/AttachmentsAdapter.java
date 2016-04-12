@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.hustunique.jianguo.driclient.bean.Attachment;
 import com.hustunique.jianguo.driclient.ui.viewholders.AttachmentViewHolder;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by JianGuo on 4/7/16.
@@ -40,7 +40,7 @@ public class AttachmentsAdapter extends BaseDriListAdapter<Attachment> {
         AttachmentViewHolder attachmentViewHolder = (AttachmentViewHolder) holder;
         Attachment attachment = getItem(position);
         if (attachment.getThumbnail_url() != null) {
-            Glide.with(ctx).load(Uri.parse(attachment.getThumbnail_url()))
+            Picasso.with(ctx).load(Uri.parse(attachment.getThumbnail_url()))
                     .into(attachmentViewHolder.mImage);
         }
         super.onBindViewHolder(holder, position);
