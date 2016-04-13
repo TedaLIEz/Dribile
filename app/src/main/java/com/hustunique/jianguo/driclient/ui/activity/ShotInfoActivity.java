@@ -349,6 +349,7 @@ public class ShotInfoActivity extends BaseActivity {
 
     }
 
+    //TODO: Extract this to a custom view
     class LikeClickListener implements View.OnClickListener {
         private boolean isLiked;
         public LikeClickListener(boolean isLiked) {

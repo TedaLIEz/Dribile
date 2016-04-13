@@ -3,10 +3,16 @@ package com.hustunique.jianguo.driclient.ui.activity;
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
 import android.accounts.AccountManager;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatCallback;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.view.ActionMode;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +39,7 @@ import rx.schedulers.Schedulers;
 /**
  * Activity for auth including a webView
  */
-public class AuthActivity extends AccountAuthenticatorActivity implements OAuthWebView.IAuth {
+public class AuthActivity extends AccountAuthenticatorActivity implements OAuthWebView.IAuth, AppCompatCallback{
     public static final String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
     public static final String ARG_AUTH_TYPE = "AUTH_TYPE";
     public static final String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT";
@@ -45,17 +51,35 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
     @Bind(R.id.view_auth)
     OAuthWebView webView;
 
-    private AccountManager mAccountManager;
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
 
+
+    private AccountManager mAccountManager;
+    private AppCompatDelegate delegate;
     private String scope;
 
+    private ProgressDialog mProgressDialog;
+
+    //TODO: change status bar color
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_auth);
-        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        delegate = AppCompatDelegate.create(this, this);
+        delegate.onCreate(savedInstanceState);
+        delegate.setContentView(R.layout.activity_auth);
         ButterKnife.bind(this);
-
+        delegate.setSupportActionBar(mToolbar);
+        delegate.getSupportActionBar().setTitle("Log in to Dribbble");
+        delegate.getSupportActionBar().setDisplayShowTitleEnabled(true);
+        mToolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setResult(RESULT_CANCELED);
+                finish();
+            }
+        });
         // This activity may start in the accounts settings, so first get the intent's data.
         scope = getIntent().getStringExtra(ARG_AUTH_TYPE);
         if (scope == null || TextUtils.isEmpty(scope)) {
@@ -67,6 +91,9 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
 
     private void initView() {
         initWebView();
+        mProgressDialog = new ProgressDialog(this);
+        mProgressDialog.setMessage("Login to Dribbble");
+
     }
 
     private void initWebView() {
@@ -81,6 +108,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
     }
 
     private void parseToken(Uri uri) {
+        mProgressDialog.show();
         String code = uri.getQueryParameter("code");
         if (code != null) {
             final DribbbleAuthService authService = AuthServiceFactory.
@@ -124,7 +152,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {
-
+                        mProgressDialog.dismiss();
                     }
 
                     @Override
@@ -178,5 +206,21 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
     public void onBackPressed() {
         setResult(RESULT_CANCELED);
         super.onBackPressed();
+    }
+
+    @Override
+    public void onSupportActionModeStarted(ActionMode mode) {
+
+    }
+
+    @Override
+    public void onSupportActionModeFinished(ActionMode mode) {
+
+    }
+
+    @Nullable
+    @Override
+    public ActionMode onWindowStartingSupportActionMode(ActionMode.Callback callback) {
+        return null;
     }
 }

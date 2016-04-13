@@ -1,13 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     tools:context="com.hustunique.jianguo.driclient.ui.activity.AuthActivity">
-
-
-    <com.hustunique.jianguo.driclient.ui.widget.OAuthWebView
-        android:id="@+id/view_auth"
+    <android.support.v7.widget.Toolbar
+        android:background="@android:color/black"
+        android:id="@+id/toolbar"
+        app:titleTextColor="@android:color/white"
+        app:title="Login to Dribbble"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.hustunique.jianguo.driclient.ui.widget.OAuthWebView>
-</RelativeLayout>
+        android:layout_height="?attr/actionBarSize">
+
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.hustunique.jianguo.driclient.ui.widget.OAuthWebView
+            android:id="@+id/view_auth"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.hustunique.jianguo.driclient.ui.widget.OAuthWebView>
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progress"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center"
+
+            android:layout_height="wrap_content" />
+    </FrameLayout>
+
+</LinearLayout>

@@ -9,12 +9,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/window_background</item>
     </style>
 
 
+    <style name="Base.Theme.DesignDemo.Auth" parent="Theme.AppCompat.Light.NoActionBar">
+
+    </style>
     <style name="Base.Theme.DesignDemo.ShotInfo" parent="Base.Theme.DesignDemo">
         <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowBackground">@color/window_background</item>
     </style>
 
     <style name="Base.ThemeDemo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

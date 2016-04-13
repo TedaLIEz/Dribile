@@ -48,9 +48,12 @@ public class LoginActivity extends BaseActivity {
                     Log.e("driclient", getTag() + " user deny the authentications");
                     return;
                 }
-                if (requestCode == AuthActivity.AUTH_FAILED) {
+                if (resultCode == AuthActivity.AUTH_FAILED) {
                     String msg = data.getStringExtra(AuthActivity.ERR_AUTH_MSG);
                     Log.e("driclient", getTag() + " login failed " + msg);
+                    return;
+                }
+                if (resultCode == RESULT_CANCELED) {
                     return;
                 }
                 User authUser = (User) data.getSerializableExtra(AuthActivity.AUTH_USER);

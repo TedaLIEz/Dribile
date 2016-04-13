@@ -12,8 +12,8 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
-    <style name="Base.Theme.DesignDemo.Auth" parent="Base.Theme.DesignDemo">
-
+    <style name="Base.Theme.DesignDemo.Auth" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
     <style name="Base.Theme.DesignDemo.ShotInfo" parent="Base.Theme.DesignDemo">
         <item name="android:windowBackground">@color/window_background</item>
