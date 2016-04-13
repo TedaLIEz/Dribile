@@ -65,8 +65,13 @@ public class ShotsAdapter extends BaseDriListAdapter<Shots> {
                 .load(shots.getImages().getNormal())
                 .placeholder(AppData.getDrawable(R.drawable.shots_default))
                 .into(viewHolder.mImage);
+        Picasso.with(mContext)
+                .load(shots.getUser().getAvatar_url())
+                .placeholder(AppData.getDrawable(R.drawable.avatar_default))
+                .into(viewHolder.mAvatar);
+        viewHolder.mTitle.setText(shots.getTitle());
 
-        viewHolder.mImage.setOnClickListener(new View.OnClickListener() {
+        viewHolder.getItemView().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemClickListener != null) {

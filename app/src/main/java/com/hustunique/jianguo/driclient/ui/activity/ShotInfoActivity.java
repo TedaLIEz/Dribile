@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
+import android.media.audiofx.LoudnessEnhancer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,8 +33,10 @@ import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.bean.Attachment;
 import com.hustunique.jianguo.driclient.bean.Comments;
 import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.service.DribbbleLikeService;
 import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
+import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.driclient.ui.adapters.AttachmentsAdapter;
 import com.hustunique.jianguo.driclient.ui.adapters.CommentsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
@@ -49,8 +52,11 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class ShotInfoActivity extends BaseActivity {
@@ -324,14 +330,67 @@ public class ShotInfoActivity extends BaseActivity {
     }
 
     private void initFab() {
+        //TODO: Add to my favourite
+        DribbbleLikeService dribbbleLikeService = ResponseBodyFactory.createService(DribbbleLikeService.class, UserManager.getCurrentToken());
+        dribbbleLikeService.isLike(mShot.getId())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Response<ResponseBody>>() {
+                    @Override
+                    public void call(Response<ResponseBody> responseBodyResponse) {
+                        boolean isLiked = false;
+                        if (responseBodyResponse.code() == 200) {
+                            mFab.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_white_24dp));
+                            isLiked = true;
+                        }
+                        mFab.setOnClickListener(new LikeClickListener(isLiked));
+                    }
+                });
 
-        //TODO: Add comment
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    }
 
+    class LikeClickListener implements View.OnClickListener {
+        private boolean isLiked;
+        public LikeClickListener(boolean isLiked) {
+            this.isLiked = isLiked;
+        }
+
+        @Override
+        public void onClick(View v) {
+            DribbbleLikeService dribbbleLikeService = ResponseBodyFactory.createService(DribbbleLikeService.class, UserManager.getCurrentToken());
+            if (isLiked) {
+                dribbbleLikeService.unlike(mShot.getId()).subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<Response<ResponseBody>>() {
+                            @Override
+                            public void call(Response<ResponseBody> responseBodyResponse) {
+                                if (responseBodyResponse.code() == 204) {
+                                    mFab.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_border_white_24dp));
+                                    isLiked = false;
+                                    Log.i("driclient", "unlike shot success");
+                                } else {
+                                    Log.e("driclient", "unlike shot failed" + responseBodyResponse.code());
+                                }
+                            }
+                        });
+
+            }  else {
+                dribbbleLikeService.like(mShot.getId()).subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Action1<Response<ResponseBody>>() {
+                            @Override
+                            public void call(Response<ResponseBody> responseBodyResponse) {
+                                if (responseBodyResponse.code() == 201) {
+                                    mFab.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_white_24dp));
+                                    isLiked = true;
+                                    Log.i("driclient", "like shot success");
+                                } else {
+                                    Log.e("driclient", "like shot failed" + responseBodyResponse.code());
+                                }
+                            }
+                        });
             }
-        });
+        }
     }
 
 

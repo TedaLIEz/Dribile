@@ -59,6 +59,15 @@
         <item name="android:textSize">@dimen/title_regular</item>
     </style>
 
+
+    <style name="Shots.Item" parent="Base.Theme.DesignDemo">
+        <item name="android:layout_weight">1</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Shots.Item</item>
+    </style>
+
     <style name="TextAppearance.Title" parent="TextAppearance">
 
     </style>

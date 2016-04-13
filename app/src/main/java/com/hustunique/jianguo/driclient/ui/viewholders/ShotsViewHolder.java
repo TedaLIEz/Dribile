@@ -22,8 +22,6 @@ public class ShotsViewHolder extends BaseViewHolder<Shots> {
 
     @Bind(R.id.image)
     public ImageView mImage;
-//    @Bind(R.id.avatar)
-//    public ImageView mAvator;
     @Bind(R.id.like_count)
     public TextView mLikeCount;
     @Bind(R.id.comment_count)
@@ -31,6 +29,11 @@ public class ShotsViewHolder extends BaseViewHolder<Shots> {
     @Bind(R.id.view_count)
     public TextView mViewCount;
 
+    @Bind(R.id.shots_avatar)
+    public ImageView mAvatar;
+
+    @Bind(R.id.shots_title)
+    public TextView mTitle;
     public ShotsViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);

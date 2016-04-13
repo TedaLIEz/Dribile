@@ -25,6 +25,7 @@ public class LoginActivity extends BaseActivity {
     @Bind(R.id.btn_login)
     Button login;
 
+    //TODO: Login UI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.am.AccountGeneral;
@@ -51,13 +53,15 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         ButterKnife.bind(this);
-        initView();
+
         // This activity may start in the accounts settings, so first get the intent's data.
         scope = getIntent().getStringExtra(ARG_AUTH_TYPE);
-        if (scope == null) {
-            scope = AccountGeneral.AUTHTOKEN_TYPE_READ_ONLY;
+        if (scope == null || TextUtils.isEmpty(scope)) {
+            scope = AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
         }
+        initView();
         mAccountManager = AccountManager.get(this);
     }
 

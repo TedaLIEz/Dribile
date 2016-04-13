@@ -25,6 +25,7 @@ import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.ui.activity.ShotInfoActivity;
 import com.hustunique.jianguo.driclient.ui.adapters.ShotsAdapter;
+import com.hustunique.jianguo.driclient.ui.widget.PaddingItemDecoration;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
 
 import java.lang.annotation.Retention;
@@ -130,7 +131,7 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
         mAdapter.setOnItemClickListener(new ShotsAdapter.OnItemClickListener() {
             @Override
             public void onClick(View v, Shots shots) {
-                Log.i("driclient", "click on " + shots.getId());
+                Log.i("driclient", "click on " + shots.getJson());
                 Intent intent = new Intent(getActivity(), ShotInfoActivity.class);
                 intent.putExtra("shots", shots);
                 startActivity(intent);
@@ -138,7 +139,8 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
         });
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setHasFixedSize(true);
-        mGridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        mRecyclerView.addItemDecoration(new PaddingItemDecoration(dividerSize));
+        mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
         mRecyclerView.setLayoutManager(mGridLayoutManager);
         mRecyclerView.setPadding(
                 mRecyclerView.getPaddingLeft(),

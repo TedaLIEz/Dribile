@@ -8,11 +8,15 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/window_background</item>
+
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
+    <style name="Base.Theme.DesignDemo.Auth" parent="Base.Theme.DesignDemo">
+
+    </style>
     <style name="Base.Theme.DesignDemo.ShotInfo" parent="Base.Theme.DesignDemo">
+        <item name="android:windowBackground">@color/window_background</item>
     </style>
 
 
@@ -48,6 +52,7 @@
     <style name="TextAppearance.Shots"/>
 
     <style name="TextAppearance.Nav" parent="TextAppearance"/>
+
     <style name="TextAppearance.Nav.SubTitle" parent="TextAppearance.Nav">
         <item name="android:textColor">@color/grey20_color</item>
         <item name="android:textSize">@dimen/title_regular</item>
@@ -60,9 +65,20 @@
         <item name="android:textSize">@dimen/title_regular</item>
     </style>
 
+    <style name="TextAppearance.Shots.Title" parent="TextAppearance.Shots">
+        <item name="android:textSize">@dimen/title_regular</item>
+    </style>
     <style name="TextAppearance.Shots.Item">
         <item name="android:textColor">@color/grey20_color</item>
         <item name="android:textSize">@dimen/text_size_lv1</item>
+    </style>
+
+    <style name="Shots.Item" parent="Base.Theme.DesignDemo">
+        <item name="android:layout_weight">1</item>
+        <item name="android:drawablePadding">5dp</item>
+        <item name="android:layout_marginRight">4dp</item>
+        <item name="android:layout_marginLeft">4dp</item>
+        <item name="android:textAppearance">@style/TextAppearance.Shots.Item</item>
     </style>
 
     <style name="TextAppearance.Title" parent="TextAppearance">
