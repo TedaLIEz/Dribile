@@ -2,6 +2,7 @@ package com.hustunique.jianguo.driclient.ui.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
@@ -168,13 +169,12 @@ public class OAuthWebView extends FrameLayout {
     private class ProgressBarClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
-            if (newProgress == 0 && progressBar.getVisibility() == INVISIBLE) {
-                progressBar.setVisibility(View.VISIBLE);
-            }
-            progressBar.setProgress(newProgress);
             if (newProgress == progressBar.getMax()) {
                 progressBar.setVisibility(INVISIBLE);
+            } else {
+                progressBar.setVisibility(VISIBLE);
             }
+            progressBar.setProgress(newProgress);
             if (mProgressChangeListener != null) {
                 mProgressChangeListener.onProgressChanged(newProgress);
             }

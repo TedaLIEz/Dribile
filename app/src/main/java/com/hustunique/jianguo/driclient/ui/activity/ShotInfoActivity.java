@@ -1,9 +1,14 @@
 package com.hustunique.jianguo.driclient.ui.activity;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.LightingColorFilter;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.media.audiofx.LoudnessEnhancer;
 import android.net.Uri;
 import android.os.Build;
@@ -12,6 +17,7 @@ import android.support.annotation.ColorInt;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.animation.ValueAnimatorCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
@@ -72,8 +78,6 @@ public class ShotInfoActivity extends BaseActivity {
     @Bind(R.id.shot_image)
     ImageView mImageView;
 
-    @Bind(R.id.shot_play)
-    Button mPlay;
 
     @Bind(R.id.fab_avatar)
     FloatingActionButton mFab;
@@ -244,16 +248,13 @@ public class ShotInfoActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Disable the title
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        String animated = mShot.getAnimated().equals("true") ? "gif" : "not a gif";
         Log.i("driclient", "mShot image is " + mShot.getImages().getJson());
-        Log.i("driclient", "this shot is " + animated);
 
         //TODO: Load gif when clicks it, using shared element
         if (CommonUtils.isGif(mShot.getImages().getNormal())) {
-
-            mPlay.setVisibility(View.VISIBLE);
             mImageView.setColorFilter(new LightingColorFilter(Color.GRAY, Color.GRAY));
         }
+
         Picasso.with(this)
                 .load(Uri.parse(mShot.getImages().getNormal()))
                 .into(mImageView);
@@ -268,9 +269,12 @@ public class ShotInfoActivity extends BaseActivity {
         Palette.from(bmap).generate(new Palette.PaletteAsyncListener() {
             @Override
             public void onGenerated(Palette palette) {
-                vibrantColor = palette.getVibrantColor(AppData.getColor(android.R.color.holo_blue_dark));
+                vibrantColor = palette.getDarkVibrantColor(AppData.getColor(android.R.color.holo_blue_dark));
                 toolbarLayout.setContentScrimColor(vibrantColor);
                 //TODO: I hate you Google!
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    getWindow().setStatusBarColor(vibrantColor);
+                }
                 toolbarLayout.setStatusBarScrimColor(vibrantColor);
             }
         });
@@ -281,7 +285,6 @@ public class ShotInfoActivity extends BaseActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ShotInfoActivity.this, ImageDetailActivity.class);
                 intent.putExtra(ImageDetailActivity.SHARED_IMAGE, mShot.getImages());
-//                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(ShotInfoActivity.this, mImageView, AppData.getString(R.string.shared_shot_image));
                 startActivity(intent);
             }
         });
@@ -290,6 +293,7 @@ public class ShotInfoActivity extends BaseActivity {
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
+            boolean isAnimated = false;
 
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {

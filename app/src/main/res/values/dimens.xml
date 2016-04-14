@@ -9,6 +9,8 @@
 
     <dimen name="title_regular">14sp</dimen>
 
+    <dimen name="nav_title">20sp</dimen>
+
     <dimen name="item_size">172dp</dimen>
     <dimen name="item_pic_height">126dp</dimen>
     <dimen name="item_pic_width">168dp</dimen>

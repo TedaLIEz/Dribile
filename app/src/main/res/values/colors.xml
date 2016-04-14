@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimary">#EA4C89</color>
+    <color name="colorPrimaryDark">#C2185B</color>
     <color name="colorAccent">#EA4C89</color>
     <color name="window_background">#FFF5F5F5</color>
     <color name="fontColor">#FFFFFF</color>
     <color name="grey20_color">#c8c8c8</color>
     <color name="font_subtitle">#BDBDBD</color>
 
+    <color name="shot_item_overlay">#BDBDBD</color>
+    <color name="shot_info_toolbar">#9E9E9E</color>
 
     <!-- UserProfile Background-->
     <color name="profile_dark">#303F9F</color>

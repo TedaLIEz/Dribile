@@ -12,9 +12,11 @@
     </style>
 
 
-    <style name="Base.Theme.DesignDemo.Auth" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Base.Theme.DesignDemo.Auth" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:windowBackground">@android:color/black</item>
 
     </style>
+
     <style name="Base.Theme.DesignDemo.ShotInfo" parent="Base.Theme.DesignDemo">
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowBackground">@color/window_background</item>
@@ -25,14 +27,14 @@
     <style name="Base.Theme.DesignDemo.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="Base.ThemeDemo.ShotInfo.PopupOverlay" parent="Base.Theme.DesignDemo.PopupOverlay">
+        <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 
 
+    <style name="TextAppearance" parent="TextAppearance.AppCompat"></style>
 
-    <style name="TextAppearance" parent="TextAppearance.AppCompat">
-    </style>
-    <style name="TextAppearance.Shots"/>
+    <style name="TextAppearance.Shots" />
 
 
     <style name="TextAppearance.Profile" parent="TextAppearance">
@@ -49,17 +51,18 @@
     </style>
 
 
-    <style name="TextAppearance.Nav" parent="TextAppearance"/>
+    <style name="TextAppearance.Nav" parent="TextAppearance" />
+
     <style name="TextAppearance.Nav.SubTitle" parent="TextAppearance.Nav">
-        <item name="android:textColor">@color/grey20_color</item>
+        <item name="android:textColor">@android:color/black</item>
         <item name="android:textSize">@dimen/title_regular</item>
-        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
     <style name="TextAppearance.Nav.Title" parent="TextAppearance.Nav">
         <item name="android:fontFamily">sans-serif-medium</item>
-        <item name="android:textColor">@color/fontColor</item>
-        <item name="android:textSize">@dimen/title_regular</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:textSize">@dimen/nav_title</item>
     </style>
 
 

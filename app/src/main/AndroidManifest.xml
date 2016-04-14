@@ -53,7 +53,7 @@
         <activity
             android:name=".ui.activity.ImageDetailActivity"
             android:theme="@style/Base.Theme.DesignDemo" />
-        <activity android:name=".ui.activity.ProfileActivity"></activity>
+        <activity android:name=".ui.activity.ProfileActivity" />
     </application>
 
 </manifest>

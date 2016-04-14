@@ -7,9 +7,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
         <ProgressBar
+            style="?android:attr/progressBarStyleHorizontal"
+            android:progressDrawable="@drawable/custom_progressbar_horizontal"
             android:id="@+id/auth_progress"
             android:layout_width="match_parent"
-            android:layout_height="1dp" />
+            android:minHeight="3dp"
+            android:maxHeight="3dp"
+            android:layout_height="wrap_content" />
         <WebView
             android:id="@+id/wv_auth"
             android:layout_width="match_parent"

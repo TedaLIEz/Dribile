@@ -11,6 +11,7 @@ import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
 import com.hustunique.jianguo.driclient.ui.viewholders.ShotsViewHolder;
+import com.hustunique.jianguo.driclient.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 
 

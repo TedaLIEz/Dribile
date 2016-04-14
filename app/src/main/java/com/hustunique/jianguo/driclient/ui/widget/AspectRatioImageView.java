@@ -2,15 +2,19 @@ package com.hustunique.jianguo.driclient.ui.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
 import com.hustunique.jianguo.driclient.R;
+import com.hustunique.jianguo.driclient.app.AppData;
 
 /**
  * Created by JianGuo on 4/9/16.
  */
-
+//TODO: Add Grey imageView overlay it.
 public class AspectRatioImageView extends ImageView {
     // NOTE: These must be kept in sync with the AspectRatioImageView attributes in attrs.xml.
     public static final int MEASUREMENT_WIDTH = 0;
@@ -23,6 +27,8 @@ public class AspectRatioImageView extends ImageView {
     private float aspectRatio;
     private boolean aspectRatioEnabled;
     private int dominantMeasurement;
+    private boolean isOver;
+    Paint mPaint;
 
     public AspectRatioImageView(Context context) {
         this(context, null);
@@ -30,7 +36,7 @@ public class AspectRatioImageView extends ImageView {
 
     public AspectRatioImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
-
+        mPaint = new Paint();
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.AspectRatioImageView);
         aspectRatio = a.getFloat(R.styleable.AspectRatioImageView_aspectRatio, DEFAULT_ASPECT_RATIO);
         aspectRatioEnabled = a.getBoolean(R.styleable.AspectRatioImageView_aspectRatioEnabled,
@@ -38,6 +44,14 @@ public class AspectRatioImageView extends ImageView {
         dominantMeasurement = a.getInt(R.styleable.AspectRatioImageView_dominantMeasurement,
                 DEFAULT_DOMINANT_MEASUREMENT);
         a.recycle();
+    }
+
+
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+
     }
 
     @Override protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -106,4 +120,6 @@ public class AspectRatioImageView extends ImageView {
         this.dominantMeasurement = dominantMeasurement;
         requestLayout();
     }
+
+
 }
