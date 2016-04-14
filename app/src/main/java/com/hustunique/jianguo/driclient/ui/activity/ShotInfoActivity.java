@@ -19,6 +19,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.animation.ValueAnimatorCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -33,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
@@ -79,9 +81,6 @@ public class ShotInfoActivity extends BaseActivity {
     ImageView mImageView;
 
 
-    @Bind(R.id.fab_avatar)
-    FloatingActionButton mFab;
-
     @Bind(R.id.collapse_toolbar)
     CollapsingToolbarLayout toolbarLayout;
 
@@ -111,6 +110,12 @@ public class ShotInfoActivity extends BaseActivity {
 
     @Bind(R.id.comments_count)
     TextView mCommentsCount;
+    @Bind(R.id.fabtoolbar)
+    FABToolbarLayout mFabLayout;
+    @Bind(R.id.fabtoolbar_fab)
+    FloatingActionButton mFab;
+    @Bind(R.id.scroll_content)
+    NestedScrollView mScrollView;
 
     @BindDimen(R.dimen.item_divider_size)
     int dividerSize;
@@ -118,9 +123,8 @@ public class ShotInfoActivity extends BaseActivity {
 
     private LinearLayoutManager linearLayoutManager;
     private CommentsAdapter commentsAdapter;
-    private
-    @ColorInt
-    int vibrantColor;
+    private @ColorInt int vibrantColor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,6 +203,12 @@ public class ShotInfoActivity extends BaseActivity {
     }
 
     private void initComments() {
+        mScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY != oldScrollY && mFabLayout.isToolbar()) mFabLayout.hide();
+            }
+        });
         mCommentsCount.setText(String.format(AppData.getString(R.string.comments), mShot.getComments_count()));
         commentsAdapter = new CommentsAdapter(this, R.layout.item_comments);
         commentsAdapter.setOnItemClickListener(new CommentsAdapter.OnItemClickListener() {
@@ -250,10 +260,6 @@ public class ShotInfoActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         Log.i("driclient", "mShot image is " + mShot.getImages().getJson());
 
-        //TODO: Load gif when clicks it, using shared element
-        if (CommonUtils.isGif(mShot.getImages().getNormal())) {
-            mImageView.setColorFilter(new LightingColorFilter(Color.GRAY, Color.GRAY));
-        }
 
         Picasso.with(this)
                 .load(Uri.parse(mShot.getImages().getNormal()))
@@ -269,12 +275,12 @@ public class ShotInfoActivity extends BaseActivity {
         Palette.from(bmap).generate(new Palette.PaletteAsyncListener() {
             @Override
             public void onGenerated(Palette palette) {
-                vibrantColor = palette.getDarkVibrantColor(AppData.getColor(android.R.color.holo_blue_dark));
-                toolbarLayout.setContentScrimColor(vibrantColor);
+                vibrantColor = palette.getVibrantColor(AppData.getColor(R.color.colorPrimaryDark));
                 //TODO: I hate you Google!
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     getWindow().setStatusBarColor(vibrantColor);
                 }
+                toolbarLayout.setContentScrimColor(vibrantColor);
                 toolbarLayout.setStatusBarScrimColor(vibrantColor);
             }
         });
@@ -293,7 +299,6 @@ public class ShotInfoActivity extends BaseActivity {
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = false;
             int scrollRange = -1;
-            boolean isAnimated = false;
 
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -305,7 +310,6 @@ public class ShotInfoActivity extends BaseActivity {
                     isShow = true;
                 } else if (isShow) {
                     toolbarLayout.setTitle("");
-
                     isShow = false;
                 }
             }
@@ -334,69 +338,16 @@ public class ShotInfoActivity extends BaseActivity {
     }
 
     private void initFab() {
-        //TODO: Add to my favourite
-        DribbbleLikeService dribbbleLikeService = ResponseBodyFactory.createService(DribbbleLikeService.class, UserManager.getCurrentToken());
-        dribbbleLikeService.isLike(mShot.getId())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Response<ResponseBody>>() {
-                    @Override
-                    public void call(Response<ResponseBody> responseBodyResponse) {
-                        boolean isLiked = false;
-                        if (responseBodyResponse.code() == 200) {
-                            mFab.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_white_24dp));
-                            isLiked = true;
-                        }
-                        mFab.setOnClickListener(new LikeClickListener(isLiked));
-                    }
-                });
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFabLayout.show();
 
-    }
-
-    //TODO: Extract this to a custom view
-    class LikeClickListener implements View.OnClickListener {
-        private boolean isLiked;
-        public LikeClickListener(boolean isLiked) {
-            this.isLiked = isLiked;
-        }
-
-        @Override
-        public void onClick(View v) {
-            DribbbleLikeService dribbbleLikeService = ResponseBodyFactory.createService(DribbbleLikeService.class, UserManager.getCurrentToken());
-            if (isLiked) {
-                dribbbleLikeService.unlike(mShot.getId()).subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<Response<ResponseBody>>() {
-                            @Override
-                            public void call(Response<ResponseBody> responseBodyResponse) {
-                                if (responseBodyResponse.code() == 204) {
-                                    mFab.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_border_white_24dp));
-                                    isLiked = false;
-                                    Log.i("driclient", "unlike shot success");
-                                } else {
-                                    Log.e("driclient", "unlike shot failed" + responseBodyResponse.code());
-                                }
-                            }
-                        });
-
-            }  else {
-                dribbbleLikeService.like(mShot.getId()).subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Action1<Response<ResponseBody>>() {
-                            @Override
-                            public void call(Response<ResponseBody> responseBodyResponse) {
-                                if (responseBodyResponse.code() == 201) {
-                                    mFab.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_white_24dp));
-                                    isLiked = true;
-                                    Log.i("driclient", "like shot success");
-                                } else {
-                                    Log.e("driclient", "like shot failed" + responseBodyResponse.code());
-                                }
-                            }
-                        });
             }
-        }
+        });
+
     }
+
 
 
 }

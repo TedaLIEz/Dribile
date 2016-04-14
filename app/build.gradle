@@ -29,7 +29,7 @@ dependencies {
 
 
 
-
+    compile 'com.github.fafaldo:fab-toolbar:1.2.0'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'io.reactivex:rxandroid:1.1.0'
