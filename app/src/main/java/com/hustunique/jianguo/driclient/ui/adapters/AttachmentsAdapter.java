@@ -16,6 +16,7 @@ import com.squareup.picasso.Picasso;
  * Created by JianGuo on 4/7/16.
  * Simple Adapter for attachment.
  */
+@Deprecated
 public class AttachmentsAdapter extends BaseDriListAdapter<Attachment> {
     private Context ctx;
     @LayoutRes
