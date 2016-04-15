@@ -14,4 +14,7 @@
     <!-- UserProfile Background-->
     <color name="profile_dark">#303F9F</color>
     <color name="profile_light">#3F51B5</color>
+
+
+
 </resources>

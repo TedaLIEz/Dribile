@@ -1,6 +1,12 @@
 package com.hustunique.jianguo.driclient.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
+import android.graphics.LightingColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +18,7 @@ import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
 import com.hustunique.jianguo.driclient.ui.viewholders.ShotsViewHolder;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 
@@ -59,13 +66,24 @@ public class ShotsAdapter extends BaseDriListAdapter<Shots> {
         ShotsViewHolder viewHolder = (ShotsViewHolder) holder;
         Shots shots = getItem(position);
         viewHolder.setData(shots);
+        //// FIXME: 4/15/16 Confusing colorFilter when doesn't set this to false
+        viewHolder.setIsRecyclable(false);
         viewHolder.mCommentCount.setText(shots.getComments_count());
         viewHolder.mLikeCount.setText(shots.getLikes_count());
         viewHolder.mViewCount.setText(shots.getViews_count());
+        String animated = shots.getAnimated();
+        if (animated.equals("true")) {
+            viewHolder.mGif.setVisibility(View.VISIBLE);
+            viewHolder.mImage.setColorFilter(brightIt(-100));
+        } else {
+            viewHolder.mGif.setVisibility(View.INVISIBLE);
+        }
         Picasso.with(mContext)
                 .load(shots.getImages().getNormal())
                 .placeholder(AppData.getDrawable(R.drawable.shots_default))
                 .into(viewHolder.mImage);
+
+        viewHolder.mImage.setTag(shots);
         Picasso.with(mContext)
                 .load(shots.getUser().getAvatar_url())
                 .placeholder(AppData.getDrawable(R.drawable.avatar_default))
@@ -84,5 +102,22 @@ public class ShotsAdapter extends BaseDriListAdapter<Shots> {
 
         super.onBindViewHolder(holder, position);
 
+    }
+
+    public static ColorMatrixColorFilter brightIt(int fb) {
+        ColorMatrix cmB = new ColorMatrix();
+        cmB.set(new float[]{
+                1, 0, 0, 0, fb,
+                0, 1, 0, 0, fb,
+                0, 0, 1, 0, fb,
+                0, 0, 0, 1, 0});
+
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.set(cmB);
+//Canvas c = new Canvas(b2);
+//Paint paint = new Paint();
+        ColorMatrixColorFilter f = new ColorMatrixColorFilter(colorMatrix);
+//paint.setColorFilter(f);
+        return f;
     }
 }

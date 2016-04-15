@@ -1,6 +1,7 @@
 package com.hustunique.jianguo.driclient.ui.viewholders;
 
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,8 @@ public class ShotsViewHolder extends BaseViewHolder<Shots> {
 
     @Bind(R.id.image)
     public ImageView mImage;
+    @Bind(R.id.gif_icon)
+    public ImageView mGif;
     @Bind(R.id.like_count)
     public TextView mLikeCount;
     @Bind(R.id.comment_count)
