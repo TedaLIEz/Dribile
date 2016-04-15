@@ -56,11 +56,11 @@ public class DetailImageLayout extends FrameLayout {
         addView(mProgressBar);
     }
 
-    public void load(@NonNull Shots.Images images) {
+    public void load(@NonNull Shots shots) {
         //TODO: simplify code here, merge them into GifImageLoader ?
-        Log.i("driclient", "loading url " + images.getJson());
-        if (CommonUtils.isGif(images.getNormal())) {
-            new GifImageLoader(ctx).display(images.getHidpi(), mGif).callback(new GifImageLoader.Callback() {
+        Log.i("driclient", "loading url " + shots.getJson());
+        if (CommonUtils.isGif(shots)) {
+            new GifImageLoader(ctx).display(shots.getImages().getHidpi(), mGif).callback(new GifImageLoader.Callback() {
                 @Override
                 public void onCompleted() {
                     mProgressBar.setVisibility(GONE);
@@ -74,7 +74,7 @@ public class DetailImageLayout extends FrameLayout {
                 }
             });
         } else {
-            Picasso.with(ctx).load(Uri.parse(images.getNormal())).into(mGif, new Callback() {
+            Picasso.with(ctx).load(Uri.parse(shots.getImages().getNormal())).into(mGif, new Callback() {
                 @Override
                 public void onSuccess() {
                     mProgressBar.setVisibility(GONE);
@@ -82,7 +82,7 @@ public class DetailImageLayout extends FrameLayout {
 
                 @Override
                 public void onError() {
-
+                    mProgressBar.setVisibility(GONE);
                 }
             });
         }

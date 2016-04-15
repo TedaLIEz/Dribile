@@ -102,6 +102,7 @@ public class GifImageLoader implements ComponentCallbacks2 {
         }
     }
 
+    //TODO: Download gif using multi thread
     private class LoadGifTask extends AsyncTask<String, Void, Integer> {
 
         private byte[] gifByte;

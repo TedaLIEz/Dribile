@@ -74,7 +74,7 @@ public class ShotsAdapter extends BaseDriListAdapter<Shots> {
         String animated = shots.getAnimated();
         if (animated.equals("true")) {
             viewHolder.mGif.setVisibility(View.VISIBLE);
-            viewHolder.mImage.setColorFilter(brightIt(-100));
+            viewHolder.mImage.setColorFilter(CommonUtils.brightIt(-100));
         } else {
             viewHolder.mGif.setVisibility(View.INVISIBLE);
         }
@@ -104,20 +104,5 @@ public class ShotsAdapter extends BaseDriListAdapter<Shots> {
 
     }
 
-    public static ColorMatrixColorFilter brightIt(int fb) {
-        ColorMatrix cmB = new ColorMatrix();
-        cmB.set(new float[]{
-                1, 0, 0, 0, fb,
-                0, 1, 0, 0, fb,
-                0, 0, 1, 0, fb,
-                0, 0, 0, 1, 0});
 
-        ColorMatrix colorMatrix = new ColorMatrix();
-        colorMatrix.set(cmB);
-//Canvas c = new Canvas(b2);
-//Paint paint = new Paint();
-        ColorMatrixColorFilter f = new ColorMatrixColorFilter(colorMatrix);
-//paint.setColorFilter(f);
-        return f;
-    }
 }

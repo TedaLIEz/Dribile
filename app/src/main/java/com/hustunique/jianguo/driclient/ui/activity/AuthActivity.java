@@ -61,7 +61,6 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
 
     private ProgressDialog mProgressDialog;
 
-    //TODO: change status bar color
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -23,10 +23,17 @@
                 <ImageView
                     tools:src="@drawable/source"
                     android:id="@+id/shot_image"
-                    android:transitionName="@string/shared_shot_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop" />
+                <ImageView
+                    android:id="@+id/shot_play"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_play_circle_outline_white_48dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
             </FrameLayout>
 
             <android.support.v7.widget.Toolbar

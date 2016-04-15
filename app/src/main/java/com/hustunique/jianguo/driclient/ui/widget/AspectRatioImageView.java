@@ -14,7 +14,6 @@ import com.hustunique.jianguo.driclient.app.AppData;
 /**
  * Created by JianGuo on 4/9/16.
  */
-//TODO: Add Grey imageView overlay it.
 public class AspectRatioImageView extends ImageView {
     // NOTE: These must be kept in sync with the AspectRatioImageView attributes in attrs.xml.
     public static final int MEASUREMENT_WIDTH = 0;

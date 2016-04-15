@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.ColorMatrix;
+import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -13,6 +15,8 @@ import android.os.Build;
 import android.text.format.Time;
 import android.view.Display;
 import android.view.WindowManager;
+
+import com.hustunique.jianguo.driclient.bean.Shots;
 
 import java.lang.reflect.Method;
 import java.text.DateFormat;
@@ -82,6 +86,7 @@ public class CommonUtils {
 
     /**
      * Format the created_at time to word date
+     *
      * @param time the time string
      * @return the word date time, using in {@link com.hustunique.jianguo.driclient.ui.activity.ShotInfoActivity}
      */
@@ -131,13 +136,13 @@ public class CommonUtils {
 
     /**
      * return true if image ends with gif
-     * @param imageUrl the image url
+     *
+     * @param shot the image shots
      * @return <tt>true</tt> if image is gif format
      */
-    public static boolean isGif(String imageUrl) {
-        return imageUrl.endsWith("gif");
+    public static boolean isGif(Shots shot) {
+        return shot.getAnimated().equals("true");
     }
-
 
 
     public static int getStatusBarHeight(Context context) {
@@ -160,8 +165,19 @@ public class CommonUtils {
     }
 
 
+    public static ColorMatrixColorFilter brightIt(int fb) {
+        ColorMatrix cmB = new ColorMatrix();
+        cmB.set(new float[]{
+                1, 0, 0, 0, fb,
+                0, 1, 0, 0, fb,
+                0, 0, 1, 0, fb,
+                0, 0, 0, 1, 0});
 
-
+        ColorMatrix colorMatrix = new ColorMatrix();
+        colorMatrix.set(cmB);
+        ColorMatrixColorFilter f = new ColorMatrixColorFilter(colorMatrix);
+        return f;
+    }
 
 
 }

@@ -81,6 +81,8 @@ public class ShotInfoActivity extends BaseActivity {
     ImageView mImageView;
 
 
+    @Bind(R.id.shot_play)
+    ImageView mPlay;
     @Bind(R.id.collapse_toolbar)
     CollapsingToolbarLayout toolbarLayout;
 
@@ -264,7 +266,12 @@ public class ShotInfoActivity extends BaseActivity {
         Picasso.with(this)
                 .load(Uri.parse(mShot.getImages().getNormal()))
                 .into(mImageView);
-
+        if (CommonUtils.isGif(mShot)) {
+            mImageView.setColorFilter(CommonUtils.brightIt(-100));
+            mImageView.setClickable(false);
+            mPlay.setVisibility(View.VISIBLE);
+            mPlay.setOnClickListener(new ShowImageClicker());
+        }
         mImageView.setDrawingCacheEnabled(true);
         mImageView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
@@ -285,15 +292,7 @@ public class ShotInfoActivity extends BaseActivity {
             }
         });
         mImageView.setDrawingCacheEnabled(false);
-
-        mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ShotInfoActivity.this, ImageDetailActivity.class);
-                intent.putExtra(ImageDetailActivity.SHARED_IMAGE, mShot.getImages());
-                startActivity(intent);
-            }
-        });
+        mImageView.setOnClickListener(new ShowImageClicker());
 
         // Correct way showing title only when collapsingToolbarLayout collapses, see http://stackoverflow.com/a/32724422/4380801
         mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -348,6 +347,16 @@ public class ShotInfoActivity extends BaseActivity {
 
     }
 
+
+    private class ShowImageClicker implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(ShotInfoActivity.this, ImageDetailActivity.class);
+            intent.putExtra(ImageDetailActivity.SHARED_SHOTS, mShot);
+            startActivity(intent);
+        }
+    }
 
 
 }

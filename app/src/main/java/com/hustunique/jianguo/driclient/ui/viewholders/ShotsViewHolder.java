@@ -19,7 +19,6 @@ import butterknife.ButterKnife;
  */
 public class ShotsViewHolder extends BaseViewHolder<Shots> {
 
-    //TODO: Change the layout of shots snapshots.
 
     @Bind(R.id.image)
     public ImageView mImage;
