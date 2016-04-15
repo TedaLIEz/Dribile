@@ -55,7 +55,12 @@
 
                 </LinearLayout>
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/divider" />
             <LinearLayout
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
@@ -63,34 +68,40 @@
 
                 <com.hustunique.jianguo.driclient.ui.widget.HTMLTextView
                     android:id="@+id/shots_description"
+                    android:textAppearance="@style/TextAppearance.Shots"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     tools:text="            DOH!
             The series is back, got a lot of requests for this one :)
             Who's next?" />
             </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/divider" />
         </LinearLayout>
-
         <LinearLayout
-            android:layout_marginTop="4dp"
-            android:id="@+id/attachment_layout"
-            android:orientation="vertical"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <TextView
-                android:layout_marginBottom="4dp"
-                android:id="@+id/attachments_count"
-                tools:text="5 Attachments"
-                android:textAppearance="@style/TextAppearance"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/fab_margin"
+                    android:src="@drawable/ic_tag"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp" />
+            </LinearLayout>
+            <com.wefika.flowlayout.FlowLayout
+                android:id="@+id/tag_layout"
+                android:gravity="start|top"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-            <android.support.v7.widget.RecyclerView
-                tools:listitem="@android:layout/simple_list_item_1"
-                android:id="@+id/recyclerview_attachments"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
-
+                android:layout_height="match_parent">
+            </com.wefika.flowlayout.FlowLayout>
         </LinearLayout>
 
         <LinearLayout

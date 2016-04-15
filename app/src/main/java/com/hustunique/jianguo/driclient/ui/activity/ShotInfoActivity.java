@@ -26,8 +26,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,7 +54,9 @@ import com.hustunique.jianguo.driclient.ui.widget.HTMLTextView;
 import com.hustunique.jianguo.driclient.ui.widget.PaddingItemDecoration;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
+import com.wefika.flowlayout.FlowLayout;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,15 +105,6 @@ public class ShotInfoActivity extends BaseActivity {
     @Bind(R.id.avatar_shots)
     ImageView mAvatar;
 
-    @Bind(R.id.recyclerview_attachments)
-    RecyclerView mAttachments;
-
-    @Bind(R.id.attachment_layout)
-    LinearLayout mAttachmentsLayout;
-
-    @Bind(R.id.attachments_count)
-    TextView mAttachmentsCount;
-
     @Bind(R.id.comments_count)
     TextView mCommentsCount;
     @Bind(R.id.fabtoolbar)
@@ -119,8 +114,14 @@ public class ShotInfoActivity extends BaseActivity {
     @Bind(R.id.scroll_content)
     NestedScrollView mScrollView;
 
+    @Bind(R.id.tag_layout)
+    FlowLayout mTagLayout;
+
     @BindDimen(R.dimen.item_divider_size)
     int dividerSize;
+
+    @BindDimen(R.dimen.shot_tag_padding)
+    int tagPadding;
     private Shots mShot;
 
     private LinearLayoutManager linearLayoutManager;
@@ -142,46 +143,28 @@ public class ShotInfoActivity extends BaseActivity {
         initToolbar();
         initFab();
         initComments();
-        initAttachments();
+        initTag();
     }
 
-    private void initAttachments() {
-        if (Integer.parseInt(mShot.getAttachments_count()) == 0) {
-            hideLayout();
-            return;
+    private void initTag() {
+        ArrayList<String> tags = mShot.getTags();
+        for (String tag : tags) {
+            TextView textView = new TextView(this);
+            textView.setPadding(tagPadding, tagPadding, tagPadding, tagPadding);
+            textView.setTextAppearance(this, R.style.TextAppearance_Profile_Title);
+            FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(tagPadding, tagPadding, tagPadding, tagPadding);
+            layoutParams.gravity = Gravity.CENTER_VERTICAL;
+            textView.setLayoutParams(layoutParams);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                textView.setElevation(AppData.getDimension(R.dimen.cardview_default_elevation));
+            }
+            textView.setText(tag);
+            textView.setBackground(AppData.getDrawable(R.drawable.tag_textview));
+            mTagLayout.addView(textView);
         }
-        mAttachmentsCount.setText(String.format(AppData.getString(R.string.attachments), mShot.getAttachments_count()));
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        final AttachmentsAdapter attachmentsAdapter = new AttachmentsAdapter(this, R.layout.item_attachment);
-        mAttachments.addItemDecoration(new PaddingItemDecoration(dividerSize));
-        mAttachments.setAdapter(attachmentsAdapter);
-        mAttachments.setLayoutManager(linearLayoutManager);
-        mAttachments.setHasFixedSize(false);
-        mAttachments.setNestedScrollingEnabled(false);
-        DribbbleShotsService dribbbleShotsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
-        dribbbleShotsService.getAttachments(mShot.getId())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Attachment>>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.wtf("client", e);
-                    }
-
-                    @Override
-                    public void onNext(List<Attachment> attachments) {
-                        attachmentsAdapter.setDataBefore(attachments);
-                    }
-                });
     }
 
-    private void hideLayout() {
-        mAttachmentsLayout.setVisibility(View.GONE);
-    }
 
     private void initShots() {
         if (TextUtils.isEmpty(mShot.getDescription())) {
