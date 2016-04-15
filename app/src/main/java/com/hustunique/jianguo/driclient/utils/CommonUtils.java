@@ -18,6 +18,7 @@ import android.view.WindowManager;
 
 import com.hustunique.jianguo.driclient.bean.Shots;
 
+import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.text.DateFormat;
 import java.text.ParseException;

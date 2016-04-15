@@ -52,7 +52,7 @@
             android:theme="@style/Base.Theme.DesignDemo.ShotInfo" />
         <activity
             android:name=".ui.activity.ImageDetailActivity"
-            android:theme="@style/Base.Theme.DesignDemo" />
+            android:theme="@style/Base.Theme.DesignDemo.ImageDetail" />
         <activity android:name=".ui.activity.ProfileActivity" />
     </application>
 

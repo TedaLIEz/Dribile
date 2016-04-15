@@ -18,6 +18,9 @@
         <item name="android:windowBackground">@color/window_background</item>
     </style>
 
+    <style name="Base.Theme.DesignDemo.ImageDetail" parent="Base.Theme.DesignDemo">
+        <item name="android:windowBackground">@android:color/black</item>
+    </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
 

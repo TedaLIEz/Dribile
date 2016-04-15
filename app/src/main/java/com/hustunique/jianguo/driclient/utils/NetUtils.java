@@ -4,11 +4,18 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.CookieManager;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
 
 /**
  * Created by JianGuo on 3/30/16.
@@ -64,5 +71,25 @@ public class NetUtils {
         }
         int index = url.lastIndexOf("/");
         return url.substring(index + 1, url.length());
+    }
+
+
+    public static byte[] streamToBytesNio(InputStream inputStream) throws IOException {
+        ByteBuffer buffer = ByteBuffer.allocateDirect(8192);
+        ReadableByteChannel inChannel = Channels.newChannel(inputStream);
+        ByteArrayOutputStream os = new ByteArrayOutputStream(Math.max(32, inputStream.available()));
+        WritableByteChannel outChannel = Channels.newChannel(os);
+        while (inChannel.read(buffer) != -1) {
+            buffer.flip();
+            outChannel.write(buffer);
+            buffer.compact();
+        }
+        buffer.flip();
+        while (buffer.hasRemaining()) {
+            outChannel.write(buffer);
+        }
+        inChannel.close();
+        outChannel.close();
+        return os.toByteArray();
     }
 }

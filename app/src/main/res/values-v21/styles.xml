@@ -17,6 +17,12 @@
         <item name="android:statusBarColor">@android:color/black</item>
     </style>
 
+
+    <style name="Base.Theme.DesignDemo.ImageDetail" parent="Base.Theme.DesignDemo">
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:statusBarColor">@android:color/black</item>
+    </style>
+
     <style name="Base.Theme.DesignDemo.ShotInfo" parent="Base.Theme.DesignDemo">
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowBackground">@color/window_background</item>

@@ -9,12 +9,19 @@ import android.os.AsyncTask;
 import android.util.LruCache;
 
 import com.felipecsl.gifimageview.library.GifImageView;
+import com.hustunique.jianguo.driclient.utils.CommonUtils;
+import com.hustunique.jianguo.driclient.utils.NetUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.ByteBuffer;
+import java.nio.channels.ByteChannel;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
 
 /**
  * Created by JianGuo on 4/12/16.
@@ -102,7 +109,6 @@ public class GifImageLoader implements ComponentCallbacks2 {
         }
     }
 
-    //TODO: Download gif using multi thread
     private class LoadGifTask extends AsyncTask<String, Void, Integer> {
 
         private byte[] gifByte;
@@ -134,7 +140,7 @@ public class GifImageLoader implements ComponentCallbacks2 {
             try {
                 URL url = new URL(params[0]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                gifByte = streamToBytes(connection.getInputStream());
+                gifByte = NetUtils.streamToBytesNio(connection.getInputStream());
                 if (gifByte != null) {
                     cache.put(params[0], convertTobyte(gifByte));
                 }
@@ -145,18 +151,7 @@ public class GifImageLoader implements ComponentCallbacks2 {
             return 1;
         }
 
-        private byte[] streamToBytes(InputStream inputStream) {
-            ByteArrayOutputStream os = new ByteArrayOutputStream(1024);
-            byte[] buffer = new byte[1024];
-            int len;
-            try {
-                while ((len = inputStream.read(buffer)) >= 0) {
-                    os.write(buffer, 0, len);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return os.toByteArray();
-        }
+
+
     }
 }
