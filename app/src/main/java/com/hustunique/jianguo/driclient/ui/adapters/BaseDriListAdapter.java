@@ -47,7 +47,7 @@ public class BaseDriListAdapter<T extends BaseBean> extends BaseAdapter {
     public void setDataBefore(List<T> data) {
         clearData();
         mData.addAll(0, data);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(0, data.size());
     }
 
     public void setDataAfter(List<T> data) {
