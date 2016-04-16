@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -34,7 +35,6 @@ import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.ui.adapters.CommentsAdapter;
-import com.hustunique.jianguo.driclient.ui.adapters.FooterCommentsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.driclient.ui.widget.HTMLTextView;
 import com.hustunique.jianguo.driclient.ui.widget.ShotLikeClickListener;
@@ -55,6 +55,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class ShotInfoActivity extends BaseActivity {
+    private static final int COMMENTS_PER_PAGE = 5;
     @Bind(R.id.rv_comments)
     RecyclerView mComments;
 
@@ -121,6 +122,9 @@ public class ShotInfoActivity extends BaseActivity {
     @Bind(R.id.shot_view_count)
     TextView mViewCount;
 
+
+    @Bind(R.id.comments_footer)
+    LinearLayout mFooter;
     @BindDimen(R.dimen.item_divider_size)
     int dividerSize;
 
@@ -129,7 +133,7 @@ public class ShotInfoActivity extends BaseActivity {
     private Shots mShot;
 
     private LinearLayoutManager linearLayoutManager;
-    private FooterCommentsAdapter commentsAdapter;
+    private CommentsAdapter commentsAdapter;
     private
     @ColorInt
     int vibrantColor;
@@ -153,6 +157,7 @@ public class ShotInfoActivity extends BaseActivity {
     }
 
     private void initTag() {
+        //// FIXME: 4/16/16 make layout more compact
         ArrayList<String> tags = mShot.getTags();
         for (String tag : tags) {
             TextView textView = new TextView(this);
@@ -204,8 +209,8 @@ public class ShotInfoActivity extends BaseActivity {
                 if (scrollY != oldScrollY && mFabLayout.isToolbar()) mFabLayout.hide();
             }
         });
-        commentsAdapter = new FooterCommentsAdapter(this, R.layout.item_comments, R.layout.comments_footer);
-        commentsAdapter.setOnItemClickListener(new FooterCommentsAdapter.OnItemClickListener() {
+        commentsAdapter = new CommentsAdapter(this, R.layout.item_comments);
+        commentsAdapter.setOnItemClickListener(new CommentsAdapter.OnItemClickListener() {
             @Override
             public void onClick(View v, Comments comments) {
                 Intent intent = new Intent(ShotInfoActivity.this, ProfileActivity.class);
@@ -213,9 +218,11 @@ public class ShotInfoActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        commentsAdapter.setFooterClickListener(new View.OnClickListener() {
+
+        mFooter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //TODO: show more comments in a new Activity.
                 Log.i("driclient", "Load more comments");
             }
         });
@@ -227,10 +234,8 @@ public class ShotInfoActivity extends BaseActivity {
         mComments.setLayoutManager(linearLayoutManager);
         mComments.setHasFixedSize(true);
         DribbbleShotsService commentsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
-        // By default you will only 12 comments via dribbble api
         Map<String, String> params = new HashMap<>();
-        params.put("per_page", "8");
-        params.put("page", "1");
+        params.put("per_page", Integer.toString(COMMENTS_PER_PAGE));
         commentsService.getComment(mShot.getId(), params)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -239,6 +244,9 @@ public class ShotInfoActivity extends BaseActivity {
                     public void onCompleted() {
                         mProgress.setVisibility(View.GONE);
                         mComments.setVisibility(View.VISIBLE);
+                        if (Integer.parseInt(mShot.getComments_count()) > COMMENTS_PER_PAGE) {
+                            mFooter.setVisibility(View.VISIBLE);
+                        }
                     }
 
                     @Override
@@ -250,6 +258,7 @@ public class ShotInfoActivity extends BaseActivity {
                     public void onNext(List<Comments> commentses) {
                         Log.i("driclient", "load comments total" + commentses.size());
                         commentsAdapter.setDataBefore(commentses);
+
                     }
                 });
     }

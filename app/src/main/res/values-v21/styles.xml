@@ -57,6 +57,7 @@
 
     <style name="TextAppearance.Footer" parent="TextAppearance">
         <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
 

@@ -222,6 +222,7 @@
                     tools:listitem="@layout/item_comments"
                     tools:visibility="visible" />
             </FrameLayout>
+            <include layout="@layout/comments_footer"/>
         </LinearLayout>
 
     </LinearLayout>

@@ -17,6 +17,7 @@ import com.squareup.picasso.Picasso;
 /**
  * Created by JianGuo on 4/16/16.
  */
+@Deprecated
 public class FooterCommentsAdapter extends BaseFooterAdapter<Comments> {
     private static final int TOTAL_COMMENTS = 8;
 
