@@ -1,15 +1,7 @@
 package com.hustunique.jianguo.driclient.ui.activity;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.LightingColorFilter;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
-import android.media.audiofx.LoudnessEnhancer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,8 +9,6 @@ import android.support.annotation.ColorInt;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.animation.ValueAnimatorCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
@@ -30,9 +20,8 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -40,18 +29,14 @@ import com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
-import com.hustunique.jianguo.driclient.bean.Attachment;
 import com.hustunique.jianguo.driclient.bean.Comments;
 import com.hustunique.jianguo.driclient.bean.Shots;
-import com.hustunique.jianguo.driclient.service.DribbbleLikeService;
 import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
-import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
-import com.hustunique.jianguo.driclient.ui.adapters.AttachmentsAdapter;
 import com.hustunique.jianguo.driclient.ui.adapters.CommentsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.driclient.ui.widget.HTMLTextView;
-import com.hustunique.jianguo.driclient.ui.widget.PaddingItemDecoration;
+import com.hustunique.jianguo.driclient.ui.widget.ShotLikeClickListener;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
 import com.squareup.picasso.Picasso;
 import com.wefika.flowlayout.FlowLayout;
@@ -64,11 +49,8 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class ShotInfoActivity extends BaseActivity {
@@ -105,10 +87,21 @@ public class ShotInfoActivity extends BaseActivity {
     @Bind(R.id.avatar_shots)
     ImageView mAvatar;
 
-    @Bind(R.id.comments_count)
-    TextView mCommentsCount;
     @Bind(R.id.fabtoolbar)
     FABToolbarLayout mFabLayout;
+
+    @Bind(R.id.btn_add_comments)
+    ImageButton mAddComments;
+
+    @Bind(R.id.btn_add_like)
+    ImageButton mAddLike;
+
+    @Bind(R.id.btn_add_share)
+    ImageButton mAddShare;
+
+    @Bind(R.id.btn_add_buckets)
+    ImageButton mAddBuckets;
+
     @Bind(R.id.fabtoolbar_fab)
     FloatingActionButton mFab;
     @Bind(R.id.scroll_content)
@@ -116,6 +109,16 @@ public class ShotInfoActivity extends BaseActivity {
 
     @Bind(R.id.tag_layout)
     FlowLayout mTagLayout;
+
+    //TODO: Find some icons for them!
+    @Bind(R.id.shot_bucket_count)
+    TextView mBucketCount;
+    @Bind(R.id.shot_like_count)
+    TextView mLikeCount;
+    @Bind(R.id.shot_comments_count)
+    TextView mCommentsCount;
+    @Bind(R.id.shot_view_count)
+    TextView mViewCount;
 
     @BindDimen(R.dimen.item_divider_size)
     int dividerSize;
@@ -185,6 +188,10 @@ public class ShotInfoActivity extends BaseActivity {
         });
         mShotsUser.setText(mShot.getUser().getName());
         mShotsTime.setText(String.format(AppData.getString(R.string.shots_time), CommonUtils.formatDate(mShot.getCreated_at())));
+        mBucketCount.setText(String.format(AppData.getString(R.string.buckets), mShot.getBuckets_count()));
+        mLikeCount.setText(String.format(AppData.getString(R.string.likes), mShot.getLikes_count()));
+        mViewCount.setText(String.format(AppData.getString(R.string.views), mShot.getViews_count()));
+        mCommentsCount.setText(String.format(AppData.getString(R.string.comments), mShot.getComments_count()));
     }
 
     private void initComments() {
@@ -194,7 +201,6 @@ public class ShotInfoActivity extends BaseActivity {
                 if (scrollY != oldScrollY && mFabLayout.isToolbar()) mFabLayout.hide();
             }
         });
-        mCommentsCount.setText(String.format(AppData.getString(R.string.comments), mShot.getComments_count()));
         commentsAdapter = new CommentsAdapter(this, R.layout.item_comments);
         commentsAdapter.setOnItemClickListener(new CommentsAdapter.OnItemClickListener() {
             @Override
@@ -214,7 +220,7 @@ public class ShotInfoActivity extends BaseActivity {
         DribbbleShotsService commentsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
         // By default you will only 12 comments via dribbble api
         Map<String, String> params = new HashMap<>();
-        params.put("per_page", "50");
+        params.put("per_page", "8");
         commentsService.getComment(mShot.getId(), params)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -244,11 +250,35 @@ public class ShotInfoActivity extends BaseActivity {
         // Disable the title
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         Log.i("driclient", "mShot image is " + mShot.getImages().getJson());
-
-
         Picasso.with(this)
                 .load(Uri.parse(mShot.getImages().getNormal()))
                 .into(mImageView);
+        extractColor();
+        mImageView.setOnClickListener(new ShowImageClicker());
+
+        // Correct way showing title only when collapsingToolbarLayout collapses, see http://stackoverflow.com/a/32724422/4380801
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = mAppBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset <= mToolbar.getHeight()) {
+                    toolbarLayout.setTitle(mShot.getTitle());
+                    isShow = true;
+                } else if (isShow) {
+                    toolbarLayout.setTitle("");
+                    isShow = false;
+                }
+            }
+        });
+    }
+
+    // extract Color from the loaded image
+    private void extractColor() {
         if (CommonUtils.isGif(mShot)) {
             mImageView.setColorFilter(CommonUtils.brightIt(-100));
             mImageView.setClickable(false);
@@ -275,27 +305,6 @@ public class ShotInfoActivity extends BaseActivity {
             }
         });
         mImageView.setDrawingCacheEnabled(false);
-        mImageView.setOnClickListener(new ShowImageClicker());
-
-        // Correct way showing title only when collapsingToolbarLayout collapses, see http://stackoverflow.com/a/32724422/4380801
-        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = false;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = mAppBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset <= mToolbar.getHeight()) {
-                    toolbarLayout.setTitle(mShot.getTitle());
-                    isShow = true;
-                } else if (isShow) {
-                    toolbarLayout.setTitle("");
-                    isShow = false;
-                }
-            }
-        });
     }
 
 
@@ -327,7 +336,45 @@ public class ShotInfoActivity extends BaseActivity {
 
             }
         });
+        mAddBuckets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFabLayout.hide();
+            }
+        });
+        mAddLike.setOnClickListener(new ShotLikeClickListener(mShot) {
+            @Override
+            public void isLike() {
+                mAddLike.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_white_36dp));
+            }
 
+            @Override
+            public void onLike() {
+                mAddLike.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_white_36dp));
+                showMessage("Like");
+                mFabLayout.hide();
+            }
+
+            @Override
+            public void onUnlike() {
+                mAddLike.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_border_white_36dp));
+                mFabLayout.hide();
+            }
+        });
+        mAddShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFabLayout.hide();
+            }
+        });
+
+        mAddComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                mFabLayout.hide();
+            }
+        });
     }
 
 
@@ -340,6 +387,7 @@ public class ShotInfoActivity extends BaseActivity {
             startActivity(intent);
         }
     }
+
 
 
 }

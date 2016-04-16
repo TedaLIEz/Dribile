@@ -43,6 +43,23 @@
     <style name="TextAppearance.Shots" />
 
 
+    <style name="TextAppearance.Shots.Title" parent="TextAppearance.Shots">
+        <item name="android:textSize">@dimen/text_profile_lv3</item>
+    </style>
+
+    <style name="TextAppearance.Shots.SubTitle" parent="TextAppearance.Shots">
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="TextAppearance.Shots.Info" parent="TextAppearance.Shots">
+
+    </style>
+
+    <style name="TextAppearance.Footer" parent="TextAppearance">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+
     <style name="TextAppearance.Profile" parent="TextAppearance">
 
     </style>

@@ -68,8 +68,20 @@
     </style>
 
     <style name="TextAppearance.Shots.Title" parent="TextAppearance.Shots">
-        <item name="android:textSize">@dimen/title_regular</item>
+        <item name="android:textSize">@dimen/text_profile_lv3</item>
     </style>
+
+    <style name="TextAppearance.Shots.SubTitle" parent="TextAppearance.Shots">
+        <item name="android:textSize">@dimen/text_profile_lv2</item>
+    </style>
+    <style name="TextAppearance.Shots.Info" parent="TextAppearance.Shots">
+
+    </style>
+
+    <style name="TextAppearance.Footer" parent="TextAppearance">
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
 
     <style name="TextAppearance.Shots.Item">
         <item name="android:textColor">@color/grey20_color</item>

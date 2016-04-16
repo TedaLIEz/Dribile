@@ -11,9 +11,13 @@
 
     <string name="shared_shot_image">shared_shot_image</string>
     <!-- ShotInfoActivity-->
-    <string name="no_description">No Description</string>
+    <string name="no_description">(No Description)</string>
     <string name="comments"> %1$s comments</string>
-    <string name="attachments"> %1$s attachments</string>
+    <string name="views"> %1$s views</string>
+    <string name="buckets">%1$s buckets</string>
+    <string name="likes">%1$s likes</string>
     <string name="shots_time">on %1$s</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="shot_comments">Comments</string>
+    <string name="read_all_reviews">READ ALL REVIEWS</string>
 </resources>

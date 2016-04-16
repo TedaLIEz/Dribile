@@ -79,7 +79,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
-                    android:drawableLeft="@drawable/ic_comment_item"
+                    android:drawableLeft="@drawable/ic_item_comment"
                     tools:text="NaN"
                     style="@style/Shots.Item"
                     android:layout_marginRight="0dp"

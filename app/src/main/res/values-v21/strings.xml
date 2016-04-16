@@ -10,8 +10,13 @@
 
 
     <!-- ShotInfoActivity-->
-    <string name="no_description">No Description</string>
+    <string name="no_description">(No Description)</string>
     <string name="comments"> %1$s comments</string>
     <string name="attachments"> %1$s attachments</string>
     <string name="shots_time">on %1$s</string>
+    <string name="shot_comments">Comments</string>
+    <string name="views"> %1$s views</string>
+    <string name="buckets">%1$s buckets</string>
+    <string name="likes">%1$s likes</string>
+    <string name="read_all_reviews">READ ALL REVIEWS</string>
 </resources>
