@@ -5,6 +5,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -29,6 +30,8 @@ public class HTMLTextView extends TextView{
     public void setText(CharSequence text, BufferType type) {
         // Better use Html.fromHtml to parse the html string
         Spanned spannable = Html.fromHtml(text.toString());
+        setMovementMethod(LinkMovementMethod.getInstance());
+        setClickable(true);
         super.setText(spannable, type);
     }
 }

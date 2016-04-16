@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso;
  * Created by JianGuo on 4/16/16.
  */
 public class FooterCommentsAdapter extends BaseFooterAdapter<Comments> {
-
+    private static final int TOTAL_COMMENTS = 8;
 
     public FooterCommentsAdapter(Context ctx, @LayoutRes int layout, @LayoutRes int footerLayout) {
         super(ctx, layout, footerLayout);
@@ -37,23 +37,28 @@ public class FooterCommentsAdapter extends BaseFooterAdapter<Comments> {
 
     @Override
     protected BaseViewHolder onCreateFooterViewHolder(ViewGroup parent) {
-        View view = LayoutInflater.from(ctx).inflate(layout, parent, false);
-        return new CommentsViewHolder(view);
-    }
-
-    @Override
-    protected BaseViewHolder onCreateViewHolder(ViewGroup parent) {
         View view = LayoutInflater.from(ctx).inflate(footerLayout, parent, false);
         return new CommentsFooterViewHolder(view);
     }
 
     @Override
+    protected BaseViewHolder onCreateViewHolder(ViewGroup parent) {
+        View view = LayoutInflater.from(ctx).inflate(layout, parent, false);
+        return new CommentsViewHolder(view);
+    }
+
+    @Override
     public void onBindViewHolder(final BaseViewHolder holder, int position) {
-        if (holder instanceof CommentsViewHolder) {
+        if (position == mData.size() && holder.getItemViewType() == TYPE_FOOTER ) {
+            if (mData.size() != 0) {
+                CommentsFooterViewHolder commentsFooterViewHolder = (CommentsFooterViewHolder) holder;
+                commentsFooterViewHolder.getItemView().setOnClickListener(footerClickListener);
+            }
+
+        } else if (holder.getItemViewType() == TYPE_DATA){
             CommentsViewHolder commentsViewHolder = (CommentsViewHolder) holder;
             Comments comments = getItem(position);
             commentsViewHolder.setData(comments);
-
             commentsViewHolder.mCommentTime.setText(CommonUtils.currentTimeLine(comments.getUpdated_at()));
             commentsViewHolder.mUsername.setText(comments.getUser().getName());
             commentsViewHolder.mLikeCount.setText(comments.getLikes_count());
@@ -69,11 +74,10 @@ public class FooterCommentsAdapter extends BaseFooterAdapter<Comments> {
                     }
                 }
             });
-        } else if (holder instanceof CommentsFooterViewHolder) {
-            CommentsFooterViewHolder commentsFooterViewHolder = (CommentsFooterViewHolder) holder;
-            holder.getItemView().setOnClickListener(footerClickListener);
         }
     }
+
+
 
 
     private View.OnClickListener footerClickListener;

@@ -24,7 +24,8 @@ public abstract class ShotLikeClickListener implements View.OnClickListener{
     public abstract void isLike();
     public abstract void onLike();
     public abstract void onUnlike();
-
+    public abstract void onPreLike();
+    public abstract void onPreUnlike();
     public ShotLikeClickListener(Shots shots) {
         this.shots = shots;
         dribbbleLikeService = ResponseBodyFactory.createService(DribbbleLikeService.class, UserManager.getCurrentToken());
@@ -44,6 +45,7 @@ public abstract class ShotLikeClickListener implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         if (isLike) {
+            onPreUnlike();
             dribbbleLikeService.unlike(shots.getId()).subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<Response<ResponseBody>>() {
@@ -56,6 +58,7 @@ public abstract class ShotLikeClickListener implements View.OnClickListener{
                     });
             isLike = false;
         } else {
+            onPreLike();
             dribbbleLikeService.like(shots.getId()).subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Action1<Response<ResponseBody>>() {

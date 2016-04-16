@@ -34,6 +34,7 @@ import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.ui.adapters.CommentsAdapter;
+import com.hustunique.jianguo.driclient.ui.adapters.FooterCommentsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.driclient.ui.widget.HTMLTextView;
 import com.hustunique.jianguo.driclient.ui.widget.ShotLikeClickListener;
@@ -128,8 +129,10 @@ public class ShotInfoActivity extends BaseActivity {
     private Shots mShot;
 
     private LinearLayoutManager linearLayoutManager;
-    private CommentsAdapter commentsAdapter;
-    private @ColorInt int vibrantColor;
+    private FooterCommentsAdapter commentsAdapter;
+    private
+    @ColorInt
+    int vibrantColor;
 
 
     @Override
@@ -201,8 +204,8 @@ public class ShotInfoActivity extends BaseActivity {
                 if (scrollY != oldScrollY && mFabLayout.isToolbar()) mFabLayout.hide();
             }
         });
-        commentsAdapter = new CommentsAdapter(this, R.layout.item_comments);
-        commentsAdapter.setOnItemClickListener(new CommentsAdapter.OnItemClickListener() {
+        commentsAdapter = new FooterCommentsAdapter(this, R.layout.item_comments, R.layout.comments_footer);
+        commentsAdapter.setOnItemClickListener(new FooterCommentsAdapter.OnItemClickListener() {
             @Override
             public void onClick(View v, Comments comments) {
                 Intent intent = new Intent(ShotInfoActivity.this, ProfileActivity.class);
@@ -210,17 +213,24 @@ public class ShotInfoActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
+        commentsAdapter.setFooterClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("driclient", "Load more comments");
+            }
+        });
         mComments.setAdapter(commentsAdapter);
         mComments.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
         linearLayoutManager = new LinearLayoutManager(this);
         // Enable recyclerview scrolled by the wrapped scrollnestedview.
         mComments.setNestedScrollingEnabled(false);
-        mComments.setHasFixedSize(false);
         mComments.setLayoutManager(linearLayoutManager);
+        mComments.setHasFixedSize(true);
         DribbbleShotsService commentsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
         // By default you will only 12 comments via dribbble api
         Map<String, String> params = new HashMap<>();
         params.put("per_page", "8");
+        params.put("page", "1");
         commentsService.getComment(mShot.getId(), params)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -238,8 +248,8 @@ public class ShotInfoActivity extends BaseActivity {
 
                     @Override
                     public void onNext(List<Comments> commentses) {
-                        commentsAdapter.clearData();
-                        commentsAdapter.setDataAfter(commentses);
+                        Log.i("driclient", "load comments total" + commentses.size());
+                        commentsAdapter.setDataBefore(commentses);
                     }
                 });
     }
@@ -350,13 +360,22 @@ public class ShotInfoActivity extends BaseActivity {
 
             @Override
             public void onLike() {
-                mAddLike.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_white_36dp));
                 showMessage("Like");
-                mFabLayout.hide();
             }
 
             @Override
             public void onUnlike() {
+                showMessage("Undo like");
+            }
+
+            @Override
+            public void onPreLike() {
+                mAddLike.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_white_36dp));
+                mFabLayout.hide();
+            }
+
+            @Override
+            public void onPreUnlike() {
                 mAddLike.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_border_white_36dp));
                 mFabLayout.hide();
             }
@@ -387,7 +406,6 @@ public class ShotInfoActivity extends BaseActivity {
             startActivity(intent);
         }
     }
-
 
 
 }

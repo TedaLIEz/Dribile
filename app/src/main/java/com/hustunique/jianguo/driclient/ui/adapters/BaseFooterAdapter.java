@@ -17,8 +17,8 @@ import java.util.List;
  * Created by JianGuo on 4/16/16.
  */
 public abstract class BaseFooterAdapter<T extends BaseBean> extends BaseAdapter {
-    private static int TYPE_FOOTER = 0;
-    private static int TYPE_DATA = 1;
+    protected static int TYPE_FOOTER = 0;
+    protected static int TYPE_DATA = 1;
 
     protected List<T> mData = new ArrayList<>();
     protected Context ctx;
@@ -32,17 +32,17 @@ public abstract class BaseFooterAdapter<T extends BaseBean> extends BaseAdapter 
 
     @Override
     public int getItemCount() {
-        return mData == null ? 1 : mData.size() + 1;
+        return mData.size() + 1;
     }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_FOOTER) {
             return onCreateFooterViewHolder(parent);
-        } else {
+        } else if (viewType == TYPE_DATA){
             return onCreateViewHolder(parent);
         }
-
+        throw new IllegalArgumentException("Unknown viewtype " + viewType);
     }
 
     protected abstract BaseViewHolder onCreateFooterViewHolder(ViewGroup parent);
@@ -65,7 +65,7 @@ public abstract class BaseFooterAdapter<T extends BaseBean> extends BaseAdapter 
     }
 
     public T getItem(int position) {
-        return mData.get(position - 1);
+        return mData.get(position);
     }
 
     public void setDataBefore(List<T> data) {
@@ -79,8 +79,8 @@ public abstract class BaseFooterAdapter<T extends BaseBean> extends BaseAdapter 
         notifyDataSetChanged();
     }
 
-    private boolean isFooter(int position) {
-        return position == getItemCount();
+    protected boolean isFooter(int position) {
+        return position == mData.size();
     }
 
 
