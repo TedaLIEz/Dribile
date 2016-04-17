@@ -2,10 +2,10 @@
 <resources>
     <color name="colorPrimary">#EA4C89</color>
     <color name="colorPrimaryDark">#C2185B</color>
-    <color name="colorAccent">#EA4C89</color>
+    <color name="colorAccent">#536DFE</color>
     <color name="window_background">#FFF5F5F5</color>
     <color name="fontColor">#FFFFFF</color>
-    <color name="grey20_color">#c8c8c8</color>
+    <color name="grey20_color">#B6B6B6</color>
     <color name="font_subtitle">#BDBDBD</color>
 
     <color name="shot_item_overlay">#BDBDBD</color>

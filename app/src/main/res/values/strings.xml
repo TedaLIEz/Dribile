@@ -20,4 +20,6 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="shot_comments">Comments</string>
     <string name="read_all_reviews">READ ALL REVIEWS</string>
+    <string name="welcome">Welcome!</string>
+    <string name="log_in_to_dribbble">Login to Dribbble</string>
 </resources>
