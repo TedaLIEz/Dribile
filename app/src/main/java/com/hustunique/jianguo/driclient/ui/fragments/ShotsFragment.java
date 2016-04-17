@@ -39,6 +39,12 @@ import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
+import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
+import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
+import jp.wasabeef.recyclerview.animators.LandingAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -137,7 +143,7 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
                 startActivity(intent);
             }
         });
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(new ScaleInAnimationAdapter(mAdapter));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new PaddingItemDecoration(dividerSize));
         mGridLayoutManager = new GridLayoutManager(getActivity(), 2);
@@ -148,6 +154,7 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
                 mRecyclerView.getPaddingRight(),
                 mRecyclerView.getPaddingBottom()
                         + CommonUtils.getTransparentNavigationBarHeight(getActivity()));
+//        mRecyclerView.setItemAnimator(new LandingAnimator());
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             boolean loading = true;
             int visibleItemCount;

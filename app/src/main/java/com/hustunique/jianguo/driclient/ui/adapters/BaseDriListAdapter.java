@@ -35,7 +35,9 @@ public class BaseDriListAdapter<T extends BaseBean> extends BaseAdapter {
     }
 
     public void clearData() {
+        int preSize = mData.size();
         mData.clear();
+        notifyItemRangeRemoved(0, preSize);
     }
 
 
@@ -46,12 +48,14 @@ public class BaseDriListAdapter<T extends BaseBean> extends BaseAdapter {
 
     public void setDataBefore(List<T> data) {
         clearData();
+
         mData.addAll(0, data);
         notifyItemRangeInserted(0, data.size());
     }
 
     public void setDataAfter(List<T> data) {
+        int oldPos = mData.size();
         mData.addAll(data);
-        notifyDataSetChanged();
+        notifyItemRangeInserted(oldPos, data.size());
     }
 }
