@@ -24,8 +24,10 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/Base.Theme.DesignDemo" />
-        <activity android:name=".ui.activity.LoginActivity">
+            android:theme="@style/Base.Theme.DesignDemo.Main" />
+        <activity
+            android:theme="@style/Base.Theme.DesignDemo.Login"
+            android:name=".ui.activity.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

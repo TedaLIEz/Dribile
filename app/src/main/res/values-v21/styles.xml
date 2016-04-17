@@ -9,24 +9,37 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@null</item>
     </style>
 
-
-    <style name="Base.Theme.DesignDemo.Auth" parent="Theme.AppCompat.NoActionBar">
-        <item name="android:windowBackground">@android:color/black</item>
-        <item name="android:statusBarColor">@android:color/black</item>
-    </style>
-
-
-    <style name="Base.Theme.DesignDemo.ImageDetail" parent="Base.Theme.DesignDemo">
-        <item name="android:windowBackground">@android:color/black</item>
-        <item name="android:statusBarColor">@android:color/black</item>
-    </style>
-
-    <style name="Base.Theme.DesignDemo.ShotInfo" parent="Base.Theme.DesignDemo">
-        <item name="android:windowContentTransitions">true</item>
+    <!-- Activity -->
+    <style name="Base.Theme.DesignDemo.BaseActivity" parent="Base.Theme.DesignDemo">
         <item name="android:windowBackground">@color/window_background</item>
     </style>
+    <style name="Base.Theme.DesignDemo.Main" parent="Base.Theme.DesignDemo.BaseActivity">
+    </style>
+
+    <style name="Base.Theme.DesignDemo.Login" parent="Base.Theme.DesignDemo">
+        <item name="android:windowBackground">@drawable/ll_dribbble_logo</item>
+    </style>
+
+    <style name="Button" parent="Theme.AppCompat">
+        <item name="colorButtonNormal">@color/colorAccent</item>
+    </style>
+
+    <style name="Base.Theme.DesignDemo.Auth" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:statusBarColor">@android:color/black</item>
+    </style>
+
+    <style name="Base.Theme.DesignDemo.ShotInfo" parent="Base.Theme.DesignDemo.BaseActivity">
+
+    </style>
+
+    <style name="Base.Theme.DesignDemo.ImageDetail" parent="Base.Theme.DesignDemo.BaseActivity">
+        <item name="android:statusBarColor">@android:color/black</item>
+    </style>
+
+
 
     <style name="Base.ThemeDemo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

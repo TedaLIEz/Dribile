@@ -80,7 +80,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:background="?attr/colorPrimary"
+                android:background="?attr/colorAccent"
                 android:orientation="horizontal"
                 android:layout_gravity="center"
                 android:gravity="center"

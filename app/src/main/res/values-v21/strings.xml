@@ -19,4 +19,6 @@
     <string name="buckets">%1$s buckets</string>
     <string name="likes">%1$s likes</string>
     <string name="read_all_reviews">READ ALL REVIEWS</string>
+    <string name="welcome">Welcome!</string>
+    <string name="log_in_to_dribbble">Login to Dribbble</string>
 </resources>

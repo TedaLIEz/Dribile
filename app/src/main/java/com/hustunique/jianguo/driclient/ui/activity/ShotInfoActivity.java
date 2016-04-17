@@ -310,20 +310,24 @@ public class ShotInfoActivity extends BaseActivity {
         mImageView.layout(0, 0,
                 mImageView.getMeasuredWidth(), mImageView.getMeasuredHeight());
         mImageView.buildDrawingCache(true);
-        Bitmap bmap = Bitmap.createBitmap(mImageView.getDrawingCache());
-        Palette.from(bmap).generate(new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
-                vibrantColor = palette.getVibrantColor(AppData.getColor(R.color.colorPrimaryDark));
-                //TODO: I hate you Google!
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    getWindow().setStatusBarColor(vibrantColor);
+        Bitmap bitmap = mImageView.getDrawingCache();
+        if (bitmap != null) {
+            Bitmap bmap = Bitmap.createBitmap(mImageView.getDrawingCache());
+            Palette.from(bmap).generate(new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(Palette palette) {
+                    vibrantColor = palette.getVibrantColor(AppData.getColor(R.color.colorPrimaryDark));
+                    //TODO: I hate you Google!
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        getWindow().setStatusBarColor(vibrantColor);
+                    }
+                    toolbarLayout.setContentScrimColor(vibrantColor);
+                    toolbarLayout.setStatusBarScrimColor(vibrantColor);
                 }
-                toolbarLayout.setContentScrimColor(vibrantColor);
-                toolbarLayout.setStatusBarScrimColor(vibrantColor);
-            }
-        });
+            });
+        }
         mImageView.setDrawingCacheEnabled(false);
+
     }
 
 
