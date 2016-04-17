@@ -14,8 +14,8 @@
     <style name="Base.Theme.DesignDemo.BaseActivity" parent="Base.Theme.DesignDemo">
         <item name="android:windowBackground">@color/window_background</item>
     </style>
-    <style name="Base.Theme.DesignDemo.Main" parent="Base.Theme.DesignDemo.BaseActivity">
-    </style>
+
+    <style name="Base.Theme.DesignDemo.Main" parent="Base.Theme.DesignDemo.BaseActivity"></style>
 
     <style name="Base.Theme.DesignDemo.Login" parent="Base.Theme.DesignDemo.BaseActivity">
         <item name="android:windowBackground">@drawable/ll_dribbble_logo</item>
@@ -89,6 +89,7 @@
     <style name="TextAppearance.Shots.SubTitle" parent="TextAppearance.Shots">
         <item name="android:textSize">@dimen/text_profile_lv2</item>
     </style>
+
     <style name="TextAppearance.Shots.Info" parent="TextAppearance.Shots">
 
     </style>
@@ -113,7 +114,7 @@
     </style>
 
     <style name="TextAppearance.Title" parent="TextAppearance">
-
+        <item name="android:textSize">@dimen/toolbar_title</item>
     </style>
 
     <style name="Base.Theme.DesignDemo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

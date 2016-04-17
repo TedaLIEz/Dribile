@@ -22,4 +22,10 @@
     <string name="read_all_reviews">READ ALL REVIEWS</string>
     <string name="welcome">Welcome!</string>
     <string name="log_in_to_dribbble">Login to Dribbble</string>
+    <string name="title_activity_shot_comment">ShotCommentActivity</string>
+
+
+    <!-- ShotCommentsActivity -->
+    <string name="comments_title">%1$s Comments</string>
+    <string name="comments_subtitle">on %1$s by %2$s</string>
 </resources>

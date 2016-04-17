@@ -57,5 +57,6 @@ public class BaseDriListAdapter<T extends BaseBean> extends BaseAdapter {
         int oldPos = mData.size();
         mData.addAll(data);
         notifyItemRangeInserted(oldPos, data.size());
+//        notifyDataSetChanged();
     }
 }

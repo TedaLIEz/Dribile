@@ -50,6 +50,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
+import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -223,7 +224,9 @@ public class ShotInfoActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 //TODO: show more comments in a new Activity.
-                Log.i("driclient", "Load more comments");
+                Intent intent = new Intent(ShotInfoActivity.this, ShotCommentActivity.class);
+                intent.putExtra(ShotCommentActivity.COMMENTS_SHOTS, mShot);
+                startActivity(intent);
             }
         });
         mComments.setAdapter(commentsAdapter);
@@ -232,7 +235,6 @@ public class ShotInfoActivity extends BaseActivity {
         // Enable recyclerview scrolled by the wrapped scrollnestedview.
         mComments.setNestedScrollingEnabled(false);
         mComments.setLayoutManager(linearLayoutManager);
-        mComments.setHasFixedSize(true);
         DribbbleShotsService commentsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
         Map<String, String> params = new HashMap<>();
         params.put("per_page", Integer.toString(COMMENTS_PER_PAGE));
@@ -247,6 +249,9 @@ public class ShotInfoActivity extends BaseActivity {
                         if (Integer.parseInt(mShot.getComments_count()) > COMMENTS_PER_PAGE) {
                             mFooter.setVisibility(View.VISIBLE);
                         }
+                        if (Integer.parseInt(mShot.getComments_count())  == 0) {
+                            mFooter.setVisibility(View.GONE);
+                        }
                     }
 
                     @Override
@@ -256,8 +261,7 @@ public class ShotInfoActivity extends BaseActivity {
 
                     @Override
                     public void onNext(List<Comments> commentses) {
-                        Log.i("driclient", "load comments total" + commentses.size());
-                        commentsAdapter.setDataBefore(commentses);
+                        commentsAdapter.setDataAfter(commentses);
 
                     }
                 });
