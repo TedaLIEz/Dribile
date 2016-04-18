@@ -160,6 +160,7 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
             int visibleItemCount;
             int totalItemCount;
             int firstVisibleItem;
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -240,12 +241,12 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
             swipeRefreshLayout.setRefreshing(true);
         }
         Log.i("driclient", ShotsFragment.class.getSimpleName() + " load data in " + page);
-        DribbbleShotsService userService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
         Map<String, String> params = new HashMap<>();
         params.put("page", String.valueOf(page));
         params.put(ARG_SORT_TYPE, mSortType);
         params.put("per_page", String.valueOf(COUNTR_PER_PAGE));
-        userService.getAllShots(params).subscribeOn(Schedulers.newThread())
+        ApiServiceFactory.createService(DribbbleShotsService.class)
+                .getAllShots(params).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<Shots>>() {
             @Override
             public void onCompleted() {
@@ -314,7 +315,6 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
         super.onDestroyView();
         ButterKnife.unbind(this);
     }
-
 
 
 }

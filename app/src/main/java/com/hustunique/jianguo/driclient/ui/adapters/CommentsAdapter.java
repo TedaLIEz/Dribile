@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.hustunique.jianguo.driclient.R;
+import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.bean.Comments;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
 import com.hustunique.jianguo.driclient.ui.viewholders.CommentsViewHolder;
@@ -61,6 +63,7 @@ public class CommentsAdapter extends BaseDriListAdapter<Comments> {
         commentsViewHolder.mCommentBody.setText(comments.getBody());
         Picasso.with(mContext)
                 .load(Uri.parse(comments.getUser().getAvatar_url()))
+                .placeholder(AppData.getDrawable(R.drawable.avatar_default))
                 .into(commentsViewHolder.mAvatar);
         commentsViewHolder.mAvatar.setOnClickListener(new View.OnClickListener() {
             @Override

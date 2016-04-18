@@ -234,10 +234,10 @@ public class ShotInfoActivity extends BaseActivity {
         // Enable recyclerview scrolled by the wrapped scrollnestedview.
         mComments.setNestedScrollingEnabled(false);
         mComments.setLayoutManager(linearLayoutManager);
-        DribbbleShotsService commentsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
         Map<String, String> params = new HashMap<>();
         params.put("per_page", Integer.toString(COMMENTS_PER_PAGE));
-        commentsService.getComment(mShot.getId(), params)
+        ApiServiceFactory.createService(DribbbleShotsService.class)
+                .getComment(mShot.getId(), params)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Comments>>() {

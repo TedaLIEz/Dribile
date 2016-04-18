@@ -10,7 +10,7 @@
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/comment_avatar"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/avatar_default"
+            tools:src="@drawable/avatar_default"
             android:layout_width="48dp"
             android:layout_height="48dp" />
     </LinearLayout>

@@ -2,6 +2,7 @@ package com.hustunique.jianguo.driclient.service.factories;
 
 import android.util.Base64;
 
+import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.bean.AccessToken;
 import com.hustunique.jianguo.driclient.service.api.Constants;
 
@@ -28,13 +29,14 @@ public class ApiServiceFactory extends ServiceFactory {
 
 
     /**
-     * Create service via {@link Constants} api url
+     * Create service via {@link Constants} api url, take the {@link UserManager#getCurrentToken()}
+     * token as default.
      * @param serviceClass the service class
      * @param <S> the class name
      * @return the service interface
      */
     public static <S> S createService(Class<S> serviceClass) {
-        return createService(serviceClass, null, null);
+        return createService(serviceClass, UserManager.getCurrentToken());
     }
 
 

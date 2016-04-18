@@ -101,8 +101,8 @@ public class ShotCommentActivity extends BaseActivity {
     //TODO: incorrect position of recyclerView
     private void sendComments(@NonNull String comment) {
         CommonUtils.hideSoftInputFromWindow(this);
-        DribbbleShotsService dribbbleShotsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
-        dribbbleShotsService.addComment(mShot.getId(), comment)
+        ApiServiceFactory.createService(DribbbleShotsService.class)
+                .addComment(mShot.getId(), comment)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Comments>() {
@@ -114,6 +114,7 @@ public class ShotCommentActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        //simplify
                         if (e instanceof HttpException) {
                             HttpException exception = (HttpException) e;
                             if (exception.code() == 403) {
@@ -139,10 +140,10 @@ public class ShotCommentActivity extends BaseActivity {
         mComments.setAdapter(new SlideInBottomAnimationAdapter(mAdapter));
         mComments.setLayoutManager(linearLayoutManager);
         mComments.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
-        DribbbleShotsService commentsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
         Map<String, String> params = new HashMap<>();
         params.put("per_page", "100");
-        commentsService.getComment(mShot.getId(), params)
+        ApiServiceFactory.createService(DribbbleShotsService.class)
+                .getComment(mShot.getId(), params)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Comments>>() {
