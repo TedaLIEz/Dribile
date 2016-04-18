@@ -37,7 +37,8 @@ public class BaseDriListAdapter<T extends BaseBean> extends BaseAdapter {
     public void clearData() {
         int preSize = mData.size();
         mData.clear();
-        notifyItemRangeRemoved(0, preSize);
+//        notifyItemRangeRemoved(0, preSize);
+        notifyDataSetChanged();
     }
 
 

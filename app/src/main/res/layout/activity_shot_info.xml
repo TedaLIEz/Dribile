@@ -56,11 +56,12 @@
         app:containerId="@+id/fabtoolbar_container"
         app:fabId="@+id/fabtoolbar_fab"
         app:fabToolbarId="@+id/fabtoolbar_toolbar"
-        app:horizontalMargin="30dp"
+        app:horizontalMargin="@dimen/activity_vertical_margin"
+        app:verticalMargin="@dimen/activity_vertical_margin"
         app:fadeInFraction="0.2">
         <RelativeLayout
             android:id="@+id/fabtoolbar_container"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_height="wrap_content">
@@ -72,6 +73,7 @@
                 app:fabSize="normal" />
         </RelativeLayout>
         <LinearLayout
+            tools:visibility="invisible"
             android:gravity="center_vertical"
             android:id="@+id/fabtoolbar_toolbar"
             android:layout_width="match_parent"

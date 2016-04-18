@@ -1,10 +1,10 @@
 package com.hustunique.jianguo.driclient.ui.activity;
 
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -24,12 +25,18 @@ import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.ui.adapters.CommentsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
+import com.hustunique.jianguo.driclient.utils.CommonUtils;
+import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -42,11 +49,16 @@ public class ShotCommentActivity extends BaseActivity {
     TextView mCommentsTitie;
     @Bind(R.id.comments_detail)
     TextView mCommentsSubtitle;
-
     @Bind(R.id.comments_progress)
     ProgressBar mProgress;
     @Bind(R.id.comments_list)
     RecyclerView mComments;
+    @Bind(R.id.avatar_comments)
+    CircleImageView mAvatar;
+    @Bind(R.id.btn_send_comments)
+    FloatingActionButton mSend;
+    @Bind(R.id.et_add_comment)
+    EditText mEditText;
 
     private CommentsAdapter mAdapter;
 
@@ -69,22 +81,68 @@ public class ShotCommentActivity extends BaseActivity {
 
     private void initView() {
         mCommentsTitie.setText(String.format(AppData.getString(R.string.comments_title)
-                ,mShot.getComments_count()));
+                , mShot.getComments_count()));
         mCommentsSubtitle.setText(String.format(AppData.getString(R.string.comments_subtitle)
-                ,mShot.getTitle()
+                , mShot.getTitle()
                 , mShot.getUser().getName()));
+        Picasso.with(this).load(Uri.parse(UserManager.getCurrentUser().getUser().getAvatar_url()))
+                .into(mAvatar);
+        mSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String comment = mEditText.getText().toString();
+                if (TextUtils.isEmpty(comment)) return;
+                sendComments(comment);
+            }
+        });
         initComments();
     }
 
+    //TODO: incorrect position of recyclerView
+    private void sendComments(@NonNull String comment) {
+        CommonUtils.hideSoftInputFromWindow(this);
+        DribbbleShotsService dribbbleShotsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
+        dribbbleShotsService.addComment(mShot.getId(), comment)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Comments>() {
+                    @Override
+                    public void onCompleted() {
+                        mEditText.setText("");
+                        Log.i("driclient", "send comment success!");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (e instanceof HttpException) {
+                            HttpException exception = (HttpException) e;
+                            if (exception.code() == 403) {
+                                showMessage("Wops! You haven't have such permission!");
+                            }
+                        }
+                        mEditText.setText("");
+                        Log.wtf("driclient", e);
+                    }
+
+                    @Override
+                    public void onNext(Comments comments) {
+                        mAdapter.addData(comments);
+                        mComments.scrollToPosition(mAdapter.getItemCount() - 1);
+                    }
+                });
+
+    }
+
     private void initComments() {
-        //TODO: custom leave comments layout
         mAdapter = new CommentsAdapter(this, R.layout.item_comments);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mComments.setAdapter(new SlideInBottomAnimationAdapter(mAdapter));
         mComments.setLayoutManager(linearLayoutManager);
         mComments.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
         DribbbleShotsService commentsService = ApiServiceFactory.createService(DribbbleShotsService.class, UserManager.getCurrentToken());
-        commentsService.getComment(mShot.getId())
+        Map<String, String> params = new HashMap<>();
+        params.put("per_page", "100");
+        commentsService.getComment(mShot.getId(), params)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Comments>>() {
@@ -95,6 +153,7 @@ public class ShotCommentActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
+
                         Log.wtf("driclient", e);
                     }
 

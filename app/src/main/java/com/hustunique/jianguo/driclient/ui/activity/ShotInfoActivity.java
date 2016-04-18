@@ -223,7 +223,6 @@ public class ShotInfoActivity extends BaseActivity {
         mFooter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: show more comments in a new Activity.
                 Intent intent = new Intent(ShotInfoActivity.this, ShotCommentActivity.class);
                 intent.putExtra(ShotCommentActivity.COMMENTS_SHOTS, mShot);
                 startActivity(intent);
@@ -407,7 +406,9 @@ public class ShotInfoActivity extends BaseActivity {
         mAddComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent intent = new Intent(ShotInfoActivity.this, ShotCommentActivity.class);
+                intent.putExtra(ShotCommentActivity.COMMENTS_SHOTS, mShot);
+                startActivity(intent);
                 mFabLayout.hide();
             }
         });

@@ -9,7 +9,11 @@ import com.hustunique.jianguo.driclient.service.api.Constants;
 import java.util.List;
 import java.util.Map;
 
+import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 import rx.Observable;
@@ -59,6 +63,11 @@ public interface DribbbleShotsService {
      */
     @GET(Constants.URL_BASE_SHOTS + "{id}/" + Constants.URL_BASE_COMMENTS)
     Observable<List<Comments>> getComment(@Path("id") String id);
+
+    @FormUrlEncoded
+    @POST(Constants.URL_BASE_SHOTS + "{id}/" + Constants.URL_BASE_COMMENTS)
+    Observable<Comments> addComment(@Path("id") String id, @Field("body") String body);
+
 
     @GET(Constants.URL_BASE_SHOTS + "{id}/" + Constants.URL_BASE_ATTACHMENTS)
     Observable<List<Attachment>> getAttachments(@Path("id") String id);

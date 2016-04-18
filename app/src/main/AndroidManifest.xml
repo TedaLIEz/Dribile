@@ -58,6 +58,7 @@
         <activity android:name=".ui.activity.ProfileActivity" />
         <activity
             android:name=".ui.activity.ShotCommentActivity"
+            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_activity_shot_comment"
             android:theme="@style/Base.Theme.DesignDemo.BaseActivity"></activity>
     </application>
