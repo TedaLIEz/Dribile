@@ -114,7 +114,6 @@ public class ShotCommentActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        //simplify
                         if (e instanceof HttpException) {
                             HttpException exception = (HttpException) e;
                             if (exception.code() == 403) {

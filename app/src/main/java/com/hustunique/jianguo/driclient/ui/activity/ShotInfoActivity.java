@@ -399,6 +399,7 @@ public class ShotInfoActivity extends BaseActivity {
         mAddShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendSharedIntent(mShot);
                 mFabLayout.hide();
             }
         });

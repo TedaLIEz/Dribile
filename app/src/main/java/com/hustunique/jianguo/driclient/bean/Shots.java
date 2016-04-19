@@ -49,10 +49,15 @@ public class Shots extends BaseBean {
     private String rebounds_url;
     private String animated;
     private ArrayList<String> tags;
+    private String html_url;
     // Owner of this shot
     private User user;
     // team to which this shot belongs
     private Team team;
+
+    public String getHtml_url() {
+        return html_url;
+    }
 
     public String getId() {
         return id;

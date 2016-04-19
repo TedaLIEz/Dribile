@@ -6,10 +6,12 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.hustunique.jianguo.driclient.app.AppData;
+import com.hustunique.jianguo.driclient.bean.Shots;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -42,5 +44,17 @@ public class BaseActivity extends AppCompatActivity {
             intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/" + username));
         }
         startActivity(intent);
+    }
+
+    public void sendSharedIntent(Shots shot) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(shot.getTitle()).append(" - ");
+        sb.append(shot.getHtml_url()).append("\n");
+        sb.append("- Shared from Driclient");
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        sendIntent.setType("text/plain");
+        startActivity(sendIntent);
     }
 }
