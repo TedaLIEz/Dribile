@@ -35,6 +35,10 @@
 
     </style>
 
+    <style name="Base.Theme.DesignDemo.ShotBucket" parent="Base.Theme.DesignDemo.BaseActivity">
+
+    </style>
+
     <style name="Base.Theme.DesignDemo.ImageDetail" parent="Base.Theme.DesignDemo.BaseActivity">
         <item name="android:statusBarColor">@android:color/black</item>
     </style>
@@ -114,5 +118,9 @@
         <item name="android:textSize">@dimen/toolbar_title</item>
     </style>
 
+
+    <style name="CustomDialog" parent="@android:style/Theme.Holo.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
 
 </resources>

@@ -28,4 +28,8 @@
     <!-- ShotCommentsActivity -->
     <string name="comments_title">%1$s Comments</string>
     <string name="comments_subtitle">on %1$s by %2$s</string>
+
+    <!-- ShotBucketsActivity -->
+    <string name="buckets_count">%1$s shots</string>
+    <string name="add_to_your_bucket">Add to your bucket...</string>
 </resources>

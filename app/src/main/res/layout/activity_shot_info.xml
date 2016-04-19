@@ -69,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:id="@+id/fabtoolbar_fab"
-                android:src="@drawable/ic_add_white_24dp"
+                android:src="@drawable/ic_add_white_36dp"
                 app:fabSize="normal" />
         </RelativeLayout>
         <LinearLayout
@@ -90,7 +90,7 @@
                 android:layout_height="match_parent">
                 <ImageButton
                     android:id="@+id/btn_add_comments"
-                    android:background="@android:color/transparent"
+                    android:background="?android:attr/selectableItemBackground"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:src="@drawable/ic_comment_white_36dp"
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content" />
                 <ImageButton
                     android:id="@+id/btn_add_like"
-                    android:background="@android:color/transparent"
+                    android:background="?android:attr/selectableItemBackground"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:src="@drawable/ic_favorite_border_white_36dp"
@@ -106,7 +106,7 @@
                     android:layout_height="wrap_content" />
                 <ImageButton
                     android:id="@+id/btn_add_buckets"
-                    android:background="@android:color/transparent"
+                    android:background="?android:attr/selectableItemBackground"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:src="@drawable/ic_star_border_white_36dp"
@@ -114,7 +114,7 @@
                     android:layout_height="wrap_content" />
                 <ImageButton
                     android:id="@+id/btn_add_share"
-                    android:background="@android:color/transparent"
+                    android:background="?android:attr/selectableItemBackground"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:src="@drawable/ic_share_white_36dp"

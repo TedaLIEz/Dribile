@@ -1,5 +1,6 @@
 package com.hustunique.jianguo.driclient.service.factories;
 
+import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.bean.AccessToken;
 import com.hustunique.jianguo.driclient.service.api.Constants;
 
@@ -20,6 +21,10 @@ public class ResponseBodyFactory extends ServiceFactory {
             .baseUrl(Constants.URL_BASE)
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create());
 
+
+    public static <S> S createService(Class<S> serviceClass) {
+        return createService(serviceClass, UserManager.getCurrentToken());
+    }
 
     public static <S> S createService(Class<S> serviceClass, final AccessToken token) {
         if (token != null) {

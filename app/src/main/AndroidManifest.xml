@@ -56,11 +56,18 @@
             android:name=".ui.activity.ImageDetailActivity"
             android:theme="@style/Base.Theme.DesignDemo.ImageDetail" />
         <activity android:name=".ui.activity.ProfileActivity" />
+
+
         <activity
             android:name=".ui.activity.ShotCommentActivity"
-            android:windowSoftInputMode="adjustResize"
             android:label="@string/title_activity_shot_comment"
-            android:theme="@style/Base.Theme.DesignDemo.BaseActivity"></activity>
+            android:theme="@style/Base.Theme.DesignDemo.BaseActivity"
+            android:windowSoftInputMode="adjustResize" />
+
+
+
+        <activity android:name=".ui.activity.ShotBucketActivity"
+            android:theme="@style/Base.Theme.DesignDemo.ShotBucket"></activity>
     </application>
 
 </manifest>

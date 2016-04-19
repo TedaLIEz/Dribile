@@ -223,9 +223,7 @@ public class ShotInfoActivity extends BaseActivity {
         mFooter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ShotInfoActivity.this, ShotCommentActivity.class);
-                intent.putExtra(ShotCommentActivity.COMMENTS_SHOTS, mShot);
-                startActivity(intent);
+                startActivityWithShot(ShotCommentActivity.class, mShot);
             }
         });
         mComments.setAdapter(commentsAdapter);
@@ -365,6 +363,7 @@ public class ShotInfoActivity extends BaseActivity {
         mAddBuckets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivityWithShot(ShotBucketActivity.class, mShot);
                 mFabLayout.hide();
             }
         });
@@ -407,9 +406,7 @@ public class ShotInfoActivity extends BaseActivity {
         mAddComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ShotInfoActivity.this, ShotCommentActivity.class);
-                intent.putExtra(ShotCommentActivity.COMMENTS_SHOTS, mShot);
-                startActivity(intent);
+                startActivityWithShot(ShotCommentActivity.class, mShot);
                 mFabLayout.hide();
             }
         });

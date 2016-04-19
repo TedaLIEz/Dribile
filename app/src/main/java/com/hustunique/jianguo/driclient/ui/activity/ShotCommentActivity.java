@@ -42,7 +42,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class ShotCommentActivity extends BaseActivity {
-    public static final String COMMENTS_SHOTS = "comments_shots";
     private Shots mShot;
 
     @Bind(R.id.comments_count)
@@ -71,7 +70,7 @@ public class ShotCommentActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         ButterKnife.bind(this);
-        mShot = (Shots) getIntent().getSerializableExtra(COMMENTS_SHOTS);
+        mShot = (Shots) getIntent().getSerializableExtra(SHOT);
         if (mShot == null || TextUtils.isEmpty(mShot.getComments_url())) {
             throw new NullPointerException("shot in ShotCommentActivity mustn't be null");
         }

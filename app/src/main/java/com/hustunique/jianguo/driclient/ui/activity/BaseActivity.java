@@ -14,13 +14,19 @@ import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.bean.Shots;
 
 public class BaseActivity extends AppCompatActivity {
-
+    protected static final String SHOT = "shot";
 
     protected String getTag() {
         return getClass().getSimpleName();
     }
     protected  void startActivity(Class<? extends BaseActivity> clazz) {
         Intent intent = new Intent(this, clazz);
+        startActivity(intent);
+    }
+
+    protected void startActivityWithShot(Class<? extends BaseActivity> clazz, Shots shot) {
+        Intent intent = new Intent(this, clazz);
+        intent.putExtra(SHOT, shot);
         startActivity(intent);
     }
 

@@ -32,6 +32,9 @@
     <style name="Base.Theme.DesignDemo.ShotInfo" parent="Base.Theme.DesignDemo.BaseActivity">
 
     </style>
+    <style name="Base.Theme.DesignDemo.ShotBucket" parent="Base.Theme.DesignDemo.BaseActivity">
+
+    </style>
 
     <style name="Base.Theme.DesignDemo.ImageDetail" parent="Base.Theme.DesignDemo.BaseActivity">
         <item name="android:windowTranslucentStatus">true</item>
@@ -118,6 +121,11 @@
     </style>
 
     <style name="Base.Theme.DesignDemo.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+
+    <style name="CustomDialog" parent="@android:style/Theme.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
 
 
 </resources>

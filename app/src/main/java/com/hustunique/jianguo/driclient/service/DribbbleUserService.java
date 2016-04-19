@@ -37,20 +37,19 @@ public interface DribbbleUserService {
     /**
      * Get a user's buckets
      *
-     * @param name the user name
+     * @param id the user id
      * @return the user's buckets
      */
-    @GET(Constants.URL_BASE_USERS + "{name}/" + Constants.URL_BASE_BUCKETS)
-    Call<Buckets> getBuckets(@Path("name") String name);
+    @GET(Constants.URL_BASE_USERS + "{id}/" + Constants.URL_BASE_BUCKETS)
+    Observable<List<Buckets>> getBuckets(@Path("id") String id);
 
     /**
      * return the authenticated user’s buckets.
      *
      * @return the authenticated user’s buckets.
      */
-    @Deprecated
     @GET(Constants.OAuth.URL_AUTH_USER + Constants.URL_BASE_BUCKETS)
-    Call<Buckets> getAuthBuckets();
+    Observable<List<Buckets>> getAuthBuckets();
 
     /**
      * Get followers following the user

@@ -12,8 +12,6 @@ public class Buckets extends BaseBean {
     private String created_at;
     private String updated_at;
 
-    //Owner of this bucket
-    private User user;
 
     public String getId() {
         return id;
@@ -39,7 +37,4 @@ public class Buckets extends BaseBean {
         return updated_at;
     }
 
-    public User getUser() {
-        return user;
-    }
 }

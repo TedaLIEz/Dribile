@@ -1,13 +1,23 @@
 package com.hustunique.jianguo.driclient.service;
 
+import com.hustunique.jianguo.driclient.bean.Buckets;
 import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.service.api.Constants;
 
-import okhttp3.Response;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.http.DELETE;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import rx.Observable;
 
 /**
  * Created by JianGuo on 3/29/16.
@@ -20,14 +30,27 @@ public interface DribbbleBucketsService {
      * @return the shot list
      */
     @GET(Constants.URL_BASE_BUCKETS + "{id}/" + Constants.URL_BASE_SHOTS)
-    Call<Shots> getShotsFromBuckets(@Path("id") String id);
+    Observable<List<Shots>> getShotsFromBuckets(@Path("id") String id);
 
     /**
      * put a shot into bucket
      * @param id the shot id
      * @return the response
      */
+    @FormUrlEncoded
     @PUT(Constants.URL_BASE_BUCKETS + "{id}/" + Constants.URL_BASE_SHOTS)
-    Call<Response> putShotsinBucket(@Path("id") String id);
+    Observable<Response<ResponseBody>> putShotInBucket(@Path("id") String id, @Field("shot_id") String shotId);
 
+
+    /**
+     * Delete bucket by id
+     * @param id the bucket id
+     * @return the response
+     */
+    @DELETE(Constants.URL_BASE_BUCKETS + "{id}/")
+    Observable<Response<ResponseBody>> deleteBucket(@Path("id") String id);
+
+    @FormUrlEncoded
+    @POST(Constants.URL_BASE_BUCKETS)
+    Observable<Buckets> createBucket(@Field("name") String name, @Field("description") String description);
 }
