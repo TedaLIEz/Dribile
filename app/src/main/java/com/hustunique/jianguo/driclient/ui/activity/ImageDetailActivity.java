@@ -16,7 +16,6 @@ public class ImageDetailActivity extends BaseActivity {
     @Bind(R.id.image_shot_detail)
     DetailImageLayout mDetailImageLayout;
 
-    //// FIXME: 4/11/16 turn statusBar color to black
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

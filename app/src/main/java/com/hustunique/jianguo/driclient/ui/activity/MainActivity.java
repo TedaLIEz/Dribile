@@ -123,7 +123,7 @@ public class MainActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (null == fragmentManager.findFragmentByTag(BucketFragment.class.getName())) {
-            mContentFragment = BucketFragment.newInstance("test1", "test2");
+            mContentFragment = BucketFragment.newInstance("test1");
         }
         fragmentTransaction
                 .replace(R.id.container, mContentFragment, BucketFragment.class.getName());

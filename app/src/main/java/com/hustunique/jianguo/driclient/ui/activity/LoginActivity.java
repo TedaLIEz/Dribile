@@ -79,7 +79,6 @@ public class LoginActivity extends BaseActivity {
     }
 
 
-    //TODO: Login UI
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Base_Theme_DesignDemo);

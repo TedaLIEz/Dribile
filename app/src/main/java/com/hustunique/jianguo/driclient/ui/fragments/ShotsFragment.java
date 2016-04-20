@@ -49,6 +49,8 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
+
+//TODO: Generalize it to show shots
 public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private static final String ARG_SORT_TYPE = "sort";
     //Sort type
