@@ -87,6 +87,11 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
 
     private List<Shots> data = new ArrayList<>();
 
+    @Override
+    public void onFabClick() {
+        Log.i("driclient" ,"random show shots");
+    }
+
     @StringDef({SORT_COMMENTS, SORT_RECENT, SORT_VIEWS})
     @Retention(RetentionPolicy.SOURCE)
     public @interface SortType {

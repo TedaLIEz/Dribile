@@ -42,6 +42,12 @@ public class BaseDriListAdapter<T extends BaseBean> extends BaseAdapter {
     }
 
 
+
+    public void removeData(T data) {
+        mData.remove(data);
+        notifyDataSetChanged();
+    }
+
     public void addData(T data) {
         mData.add(0, data);
         notifyDataSetChanged();

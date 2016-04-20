@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -23,6 +24,7 @@ import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.ui.fragments.BaseFragment;
+import com.hustunique.jianguo.driclient.ui.fragments.BucketFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.ShotsFragment;
 import com.squareup.picasso.Picasso;
 
@@ -61,6 +63,18 @@ public class MainActivity extends BaseActivity {
         }
 
         setSetupDrawerContent();
+        initFab();
+    }
+
+    private void initFab() {
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mContentFragment != null) {
+                    mContentFragment.onFabClick();
+                }
+            }
+        });
     }
 
     private void setSetupDrawerContent() {
@@ -75,6 +89,8 @@ public class MainActivity extends BaseActivity {
                     case R.id.nav_user:
                         onUserSelected();
                         break;
+                    case R.id.nav_buckets:
+                        onBucketSelected();
                 }
                 item.setChecked(true);
                 drawerLayout.closeDrawers();
@@ -101,6 +117,17 @@ public class MainActivity extends BaseActivity {
 
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    private void onBucketSelected() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (null == fragmentManager.findFragmentByTag(BucketFragment.class.getName())) {
+            mContentFragment = BucketFragment.newInstance("test1", "test2");
+        }
+        fragmentTransaction
+                .replace(R.id.container, mContentFragment, BucketFragment.class.getName());
+        fragmentTransaction.commit();
     }
 
     private void onUserSelected() {
