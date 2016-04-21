@@ -17,15 +17,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.ui.fragments.BaseFragment;
+import com.hustunique.jianguo.driclient.ui.fragments.BaseShotListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.BucketFragment;
-import com.hustunique.jianguo.driclient.ui.fragments.ShotsFragment;
+import com.hustunique.jianguo.driclient.ui.fragments.ShotListFragment;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -37,8 +37,6 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
-    @Bind(R.id.container)
-    FrameLayout container;
 
     @Bind(R.id.nav_view)
     NavigationView navigationView;
@@ -76,9 +74,10 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
-
+    //TODO: find icons for buckets!
     private void setSetupDrawerContent() {
         onShotsSelected();
+        navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
@@ -139,11 +138,11 @@ public class MainActivity extends BaseActivity {
     private void onShotsSelected() {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (null == fragmentManager.findFragmentByTag(ShotsFragment.class.getName())) {
-            mContentFragment = ShotsFragment.newInstance(ShotsFragment.SORT_VIEWS);
+        if (null == fragmentManager.findFragmentByTag(BaseShotListFragment.class.getName())) {
+            mContentFragment = ShotListFragment.newInstance(ShotListFragment.SORT_VIEWS);
         }
         fragmentTransaction
-                .replace(R.id.container, mContentFragment, ShotsFragment.class.getName());
+                .replace(R.id.container, mContentFragment, BaseShotListFragment.class.getName());
         fragmentTransaction.commit();
     }
 

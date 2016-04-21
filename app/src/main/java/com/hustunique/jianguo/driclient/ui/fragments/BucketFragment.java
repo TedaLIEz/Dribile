@@ -3,6 +3,7 @@ package com.hustunique.jianguo.driclient.ui.fragments;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -21,6 +22,7 @@ import com.hustunique.jianguo.driclient.service.DribbbleBucketsService;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
+import com.hustunique.jianguo.driclient.ui.activity.BucketDetailActivity;
 import com.hustunique.jianguo.driclient.ui.adapters.BucketsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.AddBucketDialog;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
@@ -175,7 +177,9 @@ public class BucketFragment extends BaseFragment {
 
     private void showShots(Buckets buckets) {
         //TODO: List shots in buckets
-        Log.i("driclient", "show shots in " + buckets.getName());
+        Intent intent = new Intent(getActivity(), BucketDetailActivity.class);
+        intent.putExtra(BucketDetailActivity.BUCKET, buckets);
+        startActivity(intent);
     }
 
 

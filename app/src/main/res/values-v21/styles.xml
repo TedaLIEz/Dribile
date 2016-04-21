@@ -71,6 +71,10 @@
 
     </style>
 
+    <style name="Base.Theme.DesignDemo.BucketDetail" parent="Base.Theme.DesignDemo.BaseActivity">
+
+    </style>
+
     <style name="TextAppearance.Footer" parent="TextAppearance">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:fontFamily">sans-serif-medium</item>

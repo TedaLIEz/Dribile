@@ -3,11 +3,13 @@ package com.hustunique.jianguo.driclient.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.hustunique.jianguo.driclient.app.AppData;
@@ -62,5 +64,22 @@ public class BaseActivity extends AppCompatActivity {
         sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                finishAfterTransition();
+            } else {
+                finish();
+            }
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

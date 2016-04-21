@@ -29,4 +29,7 @@
     <!-- ShotBucketsActivity -->
     <string name="buckets_count">%1$s shots</string>
     <string name="add_to_your_bucket">Add to your bucket...</string>
+
+    <!-- BucketDetailActivity -->
+    <string name="bucket_description">%1$s\'s bucket %2$s shots\'\'</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.hustunique.jianguo.driclient.ui.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -18,11 +17,8 @@ import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.hustunique.jianguo.driclient.R;
-import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.dao.ShotsDataHelper;
-import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
-import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.ui.activity.ShotInfoActivity;
 import com.hustunique.jianguo.driclient.ui.adapters.ShotsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.PaddingItemDecoration;
@@ -39,28 +35,20 @@ import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
-import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
-import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
-import jp.wasabeef.recyclerview.animators.LandingAnimator;
-import jp.wasabeef.recyclerview.animators.SlideInDownAnimator;
-import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-//TODO: Generalize it to show shots
-public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
-    private static final String ARG_SORT_TYPE = "sort";
-    //Sort type
-    public static final String SORT_COMMENTS = "comments";
-    public static final String SORT_RECENT = "recent";
-    public static final String SORT_VIEWS = "vies";
-
+/**
+ * Created by JianGuo on 4/21/16.
+ * Basic Fragment for loading shots
+ */
+public abstract class BaseShotListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     // show shots per page
-    private final int COUNTR_PER_PAGE = 20;
-
+    private final int COUNT_PER_PAGE = 20;
     private String mSortType;
 
     //loading page of shots
@@ -86,37 +74,34 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
     ProgressBar mProgress;
 
     private boolean refreshFromTop;
-
-    private List<Shots> data = new ArrayList<>();
+    protected List<Shots> data = new ArrayList<>();
 
     @Override
-    public void onFabClick() {
-        Log.i("driclient" ,"random show shots");
+    public void onRefresh() {
+        page = 1;
+        refreshFromTop = true;
+        loadData(page);
     }
+
+
+    protected static final String ARG_SORT_TYPE = "sort";
+    //Sort type
+    public static final String SORT_COMMENTS = "comments";
+    public static final String SORT_RECENT = "recent";
+    public static final String SORT_VIEWS = "views";
 
     @StringDef({SORT_COMMENTS, SORT_RECENT, SORT_VIEWS})
     @Retention(RetentionPolicy.SOURCE)
     public @interface SortType {
     }
 
-    public ShotsFragment() {
+    public BaseShotListFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param sortType the sort method of shots
-     * @return A new instance of fragment ShotsFragment.
-     */
-    public static ShotsFragment newInstance(@SortType String sortType) {
-        ShotsFragment fragment = new ShotsFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_SORT_TYPE, sortType);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
+    public abstract Observable<List<Shots>> loadData(Map<String, String> params);
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,10 +111,10 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
         }
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shots, container, false);
         ButterKnife.bind(this, view);
         mProgress.setPadding(0, 0, 0, CommonUtils.getTransparentNavigationBarHeight(getActivity()));
@@ -138,6 +123,7 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
 
         return view;
     }
+
 
     private void initRecyclerView() {
         mAdapter = new ShotsAdapter(getActivity(), R.layout.item_shot);
@@ -161,7 +147,6 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
                 mRecyclerView.getPaddingRight(),
                 mRecyclerView.getPaddingBottom()
                         + CommonUtils.getTransparentNavigationBarHeight(getActivity()));
-//        mRecyclerView.setItemAnimator(new LandingAnimator());
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             boolean loading = true;
             int visibleItemCount;
@@ -183,7 +168,8 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
                     if (loading) {
                         loading = false;
                     }
-                    if (!loading && (visibleItemCount + firstVisibleItem) == page * COUNTR_PER_PAGE) {
+                    if (!loading && (visibleItemCount + firstVisibleItem)
+                            == page * COUNT_PER_PAGE) {
                         mProgress.setVisibility(View.VISIBLE);
                         loadNextPage();
                         loading = true;
@@ -192,7 +178,6 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
             }
         });
     }
-
 
     private void initSwipeLayout() {
         swipeRefreshLayout.setColorSchemeColors(schemeColor);
@@ -207,19 +192,84 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
-    @Override
-    public void onRefresh() {
-        page = 1;
-        refreshFromTop = true;
-        loadData(page);
-    }
-
     // Load data from bottom
     private void loadNextPage() {
         refreshFromTop = false;
         page++;
-        Log.i("driclient", ShotsFragment.class.getSimpleName() + " get more data from page " + page);
+        Log.i("driclient", this.getTag() + " get more data from page " + page);
         loadData(page);
+    }
+
+    private void loadData(int page) {
+        if (refreshFromTop) {
+            swipeRefreshLayout.setRefreshing(true);
+        }
+        Log.i("driclient", this.getTag() + " load data in " + page);
+        Map<String, String> params = new HashMap<>();
+        params.put("page", String.valueOf(page));
+        params.put(ARG_SORT_TYPE, mSortType);
+        params.put("per_page", String.valueOf(COUNT_PER_PAGE));
+        loadData(params)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Shots>>() {
+                    @Override
+                    public void onCompleted() {
+                        mProgress.setVisibility(View.GONE);
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.wtf("driclient", e);
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onNext(List<Shots> shotses) {
+                        data = shotses;
+                        final ShotsDataHelper helper = new ShotsDataHelper();
+                        if (refreshFromTop) {
+                            mAdapter.clearData();
+                            mAdapter.setDataBefore(data);
+                            mRecyclerView.smoothScrollToPosition(0);
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Looper.prepare();
+                                    new Handler().post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            helper.deleteAll();
+                                            helper.bulkInsert(data);
+                                        }
+                                    });
+                                }
+                            }).start();
+                        } else {
+                            mAdapter.setDataAfter(data);
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Looper.prepare();
+                                    new Handler().post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            helper.bulkInsert(data);
+                                        }
+                                    });
+                                }
+                            }).start();
+                        }
+                    }
+                });
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
     }
 
     private void loadFromDB() {
@@ -233,94 +283,6 @@ public class ShotsFragment extends BaseFragment implements SwipeRefreshLayout.On
                     Shots.class));
         }
         mAdapter.setDataBefore(data);
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    // Load data from net
-    private void loadData(int page) {
-        if (refreshFromTop) {
-            swipeRefreshLayout.setRefreshing(true);
-        }
-        Log.i("driclient", ShotsFragment.class.getSimpleName() + " load data in " + page);
-        Map<String, String> params = new HashMap<>();
-        params.put("page", String.valueOf(page));
-        params.put(ARG_SORT_TYPE, mSortType);
-        params.put("per_page", String.valueOf(COUNTR_PER_PAGE));
-        ApiServiceFactory.createService(DribbbleShotsService.class)
-                .getAllShots(params).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<Shots>>() {
-            @Override
-            public void onCompleted() {
-                mProgress.setVisibility(View.GONE);
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.wtf("driclient", e);
-                swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onNext(List<Shots> shotses) {
-                data = shotses;
-                final ShotsDataHelper helper = new ShotsDataHelper();
-                if (refreshFromTop) {
-                    mAdapter.clearData();
-                    mAdapter.setDataBefore(data);
-                    mRecyclerView.smoothScrollToPosition(0);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Looper.prepare();
-                            new Handler().post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    helper.deleteAll();
-                                    helper.bulkInsert(data);
-                                }
-                            });
-                        }
-                    }).start();
-                } else {
-                    mAdapter.setDataAfter(data);
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Looper.prepare();
-                            new Handler().post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    helper.bulkInsert(data);
-                                }
-                            });
-                        }
-                    }).start();
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
 

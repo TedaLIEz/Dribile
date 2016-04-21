@@ -36,6 +36,10 @@
 
     </style>
 
+    <style name="Base.Theme.DesignDemo.BucketDetail" parent="Base.Theme.DesignDemo.BaseActivity">
+
+    </style>
+
     <style name="Base.Theme.DesignDemo.ImageDetail" parent="Base.Theme.DesignDemo.BaseActivity">
         <item name="android:windowTranslucentStatus">true</item>
     </style>
