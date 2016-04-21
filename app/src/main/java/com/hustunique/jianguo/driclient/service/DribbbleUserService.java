@@ -3,6 +3,7 @@ package com.hustunique.jianguo.driclient.service;
 import com.hustunique.jianguo.driclient.bean.Buckets;
 import com.hustunique.jianguo.driclient.bean.Followee;
 import com.hustunique.jianguo.driclient.bean.Follower;
+import com.hustunique.jianguo.driclient.bean.Likes;
 import com.hustunique.jianguo.driclient.bean.Shots;
 import com.hustunique.jianguo.driclient.bean.User;
 import com.hustunique.jianguo.driclient.service.api.Constants;
@@ -31,6 +32,7 @@ public interface DribbbleUserService {
     @GET(Constants.URL_BASE_USERS + "{name}")
     Call<User> getUser(@Path("name") String name);
 
+    @Deprecated
     @GET(Constants.OAuth.URL_AUTH_USER)
     Observable<User> getAuthUser();
 
@@ -99,4 +101,14 @@ public interface DribbbleUserService {
      */
     @GET(Constants.URL_BASE_USERS + "{id}/" + Constants.URL_BASE_SHOTS)
     Observable<List<Shots>> getShots(@Path("id") String id, @QueryMap Map<String, String> params);
+
+
+
+    @GET(Constants.URL_BASE_USERS + "{id}/" + Constants.URL_BASE_LIKES)
+    Observable<List<Likes>> getLikeShots(@Path("id") String id);
+
+    @GET(Constants.OAuth.URL_AUTH_USER + Constants.URL_BASE_LIKES)
+    Observable<List<Likes>> getAuthLikeShots();
+
+
 }

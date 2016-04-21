@@ -11,6 +11,7 @@ public class Constants {
     public static final String URL_BASE_FOLLOWING = "following/";
     public static final String URL_BASE_ATTACHMENTS = "attachments/";
     public static final String URL_BASE_LIKE = "like/";
+    public static final String URL_BASE_LIKES = "likes/";
 
     public class OAuth {
         public static final String URL_BASE_OAUTH = "https://dribbble.com/oauth/";

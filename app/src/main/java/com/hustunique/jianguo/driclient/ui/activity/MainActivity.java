@@ -25,6 +25,7 @@ import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.ui.fragments.BaseFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.BaseShotListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.BucketFragment;
+import com.hustunique.jianguo.driclient.ui.fragments.LikesShotsFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.ShotListFragment;
 import com.squareup.picasso.Picasso;
 
@@ -90,6 +91,10 @@ public class MainActivity extends BaseActivity {
                         break;
                     case R.id.nav_buckets:
                         onBucketSelected();
+                        break;
+                    case R.id.nav_likes:
+                        onLikesSelected();
+                        break;
                 }
                 item.setChecked(true);
                 drawerLayout.closeDrawers();
@@ -116,6 +121,17 @@ public class MainActivity extends BaseActivity {
 
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    private void onLikesSelected() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        if (null == fragmentManager.findFragmentByTag(BucketFragment.class.getName())) {
+            mContentFragment = LikesShotsFragment.newInstance(LikesShotsFragment.SORT_VIEWS, null);
+        }
+        fragmentTransaction
+                .replace(R.id.container, mContentFragment, BucketFragment.class.getName());
+        fragmentTransaction.commit();
     }
 
     private void onBucketSelected() {

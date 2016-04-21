@@ -45,7 +45,7 @@ public class ShotCommentActivity extends BaseActivity {
     private Shots mShot;
 
     @Bind(R.id.comments_count)
-    TextView mCommentsTitie;
+    TextView mCommentsTitle;
     @Bind(R.id.comments_detail)
     TextView mCommentsSubtitle;
     @Bind(R.id.comments_progress)
@@ -79,7 +79,7 @@ public class ShotCommentActivity extends BaseActivity {
     }
 
     private void initView() {
-        mCommentsTitie.setText(String.format(AppData.getString(R.string.comments_title)
+        mCommentsTitle.setText(String.format(AppData.getString(R.string.comments_title)
                 , mShot.getComments_count()));
         mCommentsSubtitle.setText(String.format(AppData.getString(R.string.comments_subtitle)
                 , mShot.getTitle()
