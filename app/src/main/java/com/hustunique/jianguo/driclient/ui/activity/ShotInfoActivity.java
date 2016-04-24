@@ -357,11 +357,13 @@ public class ShotInfoActivity extends BaseActivity {
             @Override
             public void onLike() {
                 showMessage("Like");
+                UserManager.updateUser();
             }
 
             @Override
             public void onUnlike() {
                 showMessage("Undo like");
+                UserManager.updateUser();
             }
 
             @Override

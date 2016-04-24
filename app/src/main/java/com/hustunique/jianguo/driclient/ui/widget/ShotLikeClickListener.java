@@ -28,7 +28,7 @@ public abstract class ShotLikeClickListener implements View.OnClickListener{
     public abstract void onPreUnlike();
     public ShotLikeClickListener(Shots shots) {
         this.shots = shots;
-        dribbbleLikeService = ResponseBodyFactory.createService(DribbbleLikeService.class, UserManager.getCurrentToken());
+        dribbbleLikeService = ResponseBodyFactory.createService(DribbbleLikeService.class);
         dribbbleLikeService.like(shots.getId()).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Response<ResponseBody>>() {

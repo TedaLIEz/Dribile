@@ -1,8 +1,18 @@
 package com.hustunique.jianguo.driclient.app;
 
+import android.util.Log;
+
 import com.hustunique.jianguo.driclient.bean.AccessToken;
 import com.hustunique.jianguo.driclient.bean.OAuthUser;
+import com.hustunique.jianguo.driclient.bean.User;
 import com.hustunique.jianguo.driclient.dao.AuthUserDataHelper;
+import com.hustunique.jianguo.driclient.service.DribbbleUserService;
+import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
+
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by JianGuo on 3/31/16.
@@ -34,6 +44,31 @@ public class UserManager {
 
         AuthUserDataHelper helper = new AuthUserDataHelper();
         helper.save(authUser);
+    }
+
+
+    public static void updateUser() {
+        DribbbleUserService dribbbleUserService = ApiServiceFactory.createService(DribbbleUserService.class);
+        dribbbleUserService.getAuthUser().observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.wtf("driclient", e);
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        UserManager.user.setUser(user);
+                        AuthUserDataHelper helper = new AuthUserDataHelper();
+                        helper.update(UserManager.user);
+                    }
+                });
     }
 
     /**

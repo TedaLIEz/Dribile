@@ -7,9 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hustunique.jianguo.driclient.R;
+import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.bean.User;
+import com.hustunique.jianguo.driclient.ui.UserFollowListener;
 import com.hustunique.jianguo.driclient.utils.NetUtils;
 import com.squareup.picasso.Picasso;
 
@@ -41,7 +44,7 @@ public class ProfileActivity extends BaseActivity {
     @Bind(R.id.btn_follow)
     Button mFollow;
     private User mUser;
-    public  static final String USER = "user";
+    public static final String USER = "user";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,9 @@ public class ProfileActivity extends BaseActivity {
         mUser = (User) getIntent().getSerializableExtra(USER);
         if (mUser == null) {
             throw new IllegalArgumentException("you must give a user to show profile");
+        }
+        if (mUser.equals(UserManager.getCurrentUser().getUser())) {
+            mFollow.setVisibility(View.GONE);
         }
         Log.i("driclient", "user " + mUser.getJson());
         initView();
@@ -86,10 +92,32 @@ public class ProfileActivity extends BaseActivity {
             }
         });
 
-        mFollow.setOnClickListener(new View.OnClickListener() {
+        mFollow.setOnClickListener(new UserFollowListener(mUser) {
             @Override
-            public void onClick(View v) {
-                //TODO: Add PUT Method to follow this user
+            public void isFollowed() {
+                mFollow.setText("FOLLOWED");
+            }
+
+            @Override
+            public void onFollowing() {
+                showMessage("follow user " + mUser.getName());
+                UserManager.updateUser();
+            }
+
+            @Override
+            public void onPreFollowing() {
+                mFollow.setText("FOLLOWED");
+            }
+
+            @Override
+            public void onPreUnFollowing() {
+                mFollow.setText("FOLLOW");
+            }
+
+            @Override
+            public void onUnFollowing() {
+                showMessage("unfollow user " + mUser.getName());
+                UserManager.updateUser();
             }
         });
 

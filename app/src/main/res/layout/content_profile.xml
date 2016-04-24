@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:background="@color/profile_light"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:showIn="@layout/activity_profile"
     android:layout_height="match_parent">
     <LinearLayout
         android:orientation="vertical"
@@ -184,8 +185,11 @@
         </LinearLayout>
         <Button
             android:id="@+id/btn_follow"
+            android:background="@drawable/btn_follow"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_gravity="center"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:textColor="@android:color/white"
             android:text="Follow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />

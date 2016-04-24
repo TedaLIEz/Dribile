@@ -77,6 +77,24 @@ public class User extends BaseBean {
             return twitter;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+
+            Links links = (Links) o;
+
+            if (web != null ? !web.equals(links.web) : links.web != null) return false;
+            return twitter != null ? twitter.equals(links.twitter) : links.twitter == null;
+
+        }
+
+        @Override
+        public int hashCode() {
+            int result = web != null ? web.hashCode() : 0;
+            result = 31 * result + (twitter != null ? twitter.hashCode() : 0);
+            return result;
+        }
     }
 
     private Links links;
@@ -208,10 +226,13 @@ public class User extends BaseBean {
         if (!id.equals(user.id)) return false;
         if (!name.equals(user.name)) return false;
         if (!username.equals(user.username)) return false;
-        if (!html_url.equals(user.html_url)) return false;
-        if (!avatar_url.equals(user.avatar_url)) return false;
-        if (!bio.equals(user.bio)) return false;
-        if (!location.equals(user.location)) return false;
+        if (html_url != null ? !html_url.equals(user.html_url) : user.html_url != null)
+            return false;
+        if (avatar_url != null ? !avatar_url.equals(user.avatar_url) : user.avatar_url != null)
+            return false;
+        if (bio != null ? !bio.equals(user.bio) : user.bio != null) return false;
+        if (location != null ? !location.equals(user.location) : user.location != null)
+            return false;
         if (!buckets_count.equals(user.buckets_count)) return false;
         if (!comments_received_count.equals(user.comments_received_count)) return false;
         if (!followers_count.equals(user.followers_count)) return false;
@@ -222,18 +243,26 @@ public class User extends BaseBean {
         if (!rebounds_received_count.equals(user.rebounds_received_count)) return false;
         if (!shots_count.equals(user.shots_count)) return false;
         if (!teams_count.equals(user.teams_count)) return false;
-        if (!can_upload_shot.equals(user.can_upload_shot)) return false;
+        if (can_upload_shot != null ? !can_upload_shot.equals(user.can_upload_shot) : user.can_upload_shot != null)
+            return false;
         if (!type.equals(user.type)) return false;
         if (!pro.equals(user.pro)) return false;
-        if (!buckets_url.equals(user.buckets_url)) return false;
-        if (!followers_url.equals(user.followers_url)) return false;
-        if (!following_url.equals(user.following_url)) return false;
-        if (!likes_url.equals(user.likes_url)) return false;
-        if (!shots_url.equals(user.shots_url)) return false;
-        if (!teams_url.equals(user.teams_url)) return false;
+        if (buckets_url != null ? !buckets_url.equals(user.buckets_url) : user.buckets_url != null)
+            return false;
+        if (followers_url != null ? !followers_url.equals(user.followers_url) : user.followers_url != null)
+            return false;
+        if (following_url != null ? !following_url.equals(user.following_url) : user.following_url != null)
+            return false;
+        if (likes_url != null ? !likes_url.equals(user.likes_url) : user.likes_url != null)
+            return false;
+        if (shots_url != null ? !shots_url.equals(user.shots_url) : user.shots_url != null)
+            return false;
+        if (teams_url != null ? !teams_url.equals(user.teams_url) : user.teams_url != null)
+            return false;
         if (!created_at.equals(user.created_at)) return false;
-        if (!update_at.equals(user.update_at)) return false;
-        return links.equals(user.links);
+        if (update_at != null ? !update_at.equals(user.update_at) : user.update_at != null)
+            return false;
+        return links != null ? links.equals(user.links) : user.links == null;
 
     }
 
@@ -242,10 +271,10 @@ public class User extends BaseBean {
         int result = id.hashCode();
         result = 31 * result + name.hashCode();
         result = 31 * result + username.hashCode();
-        result = 31 * result + html_url.hashCode();
-        result = 31 * result + avatar_url.hashCode();
-        result = 31 * result + bio.hashCode();
-        result = 31 * result + location.hashCode();
+        result = 31 * result + (html_url != null ? html_url.hashCode() : 0);
+        result = 31 * result + (avatar_url != null ? avatar_url.hashCode() : 0);
+        result = 31 * result + (bio != null ? bio.hashCode() : 0);
+        result = 31 * result + (location != null ? location.hashCode() : 0);
         result = 31 * result + buckets_count.hashCode();
         result = 31 * result + comments_received_count.hashCode();
         result = 31 * result + followers_count.hashCode();
@@ -256,18 +285,18 @@ public class User extends BaseBean {
         result = 31 * result + rebounds_received_count.hashCode();
         result = 31 * result + shots_count.hashCode();
         result = 31 * result + teams_count.hashCode();
-        result = 31 * result + can_upload_shot.hashCode();
+        result = 31 * result + (can_upload_shot != null ? can_upload_shot.hashCode() : 0);
         result = 31 * result + type.hashCode();
         result = 31 * result + pro.hashCode();
-        result = 31 * result + buckets_url.hashCode();
-        result = 31 * result + followers_url.hashCode();
-        result = 31 * result + following_url.hashCode();
-        result = 31 * result + likes_url.hashCode();
-        result = 31 * result + shots_url.hashCode();
-        result = 31 * result + teams_url.hashCode();
+        result = 31 * result + (buckets_url != null ? buckets_url.hashCode() : 0);
+        result = 31 * result + (followers_url != null ? followers_url.hashCode() : 0);
+        result = 31 * result + (following_url != null ? following_url.hashCode() : 0);
+        result = 31 * result + (likes_url != null ? likes_url.hashCode() : 0);
+        result = 31 * result + (shots_url != null ? shots_url.hashCode() : 0);
+        result = 31 * result + (teams_url != null ? teams_url.hashCode() : 0);
         result = 31 * result + created_at.hashCode();
         result = 31 * result + update_at.hashCode();
-        result = 31 * result + links.hashCode();
+        result = 31 * result + (links != null ? links.hashCode() : 0);
         return result;
     }
 }
