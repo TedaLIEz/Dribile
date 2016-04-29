@@ -84,10 +84,14 @@ public class ShotsAdapter extends BaseDriListAdapter<Shots> {
                 .into(viewHolder.mImage);
 
         viewHolder.mImage.setTag(shots);
-        Picasso.with(mContext)
-                .load(shots.getUser().getAvatar_url())
-                .placeholder(AppData.getDrawable(R.drawable.avatar_default))
-                .into(viewHolder.mAvatar);
+        //TODO: Bad design loading user's shots
+        if (shots.getUser() != null) {
+            Picasso.with(mContext)
+                    .load(shots.getUser().getAvatar_url())
+                    .placeholder(AppData.getDrawable(R.drawable.avatar_default))
+                    .into(viewHolder.mAvatar);
+        }
+
         viewHolder.mTitle.setText(shots.getTitle());
 
         viewHolder.getItemView().setOnClickListener(new View.OnClickListener() {

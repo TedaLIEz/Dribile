@@ -64,9 +64,11 @@
         <activity
             android:name=".ui.activity.ShotBucketActivity"
             android:theme="@style/Base.Theme.DesignDemo.ShotBucket" />
-
-        <activity android:name=".ui.activity.BucketDetailActivity"
-            android:theme="@style/Base.Theme.DesignDemo.BucketDetail"/>
+        <activity
+            android:name=".ui.activity.BucketDetailActivity"
+            android:theme="@style/Base.Theme.DesignDemo.BucketDetail" />
+        <activity android:name=".ui.activity.ShotListActivity"
+            android:theme="@style/Base.Theme.DesignDemo.ShotList"/>
     </application>
 
 </manifest>

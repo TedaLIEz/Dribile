@@ -155,7 +155,7 @@ public class MainActivity extends BaseActivity {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (null == fragmentManager.findFragmentByTag(BaseShotListFragment.class.getName())) {
-            mContentFragment = ShotListFragment.newInstance(ShotListFragment.SORT_VIEWS);
+            mContentFragment = ShotListFragment.newInstance(ShotListFragment.SORT_VIEWS, null);
         }
         fragmentTransaction
                 .replace(R.id.container, mContentFragment, BaseShotListFragment.class.getName());

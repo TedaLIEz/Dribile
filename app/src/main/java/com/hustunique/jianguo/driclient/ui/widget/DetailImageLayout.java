@@ -57,7 +57,6 @@ public class DetailImageLayout extends FrameLayout {
     }
 
     public void load(@NonNull Shots shots) {
-        //TODO: simplify code here, merge them into GifImageLoader ?
         Log.i("driclient", "loading url " + shots.getJson());
         if (CommonUtils.isGif(shots)) {
             new GifImageLoader(ctx).display(shots.getImages().getHidpi() == null ? shots.getImages().getNormal() : shots.getImages().getHidpi(), mGif).callback(new GifImageLoader.Callback() {

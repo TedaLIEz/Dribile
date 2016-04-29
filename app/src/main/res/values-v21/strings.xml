@@ -32,4 +32,6 @@
 
     <!-- BucketDetailActivity -->
     <string name="bucket_description">%1$s\'s bucket %2$s shots\'\'</string>
+    <!-- ShotListActivity -->
+    <string name="user_shots">%1$s\'s shots</string>
 </resources>

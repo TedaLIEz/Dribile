@@ -176,7 +176,6 @@ public class BucketFragment extends BaseFragment {
     }
 
     private void showShots(Buckets buckets) {
-        //TODO: List shots in buckets
         Intent intent = new Intent(getActivity(), BucketDetailActivity.class);
         intent.putExtra(BucketDetailActivity.BUCKET, buckets);
         startActivity(intent);

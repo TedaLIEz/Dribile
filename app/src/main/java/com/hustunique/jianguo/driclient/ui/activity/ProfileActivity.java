@@ -120,6 +120,25 @@ public class ProfileActivity extends BaseActivity {
                 UserManager.updateUser();
             }
         });
+        if (!mUser.getShots_count().equals("0")) {
+            findViewById(R.id.profile_shots).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ProfileActivity.this, ShotListActivity.class);
+                    intent.putExtra(ShotListActivity.USER, mUser);
+                    startActivity(intent);
+                }
+            });
+        }
+        if (!mUser.getLikes_count().equals("0")) {
+            findViewById(R.id.profile_likes).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+
 
     }
 }
