@@ -1,7 +1,6 @@
 package com.hustunique.jianguo.driclient.ui.activity;
 
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -10,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -19,8 +17,8 @@ import android.widget.TextView;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
-import com.hustunique.jianguo.driclient.bean.Comments;
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Comments;
+import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.ui.adapters.CommentsAdapter;

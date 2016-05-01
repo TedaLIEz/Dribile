@@ -1,16 +1,6 @@
 package com.hustunique.jianguo.driclient.service;
 
-import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.util.Log;
-
-import com.hustunique.jianguo.driclient.app.MyApp;
-import com.hustunique.jianguo.driclient.bean.AccessToken;
-import com.hustunique.jianguo.driclient.service.factories.AuthServiceFactory;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.hustunique.jianguo.driclient.models.AccessToken;
 
 /**
  * Created by JianGuo on 3/30/16.

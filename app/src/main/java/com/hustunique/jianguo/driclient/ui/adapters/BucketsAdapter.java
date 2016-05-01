@@ -1,7 +1,6 @@
 package com.hustunique.jianguo.driclient.ui.adapters;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,13 +8,9 @@ import android.view.ViewGroup;
 
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
-import com.hustunique.jianguo.driclient.bean.Buckets;
-import com.hustunique.jianguo.driclient.bean.Comments;
+import com.hustunique.jianguo.driclient.models.Buckets;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
 import com.hustunique.jianguo.driclient.ui.viewholders.BucketsViewHolder;
-import com.hustunique.jianguo.driclient.ui.viewholders.CommentsViewHolder;
-import com.hustunique.jianguo.driclient.utils.CommonUtils;
-import com.squareup.picasso.Picasso;
 
 /**
  * Created by JianGuo on 4/19/16.

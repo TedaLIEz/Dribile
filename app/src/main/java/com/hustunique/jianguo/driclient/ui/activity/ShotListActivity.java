@@ -6,7 +6,7 @@ import android.view.MenuItem;
 
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
-import com.hustunique.jianguo.driclient.bean.User;
+import com.hustunique.jianguo.driclient.models.User;
 import com.hustunique.jianguo.driclient.ui.fragments.BaseShotListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.ShotListFragment;
 

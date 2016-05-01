@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
-import com.hustunique.jianguo.driclient.bean.Comments;
+import com.hustunique.jianguo.driclient.models.Comments;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
 import com.hustunique.jianguo.driclient.ui.viewholders.CommentsViewHolder;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;

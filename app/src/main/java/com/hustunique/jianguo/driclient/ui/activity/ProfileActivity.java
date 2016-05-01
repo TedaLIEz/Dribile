@@ -7,11 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.UserManager;
-import com.hustunique.jianguo.driclient.bean.User;
+import com.hustunique.jianguo.driclient.models.User;
 import com.hustunique.jianguo.driclient.ui.UserFollowListener;
 import com.hustunique.jianguo.driclient.utils.NetUtils;
 import com.squareup.picasso.Picasso;

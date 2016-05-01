@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hustunique.jianguo.driclient.bean.Comments;
+import com.hustunique.jianguo.driclient.models.Comments;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
 import com.hustunique.jianguo.driclient.ui.viewholders.CommentsFooterViewHolder;
 import com.hustunique.jianguo.driclient.ui.viewholders.CommentsViewHolder;

@@ -1,14 +1,12 @@
 package com.hustunique.jianguo.driclient.service;
 
-import com.hustunique.jianguo.driclient.bean.Buckets;
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Buckets;
+import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.service.api.Constants;
 
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;

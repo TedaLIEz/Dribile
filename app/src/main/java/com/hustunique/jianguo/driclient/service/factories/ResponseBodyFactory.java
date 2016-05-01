@@ -1,7 +1,7 @@
 package com.hustunique.jianguo.driclient.service.factories;
 
 import com.hustunique.jianguo.driclient.app.UserManager;
-import com.hustunique.jianguo.driclient.bean.AccessToken;
+import com.hustunique.jianguo.driclient.models.AccessToken;
 import com.hustunique.jianguo.driclient.service.api.Constants;
 
 import java.io.IOException;

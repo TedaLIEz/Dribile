@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hustunique.jianguo.driclient.bean.Attachment;
+import com.hustunique.jianguo.driclient.models.Attachment;
 import com.hustunique.jianguo.driclient.ui.viewholders.AttachmentViewHolder;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
 import com.squareup.picasso.Picasso;

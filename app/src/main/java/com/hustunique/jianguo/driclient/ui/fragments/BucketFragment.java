@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.hustunique.jianguo.driclient.R;
-import com.hustunique.jianguo.driclient.bean.Buckets;
+import com.hustunique.jianguo.driclient.models.Buckets;
 import com.hustunique.jianguo.driclient.service.DribbbleBucketsService;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;

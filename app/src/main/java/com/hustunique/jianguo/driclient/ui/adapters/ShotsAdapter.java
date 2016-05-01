@@ -1,12 +1,6 @@
 package com.hustunique.jianguo.driclient.ui.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.ColorMatrix;
-import android.graphics.ColorMatrixColorFilter;
-import android.graphics.LightingColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +8,10 @@ import android.view.ViewGroup;
 
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
 import com.hustunique.jianguo.driclient.ui.viewholders.ShotsViewHolder;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 

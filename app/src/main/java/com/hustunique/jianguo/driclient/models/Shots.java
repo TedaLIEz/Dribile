@@ -1,4 +1,4 @@
-package com.hustunique.jianguo.driclient.bean;
+package com.hustunique.jianguo.driclient.models;
 
 import java.util.ArrayList;
 

@@ -1,11 +1,9 @@
 package com.hustunique.jianguo.driclient.ui.activity;
 
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
 
 import com.hustunique.jianguo.driclient.R;
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.ui.widget.DetailImageLayout;
 
 import butterknife.Bind;

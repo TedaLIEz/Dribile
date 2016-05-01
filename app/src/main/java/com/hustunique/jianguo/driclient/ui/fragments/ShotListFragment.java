@@ -3,7 +3,7 @@ package com.hustunique.jianguo.driclient.ui.fragments;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
@@ -11,9 +11,7 @@ import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import java.util.List;
 import java.util.Map;
 
-import rx.Notification;
 import rx.Observable;
-import rx.functions.Action1;
 
 /**
  * Created by JianGuo on 4/21/16.

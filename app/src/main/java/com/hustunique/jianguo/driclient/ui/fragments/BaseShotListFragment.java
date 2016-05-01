@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 
 import com.google.gson.Gson;
 import com.hustunique.jianguo.driclient.R;
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.dao.ShotsDataHelper;
 import com.hustunique.jianguo.driclient.ui.activity.ShotInfoActivity;
 import com.hustunique.jianguo.driclient.ui.adapters.ShotsAdapter;

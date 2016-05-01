@@ -50,4 +50,5 @@ dependencies {
     compile 'com.wefika:flowlayout:0.4.1'
     compile 'jp.wasabeef:recyclerview-animators:2.2.1'
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
+    compile 'com.google.guava:guava:18.0'
 }

@@ -7,19 +7,11 @@ import android.widget.TextView;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
-import com.hustunique.jianguo.driclient.bean.Buckets;
-import com.hustunique.jianguo.driclient.bean.Shots;
-import com.hustunique.jianguo.driclient.service.DribbbleBucketsService;
-import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
-import com.hustunique.jianguo.driclient.ui.fragments.BaseShotListFragment;
+import com.hustunique.jianguo.driclient.models.Buckets;
 import com.hustunique.jianguo.driclient.ui.fragments.BucketShotsFragment;
-
-import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observable;
 
 public class BucketDetailActivity extends BaseActivity {
     public static final String BUCKET = "bucket";

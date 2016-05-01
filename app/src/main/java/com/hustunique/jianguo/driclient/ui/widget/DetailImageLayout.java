@@ -3,7 +3,6 @@ package com.hustunique.jianguo.driclient.ui.widget;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CoordinatorLayout;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -12,7 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.felipecsl.gifimageview.library.GifImageView;
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.service.GifImageLoader;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
 import com.squareup.picasso.Callback;

@@ -5,8 +5,6 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.hustunique.jianguo.driclient.bean.AccessToken;
-import com.hustunique.jianguo.driclient.service.AuthHelper;
 import com.hustunique.jianguo.driclient.ui.activity.LoginActivity;
 import com.hustunique.jianguo.driclient.ui.activity.MainActivity;
 

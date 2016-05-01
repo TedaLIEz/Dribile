@@ -1,13 +1,12 @@
 package com.hustunique.jianguo.driclient.dao;
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.hustunique.jianguo.driclient.app.AppData;
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.dao.sql.BaseColumns;
 import com.hustunique.jianguo.driclient.dao.sql.Column;
 import com.hustunique.jianguo.driclient.dao.sql.SQLiteTable;

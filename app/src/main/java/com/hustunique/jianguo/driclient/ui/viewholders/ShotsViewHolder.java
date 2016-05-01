@@ -1,12 +1,11 @@
 package com.hustunique.jianguo.driclient.ui.viewholders;
 
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hustunique.jianguo.driclient.R;
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Shots;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

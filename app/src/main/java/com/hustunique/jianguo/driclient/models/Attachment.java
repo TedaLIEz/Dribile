@@ -1,4 +1,4 @@
-package com.hustunique.jianguo.driclient.bean;
+package com.hustunique.jianguo.driclient.models;
 
 /**
  * Created by JianGuo on 4/7/16.

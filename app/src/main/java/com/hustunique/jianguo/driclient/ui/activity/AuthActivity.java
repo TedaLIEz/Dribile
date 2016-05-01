@@ -20,8 +20,8 @@ import android.view.View;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.am.AccountGeneral;
 import com.hustunique.jianguo.driclient.app.MyApp;
-import com.hustunique.jianguo.driclient.bean.AccessToken;
-import com.hustunique.jianguo.driclient.bean.User;
+import com.hustunique.jianguo.driclient.models.AccessToken;
+import com.hustunique.jianguo.driclient.models.User;
 import com.hustunique.jianguo.driclient.service.DribbbleAuthService;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.api.Constants;
@@ -46,8 +46,10 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
     public static final String AUTH_USER = "AUTH_USER";
     public static final int AUTH_DENIED = 0x11111111;
     public static final int AUTH_FAILED = 0x11111110;
+    public static final int AUTH_CANCELED = 0x11111100;
     public static final String ERR_AUTH_MSG = "ERR_AUTH_MSG";
     public static final String TOKEN = "TOKEN";
+    public static final int AUTH_OK = 0x11111101;
     @Bind(R.id.view_auth)
     OAuthWebView webView;
 
@@ -190,7 +192,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
         mAccountManager.addAccountExplicitly(account, null, null);
         mAccountManager.setAuthToken(account, authTokenType, authToken);
         setAccountAuthenticatorResult(intent.getExtras());
-        setResult(RESULT_OK, intent);
+        setResult(AUTH_OK, intent);
         finish();
     }
 
@@ -203,7 +205,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements OAuthW
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_CANCELED);
+        setResult(AUTH_CANCELED);
         super.onBackPressed();
     }
 

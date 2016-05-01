@@ -2,8 +2,8 @@ package com.hustunique.jianguo.driclient.ui.fragments;
 
 import android.os.Bundle;
 
-import com.hustunique.jianguo.driclient.bean.Buckets;
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Buckets;
+import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.service.DribbbleBucketsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 

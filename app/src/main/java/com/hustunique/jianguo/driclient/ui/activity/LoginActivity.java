@@ -1,5 +1,6 @@
 package com.hustunique.jianguo.driclient.ui.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
@@ -12,10 +13,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.hustunique.jianguo.driclient.R;
+import com.hustunique.jianguo.driclient.app.PresenterManager;
 import com.hustunique.jianguo.driclient.app.UserManager;
-import com.hustunique.jianguo.driclient.bean.AccessToken;
-import com.hustunique.jianguo.driclient.bean.OAuthUser;
-import com.hustunique.jianguo.driclient.bean.User;
+import com.hustunique.jianguo.driclient.models.AccessToken;
+import com.hustunique.jianguo.driclient.models.OAuthUser;
+import com.hustunique.jianguo.driclient.models.User;
+import com.hustunique.jianguo.driclient.presenters.LoginPresenter;
+import com.hustunique.jianguo.driclient.views.LoginView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,13 +29,15 @@ import butterknife.OnClick;
 /**
  * Login Activity for application
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements LoginView {
     private static final int LOGIN = 0x00000000;
     public static final int STARTUP_DELAY = 300;
     public static final int ANIM_ITEM_DURATION = 1000;
     public static final int ITEM_DELAY = 300;
 
     private boolean animationStarted = false;
+
+    private LoginPresenter mLoginPresenter;
     @Bind(R.id.btn_login)
     Button login;
 
@@ -85,48 +91,47 @@ public class LoginActivity extends BaseActivity {
         getWindow().getDecorView().setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            mLoginPresenter = new LoginPresenter();
+        } else {
+            mLoginPresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
+        }
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
     }
 
     @OnClick(R.id.btn_login)
-    void login() {
-        Intent intent = new Intent(this, AuthActivity.class);
-        startActivityForResult(intent, LOGIN);
+    void onClick() {
+        mLoginPresenter.auth();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case LOGIN:
-                if (resultCode == AuthActivity.AUTH_DENIED) {
-                    Log.e("driclient", getTag() + " user deny the authentications");
-                    return;
-                }
-                if (resultCode == AuthActivity.AUTH_FAILED) {
-                    String msg = data.getStringExtra(AuthActivity.ERR_AUTH_MSG);
-                    Log.e("driclient", getTag() + " login failed " + msg);
-                    return;
-                }
-                if (resultCode == RESULT_CANCELED) {
-                    return;
-                }
-                User authUser = (User) data.getSerializableExtra(AuthActivity.AUTH_USER);
-                AccessToken token = (AccessToken) data.getSerializableExtra(AuthActivity.TOKEN);
-                OAuthUser user = new OAuthUser();
-                user.setAccessToken(token);
-                user.setUser(authUser);
-                Log.i("driclient", getTag() + " get user " + authUser.getJson() + "successfully");
-                UserManager.setCurrentUser(user);
-                Intent intent = new Intent(this, MainActivity.class);
-                startActivity(intent);
-                finish();
-                break;
-            default:
-                break;
-        }
+        mLoginPresenter.login(requestCode, resultCode, data);
     }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mLoginPresenter.bindView(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mLoginPresenter.unbindView();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        PresenterManager.getInstance().savePresenter(mLoginPresenter, outState);
+    }
+
+    @Override
+    public BaseActivity getRef() {
+        return this;
+    }
 }

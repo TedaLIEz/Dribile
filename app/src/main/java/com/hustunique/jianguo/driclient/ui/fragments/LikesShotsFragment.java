@@ -3,8 +3,8 @@ package com.hustunique.jianguo.driclient.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
-import com.hustunique.jianguo.driclient.bean.Likes;
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Likes;
+import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 

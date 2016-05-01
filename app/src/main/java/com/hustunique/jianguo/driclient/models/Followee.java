@@ -1,18 +1,14 @@
-package com.hustunique.jianguo.driclient.bean;
-
+package com.hustunique.jianguo.driclient.models;
 
 /**
  * Created by JianGuo on 3/29/16.
- * POJO for followers
  */
-public class Follower extends BaseBean {
+public class Followee extends BaseBean {
     private String id;
     private String created_at;
+    private User followee;
 
-    private User follower;
-
-
-    public Follower(){}
+    public Followee(){}
 
     public String getId() {
         return id;
@@ -24,8 +20,8 @@ public class Follower extends BaseBean {
     }
 
 
-    public User getFollower() {
-        return follower;
+    public User getFollowee() {
+        return followee;
     }
 
 }

@@ -5,8 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 
 import com.hustunique.jianguo.driclient.app.AppData;
-import com.hustunique.jianguo.driclient.app.MyApp;
-import com.hustunique.jianguo.driclient.bean.OAuthUser;
+import com.hustunique.jianguo.driclient.models.OAuthUser;
 import com.hustunique.jianguo.driclient.dao.sql.BaseColumns;
 import com.hustunique.jianguo.driclient.dao.sql.Column;
 import com.hustunique.jianguo.driclient.dao.sql.SQLiteTable;

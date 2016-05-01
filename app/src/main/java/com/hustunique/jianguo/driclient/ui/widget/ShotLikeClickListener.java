@@ -2,8 +2,7 @@ package com.hustunique.jianguo.driclient.ui.widget;
 
 import android.view.View;
 
-import com.hustunique.jianguo.driclient.app.UserManager;
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.service.DribbbleLikeService;
 import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
 

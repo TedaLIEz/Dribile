@@ -4,11 +4,8 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.view.ViewGroup;
 
-import com.hustunique.jianguo.driclient.R;
-import com.hustunique.jianguo.driclient.bean.BaseBean;
+import com.hustunique.jianguo.driclient.models.BaseBean;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
-
-import org.jetbrains.annotations.TestOnly;
 
 import java.util.ArrayList;
 import java.util.List;

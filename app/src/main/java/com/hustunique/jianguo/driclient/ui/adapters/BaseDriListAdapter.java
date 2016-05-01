@@ -2,7 +2,7 @@ package com.hustunique.jianguo.driclient.ui.adapters;
 
 import android.view.ViewGroup;
 
-import com.hustunique.jianguo.driclient.bean.BaseBean;
+import com.hustunique.jianguo.driclient.models.BaseBean;
 import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
 
 import java.util.ArrayList;

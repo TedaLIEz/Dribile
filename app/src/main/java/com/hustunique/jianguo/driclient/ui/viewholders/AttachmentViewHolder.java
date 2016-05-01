@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.hustunique.jianguo.driclient.R;
-import com.hustunique.jianguo.driclient.bean.Attachment;
+import com.hustunique.jianguo.driclient.models.Attachment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

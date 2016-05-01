@@ -1,11 +1,11 @@
 package com.hustunique.jianguo.driclient.service;
 
-import com.hustunique.jianguo.driclient.bean.Buckets;
-import com.hustunique.jianguo.driclient.bean.Followee;
-import com.hustunique.jianguo.driclient.bean.Follower;
-import com.hustunique.jianguo.driclient.bean.Likes;
-import com.hustunique.jianguo.driclient.bean.Shots;
-import com.hustunique.jianguo.driclient.bean.User;
+import com.hustunique.jianguo.driclient.models.Buckets;
+import com.hustunique.jianguo.driclient.models.Followee;
+import com.hustunique.jianguo.driclient.models.Follower;
+import com.hustunique.jianguo.driclient.models.Likes;
+import com.hustunique.jianguo.driclient.models.Shots;
+import com.hustunique.jianguo.driclient.models.User;
 import com.hustunique.jianguo.driclient.service.api.Constants;
 
 import java.util.List;

@@ -1,19 +1,16 @@
 package com.hustunique.jianguo.driclient.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.hustunique.jianguo.driclient.app.AppData;
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Shots;
 
 public class BaseActivity extends AppCompatActivity {
     protected static final String SHOT = "shot";

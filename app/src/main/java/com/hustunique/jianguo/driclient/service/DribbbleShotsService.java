@@ -1,15 +1,14 @@
 package com.hustunique.jianguo.driclient.service;
 
-import com.hustunique.jianguo.driclient.bean.Attachment;
-import com.hustunique.jianguo.driclient.bean.Buckets;
-import com.hustunique.jianguo.driclient.bean.Comments;
-import com.hustunique.jianguo.driclient.bean.Shots;
+import com.hustunique.jianguo.driclient.models.Attachment;
+import com.hustunique.jianguo.driclient.models.Buckets;
+import com.hustunique.jianguo.driclient.models.Comments;
+import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.service.api.Constants;
 
 import java.util.List;
 import java.util.Map;
 
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;

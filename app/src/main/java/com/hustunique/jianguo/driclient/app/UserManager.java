@@ -2,16 +2,15 @@ package com.hustunique.jianguo.driclient.app;
 
 import android.util.Log;
 
-import com.hustunique.jianguo.driclient.bean.AccessToken;
-import com.hustunique.jianguo.driclient.bean.OAuthUser;
-import com.hustunique.jianguo.driclient.bean.User;
+import com.hustunique.jianguo.driclient.models.AccessToken;
+import com.hustunique.jianguo.driclient.models.OAuthUser;
+import com.hustunique.jianguo.driclient.models.User;
 import com.hustunique.jianguo.driclient.dao.AuthUserDataHelper;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**

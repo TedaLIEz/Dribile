@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hustunique.jianguo.driclient.R;
-import com.hustunique.jianguo.driclient.bean.Comments;
+import com.hustunique.jianguo.driclient.models.Comments;
 import com.hustunique.jianguo.driclient.ui.widget.HTMLTextView;
 
 import butterknife.Bind;

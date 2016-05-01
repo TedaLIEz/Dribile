@@ -1,5 +1,5 @@
 
-package com.hustunique.jianguo.driclient.bean;
+package com.hustunique.jianguo.driclient.models;
 
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;

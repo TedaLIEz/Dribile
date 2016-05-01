@@ -3,8 +3,7 @@ package com.hustunique.jianguo.driclient.ui;
 import android.util.Log;
 import android.view.View;
 
-import com.hustunique.jianguo.driclient.app.UserManager;
-import com.hustunique.jianguo.driclient.bean.User;
+import com.hustunique.jianguo.driclient.models.User;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
 

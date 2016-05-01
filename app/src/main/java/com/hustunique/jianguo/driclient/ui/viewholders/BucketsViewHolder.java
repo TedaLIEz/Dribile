@@ -4,7 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hustunique.jianguo.driclient.R;
-import com.hustunique.jianguo.driclient.bean.Buckets;
+import com.hustunique.jianguo.driclient.models.Buckets;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
