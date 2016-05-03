@@ -1,11 +1,13 @@
 package com.hustunique.jianguo.driclient.ui.viewholders;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.models.Shots;
+import com.hustunique.jianguo.driclient.views.ShotView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -16,7 +18,7 @@ import butterknife.ButterKnife;
  * {@link android.support.v7.widget.RecyclerView.ViewHolder} viewHolder
  * for dribbble shots.
  */
-public class ShotsViewHolder extends BaseViewHolder<Shots> {
+public class ShotsViewHolder extends BaseViewHolder<Shots> implements ShotView {
 
 
     @Bind(R.id.image)
@@ -41,4 +43,33 @@ public class ShotsViewHolder extends BaseViewHolder<Shots> {
     }
 
 
+    @Override
+    public void setShotTitle(String title) {
+
+    }
+
+    @Override
+    public void setViewCount(String viewCount) {
+
+    }
+
+    @Override
+    public void setCommentCount(String commentCount) {
+
+    }
+
+    @Override
+    public void setLikeCount(String likeCount) {
+
+    }
+
+    @Override
+    public void setAnimated(String animated) {
+
+    }
+
+    @Override
+    public void loadImage(Drawable drawable) {
+        mImage.setImageDrawable(drawable);
+    }
 }

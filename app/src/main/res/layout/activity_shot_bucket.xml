@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:fitsSystemWindows="true"
+    android:id="@+id/rootView"
     android:layout_height="match_parent"
     tools:context="com.hustunique.jianguo.driclient.ui.activity.ShotCommentActivity">
 

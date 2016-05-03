@@ -3,7 +3,9 @@ package com.hustunique.jianguo.driclient.ui.activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,18 +14,21 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.ViewAnimator;
 
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
+import com.hustunique.jianguo.driclient.app.PresenterManager;
 import com.hustunique.jianguo.driclient.models.Buckets;
 import com.hustunique.jianguo.driclient.models.Shots;
+import com.hustunique.jianguo.driclient.presenters.ShotBucketPresenter;
 import com.hustunique.jianguo.driclient.service.DribbbleBucketsService;
-import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.driclient.ui.adapters.BucketsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.AddBucketDialog;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
+import com.hustunique.jianguo.driclient.views.BucketListView;
 
 import java.util.List;
 
@@ -36,16 +41,24 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
-public class ShotBucketActivity extends BaseActivity {
+public class ShotBucketActivity extends BaseActivity implements BucketListView {
+    private static final int POS_LIST = 1;
+    private static final int POS_LOADING = 0;
+    private static final int POS_EMPTY = 2;
     @Bind(R.id.rv_buckets)
     RecyclerView mBuckets;
     @Bind(R.id.fab)
     FloatingActionButton mFab;
     @Bind(R.id.shots_detail)
     TextView mTextView;
-
-    private Shots mShot;
+    @Bind(R.id.animator)
+    ViewAnimator mViewAnimator;
+    @Bind(R.id.rootView)
+    CoordinatorLayout mCoordinatorLayout;
     private BucketsAdapter mAdapter;
+
+    private ShotBucketPresenter mShotBucketPresenter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +69,16 @@ public class ShotBucketActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        mShot = (Shots) getIntent().getSerializableExtra(SHOT);
-        if (mShot == null) {
-            throw new NullPointerException("Shots mustn't be null in " + getClass().getSimpleName());
+        if (savedInstanceState == null) {
+            mShotBucketPresenter = new ShotBucketPresenter(getIntent());
+        } else {
+            mShotBucketPresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
         initView();
     }
 
     private void initView() {
         mAdapter = new BucketsAdapter(this, R.layout.item_buckets);
-        mTextView.setText(String.format(AppData.getString(R.string.comments_subtitle)
-                , mShot.getTitle()
-                , mShot.getUser().getName()));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mBuckets.setLayoutManager(linearLayoutManager);
         mBuckets.setAdapter(mAdapter);
@@ -75,7 +86,7 @@ public class ShotBucketActivity extends BaseActivity {
         mAdapter.setOnItemClickListener(new BucketsAdapter.OnItemClickListener() {
             @Override
             public void onClick(View v, Buckets buckets) {
-                addToBucket(buckets);
+                mShotBucketPresenter.addToBucket(buckets);
             }
         });
         mAdapter.setOnItemLongClickListener(new BucketsAdapter.OnItemLongClickListener() {
@@ -87,7 +98,7 @@ public class ShotBucketActivity extends BaseActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                deleteBucket(buckets);
+                                mShotBucketPresenter.deleteBucket(buckets);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -114,101 +125,76 @@ public class ShotBucketActivity extends BaseActivity {
                     @Override
                     public void onClick(Dialog dialog, String name, String description) {
                         Log.i("driclient", "get name " + name + "get description " + description);
-                        createBucket(name, description);
+                        mShotBucketPresenter.createBucket(name, description);
                         dialog.dismiss();
                     }
                 });
 
             }
         });
-        ApiServiceFactory.createService(DribbbleUserService.class)
-                .getAuthBuckets()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Buckets>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i("driclient", "load buckets successfully");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (e instanceof HttpException) {
-                            HttpException exception = (HttpException) e;
-                            showMessage("can't show buckets list " + exception.code());
-                        }
-                        Log.wtf("driclient", e);
-                    }
-
-                    @Override
-                    public void onNext(List<Buckets> bucketses) {
-                        if (bucketses.size() == 0) {
-                            showMessage("Wops! You haven't any buckets yet!");
-                        } else {
-                            mAdapter.setDataBefore(bucketses);
-                        }
-                    }
-                });
     }
 
-    private void createBucket(String name, String description) {
-        ApiServiceFactory.createService(DribbbleBucketsService.class)
-                .createBucket(name, description)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Buckets>() {
-                    @Override
-                    public void onCompleted() {
-                        showMessage("add buckets success!");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.wtf("driclient", e);
-                    }
-
-                    @Override
-                    public void onNext(Buckets buckets) {
-                        mAdapter.addData(buckets);
-                    }
-                });
+    @Override
+    public void addToBucket(final Buckets bucket) {
+        showMessage("add to bucket " + bucket.getName() + " success");
+        finish();
     }
 
-    private void deleteBucket(final Buckets bucket) {
-        ResponseBodyFactory.createService(DribbbleBucketsService.class)
-                .deleteBucket(bucket.getId())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<retrofit2.Response<ResponseBody>>() {
-                    @Override
-                    public void call(retrofit2.Response<ResponseBody> responseBodyResponse) {
-                        if (responseBodyResponse.code() == 204) {
-                            showMessage("delete bucket " + bucket.getName() + " success");
-                            mAdapter.removeData(bucket);
-                            finish();
-                        } else {
-                            Log.e("driclient" ,"delete bucket " + bucket.getId() + " failed");
-                        }
-                    }
-                });
+    @Override
+    public void setTitle(String title) {
+        mTextView.setText(title);
     }
 
-    private void addToBucket(final Buckets bucket) {
-        ResponseBodyFactory.createService(DribbbleBucketsService.class)
-                .putShotInBucket(bucket.getId(), mShot.getId())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<retrofit2.Response<ResponseBody>>() {
-                    @Override
-                    public void call(retrofit2.Response<ResponseBody> responseBodyResponse) {
-                        if (responseBodyResponse.code() == 204) {
-                            showMessage("add to bucket " + bucket.getName() + " success");
-                            finish();
-                        } else {
-                            Log.e("driclient", "add to bucket failed " + responseBodyResponse.code());
-                        }
-                    }
-                });
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mShotBucketPresenter.bindView(this);
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mShotBucketPresenter.unbindView();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        PresenterManager.getInstance().savePresenter(mShotBucketPresenter, outState);
+    }
+
+    @Override
+    public void showEmpty() {
+
+        mViewAnimator.setDisplayedChild(POS_EMPTY);
+    }
+
+    @Override
+    public void showLoading() {
+        mViewAnimator.setDisplayedChild(POS_LOADING);
+    }
+
+    @Override
+    public void showBuckets(List<Buckets> bucketsList) {
+        mAdapter.setDataBefore(bucketsList);
+        mViewAnimator.setDisplayedChild(POS_LIST);
+    }
+
+    @Override
+    public void onError(HttpException e) {
+        Snackbar.make(mCoordinatorLayout, "Network Exception!", Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void removeBucket(Buckets bucket) {
+        showMessage("delete bucket " + bucket.getName() + " success");
+        mAdapter.removeData(bucket);
+    }
+
+    @Override
+    public void createBucket(Buckets bucket) {
+        showMessage("create buckets " + bucket.getName() + "success!");
+        mAdapter.addData(bucket);
+    }
 }
