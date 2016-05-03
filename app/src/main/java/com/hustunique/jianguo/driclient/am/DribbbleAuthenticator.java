@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.hustunique.jianguo.driclient.presenters.AuthPresenter;
 import com.hustunique.jianguo.driclient.ui.activity.AuthActivity;
 
 /**
@@ -29,9 +30,9 @@ public class DribbbleAuthenticator extends AbstractAccountAuthenticator {
     @Override
     public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType, String[] requiredFeatures, Bundle options) throws NetworkErrorException {
         Intent intent = new Intent(mContext, AuthActivity.class);
-        intent.putExtra(AuthActivity.ARG_ACCOUNT_TYPE, accountType);
-        intent.putExtra(AuthActivity.ARG_AUTH_TYPE, authTokenType);
-        intent.putExtra(AuthActivity.ARG_IS_ADDING_NEW_ACCOUNT, true);
+        intent.putExtra(AuthPresenter.ARG_ACCOUNT_TYPE, accountType);
+        intent.putExtra(AuthPresenter.ARG_AUTH_TYPE, authTokenType);
+        intent.putExtra(AuthPresenter.ARG_IS_ADDING_NEW_ACCOUNT, true);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
         Bundle bundle = new Bundle();
         bundle.putParcelable(AccountManager.KEY_INTENT, intent);
@@ -53,8 +54,8 @@ public class DribbbleAuthenticator extends AbstractAccountAuthenticator {
         //If there is no token, then you should re-auth the account
         Intent intent = new Intent(mContext, AuthActivity.class);
         intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
-        intent.putExtra(AuthActivity.ARG_AUTH_TYPE, authTokenType);
-        intent.putExtra(AuthActivity.ARG_ACCOUNT_TYPE, account.type);
+        intent.putExtra(AuthPresenter.ARG_AUTH_TYPE, authTokenType);
+        intent.putExtra(AuthPresenter.ARG_ACCOUNT_TYPE, account.type);
         Bundle bundle = new Bundle();
         bundle.putParcelable(AccountManager.KEY_INTENT, intent);
 

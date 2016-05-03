@@ -30,7 +30,6 @@ import butterknife.OnClick;
  * Login Activity for application
  */
 public class LoginActivity extends BaseActivity implements LoginView {
-    private static final int LOGIN = 0x00000000;
     public static final int STARTUP_DELAY = 300;
     public static final int ANIM_ITEM_DURATION = 1000;
     public static final int ITEM_DELAY = 300;

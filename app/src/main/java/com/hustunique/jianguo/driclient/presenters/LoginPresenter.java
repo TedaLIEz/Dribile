@@ -32,14 +32,14 @@ public class LoginPresenter extends BasePresenter<OAuthUser, LoginView> {
                     Log.e("driclient"," user deny the authentications");
                     break;
                 case AuthPresenter.AUTH_FAILED:
-                    String msg = data.getStringExtra(AuthActivity.ERR_AUTH_MSG);
+                    String msg = data.getStringExtra(AuthPresenter.ERR_AUTH_MSG);
                     Log.e("driclient", " login failed " + msg);
                     break;
                 case AuthPresenter.AUTH_CANCELED:
                     break;
                 case AuthPresenter.AUTH_OK:
-                    User authUser = (User) data.getSerializableExtra(AuthActivity.AUTH_USER);
-                    AccessToken token = (AccessToken) data.getSerializableExtra(AuthActivity.TOKEN);
+                    User authUser = (User) data.getSerializableExtra(AuthPresenter.AUTH_USER);
+                    AccessToken token = (AccessToken) data.getSerializableExtra(AuthPresenter.TOKEN);
                     OAuthUser user = new OAuthUser();
                     user.setAccessToken(token);
                     user.setUser(authUser);

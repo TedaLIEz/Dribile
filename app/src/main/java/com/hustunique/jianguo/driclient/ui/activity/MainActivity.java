@@ -57,9 +57,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-        if (UserManager.getCurrentUser() != null) {
-            Log.i("driclient", "find login user " + UserManager.getCurrentUser().getJson());
-        }
+//        if (UserManager.getCurrentUser() != null) {
+//            Log.i("driclient", "find login user " + UserManager.getCurrentUser().getJson());
+//        }
 
         setSetupDrawerContent();
         initFab();
@@ -112,6 +112,7 @@ public class MainActivity extends BaseActivity {
                 .into(avatar);
         name.setText(UserManager.getCurrentUser().getUser().getName());
         html.setText(UserManager.getCurrentUser().getUser().getHtml_url());
+
         navigationView.addHeaderView(header);
         mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close);
         mToggle.syncState();
