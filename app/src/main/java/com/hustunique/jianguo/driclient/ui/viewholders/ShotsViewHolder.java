@@ -67,9 +67,4 @@ public class ShotsViewHolder extends BaseViewHolder<Shots> implements ShotView {
     public void setAnimated(String animated) {
 
     }
-
-    @Override
-    public void loadImage(Drawable drawable) {
-        mImage.setImageDrawable(drawable);
-    }
 }

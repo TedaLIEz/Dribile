@@ -28,6 +28,7 @@ import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.driclient.ui.adapters.BucketsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.AddBucketDialog;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
+import com.hustunique.jianguo.driclient.utils.CommonUtils;
 import com.hustunique.jianguo.driclient.views.BucketListView;
 
 import java.util.List;
@@ -136,7 +137,7 @@ public class ShotBucketActivity extends BaseActivity implements BucketListView {
 
     @Override
     public void addToBucket(final Buckets bucket) {
-        showMessage("add to bucket " + bucket.getName() + " success");
+        showMessage(AppData.getString(R.string.add_to_bucket_success, bucket.getName()));
         finish();
     }
 
@@ -188,13 +189,21 @@ public class ShotBucketActivity extends BaseActivity implements BucketListView {
 
     @Override
     public void removeBucket(Buckets bucket) {
-        showMessage("delete bucket " + bucket.getName() + " success");
+        Snackbar.make(mViewAnimator,
+                CommonUtils.coloredString(R.string.delete_bucket_success,
+                        R.color.colorPrimary,
+                        bucket.getName()),
+                Snackbar.LENGTH_SHORT).show();
         mAdapter.removeData(bucket);
     }
 
     @Override
     public void createBucket(Buckets bucket) {
-        showMessage("create buckets " + bucket.getName() + "success!");
+        Snackbar.make(mViewAnimator,
+                CommonUtils.coloredString(R.string.create_bucket_success,
+                        R.color.colorPrimary,
+                        bucket.getName()),
+                Snackbar.LENGTH_SHORT).show();
         mAdapter.addData(bucket);
     }
 }

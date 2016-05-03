@@ -75,6 +75,10 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
+
+    public void setTitle(String title) {
+        mToolbar.setTitle(title);
+    }
     //TODO: find icons for buckets!
     private void setSetupDrawerContent() {
         onShotsSelected();
@@ -125,6 +129,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onLikesSelected() {
+        mToolbar.setTitle("My likes");
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (null == fragmentManager.findFragmentByTag(BucketFragment.class.getName())) {
@@ -136,6 +141,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onBucketSelected() {
+        mToolbar.setTitle("My buckets");
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (null == fragmentManager.findFragmentByTag(BucketFragment.class.getName())) {
@@ -153,6 +159,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onShotsSelected() {
+        mToolbar.setTitle("Shots");
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (null == fragmentManager.findFragmentByTag(BaseShotListFragment.class.getName())) {

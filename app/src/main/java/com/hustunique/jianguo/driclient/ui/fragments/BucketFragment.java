@@ -10,48 +10,46 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.ViewAnimator;
 
 import com.hustunique.jianguo.driclient.R;
+import com.hustunique.jianguo.driclient.app.PresenterManager;
 import com.hustunique.jianguo.driclient.models.Buckets;
-import com.hustunique.jianguo.driclient.service.DribbbleBucketsService;
-import com.hustunique.jianguo.driclient.service.DribbbleUserService;
-import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
-import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
+import com.hustunique.jianguo.driclient.presenters.ShotBucketPresenter;
 import com.hustunique.jianguo.driclient.ui.activity.BucketDetailActivity;
 import com.hustunique.jianguo.driclient.ui.adapters.BucketsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.AddBucketDialog;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
+import com.hustunique.jianguo.driclient.utils.CommonUtils;
+import com.hustunique.jianguo.driclient.views.BucketListView;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Use the {@link BucketFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BucketFragment extends BaseFragment {
+public class BucketFragment extends BaseFragment implements BucketListView {
     private static final String ARG_PARAM1 = "param1";
+    private static final int POS_LIST = 1;
+    private static final int POS_EMPTY = 2;
+    private static final int POS_LOADING = 0;
     @Bind(R.id.rv_buckets)
     RecyclerView mBuckets;
 
-    //Get rootView used for snackBar
-    @Bind(R.id.rootView)
-    FrameLayout rootView;
+
+    @Bind(R.id.animator)
+    ViewAnimator mViewAnimator;
+
     private BucketsAdapter mAdapter;
+    private ShotBucketPresenter mShotBucketPresenter;
 
     private String mParam1;
 
@@ -63,20 +61,20 @@ public class BucketFragment extends BaseFragment {
     @Override
     public void onFabClick() {
         AddBucketDialog dialog = new AddBucketDialog(getActivity());
-                dialog.show();
-                dialog.setOnNegativeButton("No", new AddBucketDialog.OnNegativeButtonListener() {
-                    @Override
-                    public void onClick(Dialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.setOnPositiveButton("Yes", new AddBucketDialog.OnPositiveButtonListener() {
-                    @Override
-                    public void onClick(Dialog dialog, String name, String description) {
-                        createBucket(name, description);
-                        dialog.dismiss();
-                    }
-                });
+        dialog.show();
+        dialog.setOnNegativeButton("No", new AddBucketDialog.OnNegativeButtonListener() {
+            @Override
+            public void onClick(Dialog dialog) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setOnPositiveButton("Yes", new AddBucketDialog.OnPositiveButtonListener() {
+            @Override
+            public void onClick(Dialog dialog, String name, String description) {
+                mShotBucketPresenter.createBucket(name, description);
+                dialog.dismiss();
+            }
+        });
     }
 
     /**
@@ -100,6 +98,23 @@ public class BucketFragment extends BaseFragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
+        if (savedInstanceState == null) {
+            mShotBucketPresenter = new ShotBucketPresenter();
+        } else {
+            mShotBucketPresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShotBucketPresenter.bindView(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mShotBucketPresenter.unbindView();
     }
 
     @Override
@@ -133,7 +148,7 @@ public class BucketFragment extends BaseFragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                deleteBucket(buckets);
+                                mShotBucketPresenter.deleteBucket(buckets);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -145,34 +160,6 @@ public class BucketFragment extends BaseFragment {
                         .show();
             }
         });
-        ApiServiceFactory.createService(DribbbleUserService.class)
-                .getAuthBuckets()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Buckets>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i("driclient", "load buckets successfully");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (e instanceof HttpException) {
-                            HttpException exception = (HttpException) e;
-                            Snackbar.make(rootView, "Network Exception!", Snackbar.LENGTH_SHORT).show();
-                        }
-                        Log.wtf("driclient", e);
-                    }
-
-                    @Override
-                    public void onNext(List<Buckets> bucketses) {
-                        if (bucketses.size() == 0) {
-                            Snackbar.make(rootView, "Wops! You haven't any buckets yet!", Snackbar.LENGTH_SHORT).show();
-                        } else {
-                            mAdapter.setDataBefore(bucketses);
-                        }
-                    }
-                });
     }
 
     private void showShots(Buckets buckets) {
@@ -182,53 +169,54 @@ public class BucketFragment extends BaseFragment {
     }
 
 
-    private void createBucket(String name, String description) {
-        ApiServiceFactory.createService(DribbbleBucketsService.class)
-                .createBucket(name, description)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Buckets>() {
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (e instanceof HttpException) {
-                            Snackbar.make(rootView, "Failed to create bucket", Snackbar.LENGTH_SHORT).show();
-                        }
-                        Log.wtf("driclient", e);
-
-                    }
-
-                    @Override
-                    public void onNext(Buckets bucket) {
-                        mAdapter.addData(bucket);
-                        Snackbar.make(rootView, "Create buckets " + bucket.getName() + " success!", Snackbar.LENGTH_SHORT).show();
-                    }
-                });
+    @Override
+    public void showEmpty() {
+        mViewAnimator.setDisplayedChild(POS_EMPTY);
     }
 
-    private void deleteBucket(final Buckets bucket) {
-        ResponseBodyFactory.createService(DribbbleBucketsService.class)
-                .deleteBucket(bucket.getId())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Response<ResponseBody>>() {
-                    @Override
-                    public void call(retrofit2.Response<ResponseBody> responseBodyResponse) {
-                        if (responseBodyResponse.code() == 204) {
-                            mAdapter.removeData(bucket);
-                            Snackbar.make(rootView, "delete buckets " + bucket.getName() + " success!", Snackbar.LENGTH_SHORT).show();
-                        } else {
-                            Snackbar.make(rootView, "delete buckets " + bucket.getName() + " failed!", Snackbar.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+    @Override
+    public void showLoading() {
+        mViewAnimator.setDisplayedChild(POS_LOADING);
     }
 
+    @Override
+    public void showBuckets(List<Buckets> bucketsList) {
+        mAdapter.setDataBefore(bucketsList);
+        mViewAnimator.setDisplayedChild(POS_LIST);
+    }
 
+    @Override
+    public void onError(HttpException e) {
+        Snackbar.make(mViewAnimator, "Failed to create bucket", Snackbar.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void removeBucket(Buckets bucket) {
+        Snackbar.make(mViewAnimator,
+                CommonUtils.coloredString(R.string.delete_bucket_success,
+                        R.color.colorPrimary,
+                        bucket.getName()+""),
+                Snackbar.LENGTH_SHORT).show();
+        mAdapter.removeData(bucket);
+    }
 
+    @Override
+    public void createBucket(Buckets bucket) {
+        Snackbar.make(mViewAnimator,
+                CommonUtils.coloredString(R.string.create_bucket_success,
+                        R.color.colorPrimary,
+                        bucket.getName()+""),
+                Snackbar.LENGTH_SHORT).show();
+        mAdapter.addData(bucket);
+    }
 
+    @Override
+    public void addToBucket(Buckets bucket) {
+
+    }
+
+    @Override
+    public void setTitle(String title) {
+
+    }
 }

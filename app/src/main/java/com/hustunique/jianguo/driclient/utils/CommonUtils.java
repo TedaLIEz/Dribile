@@ -10,11 +10,16 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ColorRes;
+import android.support.annotation.StringRes;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
+import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.ui.activity.BaseActivity;
 
@@ -187,6 +192,12 @@ public class CommonUtils {
         }
     }
 
+
+    public static Spanned coloredString(@StringRes int stringId, @ColorRes int colorId, String string) {
+        int color = AppData.getColor(colorId);
+        String str = AppData.getString(stringId, color, string);
+        return Html.fromHtml(str);
+    }
 
 
 }
