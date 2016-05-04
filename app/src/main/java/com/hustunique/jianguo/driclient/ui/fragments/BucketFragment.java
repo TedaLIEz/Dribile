@@ -18,25 +18,24 @@ import android.widget.ViewAnimator;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.PresenterManager;
 import com.hustunique.jianguo.driclient.models.Buckets;
-import com.hustunique.jianguo.driclient.presenters.ShotBucketPresenter;
+import com.hustunique.jianguo.driclient.presenters.BucketPresenter;
 import com.hustunique.jianguo.driclient.ui.activity.BucketDetailActivity;
 import com.hustunique.jianguo.driclient.ui.adapters.BucketsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.AddBucketDialog;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
-import com.hustunique.jianguo.driclient.views.BucketListView;
+import com.hustunique.jianguo.driclient.views.BucketView;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import retrofit2.adapter.rxjava.HttpException;
 
 /**
  * Use the {@link BucketFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BucketFragment extends BaseFragment implements BucketListView {
+public class BucketFragment extends BaseFragment implements BucketView, IFabClickFragment {
     private static final String ARG_PARAM1 = "param1";
     private static final int POS_LIST = 1;
     private static final int POS_EMPTY = 2;
@@ -49,7 +48,7 @@ public class BucketFragment extends BaseFragment implements BucketListView {
     ViewAnimator mViewAnimator;
 
     private BucketsAdapter mAdapter;
-    private ShotBucketPresenter mShotBucketPresenter;
+    private BucketPresenter mBucketPresenter;
 
     private String mParam1;
 
@@ -71,7 +70,7 @@ public class BucketFragment extends BaseFragment implements BucketListView {
         dialog.setOnPositiveButton("Yes", new AddBucketDialog.OnPositiveButtonListener() {
             @Override
             public void onClick(Dialog dialog, String name, String description) {
-                mShotBucketPresenter.createBucket(name, description);
+                mBucketPresenter.createBucket(name, description);
                 dialog.dismiss();
             }
         });
@@ -99,22 +98,22 @@ public class BucketFragment extends BaseFragment implements BucketListView {
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
         if (savedInstanceState == null) {
-            mShotBucketPresenter = new ShotBucketPresenter();
+            mBucketPresenter = new BucketPresenter();
         } else {
-            mShotBucketPresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
+            mBucketPresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mShotBucketPresenter.bindView(this);
+        mBucketPresenter.bindView(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mShotBucketPresenter.unbindView();
+        mBucketPresenter.unbindView();
     }
 
     @Override
@@ -148,7 +147,7 @@ public class BucketFragment extends BaseFragment implements BucketListView {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mShotBucketPresenter.deleteBucket(buckets);
+                                mBucketPresenter.deleteBucket(buckets);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -180,14 +179,14 @@ public class BucketFragment extends BaseFragment implements BucketListView {
     }
 
     @Override
-    public void showBuckets(List<Buckets> bucketsList) {
-        mAdapter.setDataBefore(bucketsList);
-        mViewAnimator.setDisplayedChild(POS_LIST);
+    public void onError(Exception e) {
+        Snackbar.make(mViewAnimator, "Failed to create bucket", Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onError(HttpException e) {
-        Snackbar.make(mViewAnimator, "Failed to create bucket", Snackbar.LENGTH_SHORT).show();
+    public void showData(List<Buckets> bucketsList) {
+        mAdapter.setDataBefore(bucketsList);
+        mViewAnimator.setDisplayedChild(POS_LIST);
     }
 
     @Override
@@ -208,15 +207,5 @@ public class BucketFragment extends BaseFragment implements BucketListView {
                         bucket.getName()+""),
                 Snackbar.LENGTH_SHORT).show();
         mAdapter.addData(bucket);
-    }
-
-    @Override
-    public void addToBucket(Buckets bucket) {
-
-    }
-
-    @Override
-    public void setTitle(String title) {
-
     }
 }

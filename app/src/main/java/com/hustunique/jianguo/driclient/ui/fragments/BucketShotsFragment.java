@@ -46,8 +46,4 @@ public class BucketShotsFragment extends BaseShotListFragment {
                 .getShotsFromBuckets(mBucket.getId());
     }
 
-    @Override
-    public void onFabClick() {
-
-    }
 }

@@ -127,15 +127,6 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
 
     private void initRecyclerView() {
         mAdapter = new ShotsAdapter(getActivity(), R.layout.item_shot);
-        mAdapter.setOnItemClickListener(new ShotsAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(View v, Shots shots) {
-                Log.i("driclient", "click on " + shots.getJson());
-                Intent intent = new Intent(getActivity(), ShotInfoActivity.class);
-                intent.putExtra("shots", shots);
-                startActivity(intent);
-            }
-        });
         mRecyclerView.setAdapter(new ScaleInAnimationAdapter(mAdapter));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new PaddingItemDecoration(dividerSize));
@@ -230,8 +221,7 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
                         data = shotses;
                         final ShotsDataHelper helper = new ShotsDataHelper();
                         if (refreshFromTop) {
-                            mAdapter.clearData();
-                            mAdapter.setDataBefore(data);
+                            mAdapter.clearAndAddAll(data);
                             mRecyclerView.smoothScrollToPosition(0);
                             new Thread(new Runnable() {
                                 @Override
@@ -247,7 +237,7 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
                                 }
                             }).start();
                         } else {
-                            mAdapter.setDataAfter(data);
+                            mAdapter.addAll(data);
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -282,7 +272,7 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
                     cursor.getString(cursor.getColumnIndex(ShotsDataHelper.ShotsTable.JSON)),
                     Shots.class));
         }
-        mAdapter.setDataBefore(data);
+        mAdapter.addAll(data);
     }
 
 

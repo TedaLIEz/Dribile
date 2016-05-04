@@ -1,13 +1,19 @@
 package com.hustunique.jianguo.driclient.ui.viewholders;
 
-import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hustunique.jianguo.driclient.R;
+import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.models.Shots;
+import com.hustunique.jianguo.driclient.presenters.ShotPresenter;
+import com.hustunique.jianguo.driclient.utils.CommonUtils;
 import com.hustunique.jianguo.driclient.views.ShotView;
+import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,7 +24,7 @@ import butterknife.ButterKnife;
  * {@link android.support.v7.widget.RecyclerView.ViewHolder} viewHolder
  * for dribbble shots.
  */
-public class ShotsViewHolder extends BaseViewHolder<Shots> implements ShotView {
+public class ShotsViewHolder extends MvpViewHolder<ShotPresenter> implements ShotView {
 
 
     @Bind(R.id.image)
@@ -37,34 +43,82 @@ public class ShotsViewHolder extends BaseViewHolder<Shots> implements ShotView {
 
     @Bind(R.id.shots_title)
     public TextView mTitle;
+
+    @Nullable OnShotClickListener mOnShotClickListener;
     public ShotsViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onShotClicked();
+            }
+        });
     }
-
 
     @Override
     public void setShotTitle(String title) {
+        mTitle.setText(title);
+    }
 
+    public void setListener(@Nullable OnShotClickListener listener) {
+        this.mOnShotClickListener = listener;
     }
 
     @Override
     public void setViewCount(String viewCount) {
-
+        mViewCount.setText(viewCount);
     }
 
     @Override
     public void setCommentCount(String commentCount) {
-
+        mCommentCount.setText(commentCount);
     }
 
     @Override
     public void setLikeCount(String likeCount) {
-
+        mLikeCount.setText(likeCount);
     }
 
     @Override
-    public void setAnimated(String animated) {
-
+    public void setAnimated(boolean animated) {
+        if (animated) {
+            mGif.setVisibility(View.VISIBLE);
+            mImage.setColorFilter(CommonUtils.brightIt(-100));
+        } else {
+            mGif.setVisibility(View.INVISIBLE);
+        }
     }
+
+    @Override
+    public void setShotImage(String imageUrl) {
+        Picasso.with(itemView.getContext()).load(Uri.parse(imageUrl))
+                .placeholder(AppData.getDrawable(R.drawable.shots_default))
+                .into(mImage);
+    }
+
+    @Override
+    public void setAvatar(String avatar_url) {
+        Picasso.with(itemView.getContext()).load(Uri.parse(avatar_url))
+                .placeholder(AppData.getDrawable(R.drawable.shots_default))
+                .into(mAvatar);
+    }
+
+    @Override
+    public void goToDetailView(Shots model) {
+        if (mOnShotClickListener != null) {
+            mOnShotClickListener.onShotClick(model);
+        }
+    }
+
+    @Override
+    public void hideAvatar() {
+        mAvatar.setVisibility(View.GONE);
+    }
+
+    public interface OnShotClickListener {
+        void onShotClick(Shots model);
+    }
+
+
 }

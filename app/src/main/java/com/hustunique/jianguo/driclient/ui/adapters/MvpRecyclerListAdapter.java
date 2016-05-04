@@ -89,7 +89,7 @@ public abstract class MvpRecyclerListAdapter<M, P extends BasePresenter, VH exte
 
 
     private void addInternal(M item) {
-        System.err.println("Adding item " + getModelId(item));
+//        System.err.println("Adding item " + getModelId(item));
         models.add(item);
         presenters.put(getModelId(item), createPresenter(item));
     }

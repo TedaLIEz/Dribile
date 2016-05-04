@@ -19,7 +19,7 @@ import rx.functions.Func1;
  * Created by JianGuo on 4/21/16.
  * Fragment for listing shots in likes
  */
-public class LikesShotsFragment extends BaseShotListFragment {
+public class LikesShotsFragment extends BaseShotListFragment implements IFabClickFragment {
     public static final String ID = "id";
     private String id;
     public static LikesShotsFragment newInstance(@SortType String sortType, @Nullable String id) {

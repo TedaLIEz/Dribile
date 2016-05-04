@@ -1,7 +1,5 @@
 package com.hustunique.jianguo.driclient.presenters;
 
-import android.content.Context;
-
 import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.views.ShotView;
 
@@ -12,14 +10,27 @@ public class ShotPresenter extends BasePresenter<Shots, ShotView> {
 
     @Override
     protected void updateView() {
-        view().setAnimated(model.getAnimated());
+        view().setAnimated(model.getAnimated().equals("true"));
         view().setCommentCount(model.getComments_count());
         view().setLikeCount(model.getLikes_count());
         view().setShotTitle(model.getTitle());
         view().setViewCount(model.getViews_count());
+        view().setShotImage(model.getImages().getNormal());
+        if (model.getUser() != null) {
+            //TODO: load user avatar.
+            view().setAvatar(model.getUser().getAvatar_url());
+        } else {
+            view().hideAvatar();
+        }
     }
 
-    public void loadImage(Context context) {
+
+    public void onShotClicked() {
+        if (setupDone()) {
+            view().goToDetailView(model);
+        }
     }
+
+
 
 }

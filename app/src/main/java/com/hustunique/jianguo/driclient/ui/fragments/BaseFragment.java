@@ -13,6 +13,6 @@ public abstract class BaseFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public abstract void onFabClick();
+
 
 }

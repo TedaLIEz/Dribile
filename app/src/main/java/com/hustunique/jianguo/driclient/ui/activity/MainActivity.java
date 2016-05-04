@@ -7,13 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,9 +22,9 @@ import android.widget.TextView;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
-import com.hustunique.jianguo.driclient.ui.fragments.BaseFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.BaseShotListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.BucketFragment;
+import com.hustunique.jianguo.driclient.ui.fragments.IFabClickFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.LikesShotsFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.ShotListFragment;
 import com.squareup.picasso.Picasso;
@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity {
     Toolbar mToolbar;
 
     private ActionBarDrawerToggle mToggle;
-    private BaseFragment mContentFragment;
+    private IFabClickFragment mContentFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,11 +132,11 @@ public class MainActivity extends BaseActivity {
         mToolbar.setTitle("My likes");
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (null == fragmentManager.findFragmentByTag(BucketFragment.class.getName())) {
+        if (null == fragmentManager.findFragmentByTag(LikesShotsFragment.class.getName())) {
             mContentFragment = LikesShotsFragment.newInstance(LikesShotsFragment.SORT_VIEWS, null);
         }
         fragmentTransaction
-                .replace(R.id.container, mContentFragment, BucketFragment.class.getName());
+                .replace(R.id.container, (Fragment) mContentFragment, BucketFragment.class.getName());
         fragmentTransaction.commit();
     }
 
@@ -148,7 +148,7 @@ public class MainActivity extends BaseActivity {
             mContentFragment = BucketFragment.newInstance("test1");
         }
         fragmentTransaction
-                .replace(R.id.container, mContentFragment, BucketFragment.class.getName());
+                .replace(R.id.container, (Fragment) mContentFragment, BucketFragment.class.getName());
         fragmentTransaction.commit();
     }
 
@@ -166,7 +166,7 @@ public class MainActivity extends BaseActivity {
             mContentFragment = ShotListFragment.newInstance(ShotListFragment.SORT_VIEWS, null);
         }
         fragmentTransaction
-                .replace(R.id.container, mContentFragment, BaseShotListFragment.class.getName());
+                .replace(R.id.container, (Fragment) mContentFragment, BaseShotListFragment.class.getName());
         fragmentTransaction.commit();
     }
 

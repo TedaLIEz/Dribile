@@ -16,7 +16,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_margin="8dp"
                 android:id="@+id/shots_avatar"
@@ -25,14 +25,15 @@
                 android:layout_height="32dp" />
             <TextView
                 android:id="@+id/shots_title"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:layout_gravity="center_vertical"
-                android:ellipsize="end"
+                android:gravity="center_vertical"
                 android:textAppearance="@style/TextAppearance.Shots"
                 tools:text="National Geographic Redisign"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent" />
         </LinearLayout>
         <FrameLayout
             android:id="@+id/shots_preview"

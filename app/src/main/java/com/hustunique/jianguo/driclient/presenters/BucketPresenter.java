@@ -2,7 +2,6 @@ package com.hustunique.jianguo.driclient.presenters;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 
 import com.hustunique.jianguo.driclient.R;
@@ -14,6 +13,7 @@ import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.driclient.views.BucketListView;
+import com.hustunique.jianguo.driclient.views.BucketView;
 
 import java.util.List;
 
@@ -28,33 +28,24 @@ import rx.schedulers.Schedulers;
 /**
  * Created by JianGuo on 5/3/16.
  */
-public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketListView> {
+public class BucketPresenter extends BasePresenter<List<Buckets>, BucketView> {
     private boolean isLoadingData = false;
     protected static final String SHOT = "shot";
     private Shots mShot;
 
-    public ShotBucketPresenter() {
+    public BucketPresenter() {
 
     }
 
-
-    public ShotBucketPresenter(Intent intent) {
-        mShot = (Shots) intent.getSerializableExtra(SHOT);
-    }
 
     @Override
     protected void updateView() {
         if (model.size() == 0) view().showEmpty();
         else view().showData(model);
-        if (mShot != null) {
-            view().setTitle(String.format(AppData.getString(R.string.comments_subtitle)
-                    , mShot.getTitle()
-                    , mShot.getUser().getName()));
-        }
     }
 
     @Override
-    public void bindView(@NonNull BucketListView view) {
+    public void bindView(@NonNull BucketView view) {
         super.bindView(view);
         if (model == null && !isLoadingData) {
             view.showLoading();
@@ -91,26 +82,6 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketList
                 });
     }
 
-    public void deleteBucket(final Buckets bucket) {
-        ResponseBodyFactory.createService(DribbbleBucketsService.class)
-                .deleteBucket(bucket.getId())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Response<ResponseBody>>() {
-                    @Override
-                    public void call(retrofit2.Response<ResponseBody> responseBodyResponse) {
-                        if (responseBodyResponse.code() == 204) {
-                            view().removeBucket(bucket);
-                            model.remove(bucket);
-                            if (model.size() == 0) {
-                                view().showEmpty();
-                            }
-                        } else {
-                            Log.e("driclient" ,"delete bucket " + bucket.getId() + " failed");
-                        }
-                    }
-                });
-    }
 
     public void createBucket(String name, String description) {
         ApiServiceFactory.createService(DribbbleBucketsService.class)
@@ -139,26 +110,28 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketList
                 });
     }
 
-    public void addToBucket(final Buckets bucket) {
-        if (mShot == null) {
-            Log.e("driclient", "shot must given!");
-            return;
 
-        }
 
+    public void deleteBucket(final Buckets bucket) {
         ResponseBodyFactory.createService(DribbbleBucketsService.class)
-                .putShotInBucket(bucket.getId(), mShot.getId())
+                .deleteBucket(bucket.getId())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<retrofit2.Response<ResponseBody>>() {
+                .subscribe(new Action1<Response<ResponseBody>>() {
                     @Override
                     public void call(retrofit2.Response<ResponseBody> responseBodyResponse) {
                         if (responseBodyResponse.code() == 204) {
-                            view().addToBucket(bucket);
+                            view().removeBucket(bucket);
+                            model.remove(bucket);
+                            if (model.size() == 0) {
+                                view().showEmpty();
+                            }
                         } else {
-                            Log.e("driclient", "add to bucket failed " + responseBodyResponse.code());
+                            Log.e("driclient" ,"delete bucket " + bucket.getId() + " failed");
                         }
                     }
                 });
     }
+
+
 }

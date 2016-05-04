@@ -22,7 +22,7 @@ public abstract class MvpRecyclerAdapter<M, P extends BasePresenter, VH extends 
     }
 
     @NonNull protected P getPresenter(@NonNull M model) {
-        System.err.println("Getting presenter for item " + getModelId(model));
+//        System.err.println("Getting presenter for item " + getModelId(model));
         return presenters.get(getModelId(model));
     }
 

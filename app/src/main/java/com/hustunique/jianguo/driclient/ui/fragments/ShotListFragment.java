@@ -17,7 +17,7 @@ import rx.Observable;
  * Created by JianGuo on 4/21/16.
  * Fragment for loading shots in dribbble
  */
-public class ShotListFragment extends BaseShotListFragment {
+public class ShotListFragment extends BaseShotListFragment implements IFabClickFragment {
 
     public static final String ID = "id";
     private String id;
