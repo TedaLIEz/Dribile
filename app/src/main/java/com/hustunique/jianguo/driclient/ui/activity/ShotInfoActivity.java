@@ -202,19 +202,11 @@ public class ShotInfoActivity extends BaseActivity {
     }
 
     private void initComments() {
+        commentsAdapter = new CommentsAdapter(this, R.layout.item_comments);
         mScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY != oldScrollY && mFabLayout.isToolbar()) mFabLayout.hide();
-            }
-        });
-        commentsAdapter = new CommentsAdapter(this, R.layout.item_comments);
-        commentsAdapter.setOnItemClickListener(new CommentsAdapter.OnItemClickListener() {
-            @Override
-            public void onClick(View v, Comments comments) {
-                Intent intent = new Intent(ShotInfoActivity.this, ProfileActivity.class);
-                intent.putExtra(ProfileActivity.USER, comments.getUser());
-                startActivity(intent);
             }
         });
 
@@ -256,7 +248,7 @@ public class ShotInfoActivity extends BaseActivity {
 
                     @Override
                     public void onNext(List<Comments> commentses) {
-                        commentsAdapter.setDataAfter(commentses);
+                        commentsAdapter.addAll(commentses);
 
                     }
                 });

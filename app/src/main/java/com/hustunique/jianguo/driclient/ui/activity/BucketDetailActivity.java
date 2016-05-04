@@ -8,7 +8,7 @@ import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.models.Buckets;
-import com.hustunique.jianguo.driclient.ui.fragments.BucketShotsFragment;
+import com.hustunique.jianguo.driclient.ui.fragments.BucketInShotFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -42,9 +42,9 @@ public class BucketDetailActivity extends BaseActivity {
         mDescription.setText(String.format(AppData.getString(R.string.bucket_description)
                 , UserManager.getCurrentUser().getUser().getName()
                 , bucket.getShots_count()));
-        BucketShotsFragment bucketShotsFragment = BucketShotsFragment.newInstance(BucketShotsFragment.SORT_VIEWS, bucket);
+        BucketInShotFragment bucketInShotFragment = BucketInShotFragment.newInstance(BucketInShotFragment.SORT_VIEWS, bucket);
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.container, bucketShotsFragment, null).commit();
+                .replace(R.id.container, bucketInShotFragment, null).commit();
 
     }
 }

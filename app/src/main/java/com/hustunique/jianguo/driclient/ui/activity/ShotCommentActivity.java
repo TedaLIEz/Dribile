@@ -123,7 +123,7 @@ public class ShotCommentActivity extends BaseActivity {
 
                     @Override
                     public void onNext(Comments comments) {
-                        mAdapter.addData(comments);
+                        mAdapter.addItem(comments);
                         mComments.scrollToPosition(mAdapter.getItemCount() - 1);
                     }
                 });
@@ -156,7 +156,7 @@ public class ShotCommentActivity extends BaseActivity {
 
                     @Override
                     public void onNext(List<Comments> commentses) {
-                        mAdapter.setDataBefore(commentses);
+                        mAdapter.addAll(commentses);
                     }
                 });
     }

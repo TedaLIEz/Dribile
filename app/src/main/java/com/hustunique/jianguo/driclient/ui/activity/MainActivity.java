@@ -23,7 +23,7 @@ import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.ui.fragments.BaseShotListFragment;
-import com.hustunique.jianguo.driclient.ui.fragments.BucketFragment;
+import com.hustunique.jianguo.driclient.ui.fragments.BucketListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.IFabClickFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.LikesShotsFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.ShotListFragment;
@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity {
             mContentFragment = LikesShotsFragment.newInstance(LikesShotsFragment.SORT_VIEWS, null);
         }
         fragmentTransaction
-                .replace(R.id.container, (Fragment) mContentFragment, BucketFragment.class.getName());
+                .replace(R.id.container, (Fragment) mContentFragment, BucketListFragment.class.getName());
         fragmentTransaction.commit();
     }
 
@@ -144,11 +144,11 @@ public class MainActivity extends BaseActivity {
         mToolbar.setTitle("My buckets");
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (null == fragmentManager.findFragmentByTag(BucketFragment.class.getName())) {
-            mContentFragment = BucketFragment.newInstance("test1");
+        if (null == fragmentManager.findFragmentByTag(BucketListFragment.class.getName())) {
+            mContentFragment = BucketListFragment.newInstance("test1");
         }
         fragmentTransaction
-                .replace(R.id.container, (Fragment) mContentFragment, BucketFragment.class.getName());
+                .replace(R.id.container, (Fragment) mContentFragment, BucketListFragment.class.getName());
         fragmentTransaction.commit();
     }
 

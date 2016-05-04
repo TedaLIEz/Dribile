@@ -20,29 +20,22 @@ import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.PresenterManager;
 import com.hustunique.jianguo.driclient.models.Buckets;
-import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.presenters.ShotBucketPresenter;
-import com.hustunique.jianguo.driclient.service.DribbbleBucketsService;
-import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
-import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.driclient.ui.adapters.BucketsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.AddBucketDialog;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
-import com.hustunique.jianguo.driclient.views.BucketListView;
+import com.hustunique.jianguo.driclient.views.BucketInShotListView;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import okhttp3.ResponseBody;
-import retrofit2.adapter.rxjava.HttpException;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
-public class ShotBucketActivity extends BaseActivity implements BucketListView {
+/**
+ * Activity for adding shot to user's bucket
+ */
+public class ShotBucketActivity extends BaseActivity implements BucketInShotListView {
     private static final int POS_LIST = 1;
     private static final int POS_LOADING = 0;
     private static final int POS_EMPTY = 2;

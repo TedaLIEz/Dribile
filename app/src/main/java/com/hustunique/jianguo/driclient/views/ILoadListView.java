@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by JianGuo on 5/4/16.
  */
-public interface IListView<M> {
+public interface ILoadListView<M> {
     void showEmpty();
     void showLoading();
     void onError(Exception e);

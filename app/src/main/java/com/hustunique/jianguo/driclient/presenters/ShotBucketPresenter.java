@@ -2,7 +2,6 @@ package com.hustunique.jianguo.driclient.presenters;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 
 import com.hustunique.jianguo.driclient.R;
@@ -13,7 +12,7 @@ import com.hustunique.jianguo.driclient.service.DribbbleBucketsService;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
-import com.hustunique.jianguo.driclient.views.BucketListView;
+import com.hustunique.jianguo.driclient.views.BucketInShotListView;
 
 import java.util.List;
 
@@ -28,7 +27,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by JianGuo on 5/3/16.
  */
-public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketListView> {
+public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInShotListView> {
     private boolean isLoadingData = false;
     protected static final String SHOT = "shot";
     private Shots mShot;
@@ -54,7 +53,7 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketList
     }
 
     @Override
-    public void bindView(@NonNull BucketListView view) {
+    public void bindView(@NonNull BucketInShotListView view) {
         super.bindView(view);
         if (model == null && !isLoadingData) {
             view.showLoading();

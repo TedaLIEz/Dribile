@@ -1,19 +1,14 @@
 package com.hustunique.jianguo.driclient.presenters;
 
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.hustunique.jianguo.driclient.R;
-import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.models.Buckets;
-import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.service.DribbbleBucketsService;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.driclient.views.BucketListView;
-import com.hustunique.jianguo.driclient.views.BucketView;
 
 import java.util.List;
 
@@ -27,11 +22,10 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by JianGuo on 5/3/16.
+ * Presenter for loading buckets of the auth user.
  */
-public class BucketPresenter extends BasePresenter<List<Buckets>, BucketView> {
+public class BucketPresenter extends BasePresenter<List<Buckets>, BucketListView> {
     private boolean isLoadingData = false;
-    protected static final String SHOT = "shot";
-    private Shots mShot;
 
     public BucketPresenter() {
 
@@ -45,7 +39,7 @@ public class BucketPresenter extends BasePresenter<List<Buckets>, BucketView> {
     }
 
     @Override
-    public void bindView(@NonNull BucketView view) {
+    public void bindView(@NonNull BucketListView view) {
         super.bindView(view);
         if (model == null && !isLoadingData) {
             view.showLoading();

@@ -5,6 +5,7 @@ import com.hustunique.jianguo.driclient.views.ShotView;
 
 /**
  * Created by JianGuo on 5/3/16.
+ * Presenter of shot item in adapter
  */
 public class ShotPresenter extends BasePresenter<Shots, ShotView> {
 
@@ -17,7 +18,6 @@ public class ShotPresenter extends BasePresenter<Shots, ShotView> {
         view().setViewCount(model.getViews_count());
         view().setShotImage(model.getImages().getNormal());
         if (model.getUser() != null) {
-            //TODO: load user avatar.
             view().setAvatar(model.getUser().getAvatar_url());
         } else {
             view().hideAvatar();

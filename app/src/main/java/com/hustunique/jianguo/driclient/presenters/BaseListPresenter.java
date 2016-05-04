@@ -3,7 +3,7 @@ package com.hustunique.jianguo.driclient.presenters;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringDef;
 
-import com.hustunique.jianguo.driclient.views.IListView;
+import com.hustunique.jianguo.driclient.views.ILoadListView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by JianGuo on 5/4/16.
  */
-public abstract class BaseListPresenter<M, V extends IListView<M>> extends BasePresenter<List<M>, V> {
+public abstract class BaseListPresenter<M, V extends ILoadListView<M>> extends BasePresenter<List<M>, V> {
     protected static final String ARG_SORT_TYPE = "sort";
     //Sort type
     public static final String SORT_COMMENTS = "comments";

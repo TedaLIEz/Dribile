@@ -16,22 +16,22 @@ import rx.Observable;
  * Created by JianGuo on 4/21/16.
  * Fragment for listing shots in the bucket
  */
-public class BucketShotsFragment extends BaseShotListFragment {
+public class BucketInShotFragment extends BaseShotListFragment {
     public static final String BUCKET = "bucket";
 
     private Buckets mBucket;
 
-    public BucketShotsFragment() {
+    public BucketInShotFragment() {
 
     }
 
-    public static BucketShotsFragment newInstance(@SortType String sortType, Buckets buckets) {
-        BucketShotsFragment bucketShotsFragment = new BucketShotsFragment();
+    public static BucketInShotFragment newInstance(@SortType String sortType, Buckets buckets) {
+        BucketInShotFragment bucketInShotFragment = new BucketInShotFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(BucketShotsFragment.ARG_SORT_TYPE, sortType);
+        bundle.putString(BucketInShotFragment.ARG_SORT_TYPE, sortType);
         bundle.putSerializable(BUCKET, buckets);
-        bucketShotsFragment.setArguments(bundle);
-        return bucketShotsFragment;
+        bucketInShotFragment.setArguments(bundle);
+        return bucketInShotFragment;
     }
 
     @Override

@@ -24,7 +24,7 @@ import com.hustunique.jianguo.driclient.ui.adapters.BucketsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.AddBucketDialog;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
-import com.hustunique.jianguo.driclient.views.BucketView;
+import com.hustunique.jianguo.driclient.views.BucketListView;
 
 import java.util.List;
 
@@ -32,10 +32,10 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
- * Use the {@link BucketFragment#newInstance} factory method to
+ * Use the {@link BucketListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BucketFragment extends BaseFragment implements BucketView, IFabClickFragment {
+public class BucketListFragment extends BaseFragment implements BucketListView, IFabClickFragment {
     private static final String ARG_PARAM1 = "param1";
     private static final int POS_LIST = 1;
     private static final int POS_EMPTY = 2;
@@ -53,7 +53,7 @@ public class BucketFragment extends BaseFragment implements BucketView, IFabClic
     private String mParam1;
 
 
-    public BucketFragment() {
+    public BucketListFragment() {
         // Required empty public constructor
     }
 
@@ -81,10 +81,10 @@ public class BucketFragment extends BaseFragment implements BucketView, IFabClic
      * this fragment using the provided parameters.
      *
      * @param param1 Parameter 1.
-     * @return A new instance of fragment BucketFragment.
+     * @return A new instance of fragment BucketListFragment.
      */
-    public static BucketFragment newInstance(String param1) {
-        BucketFragment fragment = new BucketFragment();
+    public static BucketListFragment newInstance(String param1) {
+        BucketListFragment fragment = new BucketListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
