@@ -14,7 +14,8 @@ import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.PresenterManager;
 import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.presenters.ShotListPresenter;
-import com.hustunique.jianguo.driclient.presenters.strategy.GetShotByIdStrategy;
+import com.hustunique.jianguo.driclient.presenters.strategy.GetLikesByIdStrategy;
+import com.hustunique.jianguo.driclient.presenters.strategy.GetMyLikesStrategy;
 import com.hustunique.jianguo.driclient.ui.adapters.ShotsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.PaddingItemDecoration;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
@@ -33,7 +34,7 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
  * Created by JianGuo on 4/21/16.
  * Basic Fragment for loading shots
  */
-public class ShotListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, ILoadListView<Shots>, IFabClickFragment {
+public class LikesListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, ILoadListView<Shots>, IFabClickFragment {
     public static final String ID = "id";
     private ShotsAdapter mAdapter;
 
@@ -58,7 +59,7 @@ public class ShotListFragment extends BaseFragment implements SwipeRefreshLayout
     private ShotListPresenter mShotListPresenter;
 
 
-    public ShotListFragment() {
+    public LikesListFragment() {
         // Required empty public constructor
     }
 
@@ -70,17 +71,19 @@ public class ShotListFragment extends BaseFragment implements SwipeRefreshLayout
             mShotListPresenter = new ShotListPresenter();
             if (getArguments() != null) {
                 String id = getArguments().getString(ID);
-                mShotListPresenter.setLoadStrategy(new GetShotByIdStrategy(id));
+                mShotListPresenter.setLoadStrategy(new GetLikesByIdStrategy(id));
+            } else {
+                mShotListPresenter.setLoadStrategy(new GetMyLikesStrategy());
             }
         } else {
             mShotListPresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
     }
 
-    public static ShotListFragment newInstance(String id) {
+    public static LikesListFragment newInstance(String id) {
         Bundle args = new Bundle();
         args.putString(ID, id);
-        ShotListFragment fragment = new ShotListFragment();
+        LikesListFragment fragment = new LikesListFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -169,18 +172,6 @@ public class ShotListFragment extends BaseFragment implements SwipeRefreshLayout
         ButterKnife.unbind(this);
     }
 
-    //    private void loadFromDB() {
-//        Gson gson = new Gson();
-//        ShotsDataHelper helper = new ShotsDataHelper();
-//        Cursor cursor = helper.getList();
-//        cursor.moveToFirst();
-//        while (cursor.moveToNext()) {
-//            data.add(gson.fromJson(
-//                    cursor.getString(cursor.getColumnIndex(ShotsDataHelper.ShotsTable.JSON)),
-//                    Shots.class));
-//        }
-//        mAdapter.addAll(data);
-//    }
     @Override
     public void onRefresh() {
         mShotListPresenter.refresh();

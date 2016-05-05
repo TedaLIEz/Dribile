@@ -24,8 +24,8 @@ import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.ui.fragments.BucketListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.IFabClickFragment;
-import com.hustunique.jianguo.driclient.ui.fragments.LikesShotsFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.ShotListFragment;
+import com.hustunique.jianguo.driclient.ui.fragments.LikesListFragment;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -131,11 +131,11 @@ public class MainActivity extends BaseActivity {
         mToolbar.setTitle("My likes");
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (null == fragmentManager.findFragmentByTag(LikesShotsFragment.class.getName())) {
-            mContentFragment = LikesShotsFragment.newInstance(LikesShotsFragment.SORT_VIEWS, null);
+        if (null == fragmentManager.findFragmentByTag(LikesListFragment.class.getName())) {
+            mContentFragment = new LikesListFragment();
         }
         fragmentTransaction
-                .replace(R.id.container, (Fragment) mContentFragment, BucketListFragment.class.getName());
+                .replace(R.id.container, (Fragment) mContentFragment, LikesListFragment.class.getName());
         fragmentTransaction.commit();
     }
 

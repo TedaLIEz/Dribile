@@ -3,37 +3,35 @@ package com.hustunique.jianguo.driclient.presenters;
 import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.presenters.strategy.GetAllShotsStrategy;
 import com.hustunique.jianguo.driclient.presenters.strategy.ILoadDataStrategy;
-import com.hustunique.jianguo.driclient.presenters.strategy.ILoadShotStrategy;
+import com.hustunique.jianguo.driclient.presenters.strategy.LoadDataDelegate;
 import com.hustunique.jianguo.driclient.views.ILoadListView;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by JianGuo on 5/4/16.
+ * Presenter for listing shots.
  */
 public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Shots>> {
 
-    private ILoadShotStrategy mILoadDataStrategy;
 
 
-    public ShotListPresenter(ILoadShotStrategy ILoadDataStrategy) {
-        mILoadDataStrategy = ILoadDataStrategy;
+    public ShotListPresenter() {
+        super();
+        mLoadDel.setLoadStrategy(new GetAllShotsStrategy());
     }
 
-    @Deprecated
-    public ShotListPresenter() {
-        mILoadDataStrategy = new GetAllShotsStrategy();
+    public void setLoadStrategy(ILoadDataStrategy<Shots> loadStrategy) {
+        mLoadDel.setLoadStrategy(loadStrategy);
     }
 
     public int getLoadingCount() {
-        return mILoadDataStrategy.getLoadingCount();
+        return mLoadDel.getLoadTotal();
     }
 
     @Override
     protected void loadData() {
-        mILoadDataStrategy.loadData().subscribe(new LoadingListSubscriber() {
+        mLoadDel.loadData().subscribe(new LoadingListSubscriber() {
             @Override
             public void onNext(List<Shots> shotses) {
                 setModel(shotses);
@@ -51,7 +49,7 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
 
     public void loadMore() {
         view().showLoadingMore();
-        mILoadDataStrategy.loadMore().subscribe(new LoadingListSubscriber() {
+        mLoadDel.loadMore().subscribe(new LoadingListSubscriber() {
             @Override
             public void onNext(List<Shots> shotses) {
                 model.addAll(shotses);
@@ -63,9 +61,5 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
 
     public void refresh() {
         loadData();
-    }
-
-    public void setLoadStrategy(ILoadShotStrategy loadStrategy) {
-        mILoadDataStrategy = loadStrategy;
     }
 }

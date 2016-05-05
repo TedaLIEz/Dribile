@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,7 @@ public class ShotsAdapter extends MvpRecyclerListAdapter<Shots, ShotPresenter, S
         shotsViewHolder.setListener(new ShotsViewHolder.OnShotClickListener() {
             @Override
             public void onShotClick(Shots model) {
+                Log.e("driclient", "click on shots ");
                 Intent intent = new Intent(mContext, ShotInfoActivity.class);
                 intent.putExtra("shots", model);
                 mContext.startActivity(intent);

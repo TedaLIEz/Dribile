@@ -182,6 +182,7 @@ public class ShotInfoActivity extends BaseActivity {
         } else {
             mShotsDescription.setText(mShot.getDescription());
         }
+        //// FIXME: 5/5/16 NullPointerException when show shots from User Profile
         Picasso.with(this).load(Uri.parse(mShot.getUser().getAvatar_url()))
                 .placeholder(AppData.getDrawable(R.drawable.avatar_default))
                 .into(mAvatar);

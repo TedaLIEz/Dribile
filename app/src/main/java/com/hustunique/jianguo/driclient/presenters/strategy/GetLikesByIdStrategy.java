@@ -7,6 +7,7 @@ import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 import rx.functions.Func1;
@@ -14,15 +15,16 @@ import rx.functions.Func1;
 /**
  * Created by JianGuo on 5/5/16.
  */
-public class GetLikesByIdStrategy implements ILoadShotStrategy {
+public class GetLikesByIdStrategy implements ILoadDataStrategy<Shots> {
 
     private final String id;
 
     public GetLikesByIdStrategy(String id) {
         this.id = id;
     }
+
     @Override
-    public Observable<List<Shots>> loadData() {
+    public Observable<List<Shots>> loadData(Map<String, String> params) {
         return ApiServiceFactory.createService(DribbbleUserService.class)
                 .getLikeShots(id)
                 .map(new Func1<List<Likes>, List<Shots>>() {
@@ -35,15 +37,5 @@ public class GetLikesByIdStrategy implements ILoadShotStrategy {
                         return rst;
                     }
                 });
-    }
-
-    @Override
-    public Observable<List<Shots>> loadMore() {
-        return null;
-    }
-
-    @Override
-    public int getLoadingCount() {
-        return 0;
     }
 }

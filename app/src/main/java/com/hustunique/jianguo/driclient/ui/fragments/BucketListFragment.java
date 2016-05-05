@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import android.widget.ViewAnimator;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.PresenterManager;
 import com.hustunique.jianguo.driclient.models.Buckets;
-import com.hustunique.jianguo.driclient.presenters.BucketPresenter;
+import com.hustunique.jianguo.driclient.presenters.BucketListPresenter;
 import com.hustunique.jianguo.driclient.ui.activity.BucketDetailActivity;
 import com.hustunique.jianguo.driclient.ui.adapters.BucketsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.AddBucketDialog;
@@ -48,7 +49,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
     ViewAnimator mViewAnimator;
 
     private BucketsAdapter mAdapter;
-    private BucketPresenter mBucketPresenter;
+    private BucketListPresenter mBucketListPresenter;
 
     private String mParam1;
 
@@ -70,7 +71,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
         dialog.setOnPositiveButton("Yes", new AddBucketDialog.OnPositiveButtonListener() {
             @Override
             public void onClick(Dialog dialog, String name, String description) {
-                mBucketPresenter.createBucket(name, description);
+                mBucketListPresenter.createBucket(name, description);
                 dialog.dismiss();
             }
         });
@@ -98,22 +99,28 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
             mParam1 = getArguments().getString(ARG_PARAM1);
         }
         if (savedInstanceState == null) {
-            mBucketPresenter = new BucketPresenter();
+            mBucketListPresenter = new BucketListPresenter();
         } else {
-            mBucketPresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
+            mBucketListPresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        mBucketPresenter.bindView(this);
+        mBucketListPresenter.bindView(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mBucketPresenter.unbindView();
+        mBucketListPresenter.unbindView();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        PresenterManager.getInstance().savePresenter(mBucketListPresenter, outState);
     }
 
     @Override
@@ -147,7 +154,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mBucketPresenter.deleteBucket(buckets);
+                                mBucketListPresenter.deleteBucket(buckets);
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -180,6 +187,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
 
     @Override
     public void onError(Throwable e) {
+        Log.wtf("driclient", e);
         Snackbar.make(mViewAnimator, "Failed to create bucket", Snackbar.LENGTH_SHORT).show();
     }
 

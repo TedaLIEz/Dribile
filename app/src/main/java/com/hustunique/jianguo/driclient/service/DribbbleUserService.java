@@ -112,7 +112,7 @@ public interface DribbbleUserService {
     Observable<List<Likes>> getLikeShots(@Path("id") String id);
 
     @GET(Constants.OAuth.URL_AUTH_USER + Constants.URL_BASE_LIKES)
-    Observable<List<Likes>> getAuthLikeShots();
+    Observable<List<Likes>> getAuthLikeShots(@QueryMap Map<String, String> params);
 
     @GET(Constants.OAuth.URL_AUTH_USER + Constants.URL_BASE_FOLLOWING + "{userid}/")
     Observable<Response<ResponseBody>> isFollowed(@Path("userid") String userid);

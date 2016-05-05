@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.models.User;
-import com.hustunique.jianguo.driclient.ui.fragments.BaseShotListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.ShotListFragment;
 
 import butterknife.Bind;
@@ -31,8 +30,7 @@ public class ShotListActivity extends BaseActivity {
         if (mUser == null) throw new NullPointerException("must give a user!");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container,
-                        ShotListFragment.newInstance(BaseShotListFragment.SORT_VIEWS
-                                , mUser.getId()))
+                        ShotListFragment.newInstance(mUser.getId()))
                 .commit();
     }
 

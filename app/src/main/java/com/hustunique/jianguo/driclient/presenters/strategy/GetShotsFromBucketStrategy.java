@@ -14,29 +14,17 @@ import rx.Observable;
  * Created by JianGuo on 5/5/16.
  * Strategy for loading shots from target buckets.
  */
-public class GetShotsFromBucketStrategy implements ILoadShotStrategy {
+public class GetShotsFromBucketStrategy implements ILoadDataStrategy<Shots> {
 
     private final Buckets mBucket;
-    private final Map<String, String> params;
 
-    public GetShotsFromBucketStrategy(Buckets buckets, Map<String, String> params) {
+    public GetShotsFromBucketStrategy(Buckets buckets) {
         mBucket = buckets;
-        this.params = params;
     }
 
     @Override
-    public Observable<List<Shots>> loadData() {
+    public Observable<List<Shots>> loadData(Map<String, String> params) {
         return ApiServiceFactory.createService(DribbbleBucketsService.class)
                 .getShotsFromBuckets(mBucket.getId(), params);
-    }
-
-    @Override
-    public Observable<List<Shots>> loadMore() {
-        return null;
-    }
-
-    @Override
-    public int getLoadingCount() {
-        return 0;
     }
 }

@@ -1,11 +1,11 @@
 package com.hustunique.jianguo.driclient.presenters;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.hustunique.jianguo.driclient.models.Buckets;
+import com.hustunique.jianguo.driclient.presenters.strategy.GetMyBucketStrategy;
+import com.hustunique.jianguo.driclient.presenters.strategy.LoadDataDelegate;
 import com.hustunique.jianguo.driclient.service.DribbbleBucketsService;
-import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.driclient.views.BucketListView;
@@ -14,7 +14,6 @@ import java.util.List;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -24,58 +23,13 @@ import rx.schedulers.Schedulers;
  * Created by JianGuo on 5/3/16.
  * Presenter for loading buckets of the auth user.
  */
-public class BucketPresenter extends BasePresenter<List<Buckets>, BucketListView> {
-    private boolean isLoadingData = false;
+public class BucketListPresenter extends BaseListPresenter<Buckets, BucketListView> {
 
-    public BucketPresenter() {
 
+    public BucketListPresenter() {
+        super();
+        mLoadDel.setLoadStrategy(new GetMyBucketStrategy());
     }
-
-
-    @Override
-    protected void updateView() {
-        if (model.size() == 0) view().showEmpty();
-        else view().showData(model);
-    }
-
-    @Override
-    public void bindView(@NonNull BucketListView view) {
-        super.bindView(view);
-        if (model == null && !isLoadingData) {
-            view.showLoading();
-            loadData();
-        }
-    }
-
-    private void loadData() {
-        isLoadingData = true;
-        ApiServiceFactory.createService(DribbbleUserService.class)
-                .getAuthBuckets()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Buckets>>() {
-                    @Override
-                    public void onCompleted() {
-                        Log.i("driclient", "load buckets successfully");
-                        isLoadingData = false;
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (e instanceof HttpException) {
-                            HttpException exception = (HttpException) e;
-                            view().onError(exception);
-                        }
-                        Log.wtf("driclient", e);
-                    }
-
-                    @Override
-                    public void onNext(List<Buckets> bucketses) {
-                        setModel(bucketses);
-                    }
-                });
-    }
-
 
     public void createBucket(String name, String description) {
         ApiServiceFactory.createService(DribbbleBucketsService.class)
@@ -105,7 +59,6 @@ public class BucketPresenter extends BasePresenter<List<Buckets>, BucketListView
     }
 
 
-
     public void deleteBucket(final Buckets bucket) {
         ResponseBodyFactory.createService(DribbbleBucketsService.class)
                 .deleteBucket(bucket.getId())
@@ -121,11 +74,20 @@ public class BucketPresenter extends BasePresenter<List<Buckets>, BucketListView
                                 view().showEmpty();
                             }
                         } else {
-                            Log.e("driclient" ,"delete bucket " + bucket.getId() + " failed");
+                            Log.e("driclient", "delete bucket " + bucket.getId() + " failed");
                         }
                     }
                 });
     }
 
 
+    @Override
+    protected void loadData() {
+        mLoadDel.loadData().subscribe(new LoadingListSubscriber() {
+            @Override
+            public void onNext(List<Buckets> bucketses) {
+                setModel(bucketses);
+            }
+        });
+    }
 }

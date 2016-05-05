@@ -42,7 +42,7 @@ public class BucketDetailActivity extends BaseActivity {
         mDescription.setText(String.format(AppData.getString(R.string.bucket_description)
                 , UserManager.getCurrentUser().getUser().getName()
                 , bucket.getShots_count()));
-        BucketInShotFragment bucketInShotFragment = BucketInShotFragment.newInstance(BucketInShotFragment.SORT_VIEWS, bucket);
+        BucketInShotFragment bucketInShotFragment = BucketInShotFragment.newInstance(bucket);
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, bucketInShotFragment, null).commit();
 
