@@ -170,15 +170,21 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
     }
 
     @Override
+    public void onError(Throwable e) {
+        Snackbar.make(mCoordinatorLayout, "Network Exception!", Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void showData(List<Buckets> bucketsList) {
         mAdapter.setDataBefore(bucketsList);
         mViewAnimator.setDisplayedChild(POS_LIST);
     }
 
     @Override
-    public void onError(Exception e) {
-        Snackbar.make(mCoordinatorLayout, "Network Exception!", Snackbar.LENGTH_SHORT).show();
+    public void showLoadingMore() {
+
     }
+
 
     @Override
     public void removeBucket(Buckets bucket) {

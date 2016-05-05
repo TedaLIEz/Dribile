@@ -22,7 +22,6 @@ import android.widget.TextView;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
-import com.hustunique.jianguo.driclient.ui.fragments.BaseShotListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.BucketListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.IFabClickFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.LikesShotsFragment;
@@ -162,11 +161,11 @@ public class MainActivity extends BaseActivity {
         mToolbar.setTitle("Shots");
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (null == fragmentManager.findFragmentByTag(BaseShotListFragment.class.getName())) {
-            mContentFragment = ShotListFragment.newInstance(ShotListFragment.SORT_VIEWS, null);
+        if (null == fragmentManager.findFragmentByTag(ShotListFragment.class.getName())) {
+            mContentFragment = new ShotListFragment();
         }
         fragmentTransaction
-                .replace(R.id.container, (Fragment) mContentFragment, BaseShotListFragment.class.getName());
+                .replace(R.id.container, (Fragment) mContentFragment, ShotListFragment.class.getName());
         fragmentTransaction.commit();
     }
 

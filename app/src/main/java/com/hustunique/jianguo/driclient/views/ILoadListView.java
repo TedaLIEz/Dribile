@@ -10,6 +10,8 @@ import java.util.List;
 public interface ILoadListView<M> {
     void showEmpty();
     void showLoading();
-    void onError(Exception e);
+    void onError(Throwable e);
     void showData(List<M> bucketsList);
+
+    void showLoadingMore();
 }

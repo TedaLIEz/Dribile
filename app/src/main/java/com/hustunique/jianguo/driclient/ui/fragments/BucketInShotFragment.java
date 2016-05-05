@@ -43,7 +43,7 @@ public class BucketInShotFragment extends BaseShotListFragment {
     @Override
     public Observable<List<Shots>> loadData(Map<String, String> params) {
         return ApiServiceFactory.createService(DribbbleBucketsService.class)
-                .getShotsFromBuckets(mBucket.getId());
+                .getShotsFromBuckets(mBucket.getId(), params);
     }
 
 }

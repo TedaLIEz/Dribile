@@ -5,6 +5,7 @@ import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.service.api.Constants;
 
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -15,6 +16,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**
@@ -28,7 +30,7 @@ public interface DribbbleBucketsService {
      * @return the shot list
      */
     @GET(Constants.URL_BASE_BUCKETS + "{id}/" + Constants.URL_BASE_SHOTS)
-    Observable<List<Shots>> getShotsFromBuckets(@Path("id") String id);
+    Observable<List<Shots>> getShotsFromBuckets(@Path("id") String id, @QueryMap Map<String, String> params);
 
     /**
      * put a shot into bucket

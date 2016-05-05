@@ -179,7 +179,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
     }
 
     @Override
-    public void onError(Exception e) {
+    public void onError(Throwable e) {
         Snackbar.make(mViewAnimator, "Failed to create bucket", Snackbar.LENGTH_SHORT).show();
     }
 
@@ -187,6 +187,11 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
     public void showData(List<Buckets> bucketsList) {
         mAdapter.setDataBefore(bucketsList);
         mViewAnimator.setDisplayedChild(POS_LIST);
+    }
+
+    @Override
+    public void showLoadingMore() {
+
     }
 
     @Override
