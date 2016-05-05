@@ -79,13 +79,13 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
         mBuckets.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
         mAdapter.setOnItemClickListener(new BucketsAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View v, Buckets buckets) {
+            public void onClick(Buckets buckets) {
                 mShotBucketPresenter.addToBucket(buckets);
             }
         });
         mAdapter.setOnItemLongClickListener(new BucketsAdapter.OnItemLongClickListener() {
             @Override
-            public void onLongClick(View v, final Buckets buckets) {
+            public void onLongClick(final Buckets buckets) {
                 new AlertDialog.Builder(new ContextThemeWrapper(ShotBucketActivity.this, android.R.style.Theme_Holo_Dialog))
                         .setTitle("Delete bucket?")
                         .setMessage("Are you sure you want to delete this bucket?")
@@ -176,7 +176,7 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
 
     @Override
     public void showData(List<Buckets> bucketsList) {
-        mAdapter.setDataBefore(bucketsList);
+        mAdapter.addAll(bucketsList);
         mViewAnimator.setDisplayedChild(POS_LIST);
     }
 
@@ -193,7 +193,7 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
                         R.color.colorPrimary,
                         bucket.getName()),
                 Snackbar.LENGTH_SHORT).show();
-        mAdapter.removeData(bucket);
+        mAdapter.removeItem(bucket);
     }
 
     @Override
@@ -203,6 +203,6 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
                         R.color.colorPrimary,
                         bucket.getName()),
                 Snackbar.LENGTH_SHORT).show();
-        mAdapter.addData(bucket);
+        mAdapter.addItem(bucket);
     }
 }

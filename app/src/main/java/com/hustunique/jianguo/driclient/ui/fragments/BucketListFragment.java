@@ -141,13 +141,19 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
         mBuckets.addItemDecoration(new DividerItemDecoration(getActivity(), R.drawable.divider));
         mAdapter.setOnItemClickListener(new BucketsAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View v, Buckets buckets) {
+            public void onClick(Buckets buckets) {
                 showShots(buckets);
+            }
+
+            private void showShots(Buckets buckets) {
+                Intent intent = new Intent(getActivity(), BucketDetailActivity.class);
+                intent.putExtra(BucketDetailActivity.BUCKET, buckets);
+                startActivity(intent);
             }
         });
         mAdapter.setOnItemLongClickListener(new BucketsAdapter.OnItemLongClickListener() {
             @Override
-            public void onLongClick(View v, final Buckets buckets) {
+            public void onLongClick(final Buckets buckets) {
                 new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), android.R.style.Theme_Holo_Dialog))
                         .setTitle("Delete bucket?")
                         .setMessage("Are you sure you want to delete this bucket?")
@@ -168,11 +174,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
         });
     }
 
-    private void showShots(Buckets buckets) {
-        Intent intent = new Intent(getActivity(), BucketDetailActivity.class);
-        intent.putExtra(BucketDetailActivity.BUCKET, buckets);
-        startActivity(intent);
-    }
+
 
 
     @Override
@@ -193,7 +195,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
 
     @Override
     public void showData(List<Buckets> bucketsList) {
-        mAdapter.setDataBefore(bucketsList);
+        mAdapter.clearAndAddAll(bucketsList);
         mViewAnimator.setDisplayedChild(POS_LIST);
     }
 
@@ -209,7 +211,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
                         R.color.colorPrimary,
                         bucket.getName()+""),
                 Snackbar.LENGTH_SHORT).show();
-        mAdapter.removeData(bucket);
+        mAdapter.removeItem(bucket);
     }
 
     @Override
@@ -219,6 +221,6 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
                         R.color.colorPrimary,
                         bucket.getName()+""),
                 Snackbar.LENGTH_SHORT).show();
-        mAdapter.addData(bucket);
+        mAdapter.addItem(bucket);
     }
 }
