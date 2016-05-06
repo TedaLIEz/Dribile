@@ -79,7 +79,6 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
      * @return A new instance of fragment BucketListFragment.
      */
     public static BucketListFragment newInstance() {
