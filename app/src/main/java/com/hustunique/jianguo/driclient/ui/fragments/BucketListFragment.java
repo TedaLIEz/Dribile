@@ -37,7 +37,6 @@ import butterknife.ButterKnife;
  * create an instance of this fragment.
  */
 public class BucketListFragment extends BaseFragment implements BucketListView, IFabClickFragment {
-    private static final String ARG_PARAM1 = "param1";
     private static final int POS_LIST = 1;
     private static final int POS_EMPTY = 2;
     private static final int POS_LOADING = 0;
@@ -51,7 +50,6 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
     private BucketsAdapter mAdapter;
     private BucketListPresenter mBucketListPresenter;
 
-    private String mParam1;
 
 
     public BucketListFragment() {
@@ -84,10 +82,9 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
      * @param param1 Parameter 1.
      * @return A new instance of fragment BucketListFragment.
      */
-    public static BucketListFragment newInstance(String param1) {
+    public static BucketListFragment newInstance() {
         BucketListFragment fragment = new BucketListFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -95,9 +92,6 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-        }
         if (savedInstanceState == null) {
             mBucketListPresenter = new BucketListPresenter();
         } else {

@@ -20,4 +20,6 @@ public class GetAllShotsStrategy implements ILoadDataStrategy<Shots> {
         return ApiServiceFactory.createService(DribbbleShotsService.class)
                 .getAllShots(params);
     }
+
+
 }

@@ -144,7 +144,7 @@ public class MainActivity extends BaseActivity {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (null == fragmentManager.findFragmentByTag(BucketListFragment.class.getName())) {
-            mContentFragment = BucketListFragment.newInstance("test1");
+            mContentFragment = BucketListFragment.newInstance();
         }
         fragmentTransaction
                 .replace(R.id.container, (Fragment) mContentFragment, BucketListFragment.class.getName());

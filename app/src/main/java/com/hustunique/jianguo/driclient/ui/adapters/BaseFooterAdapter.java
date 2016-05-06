@@ -13,6 +13,7 @@ import java.util.List;
 /**
  * Created by JianGuo on 4/16/16.
  */
+@Deprecated
 public abstract class BaseFooterAdapter<T extends BaseBean> extends BaseAdapter {
     protected static int TYPE_FOOTER = 0;
     protected static int TYPE_DATA = 1;

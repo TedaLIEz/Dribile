@@ -46,10 +46,6 @@ public abstract class BaseListPresenter<M, V extends ILoadListView<M>> extends B
         }
     }
 
-
-
-
-
     protected abstract void loadData();
 
 

@@ -8,6 +8,7 @@ import com.hustunique.jianguo.driclient.ui.viewholders.BaseViewHolder;
  * Created by JianGuo on 4/4/16.
  * Skeleton class for recyclerview adapters.
  */
+@Deprecated
 public abstract class BaseAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
 }
