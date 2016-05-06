@@ -2,7 +2,6 @@ package com.hustunique.jianguo.driclient.ui.viewholders;
 
 import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -91,15 +90,15 @@ public class ShotsViewHolder extends MvpViewHolder<ShotPresenter> implements Sho
     }
 
     @Override
-    public void setShotImage(String imageUrl) {
-        Picasso.with(itemView.getContext()).load(Uri.parse(imageUrl))
+    public void setShotImage(Uri imageUrl) {
+        Picasso.with(itemView.getContext()).load(imageUrl)
                 .placeholder(AppData.getDrawable(R.drawable.shots_default))
                 .into(mImage);
     }
 
     @Override
-    public void setAvatar(String avatar_url) {
-        Picasso.with(itemView.getContext()).load(Uri.parse(avatar_url))
+    public void setAvatar(Uri avatar_url) {
+        Picasso.with(itemView.getContext()).load(avatar_url)
                 .placeholder(AppData.getDrawable(R.drawable.shots_default))
                 .into(mAvatar);
     }
@@ -112,7 +111,7 @@ public class ShotsViewHolder extends MvpViewHolder<ShotPresenter> implements Sho
     }
 
     @Override
-    public void hideAvatar() {
+    public void setDefaultAvatar() {
         mAvatar.setVisibility(View.GONE);
     }
 

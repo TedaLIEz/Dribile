@@ -1,5 +1,7 @@
 package com.hustunique.jianguo.driclient.presenters;
 
+import android.net.Uri;
+
 import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.views.ShotView;
 
@@ -16,11 +18,11 @@ public class ShotPresenter extends BasePresenter<Shots, ShotView> {
         view().setLikeCount(model.getLikes_count());
         view().setShotTitle(model.getTitle());
         view().setViewCount(model.getViews_count());
-        view().setShotImage(model.getImages().getNormal());
+        view().setShotImage(Uri.parse(model.getImages().getNormal()));
         if (model.getUser() != null) {
-            view().setAvatar(model.getUser().getAvatar_url());
+            view().setAvatar(Uri.parse(model.getUser().getAvatar_url()));
         } else {
-            view().hideAvatar();
+            view().setDefaultAvatar();
         }
     }
 

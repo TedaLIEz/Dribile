@@ -28,9 +28,12 @@ import android.widget.TextView;
 import com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
+import com.hustunique.jianguo.driclient.app.PresenterManager;
 import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.models.Comments;
 import com.hustunique.jianguo.driclient.models.Shots;
+import com.hustunique.jianguo.driclient.models.User;
+import com.hustunique.jianguo.driclient.presenters.ShotInfoPresenter;
 import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.ui.adapters.CommentsAdapter;
@@ -38,6 +41,8 @@ import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.driclient.ui.widget.HTMLTextView;
 import com.hustunique.jianguo.driclient.ui.widget.ShotLikeClickListener;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
+import com.hustunique.jianguo.driclient.views.ShotInfoView;
+import com.hustunique.jianguo.driclient.views.ShotView;
 import com.squareup.picasso.Picasso;
 import com.wefika.flowlayout.FlowLayout;
 
@@ -52,8 +57,8 @@ import butterknife.ButterKnife;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
-
-public class ShotInfoActivity extends BaseActivity {
+//TODO: Using MVP
+public class ShotInfoActivity extends BaseActivity implements ShotInfoView {
     private static final int COMMENTS_PER_PAGE = 5;
     @Bind(R.id.rv_comments)
     RecyclerView mComments;
@@ -133,6 +138,7 @@ public class ShotInfoActivity extends BaseActivity {
 
     private LinearLayoutManager linearLayoutManager;
     private CommentsAdapter commentsAdapter;
+    private ShotInfoPresenter mShotInfoPresenter;
     private
     @ColorInt
     int vibrantColor;
@@ -143,8 +149,14 @@ public class ShotInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shot_info);
         ButterKnife.bind(this);
+        if (savedInstanceState == null) {
+            mShotInfoPresenter = new ShotInfoPresenter();
+        } else {
+            PresenterManager.getInstance().restorePresenter(savedInstanceState);
+        }
         if (getIntent() != null) {
             mShot = (Shots) getIntent().getSerializableExtra("shots");
+            mShotInfoPresenter.setModel(mShot);
         } else {
             throw new NullPointerException("No shots was specified in the MainActivity " + getIntent().toString());
         }
@@ -153,6 +165,24 @@ public class ShotInfoActivity extends BaseActivity {
         initFab();
         initComments();
         initTag();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mShotInfoPresenter.bindView(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mShotInfoPresenter.unbindView();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        PresenterManager.getInstance().savePresenter(mShotInfoPresenter, outState);
     }
 
     private void initTag() {
@@ -177,29 +207,13 @@ public class ShotInfoActivity extends BaseActivity {
 
 
     private void initShots() {
-        if (TextUtils.isEmpty(mShot.getDescription())) {
-            mShotsDescription.setText(AppData.getString(R.string.no_description));
-        } else {
-            mShotsDescription.setText(mShot.getDescription());
-        }
         //// FIXME: 5/5/16 NullPointerException when show shots from User Profile
-        Picasso.with(this).load(Uri.parse(mShot.getUser().getAvatar_url()))
-                .placeholder(AppData.getDrawable(R.drawable.avatar_default))
-                .into(mAvatar);
         mAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ShotInfoActivity.this, ProfileActivity.class);
-                intent.putExtra(ProfileActivity.USER, mShot.getUser());
-                startActivity(intent);
+                mShotInfoPresenter.goToUser();
             }
         });
-        mShotsUser.setText(mShot.getUser().getName());
-        mShotsTime.setText(String.format(AppData.getString(R.string.shots_time), CommonUtils.formatDate(mShot.getCreated_at())));
-        mBucketCount.setText(String.format(AppData.getString(R.string.buckets), mShot.getBuckets_count()));
-        mLikeCount.setText(String.format(AppData.getString(R.string.likes), mShot.getLikes_count()));
-        mViewCount.setText(String.format(AppData.getString(R.string.views), mShot.getViews_count()));
-        mCommentsCount.setText(String.format(AppData.getString(R.string.comments), mShot.getComments_count()));
     }
 
     private void initComments() {
@@ -265,37 +279,18 @@ public class ShotInfoActivity extends BaseActivity {
                 .load(Uri.parse(mShot.getImages().getNormal()))
                 .into(mImageView);
         extractColor();
-        mImageView.setOnClickListener(new ShowImageClicker());
-
-        // Correct way showing title only when collapsingToolbarLayout collapses, see http://stackoverflow.com/a/32724422/4380801
-        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-            boolean isShow = false;
-            int scrollRange = -1;
-
+        mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = mAppBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset <= mToolbar.getHeight()) {
-                    toolbarLayout.setTitle(mShot.getTitle());
-                    isShow = true;
-                } else if (isShow) {
-                    toolbarLayout.setTitle("");
-                    isShow = false;
-                }
+            public void onClick(View v) {
+                mShotInfoPresenter.goToDetailView();
             }
         });
+
+
     }
 
     // extract Color from the loaded image
     private void extractColor() {
-        if (CommonUtils.isGif(mShot)) {
-            mImageView.setColorFilter(CommonUtils.brightIt(-100));
-            mImageView.setClickable(false);
-            mPlay.setVisibility(View.VISIBLE);
-            mPlay.setOnClickListener(new ShowImageClicker());
-        }
         mImageView.setDrawingCacheEnabled(true);
         mImageView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
@@ -386,16 +381,114 @@ public class ShotInfoActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void setShotTitle(final String title) {
+        // Correct way showing title only when collapsingToolbarLayout collapses, see http://stackoverflow.com/a/32724422/4380801
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = false;
+            int scrollRange = -1;
 
-    private class ShowImageClicker implements View.OnClickListener {
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                if (scrollRange == -1) {
+                    scrollRange = mAppBarLayout.getTotalScrollRange();
+                }
+                if (scrollRange + verticalOffset <= mToolbar.getHeight()) {
+                    toolbarLayout.setTitle(title);
+                    isShow = true;
+                } else if (isShow) {
+                    toolbarLayout.setTitle("");
+                    isShow = false;
+                }
+            }
+        });
+    }
 
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(ShotInfoActivity.this, ImageDetailActivity.class);
-            intent.putExtra(ImageDetailActivity.SHARED_SHOTS, mShot);
-            startActivity(intent);
+    @Override
+    public void setViewCount(String viewCount) {
+        mViewCount.setText(viewCount);
+    }
+
+    @Override
+    public void setCommentCount(String commentCount) {
+        mCommentsCount.setText(commentCount);
+    }
+
+    @Override
+    public void setLikeCount(String likeCount) {
+        mLikeCount.setText(likeCount);
+    }
+
+    @Override
+    public void setAnimated(boolean animated) {
+        if (animated) {
+            mImageView.setColorFilter(CommonUtils.brightIt(-100));
+            mImageView.setClickable(false);
+            mPlay.setVisibility(View.VISIBLE);
+            mPlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mShotInfoPresenter.goToDetailView();
+                }
+            });
         }
     }
+
+    @Override
+    public void setShotImage(Uri imageUrl) {
+        //TODO: image resize when activity resumes, problem with resumeTag?
+//        Picasso.with(this)
+//                .load(imageUrl)
+//                .into(mImageView);
+
+    }
+
+    @Override
+    public void setAvatar(Uri avatar_url) {
+        Picasso.with(this).load(avatar_url)
+                .placeholder(AppData.getDrawable(R.drawable.avatar_default))
+                .into(mAvatar);
+    }
+
+    @Override
+    public void goToDetailView(Shots model) {
+        Intent intent = new Intent(ShotInfoActivity.this, ImageDetailActivity.class);
+        intent.putExtra(ImageDetailActivity.SHARED_SHOTS, model);
+        startActivity(intent);
+    }
+
+    @Override
+    public void setDefaultAvatar() {
+
+    }
+
+    @Override
+    public void goToProfile(User user) {
+        Intent intent = new Intent(ShotInfoActivity.this, ProfileActivity.class);
+        intent.putExtra(ProfileActivity.USER, user);
+        startActivity(intent);
+    }
+
+    @Override
+    public void setDescription(String description) {
+        mShotsDescription.setText(description);
+    }
+
+    @Override
+    public void setUserName(String name) {
+        mShotsUser.setText(name);
+    }
+
+    @Override
+    public void setTime(String time) {
+        mShotsTime.setText(time);
+    }
+
+    @Override
+    public void setBucketCount(String bucketCount) {
+        mBucketCount.setText(bucketCount);
+    }
+
 
 
 }
