@@ -7,6 +7,7 @@ import com.hustunique.jianguo.driclient.presenters.strategy.ILoadDataStrategy;
 
 /**
  * Created by JianGuo on 5/6/16.
+ * View for Comments ListView
  */
 public interface CommentListView extends ILoadListView<Comments> {
     void onAddCommentSuccess(Comments comment);

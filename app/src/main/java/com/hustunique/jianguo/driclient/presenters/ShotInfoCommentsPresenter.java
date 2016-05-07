@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Created by JianGuo on 5/7/16.
+ * Presenter for comments in ShotInfoActivity
  */
 public class ShotInfoCommentsPresenter extends BaseListPresenter<Comments, ShotInfoCommentView> {
     private final Shots mShot;

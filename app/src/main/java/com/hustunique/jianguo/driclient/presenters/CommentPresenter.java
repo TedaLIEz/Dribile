@@ -6,6 +6,7 @@ import com.hustunique.jianguo.driclient.views.CommentView;
 
 /**
  * Created by JianGuo on 5/4/16.
+ * Presenter for each comments item
  */
 public class CommentPresenter extends BasePresenter<Comments, CommentView> {
     @Override

@@ -6,6 +6,7 @@ import java.util.List;
 
 /**
  * Created by JianGuo on 5/4/16.
+ * Base View for loading a list of data <tt>M</tt>
  */
 public interface ILoadListView<M> {
     void showEmpty();

@@ -28,7 +28,6 @@ import com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.PresenterManager;
-import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.models.Comments;
 import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.models.User;
@@ -37,7 +36,6 @@ import com.hustunique.jianguo.driclient.presenters.ShotInfoPresenter;
 import com.hustunique.jianguo.driclient.ui.adapters.CommentsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.driclient.ui.widget.HTMLTextView;
-import com.hustunique.jianguo.driclient.ui.widget.ShotLikeClickListener;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
 import com.hustunique.jianguo.driclient.views.ShotInfoCommentView;
 import com.hustunique.jianguo.driclient.views.ShotInfoView;
@@ -50,7 +48,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
-//TODO: Using MVP
 public class ShotInfoActivity extends BaseActivity implements ShotInfoView, ShotInfoCommentView {
     private final static int POS_COMMENTS_SHOW_LOADING = 0;
     private final static int POS_COMMENTS_LOADED = 1;
@@ -140,6 +137,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     private CommentsAdapter commentsAdapter;
     private ShotInfoPresenter mShotInfoPresenter;
     private ShotInfoCommentsPresenter mCommentPresenter;
+
     private @ColorInt int vibrantColor;
 
 
@@ -283,40 +281,16 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
                 mShotInfoPresenter.addToBucket();
             }
         });
-        mAddLike.setOnClickListener(new ShotLikeClickListener(mShot) {
+        mAddLike.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void isLike() {
-                mAddLike.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_white_36dp));
-            }
-
-            @Override
-            public void onLike() {
-                showMessage("Like");
-                UserManager.updateUser();
-            }
-
-            @Override
-            public void onUnlike() {
-                showMessage("Undo like");
-                UserManager.updateUser();
-            }
-
-            @Override
-            public void onPreLike() {
-                mAddLike.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_white_36dp));
-                mFabLayout.hide();
-            }
-
-            @Override
-            public void onPreUnlike() {
-                mAddLike.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_border_white_36dp));
-                mFabLayout.hide();
+            public void onClick(View v) {
+                mShotInfoPresenter.onClick();
             }
         });
         mAddShare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendSharedIntent(mShot);
+                mShotInfoPresenter.sendShared();
                 mFabLayout.hide();
             }
         });
@@ -324,7 +298,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
         mAddComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityWithShot(ShotCommentActivity.class, mShot);
+                mShotInfoPresenter.addComments();
                 mFabLayout.hide();
             }
         });
@@ -498,5 +472,25 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     @Override
     public void goToMoreComments(Shots shots) {
         startActivityWithShot(ShotCommentActivity.class, shots);
+    }
+
+    @Override
+    public void onLike() {
+        mAddLike.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_white_36dp));
+    }
+
+    @Override
+    public void onUnlike() {
+        mAddLike.setImageDrawable(AppData.getDrawable(R.drawable.ic_favorite_border_white_36dp));
+    }
+
+    @Override
+    public void sendSharedIntent(Intent sendIntent) {
+        startActivity(sendIntent);
+    }
+
+    @Override
+    public void addComments(Shots model) {
+        startActivityWithShot(ShotCommentActivity.class, mShot);
     }
 }

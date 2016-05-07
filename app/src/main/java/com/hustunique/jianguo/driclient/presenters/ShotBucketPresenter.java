@@ -26,6 +26,7 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by JianGuo on 5/3/16.
+ * Show buckets by shots' id
  */
 public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInShotListView> {
     private boolean isLoadingData = false;

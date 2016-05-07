@@ -27,6 +27,7 @@ import rx.schedulers.Schedulers;
 
 /**
  * Created by JianGuo on 5/1/16.
+ * Auth Presenter
  */
 public class AuthPresenter extends BasePresenter<User, AuthView> {
     public static final String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
