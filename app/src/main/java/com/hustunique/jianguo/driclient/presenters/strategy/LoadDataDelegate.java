@@ -1,6 +1,5 @@
 package com.hustunique.jianguo.driclient.presenters.strategy;
 
-import android.support.annotation.IntRange;
 import android.support.annotation.StringDef;
 
 import java.lang.annotation.Retention;
@@ -50,9 +49,9 @@ public class LoadDataDelegate<T> {
         params.put(ARG_SORT_TYPE, mSortType);
     }
 
-    public void setPerPage(@IntRange(from = 20, to = 40) int perPage) {
+    public void setPerPage(int perPage) {
         COUNT_PER_PAGE = perPage;
-        params.put("par_page", String.valueOf(COUNT_PER_PAGE));
+        params.put("per_page", Integer.toString(COUNT_PER_PAGE));
     }
 
     private void generateDefaultParams() {

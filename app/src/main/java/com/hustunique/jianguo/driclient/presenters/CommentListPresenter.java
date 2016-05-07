@@ -30,6 +30,7 @@ public class CommentListPresenter extends BaseListPresenter<Comments, CommentLis
         super();
         this.mShot = shots;
         mLoadDel.setLoadStrategy(new GetCommentsByIdStrategy(shots.getId()));
+        mLoadDel.setPerPage(100);
     }
 
 

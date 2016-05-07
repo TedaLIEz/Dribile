@@ -166,12 +166,22 @@
                     android:layout_margin="@dimen/fab_margin"
                     android:src="@drawable/ic_tag" />
             </LinearLayout>
-
-            <com.wefika.flowlayout.FlowLayout
-                android:id="@+id/tag_layout"
+            <ViewAnimator
+                android:id="@+id/tags_animator"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="start|top"></com.wefika.flowlayout.FlowLayout>
+                android:layout_height="match_parent">
+                <com.wefika.flowlayout.FlowLayout
+                    android:id="@+id/tag_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start|top"></com.wefika.flowlayout.FlowLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:text="No tags yet :("
+                    android:gravity="center"
+                    android:layout_height="match_parent" />
+            </ViewAnimator>
+
         </LinearLayout>
 
         <LinearLayout
@@ -204,7 +214,8 @@
                 </RelativeLayout>
             </LinearLayout>
 
-            <FrameLayout
+            <ViewAnimator
+                android:id="@+id/comments_animator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -221,7 +232,12 @@
                     android:visibility="visible"
                     tools:listitem="@layout/item_comments"
                     tools:visibility="visible" />
-            </FrameLayout>
+                <TextView
+                    android:text="No comments yet :("
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </ViewAnimator>
             <include layout="@layout/comments_footer"/>
         </LinearLayout>
 

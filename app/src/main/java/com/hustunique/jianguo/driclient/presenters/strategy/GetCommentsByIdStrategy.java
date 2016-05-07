@@ -4,6 +4,7 @@ import com.hustunique.jianguo.driclient.models.Comments;
 import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import rx.Observable;
 public class GetCommentsByIdStrategy implements ILoadDataStrategy<Comments> {
     private final String id;
 
+    private Map<String, String> params;
     public GetCommentsByIdStrategy(String id) {
         this.id = id;
     }
@@ -24,7 +26,6 @@ public class GetCommentsByIdStrategy implements ILoadDataStrategy<Comments> {
 
     @Override
     public Observable<List<Comments>> loadData(Map<String, String> params) {
-        params.put("per_page", "100");
         return ApiServiceFactory.createService(DribbbleShotsService.class)
                 .getComment(id, params);
     }

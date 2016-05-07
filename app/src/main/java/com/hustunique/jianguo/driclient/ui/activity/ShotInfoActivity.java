@@ -14,7 +14,6 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -22,8 +21,8 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.ViewAnimator;
 
 import com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout;
 import com.hustunique.jianguo.driclient.R;
@@ -33,33 +32,32 @@ import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.models.Comments;
 import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.models.User;
+import com.hustunique.jianguo.driclient.presenters.ShotInfoCommentsPresenter;
 import com.hustunique.jianguo.driclient.presenters.ShotInfoPresenter;
-import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
-import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.ui.adapters.CommentsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.driclient.ui.widget.HTMLTextView;
 import com.hustunique.jianguo.driclient.ui.widget.ShotLikeClickListener;
 import com.hustunique.jianguo.driclient.utils.CommonUtils;
+import com.hustunique.jianguo.driclient.views.ShotInfoCommentView;
 import com.hustunique.jianguo.driclient.views.ShotInfoView;
-import com.hustunique.jianguo.driclient.views.ShotView;
 import com.squareup.picasso.Picasso;
 import com.wefika.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 //TODO: Using MVP
-public class ShotInfoActivity extends BaseActivity implements ShotInfoView {
-    private static final int COMMENTS_PER_PAGE = 5;
+public class ShotInfoActivity extends BaseActivity implements ShotInfoView, ShotInfoCommentView {
+    private final static int POS_COMMENTS_SHOW_LOADING = 0;
+    private final static int POS_COMMENTS_LOADED = 1;
+    private final static int POS_COMMENTS_SHOW_EMPTY = 2;
+
+    private final static int POS_SHOT_TAGS = 0;
+    private final static int POS_TAGS_SHOW_EMPTY = 1;
     @Bind(R.id.rv_comments)
     RecyclerView mComments;
 
@@ -77,9 +75,6 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView {
     ImageView mPlay;
     @Bind(R.id.collapse_toolbar)
     CollapsingToolbarLayout toolbarLayout;
-
-    @Bind(R.id.comment_loading)
-    ProgressBar mProgress;
 
     @Bind(R.id.shots_description)
     HTMLTextView mShotsDescription;
@@ -126,6 +121,10 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView {
     @Bind(R.id.shot_view_count)
     TextView mViewCount;
 
+    @Bind(R.id.comments_animator)
+    ViewAnimator mCommentAnimator;
+    @Bind(R.id.tags_animator)
+    ViewAnimator mTagAnimator;
 
     @Bind(R.id.comments_footer)
     LinearLayout mFooter;
@@ -134,14 +133,14 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView {
 
     @BindDimen(R.dimen.shot_tag_padding)
     int tagPadding;
+
     private Shots mShot;
 
     private LinearLayoutManager linearLayoutManager;
     private CommentsAdapter commentsAdapter;
     private ShotInfoPresenter mShotInfoPresenter;
-    private
-    @ColorInt
-    int vibrantColor;
+    private ShotInfoCommentsPresenter mCommentPresenter;
+    private @ColorInt int vibrantColor;
 
 
     @Override
@@ -149,61 +148,45 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shot_info);
         ButterKnife.bind(this);
-        if (savedInstanceState == null) {
-            mShotInfoPresenter = new ShotInfoPresenter();
-        } else {
-            PresenterManager.getInstance().restorePresenter(savedInstanceState);
-        }
         if (getIntent() != null) {
             mShot = (Shots) getIntent().getSerializableExtra("shots");
-            mShotInfoPresenter.setModel(mShot);
         } else {
             throw new NullPointerException("No shots was specified in the MainActivity " + getIntent().toString());
         }
+        if (savedInstanceState == null) {
+            mShotInfoPresenter = new ShotInfoPresenter();
+            mCommentPresenter = new ShotInfoCommentsPresenter(mShot);
+            mShotInfoPresenter.setModel(mShot);
+        } else {
+            PresenterManager.getInstance().restorePresenter(savedInstanceState);
+        }
+
         initShots();
-        initToolbar();
         initFab();
         initComments();
-        initTag();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         mShotInfoPresenter.bindView(this);
+        mCommentPresenter.bindView(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mShotInfoPresenter.unbindView();
+        mCommentPresenter.unbindView();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         PresenterManager.getInstance().savePresenter(mShotInfoPresenter, outState);
+        PresenterManager.getInstance().savePresenter(mCommentPresenter, outState);
     }
 
-    private void initTag() {
-        //// FIXME: 4/16/16 make layout more compact
-        ArrayList<String> tags = mShot.getTags();
-        for (String tag : tags) {
-            TextView textView = new TextView(this);
-            textView.setPadding(tagPadding, tagPadding, tagPadding, tagPadding);
-            textView.setTextAppearance(this, R.style.TextAppearance_Profile_Title);
-            FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(tagPadding, tagPadding, tagPadding, tagPadding);
-            layoutParams.gravity = Gravity.CENTER_VERTICAL;
-            textView.setLayoutParams(layoutParams);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                textView.setElevation(AppData.getDimension(R.dimen.cardview_default_elevation));
-            }
-            textView.setText(tag);
-            textView.setBackground(AppData.getDrawable(R.drawable.tag_textview));
-            mTagLayout.addView(textView);
-        }
-    }
 
 
     private void initShots() {
@@ -212,6 +195,21 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView {
             @Override
             public void onClick(View v) {
                 mShotInfoPresenter.goToUser();
+            }
+        });
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // Disable the title
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Log.i("driclient", "mShot image is " + mShot.getImages().getJson());
+        Picasso.with(this)
+                .load(Uri.parse(mShot.getImages().getNormal()))
+                .into(mImageView);
+        extractColor();
+        mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mShotInfoPresenter.goToDetailView();
             }
         });
     }
@@ -228,7 +226,8 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView {
         mFooter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityWithShot(ShotCommentActivity.class, mShot);
+                mCommentPresenter.goToMoreComments();
+
             }
         });
         mComments.setAdapter(commentsAdapter);
@@ -237,57 +236,8 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView {
         // Enable recyclerview scrolled by the wrapped scrollnestedview.
         mComments.setNestedScrollingEnabled(false);
         mComments.setLayoutManager(linearLayoutManager);
-        Map<String, String> params = new HashMap<>();
-        params.put("per_page", Integer.toString(COMMENTS_PER_PAGE));
-        ApiServiceFactory.createService(DribbbleShotsService.class)
-                .getComment(mShot.getId(), params)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Comments>>() {
-                    @Override
-                    public void onCompleted() {
-                        mProgress.setVisibility(View.GONE);
-                        mComments.setVisibility(View.VISIBLE);
-                        if (Integer.parseInt(mShot.getComments_count()) > COMMENTS_PER_PAGE) {
-                            mFooter.setVisibility(View.VISIBLE);
-                        }
-                        if (Integer.parseInt(mShot.getComments_count())  == 0) {
-                            mFooter.setVisibility(View.GONE);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.wtf("driclient", e);
-                    }
-
-                    @Override
-                    public void onNext(List<Comments> commentses) {
-                        commentsAdapter.addAll(commentses);
-
-                    }
-                });
     }
 
-    private void initToolbar() {
-        setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        // Disable the title
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Log.i("driclient", "mShot image is " + mShot.getImages().getJson());
-        Picasso.with(this)
-                .load(Uri.parse(mShot.getImages().getNormal()))
-                .into(mImageView);
-        extractColor();
-        mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mShotInfoPresenter.goToDetailView();
-            }
-        });
-
-
-    }
 
     // extract Color from the loaded image
     private void extractColor() {
@@ -330,8 +280,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView {
         mAddBuckets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityWithShot(ShotBucketActivity.class, mShot);
-                mFabLayout.hide();
+                mShotInfoPresenter.addToBucket();
             }
         });
         mAddLike.setOnClickListener(new ShotLikeClickListener(mShot) {
@@ -470,6 +419,36 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView {
     }
 
     @Override
+    public void addToBucket(Shots model) {
+        startActivityWithShot(ShotBucketActivity.class, model);
+        mFabLayout.hide();
+    }
+
+    @Override
+    public void setTags(ArrayList<String> tags) {
+        if (tags.size() == 0) {
+            mTagAnimator.setDisplayedChild(POS_TAGS_SHOW_EMPTY);
+        } else {
+            mTagAnimator.setDisplayedChild(POS_SHOT_TAGS);
+            for (String tag : tags) {
+                TextView textView = new TextView(this);
+                textView.setPadding(tagPadding, tagPadding, tagPadding, tagPadding);
+                textView.setTextAppearance(this, R.style.TextAppearance_Profile_Title);
+                FlowLayout.LayoutParams layoutParams = new FlowLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                layoutParams.setMargins(tagPadding, tagPadding, tagPadding, tagPadding);
+                layoutParams.gravity = Gravity.CENTER_VERTICAL;
+                textView.setLayoutParams(layoutParams);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    textView.setElevation(AppData.getDimension(R.dimen.cardview_default_elevation));
+                }
+                textView.setText(tag);
+                textView.setBackground(AppData.getDrawable(R.drawable.tag_textview));
+                mTagLayout.addView(textView);
+            }
+        }
+    }
+
+    @Override
     public void setDescription(String description) {
         mShotsDescription.setText(description);
     }
@@ -490,5 +469,34 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView {
     }
 
 
+    @Override
+    public void showEmpty() {
+        mCommentAnimator.setDisplayedChild(POS_COMMENTS_SHOW_EMPTY);
+    }
 
+    @Override
+    public void showLoading() {
+        mCommentAnimator.setDisplayedChild(POS_COMMENTS_SHOW_LOADING);
+    }
+
+    @Override
+    public void onError(Throwable e) {
+        Log.wtf("driclient", e);
+    }
+
+    @Override
+    public void showData(List<Comments> bucketsList) {
+        mCommentAnimator.setDisplayedChild(POS_COMMENTS_LOADED);
+        commentsAdapter.clearAndAddAll(bucketsList);
+    }
+
+    @Override
+    public void showLoadingMore() {
+        mFooter.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void goToMoreComments(Shots shots) {
+        startActivityWithShot(ShotCommentActivity.class, shots);
+    }
 }

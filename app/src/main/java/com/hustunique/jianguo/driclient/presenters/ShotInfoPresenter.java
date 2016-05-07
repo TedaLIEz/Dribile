@@ -21,7 +21,7 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
         view().setViewCount(String.format(AppData.getString(R.string.views), model.getViews_count()));
         view().setLikeCount(String.format(AppData.getString(R.string.likes), model.getLikes_count()));
         view().setBucketCount(String.format(AppData.getString(R.string.buckets), model.getBuckets_count()));
-        view().setDescription(model.getDescription().equals("") ? AppData.getString(R.string.no_description) : model.getDescription());
+        view().setDescription(model.getDescription() == null ? AppData.getString(R.string.no_description) : model.getDescription().equals("") ? AppData.getString(R.string.no_description) : model.getDescription());
         view().setTime(String.format(AppData.getString(R.string.shots_time), CommonUtils.formatDate(model.getCreated_at())));
         view().setShotTitle(model.getTitle());
         view().setUserName(model.getUser().getName());
@@ -30,6 +30,8 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
         } else {
             view().setDefaultAvatar();
         }
+        view().setTags(model.getTags());
+
     }
 
 
@@ -39,6 +41,11 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
 
     public void goToDetailView() {
         view().goToDetailView(model);
+    }
+
+
+    public void addToBucket() {
+        view().addToBucket(model);
     }
 
 
