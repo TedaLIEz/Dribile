@@ -27,7 +27,7 @@ public class GetLikesByIdStrategy implements ILoadDataStrategy<Shots> {
     @Override
     public Observable<List<Shots>> loadData(Map<String, String> params) {
         return ApiServiceFactory.createService(DribbbleUserService.class)
-                .getLikeShots(id)
+                .getLikeShots(id, params)
                 .map(new Func1<List<Likes>, List<Shots>>() {
                     @Override
                     public List<Shots> call(List<Likes> likes) {

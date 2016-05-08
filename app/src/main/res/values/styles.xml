@@ -133,5 +133,7 @@
 
     <style name="Base.Theme.DesignDemo.ShotList" parent="Base.Theme.DesignDemo.BaseActivity"></style>
 
+    <style name="Base.Theme.DesignDemo.LikeList" parent="Base.Theme.DesignDemo.BaseActivity"></style>
+
 
 </resources>

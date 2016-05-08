@@ -109,7 +109,7 @@ public interface DribbbleUserService {
 
 
     @GET(Constants.URL_BASE_USERS + "{id}/" + Constants.URL_BASE_LIKES)
-    Observable<List<Likes>> getLikeShots(@Path("id") String id);
+    Observable<List<Likes>> getLikeShots(@Path("id") String id, @QueryMap Map<String, String> params);
 
     @GET(Constants.OAuth.URL_AUTH_USER + Constants.URL_BASE_LIKES)
     Observable<List<Likes>> getAuthLikeShots(@QueryMap Map<String, String> params);

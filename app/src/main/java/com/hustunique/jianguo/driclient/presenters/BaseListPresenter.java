@@ -65,7 +65,9 @@ public abstract class BaseListPresenter<M, V extends ILoadListView<M>> extends B
 
         @Override
         public void onError(Throwable e) {
-            view().onError(e);
+            if (view() != null) {
+                view().onError(e);
+            }
         }
     }
 }

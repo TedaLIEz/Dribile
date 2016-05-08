@@ -2,18 +2,18 @@ package com.hustunique.jianguo.driclient.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.models.User;
+import com.hustunique.jianguo.driclient.ui.fragments.LikesListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.ShotListFragment;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ShotListActivity extends BaseActivity {
+public class LikeListActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     private User mUser;
@@ -21,7 +21,7 @@ public class ShotListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shot_list);
+        setContentView(R.layout.activity_like_list);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
@@ -29,13 +29,13 @@ public class ShotListActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationIcon(AppData.getDrawable(R.drawable.ic_close_white_24dp));
         mUser = (User) getIntent().getSerializableExtra(USER);
-        getSupportActionBar().setTitle(String.format(AppData.getString(R.string.user_shots), mUser.getName()));
-        if (mUser == null) throw new NullPointerException("must give a user!");
+        getSupportActionBar().setTitle(String.format(AppData.getString(R.string.user_likes), mUser.getName()));
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container,
-                        ShotListFragment.newInstance(mUser))
+                        LikesListFragment.newInstance(mUser.getId()))
                 .commit();
     }
+
 
 
     @Override

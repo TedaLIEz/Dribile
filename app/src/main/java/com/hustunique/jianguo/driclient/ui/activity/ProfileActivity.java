@@ -208,6 +208,8 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
 
     @Override
     public void goToLikeList(User model) {
-
+        Intent intent = new Intent(this, LikeListActivity.class);
+        intent.putExtra(LikeListActivity.USER, model);
+        startActivity(intent);
     }
 }

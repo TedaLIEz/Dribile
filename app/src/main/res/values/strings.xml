@@ -39,7 +39,10 @@
     <!-- ShotListActivity -->
     <string name="user_shots">%1$s\'s shots</string>
 
-    <string name="create_bucket_success" ><![CDATA[Create bucket <font color="%1$s"><b>%2$s</b></font>]]> Success!</string>
-    <string name="delete_bucket_success" ><![CDATA[Delete bucket <font color="%1$s"><b>%2$s</b></font>]]> Success!</string>
-    <string name="add_to_bucket_success" >Add to %1$s Success!</string>
+    <string name="create_bucket_success"><![CDATA[Create bucket <font color="%1$s"><b>%2$s</b></font>]]> Success!</string>
+    <string name="delete_bucket_success"><![CDATA[Delete bucket <font color="%1$s"><b>%2$s</b></font>]]> Success!</string>
+    <string name="add_to_bucket_success">Add to %1$s Success!</string>
+
+    <!-- LikeListActivity -->
+    <string name="user_likes">%1$s\'s likes</string>
 </resources>
