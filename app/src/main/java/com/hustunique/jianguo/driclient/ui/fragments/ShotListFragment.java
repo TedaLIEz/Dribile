@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import com.hustunique.jianguo.driclient.R;
 import com.hustunique.jianguo.driclient.app.PresenterManager;
 import com.hustunique.jianguo.driclient.models.Shots;
+import com.hustunique.jianguo.driclient.models.User;
 import com.hustunique.jianguo.driclient.presenters.ShotListPresenter;
 import com.hustunique.jianguo.driclient.presenters.strategy.GetShotByIdStrategy;
 import com.hustunique.jianguo.driclient.ui.adapters.ShotsAdapter;
@@ -34,23 +35,24 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
  * Basic Fragment for loading shots
  */
 public class ShotListFragment extends BaseShotListFragment implements IFabClickFragment {
-    public static final String ID = "id";
+    public static final String USER = "user";
     public ShotListFragment() {
         // Required empty public constructor
     }
 
     @Override
     protected void setStrategy() {
-        mShotListPresenter.setCached();
         if (getArguments() != null) {
-            String id = getArguments().getString(ID);
-            mShotListPresenter.setLoadStrategy(new GetShotByIdStrategy(id));
+            User user = (User) getArguments().getSerializable(USER);
+            mShotListPresenter.setLoadStrategy(new GetShotByIdStrategy(user));
+        } else {
+            mShotListPresenter.setCached();
         }
     }
 
-    public static ShotListFragment newInstance(String id) {
+    public static ShotListFragment newInstance(User user) {
         Bundle args = new Bundle();
-        args.putString(ID, id);
+        args.putSerializable(USER, user);
         ShotListFragment fragment = new ShotListFragment();
         fragment.setArguments(args);
         return fragment;

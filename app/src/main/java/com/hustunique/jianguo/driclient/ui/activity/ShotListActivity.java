@@ -2,6 +2,7 @@ package com.hustunique.jianguo.driclient.ui.activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 
 import com.hustunique.jianguo.driclient.R;
@@ -28,9 +29,10 @@ public class ShotListActivity extends BaseActivity {
         mUser = (User) getIntent().getSerializableExtra(USER);
         getSupportActionBar().setTitle(String.format(AppData.getString(R.string.user_shots), mUser.getName()));
         if (mUser == null) throw new NullPointerException("must give a user!");
+        Log.e("driclient", "get user from profile " + mUser.getJson());
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container,
-                        ShotListFragment.newInstance(mUser.getId()))
+                        ShotListFragment.newInstance(mUser))
                 .commit();
     }
 

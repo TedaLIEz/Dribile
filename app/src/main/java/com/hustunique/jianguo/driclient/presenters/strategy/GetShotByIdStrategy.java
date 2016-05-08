@@ -1,13 +1,16 @@
 package com.hustunique.jianguo.driclient.presenters.strategy;
 
 import com.hustunique.jianguo.driclient.models.Shots;
+import com.hustunique.jianguo.driclient.models.User;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * Created by JianGuo on 5/5/16.
@@ -15,15 +18,25 @@ import rx.Observable;
  */
 public class GetShotByIdStrategy implements ILoadDataStrategy<Shots> {
     private final String id;
-
-    public GetShotByIdStrategy(String id) {
-        this.id = id;
+    private final User user;
+    public GetShotByIdStrategy(User user) {
+        this.id = user.getId();
+        this.user = user;
     }
 
 
     @Override
     public Observable<List<Shots>> loadData(Map<String, String> params) {
         return ApiServiceFactory.createService(DribbbleUserService.class)
-                .getShots(id ,params);
+                .getShots(id ,params)
+                .map(new Func1<List<Shots>, List<Shots>>() {
+                    @Override
+                    public List<Shots> call(List<Shots> shotses) {
+                        for (Shots shots : shotses) {
+                            shots.setUser(user);
+                        }
+                        return shotses;
+                    }
+                });
     }
 }

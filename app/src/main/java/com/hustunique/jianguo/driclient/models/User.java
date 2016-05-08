@@ -215,7 +215,6 @@ public class User extends BaseBean {
         return links;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

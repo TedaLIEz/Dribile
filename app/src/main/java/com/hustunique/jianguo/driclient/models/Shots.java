@@ -12,6 +12,10 @@ public class Shots extends BaseBean {
     private String width;
     private String height;
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public class Images extends BaseBean {
         private String hidpi;
         private String normal;
@@ -154,6 +158,7 @@ public class Shots extends BaseBean {
     public Team getTeam() {
         return team;
     }
+
 
     @Override
     public boolean equals(Object o) {

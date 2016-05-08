@@ -6,20 +6,21 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hustunique.jianguo.driclient.R;
-import com.hustunique.jianguo.driclient.app.UserManager;
+import com.hustunique.jianguo.driclient.app.PresenterManager;
 import com.hustunique.jianguo.driclient.models.User;
-import com.hustunique.jianguo.driclient.ui.UserFollowListener;
-import com.hustunique.jianguo.driclient.utils.NetUtils;
+import com.hustunique.jianguo.driclient.presenters.ProfilePresenter;
+import com.hustunique.jianguo.driclient.views.ProfileView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ProfileActivity extends BaseActivity {
+public class ProfileActivity extends BaseActivity implements ProfileView {
     @Bind(R.id.user_bio)
     TextView mBio;
     @Bind(R.id.user_followers_count)
@@ -42,102 +43,171 @@ public class ProfileActivity extends BaseActivity {
     CircleImageView mDribbble;
     @Bind(R.id.btn_follow)
     Button mFollow;
-    private User mUser;
+    @Bind(R.id.profile_shots)
+    LinearLayout mShots;
+    @Bind(R.id.profile_likes)
+    LinearLayout mLikes;
     public static final String USER = "user";
+    private ProfilePresenter mProfilePresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
-        mUser = (User) getIntent().getSerializableExtra(USER);
-        if (mUser == null) {
+        User user = (User) getIntent().getSerializableExtra(USER);
+        if (user == null) {
             throw new IllegalArgumentException("you must give a user to show profile");
         }
-        if (mUser.equals(UserManager.getCurrentUser().getUser())) {
-            mFollow.setVisibility(View.GONE);
+        if (savedInstanceState == null) {
+            mProfilePresenter = new ProfilePresenter();
+            mProfilePresenter.setModel(user);
+        } else {
+            mProfilePresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
-        Log.i("driclient", "user " + mUser.getJson());
         initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mProfilePresenter.bindView(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mProfilePresenter.unbindView();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        PresenterManager.getInstance().savePresenter(mProfilePresenter, outState);
     }
 
     //TODO: Show shots in this user
     private void initView() {
-        Picasso.with(this).load(Uri.parse(mUser.getAvatar_url())).placeholder(R.drawable.avatar_default).into(mAvatar);
-        mName.setText(mUser.getName());
-        mLocation.setText(mUser.getLocation());
-        mBio.setText(mUser.getBio());
-        mShotCount.setText(mUser.getShots_count());
-        mFollowersCount.setText(mUser.getFollowers_count());
-        mFollowingsCount.setText(mUser.getFollowings_count());
-        mLikeCount.setText(mUser.getLikes_count());
         mTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mUser.getLink() != null && mUser.getLink().getTwitter() != null) {
-                    startTwitterIntent(NetUtils.getNameFromTwitterUrl(mUser.getLink().getTwitter()));
-                } else {
-                    showMessage("Wops! He didn't leave his twitter here");
-                }
+                mProfilePresenter.goToTwitter();
             }
         });
 
         mDribbble.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mUser.getHtml_url()));
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                mProfilePresenter.goToDribbble();
+            }
+        });
+        mFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProfilePresenter.onFollowClick();
+            }
+        });
+        mShots.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProfilePresenter.goToShotList();
+            }
+        });
+        mShots.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProfilePresenter.goToShotList();
+            }
+        });
+        mLikes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mProfilePresenter.goToLikeList();
             }
         });
 
-        mFollow.setOnClickListener(new UserFollowListener(mUser) {
-            @Override
-            public void isFollowed() {
-                mFollow.setText("FOLLOWED");
-            }
 
-            @Override
-            public void onFollowing() {
-                showMessage("follow user " + mUser.getName());
-                UserManager.updateUser();
-            }
+    }
 
-            @Override
-            public void onPreFollowing() {
-                mFollow.setText("FOLLOWED");
-            }
+    @Override
+    public void setName(String name) {
+        mName.setText(name);
+    }
 
-            @Override
-            public void onPreUnFollowing() {
-                mFollow.setText("FOLLOW");
-            }
+    @Override
+    public void setLocation(String location) {
+        mLocation.setText(location);
+    }
 
-            @Override
-            public void onUnFollowing() {
-                showMessage("unfollow user " + mUser.getName());
-                UserManager.updateUser();
-            }
-        });
-        if (!mUser.getShots_count().equals("0")) {
-            findViewById(R.id.profile_shots).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(ProfileActivity.this, ShotListActivity.class);
-                    intent.putExtra(ShotListActivity.USER, mUser);
-                    startActivity(intent);
-                }
-            });
-        }
-        if (!mUser.getLikes_count().equals("0")) {
-            findViewById(R.id.profile_likes).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+    @Override
+    public void setBio(String bio) {
+        mBio.setText(bio);
+    }
 
-                }
-            });
-        }
+    @Override
+    public void setFollowerCount(String followerCount) {
+        mFollowersCount.setText(followerCount);
+    }
 
+    @Override
+    public void setFollowingCount(String followingCount) {
+        mFollowingsCount.setText(followingCount);
+    }
+
+    @Override
+    public void setShotCount(String shotCount) {
+        mShotCount.setText(shotCount);
+    }
+
+    @Override
+    public void setLikeCount(String likeCount) {
+        mLikeCount.setText(likeCount);
+    }
+
+    @Override
+    public void goToTwitter(String twitterUri) {
+        startTwitterIntent(twitterUri);
+    }
+
+    @Override
+    public void goToDribbble(Intent intent) {
+        startActivity(intent);
+    }
+
+    @Override
+    public void followed() {
+        mFollow.setText("FOLLOWED");
+    }
+
+    @Override
+    public void unfollowed() {
+        mFollow.setText("FOLLOW");
+    }
+
+    @Override
+    public void noTwitter() {
+        showMessage("Wops! He didn't leave his twitter here");
+    }
+
+    @Override
+    public void setAvatar(String uri) {
+        Picasso.with(this).load(Uri.parse(uri)).placeholder(R.drawable.avatar_default).into(mAvatar);
+    }
+
+    @Override
+    public void initFollow(boolean self) {
+        mFollow.setVisibility(self ? View.GONE : View.VISIBLE);
+    }
+
+    @Override
+    public void goToShotList(User model) {
+        Intent intent = new Intent(ProfileActivity.this, ShotListActivity.class);
+        intent.putExtra(ShotListActivity.USER, model);
+        startActivity(intent);
+    }
+
+    @Override
+    public void goToLikeList(User model) {
 
     }
 }

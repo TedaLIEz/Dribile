@@ -188,7 +188,6 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
 
 
     private void initShots() {
-        //// FIXME: 5/5/16 NullPointerException when show shots from User Profile
         mAvatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
