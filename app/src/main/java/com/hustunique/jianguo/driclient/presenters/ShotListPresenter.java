@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.hustunique.jianguo.driclient.dao.ShotsDataHelper;
 import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.presenters.strategy.GetAllShotsStrategy;
+import com.hustunique.jianguo.driclient.presenters.strategy.ICacheDataStrategy;
 import com.hustunique.jianguo.driclient.presenters.strategy.ILoadDataStrategy;
 import com.hustunique.jianguo.driclient.presenters.strategy.LoadDataDelegate;
 import com.hustunique.jianguo.driclient.views.ILoadListView;
@@ -33,11 +34,17 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
     private boolean loadFromCache = true;
     public ShotListPresenter() {
         super();
-        mLoadDel.setLoadStrategy(new GetAllShotsStrategy());
+        GetAllShotsStrategy getAllShotsStrategy = new GetAllShotsStrategy();
+        setLoadStrategy(getAllShotsStrategy);
+        setCacheStrategy(getAllShotsStrategy );
     }
 
     public void setLoadStrategy(ILoadDataStrategy<Shots> loadStrategy) {
         mLoadDel.setLoadStrategy(loadStrategy);
+    }
+
+    public void setCacheStrategy(ICacheDataStrategy<Shots> cacheStrategy) {
+        mLoadDel.setCacheStrategy(cacheStrategy);
     }
 
     public void setCached() {
@@ -69,27 +76,39 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
     }
 
     private void loadFromDB() {
-        Observable.create(new Observable.OnSubscribe<List<Shots>>() {
+        mLoadDel.loadFromDB().subscribe(new Action1<List<Shots>>() {
             @Override
-            public void call(Subscriber<? super List<Shots>> subscriber) {
-                subscriber.onNext(loadDB());
-                subscriber.onCompleted();
+            public void call(List<Shots> shotses) {
+                Log.i("driclient", "load from db" );
+                setModel(shotses);
             }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<List<Shots>>() {
-                    @Override
-                    public void call(List<Shots> shotses) {
-                        Log.i("driclient", "load from db" );
-                        setModel(shotses);
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Log.wtf("driclient", throwable);
-                    }
-                });
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                Log.wtf("driclient", throwable);
+            }
+        });
+//        Observable.create(new Observable.OnSubscribe<List<Shots>>() {
+//            @Override
+//            public void call(Subscriber<? super List<Shots>> subscriber) {
+//                subscriber.onNext(loadDB());
+//                subscriber.onCompleted();
+//            }
+//        })
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Action1<List<Shots>>() {
+//                    @Override
+//                    public void call(List<Shots> shotses) {
+//                        Log.i("driclient", "load from db" );
+//                        setModel(shotses);
+//                    }
+//                }, new Action1<Throwable>() {
+//                    @Override
+//                    public void call(Throwable throwable) {
+//                        Log.wtf("driclient", throwable);
+//                    }
+//                });
     }
 
     private List<Shots> loadDB() {
@@ -130,26 +149,37 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
     }
 
     public void saveToDB() {
-        Observable.create(new Observable.OnSubscribe<Boolean>() {
-
+        mLoadDel.cache(model).subscribe(new Action1<Boolean>() {
             @Override
-            public void call(Subscriber<? super Boolean> subscriber) {
-                subscriber.onNext(cache(model));
+            public void call(Boolean aBoolean) {
+                Log.i("driclient", "cache data size " + model.size() + (aBoolean ? "success" : "failed"));
             }
-        })
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Boolean>() {
-                    @Override
-                    public void call(Boolean aBoolean) {
-                        Log.i("driclient", "cache data size " + model.size() + (aBoolean ? "success" : "failed"));
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        Log.wtf("driclient", throwable);
-                    }
-                });
+        }, new Action1<Throwable>() {
+            @Override
+            public void call(Throwable throwable) {
+                Log.wtf("driclient", throwable);
+            }
+        });
+//        Observable.create(new Observable.OnSubscribe<Boolean>() {
+//
+//            @Override
+//            public void call(Subscriber<? super Boolean> subscriber) {
+//                subscriber.onNext(cache(model));
+//            }
+//        })
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Action1<Boolean>() {
+//                    @Override
+//                    public void call(Boolean aBoolean) {
+//                        Log.i("driclient", "cache data size " + model.size() + (aBoolean ? "success" : "failed"));
+//                    }
+//                }, new Action1<Throwable>() {
+//                    @Override
+//                    public void call(Throwable throwable) {
+//                        Log.wtf("driclient", throwable);
+//                    }
+//                });
     }
 
     private boolean cache(List<Shots> shotses) {

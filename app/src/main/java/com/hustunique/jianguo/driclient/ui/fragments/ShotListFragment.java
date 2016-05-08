@@ -15,6 +15,7 @@ import com.hustunique.jianguo.driclient.app.PresenterManager;
 import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.models.User;
 import com.hustunique.jianguo.driclient.presenters.ShotListPresenter;
+import com.hustunique.jianguo.driclient.presenters.strategy.GetAllShotsStrategy;
 import com.hustunique.jianguo.driclient.presenters.strategy.GetShotByIdStrategy;
 import com.hustunique.jianguo.driclient.ui.adapters.ShotsAdapter;
 import com.hustunique.jianguo.driclient.ui.widget.PaddingItemDecoration;

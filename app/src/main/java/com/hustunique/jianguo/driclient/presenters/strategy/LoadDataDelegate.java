@@ -2,6 +2,8 @@ package com.hustunique.jianguo.driclient.presenters.strategy;
 
 import android.support.annotation.StringDef;
 
+import com.hustunique.jianguo.driclient.models.Shots;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashMap;
@@ -9,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -29,6 +32,7 @@ public class LoadDataDelegate<T> {
 
 
     private ILoadDataStrategy<T> mLoadStrategy;
+    private ICacheDataStrategy<T> mCacheStrategy;
 
     public LoadDataDelegate() {
         generateDefaultParams();
@@ -37,6 +41,10 @@ public class LoadDataDelegate<T> {
 
     public void setLoadStrategy(ILoadDataStrategy<T> strategy) {
         mLoadStrategy = strategy;
+    }
+
+    public void setCacheStrategy(ICacheDataStrategy<T> cacheStrategy) {
+        this.mCacheStrategy = cacheStrategy;
     }
 
     @StringDef({SORT_COMMENTS, SORT_RECENT, SORT_VIEWS})
@@ -76,6 +84,37 @@ public class LoadDataDelegate<T> {
         return mLoadStrategy.loadData(params)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread());
+    }
+
+
+    public Observable<List<T>> loadFromDB() {
+        if (mCacheStrategy != null) {
+            return Observable.create(new Observable.OnSubscribe<List<T>>() {
+                @Override
+                public void call(Subscriber<? super List<T>> subscriber) {
+                    subscriber.onNext(mCacheStrategy.loadFromDB());
+                    subscriber.onCompleted();
+                }
+            })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+        return null;
+    }
+
+    public Observable<Boolean> cache(final List<T> datas) {
+        if (mCacheStrategy != null) {
+            return Observable.create(new Observable.OnSubscribe<Boolean>() {
+
+                @Override
+                public void call(Subscriber<? super Boolean> subscriber) {
+                    subscriber.onNext(mCacheStrategy.cache(datas));
+                }
+            })
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread());
+        }
+        return null;
     }
 
     public int getLoadTotal() {

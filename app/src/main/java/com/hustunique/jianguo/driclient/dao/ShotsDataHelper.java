@@ -11,6 +11,7 @@ import com.hustunique.jianguo.driclient.dao.sql.BaseColumns;
 import com.hustunique.jianguo.driclient.dao.sql.Column;
 import com.hustunique.jianguo.driclient.dao.sql.SQLiteTable;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -32,7 +33,10 @@ public class ShotsDataHelper extends BasicDataHelper {
 
     public int bulkInsert(List<Shots> shotsList) {
         int insertCount = 0;
-        for (Shots shots : shotsList) {
+        //// FIXME: 5/8/16 ConcurrentModificationException if using for-each loop?
+        Iterator<Shots> iter = shotsList.iterator();
+        while (iter.hasNext()) {
+            Shots shots = iter.next();
             ContentValues values = getContentValues(shots);
             int n = update(values, ShotsTable.ID + "=?", new String[] {
                     shots.getId()
@@ -42,6 +46,9 @@ public class ShotsDataHelper extends BasicDataHelper {
                 insertCount++;
             }
         }
+//        for (Shots shots : shotsList) {
+//
+//        }
         return insertCount;
     }
 

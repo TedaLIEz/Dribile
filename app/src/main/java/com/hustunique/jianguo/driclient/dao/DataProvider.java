@@ -46,6 +46,10 @@ public class DataProvider extends ContentProvider {
 
     public static final Uri SHOTS_CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + PATH_SHOTS);
 
+    public static final String PATH_LIKES = "/likes";
+
+    public static final Uri LIKES_CONTENT_URI = Uri.parse(SCHEME + AUTHORITY + PATH_LIKES);
+
     /*
      * Constants used by the Uri matcher to choose an action based on the
      * pattern of the incoming URI
