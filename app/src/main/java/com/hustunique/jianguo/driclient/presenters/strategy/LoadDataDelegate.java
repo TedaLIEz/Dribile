@@ -2,10 +2,9 @@ package com.hustunique.jianguo.driclient.presenters.strategy;
 
 import android.support.annotation.StringDef;
 
-import com.hustunique.jianguo.driclient.models.Shots;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -103,12 +102,15 @@ public class LoadDataDelegate<T> {
     }
 
     public Observable<Boolean> cache(final List<T> datas) {
+        final List<T> rst = Collections.synchronizedList(datas);
         if (mCacheStrategy != null) {
+
             return Observable.create(new Observable.OnSubscribe<Boolean>() {
 
                 @Override
                 public void call(Subscriber<? super Boolean> subscriber) {
-                    subscriber.onNext(mCacheStrategy.cache(datas));
+                    subscriber.onNext(mCacheStrategy.cache(rst));
+
                 }
             })
                     .subscribeOn(Schedulers.io())

@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.hustunique.jianguo.driclient.app.AppData;
+import com.hustunique.jianguo.driclient.dao.sql.BaseColumns;
+import com.hustunique.jianguo.driclient.dao.sql.Column;
+import com.hustunique.jianguo.driclient.dao.sql.SQLiteTable;
 import com.hustunique.jianguo.driclient.models.Shots;
 
 import java.util.List;
@@ -59,5 +62,15 @@ public class LikesDataHelper extends BasicDataHelper {
     @Override
     protected Uri getContentUri() {
         return DataProvider.LIKES_CONTENT_URI;
+    }
+
+
+    public static class ShotsTable implements BaseColumns {
+        public static final String TABLE_NAME = "likes";
+
+        public static final String ID = "id";
+
+        public static final SQLiteTable TABLE = new SQLiteTable(TABLE_NAME).addColumn(ID,
+                Column.DataType.TEXT).addColumn(JSON, Column.DataType.TEXT);
     }
 }

@@ -69,10 +69,13 @@ public class DataProvider extends ContentProvider {
 
     public static final String TYPE_SHOTS_CONTENT = "vnd.android.cursor.dir/vnd.driclient.shots";
 
+    public static final String TYPE_LIKES_CONTENT = "vnd.android.cursor.dir/vnd.driclient.likes";
     /**
      * A UriMatcher instance
      */
     private static final UriMatcher sUriMatcher;
+    private static final int LIKES = 1 << 3;
+
 
     private static DBHelper mDBHelper;
 
@@ -89,6 +92,7 @@ public class DataProvider extends ContentProvider {
         sUriMatcher.addURI(AUTHORITY, "users", USERS);
         sUriMatcher.addURI(AUTHORITY, "auth_user", AUTHUSER);
         sUriMatcher.addURI(AUTHORITY, "shots", SHOTS);
+        sUriMatcher.addURI(AUTHORITY, "likes", LIKES);
     }
 
     @Override
@@ -103,6 +107,8 @@ public class DataProvider extends ContentProvider {
                 return TYPE_AUTH_USERS_CONTENT;
             case SHOTS:
                 return TYPE_SHOTS_CONTENT;
+            case LIKES:
+                return TYPE_LIKES_CONTENT;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
         }
@@ -116,6 +122,9 @@ public class DataProvider extends ContentProvider {
                 break;
             case SHOTS:
                 table = ShotsDataHelper.ShotsTable.TABLE_NAME;
+                break;
+            case LIKES:
+                table = LikesDataHelper.ShotsTable.TABLE_NAME;
                 break;
             default:
                 throw new IllegalArgumentException("Unknown URI " + uri);
@@ -251,6 +260,7 @@ public class DataProvider extends ContentProvider {
         public void onCreate(SQLiteDatabase db) {
             AuthUserDataHelper.AuthUserTable.TABLE.create(db);
             ShotsDataHelper.ShotsTable.TABLE.create(db);
+            LikesDataHelper.ShotsTable.TABLE.create(db);
         }
 
         @Override
