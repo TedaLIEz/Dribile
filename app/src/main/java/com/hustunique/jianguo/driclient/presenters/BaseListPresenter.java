@@ -1,15 +1,11 @@
 package com.hustunique.jianguo.driclient.presenters;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
 
-import com.hustunique.jianguo.driclient.models.Shots;
-import com.hustunique.jianguo.driclient.presenters.strategy.ILoadDataStrategy;
+import com.hustunique.jianguo.driclient.presenters.strategy.ILoadListDataStrategy;
 import com.hustunique.jianguo.driclient.presenters.strategy.LoadDataDelegate;
 import com.hustunique.jianguo.driclient.views.ILoadListView;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
 import rx.Subscriber;
@@ -27,7 +23,7 @@ public abstract class BaseListPresenter<M, V extends ILoadListView<M>> extends B
         mLoadDel = new LoadDataDelegate<>();
     }
 
-    public void setLoadStrategy(ILoadDataStrategy<M> loadStrategy) {
+    public void setLoadStrategy(ILoadListDataStrategy<M> loadStrategy) {
         mLoadDel.setLoadStrategy(loadStrategy);
     }
 

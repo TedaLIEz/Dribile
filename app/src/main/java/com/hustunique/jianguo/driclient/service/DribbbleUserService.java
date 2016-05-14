@@ -30,11 +30,11 @@ public interface DribbbleUserService {
     /**
      * find user by name
      *
-     * @param name the user name
+     * @param id the user id
      * @return the user
      */
-    @GET(Constants.URL_BASE_USERS + "{name}")
-    Call<User> getUser(@Path("name") String name);
+    @GET(Constants.URL_BASE_USERS + "{id}")
+    Observable<User> getUser(@Path("id") String id);
 
     @Deprecated
     @GET(Constants.OAuth.URL_AUTH_USER)

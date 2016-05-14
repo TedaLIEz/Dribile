@@ -16,7 +16,7 @@ import rx.functions.Func1;
  * Created by JianGuo on 5/5/16.
  * Get user's likes
  */
-public class GetLikesByIdStrategy implements ILoadDataStrategy<Shots> {
+public class GetLikesByIdStrategy implements ILoadListDataStrategy<Shots> {
 
     private final String id;
 

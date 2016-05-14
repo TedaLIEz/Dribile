@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.models.User;
+import com.hustunique.jianguo.driclient.presenters.strategy.GetUserByIdStrategy;
+import com.hustunique.jianguo.driclient.presenters.strategy.ILoadDataStrategy;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.driclient.ui.activity.ProfileActivity;
@@ -15,6 +17,7 @@ import com.hustunique.jianguo.driclient.views.ProfileView;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -23,6 +26,25 @@ import rx.schedulers.Schedulers;
  * Created by JianGuo on 5/8/16.
  */
 public class ProfilePresenter extends BasePresenter<User, ProfileView> {
+    private ILoadDataStrategy<User> strategy;
+    public ProfilePresenter(String id) {
+        strategy = new GetUserByIdStrategy(id);
+        strategy.loadData(null)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Action1<User>() {
+                    @Override
+                    public void call(User user) {
+                        setModel(user);
+                    }
+                });
+    }
+
+    public ProfilePresenter(User user) {
+        setModel(user);
+    }
+
+
     private boolean isFollowed = false;
 
     @Override

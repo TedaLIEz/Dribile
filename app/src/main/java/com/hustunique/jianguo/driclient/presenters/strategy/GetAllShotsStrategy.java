@@ -18,7 +18,7 @@ import rx.Observable;
  * Created by JianGuo on 5/5/16.
  * Strategy for loading all shots
  */
-public class GetAllShotsStrategy implements ILoadDataStrategy<Shots>, ICacheDataStrategy<Shots> {
+public class GetAllShotsStrategy implements ILoadListDataStrategy<Shots>, ICacheDataStrategy<Shots> {
 
     @Override
     public Observable<List<Shots>> loadData(Map<String, String> params) {

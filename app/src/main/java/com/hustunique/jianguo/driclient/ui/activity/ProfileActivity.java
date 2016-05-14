@@ -3,7 +3,6 @@ package com.hustunique.jianguo.driclient.ui.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -55,16 +54,22 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
-        User user = (User) getIntent().getSerializableExtra(USER);
-        if (user == null) {
-            throw new IllegalArgumentException("you must give a user to show profile");
-        }
-        if (savedInstanceState == null) {
-            mProfilePresenter = new ProfilePresenter();
-            mProfilePresenter.setModel(user);
+        Intent intent = getIntent();
+        if (intent.getAction().equals(Intent.ACTION_VIEW)) {
+            Uri uri = intent.getData();
+            mProfilePresenter = new ProfilePresenter(uri.getLastPathSegment());
         } else {
-            mProfilePresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
+            User user = (User) getIntent().getSerializableExtra(USER);
+            if (user == null) {
+                throw new IllegalArgumentException("you must give a user to show profile");
+            }
+            if (savedInstanceState == null) {
+                mProfilePresenter = new ProfilePresenter(user);
+            } else {
+                mProfilePresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
+            }
         }
+
         initView();
     }
 
@@ -86,7 +91,6 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
         PresenterManager.getInstance().savePresenter(mProfilePresenter, outState);
     }
 
-    //TODO: Show shots in this user
     private void initView() {
         mTwitter.setOnClickListener(new View.OnClickListener() {
             @Override

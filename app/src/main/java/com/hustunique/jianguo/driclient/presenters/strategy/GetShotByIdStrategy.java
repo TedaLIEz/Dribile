@@ -5,7 +5,6 @@ import com.hustunique.jianguo.driclient.models.User;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ import rx.functions.Func1;
  * Created by JianGuo on 5/5/16.
  * Strategy for loading shots by user id.
  */
-public class GetShotByIdStrategy implements ILoadDataStrategy<Shots> {
+public class GetShotByIdStrategy implements ILoadListDataStrategy<Shots> {
     private final String id;
     private final User user;
     public GetShotByIdStrategy(User user) {

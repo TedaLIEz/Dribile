@@ -4,7 +4,6 @@ import android.database.Cursor;
 
 import com.google.gson.Gson;
 import com.hustunique.jianguo.driclient.dao.LikesDataHelper;
-import com.hustunique.jianguo.driclient.dao.ShotsDataHelper;
 import com.hustunique.jianguo.driclient.models.Likes;
 import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
@@ -21,7 +20,7 @@ import rx.functions.Func1;
  * Created by JianGuo on 5/5/16.
  * Strategy for loading my likes
  */
-public class GetMyLikesStrategy implements ILoadDataStrategy<Shots>, ICacheDataStrategy<Shots> {
+public class GetMyLikesStrategy implements ILoadListDataStrategy<Shots>, ICacheDataStrategy<Shots> {
 
     @Override
     public Observable<List<Shots>> loadData(Map<String, String> params) {

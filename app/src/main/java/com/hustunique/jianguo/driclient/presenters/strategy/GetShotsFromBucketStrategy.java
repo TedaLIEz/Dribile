@@ -14,7 +14,7 @@ import rx.Observable;
  * Created by JianGuo on 5/5/16.
  * Strategy for loading shots from target buckets.
  */
-public class GetShotsFromBucketStrategy implements ILoadDataStrategy<Shots> {
+public class GetShotsFromBucketStrategy implements ILoadListDataStrategy<Shots> {
 
     private final Buckets mBucket;
 

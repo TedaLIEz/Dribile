@@ -12,7 +12,7 @@ import rx.Observable;
 /**
  * Created by JianGuo on 5/5/16.
  */
-public class GetMyBucketStrategy implements ILoadDataStrategy<Buckets> {
+public class GetMyBucketStrategy implements ILoadListDataStrategy<Buckets> {
 
     @Override
     public Observable<List<Buckets>> loadData(Map<String, String> params) {

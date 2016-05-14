@@ -5,7 +5,7 @@ import android.util.Log;
 import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.presenters.strategy.GetAllShotsStrategy;
 import com.hustunique.jianguo.driclient.presenters.strategy.ICacheDataStrategy;
-import com.hustunique.jianguo.driclient.presenters.strategy.ILoadDataStrategy;
+import com.hustunique.jianguo.driclient.presenters.strategy.ILoadListDataStrategy;
 import com.hustunique.jianguo.driclient.views.ILoadListView;
 
 import java.util.List;
@@ -27,7 +27,7 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
         setCacheStrategy(getAllShotsStrategy );
     }
 
-    public void setLoadStrategy(ILoadDataStrategy<Shots> loadStrategy) {
+    public void setLoadStrategy(ILoadListDataStrategy<Shots> loadStrategy) {
         mLoadDel.setLoadStrategy(loadStrategy);
     }
 

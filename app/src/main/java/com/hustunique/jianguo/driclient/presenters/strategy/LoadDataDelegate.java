@@ -30,7 +30,7 @@ public class LoadDataDelegate<T> {
 
 
 
-    private ILoadDataStrategy<T> mLoadStrategy;
+    private ILoadListDataStrategy<T> mLoadStrategy;
     private ICacheDataStrategy<T> mCacheStrategy;
 
     public LoadDataDelegate() {
@@ -38,7 +38,7 @@ public class LoadDataDelegate<T> {
     }
 
 
-    public void setLoadStrategy(ILoadDataStrategy<T> strategy) {
+    public void setLoadStrategy(ILoadListDataStrategy<T> strategy) {
         mLoadStrategy = strategy;
     }
 
