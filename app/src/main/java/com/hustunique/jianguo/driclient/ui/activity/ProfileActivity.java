@@ -55,7 +55,7 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
         setContentView(R.layout.activity_profile);
         ButterKnife.bind(this);
         Intent intent = getIntent();
-        if (intent.getAction().equals(Intent.ACTION_VIEW)) {
+        if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
             Uri uri = intent.getData();
             mProfilePresenter = new ProfilePresenter(uri.getLastPathSegment());
         } else {

@@ -43,7 +43,7 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
         }
         view().setTags(model.getTags());
         ResponseBodyFactory.createService(DribbbleLikeService.class)
-                .like(model.getId()).subscribeOn(Schedulers.newThread())
+                .isLike(model.getId()).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Response<ResponseBody>>() {
                     @Override

@@ -22,9 +22,6 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
     private boolean loadFromCache = true;
     public ShotListPresenter() {
         super();
-        GetAllShotsStrategy getAllShotsStrategy = new GetAllShotsStrategy();
-        setLoadStrategy(getAllShotsStrategy);
-        setCacheStrategy(getAllShotsStrategy );
     }
 
     public void setLoadStrategy(ILoadListDataStrategy<Shots> loadStrategy) {

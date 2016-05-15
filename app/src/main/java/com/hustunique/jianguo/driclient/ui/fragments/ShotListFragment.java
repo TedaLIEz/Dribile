@@ -3,6 +3,7 @@ package com.hustunique.jianguo.driclient.ui.fragments;
 import android.os.Bundle;
 
 import com.hustunique.jianguo.driclient.models.User;
+import com.hustunique.jianguo.driclient.presenters.strategy.GetAllShotsStrategy;
 import com.hustunique.jianguo.driclient.presenters.strategy.GetShotByIdStrategy;
 
 
@@ -21,7 +22,12 @@ public class ShotListFragment extends BaseShotListFragment implements IFabClickF
         if (getArguments() != null) {
             User user = (User) getArguments().getSerializable(USER);
             mShotListPresenter.setLoadStrategy(new GetShotByIdStrategy(user));
+        } else {
+            GetAllShotsStrategy getAllShotsStrategy = new GetAllShotsStrategy();
+            mShotListPresenter.setLoadStrategy(getAllShotsStrategy);
+            mShotListPresenter.setCacheStrategy(getAllShotsStrategy);
         }
+
     }
 
     public static ShotListFragment newInstance(User user) {
