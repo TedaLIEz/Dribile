@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -26,6 +27,7 @@ import com.hustunique.jianguo.driclient.ui.fragments.BucketListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.IFabClickFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.ShotListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.LikesListFragment;
+import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -47,6 +49,9 @@ public class MainActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
+    @Bind(R.id.searchView)
+    MaterialSearchView mSearchView;
+
     private ActionBarDrawerToggle mToggle;
     private IFabClickFragment mContentFragment;
 
@@ -56,12 +61,42 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-//        if (UserManager.getCurrentUser() != null) {
-//            Log.i("driclient", "find login user " + UserManager.getCurrentUser().getJson());
-//        }
-
         setSetupDrawerContent();
         initFab();
+        initSearchView();
+    }
+
+    private void initSearchView() {
+
+        mSearchView.setVoiceSearch(false);
+        mSearchView.setEllipsize(true);
+        mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                //Do some magic
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                //Do some magic
+                return false;
+            }
+        });
+
+        mSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+            @Override
+            public void onSearchViewShown() {
+                //Do some magic
+            }
+
+            @Override
+            public void onSearchViewClosed() {
+                //Do some magic
+            }
+        });
+
+        mSearchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
     }
 
     private void initFab() {
@@ -173,6 +208,18 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                mSearchView.showSearch();
+                mSearchView.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
+
+
         return true;
     }
 
@@ -208,5 +255,15 @@ public class MainActivity extends BaseActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         mToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (mSearchView.isSearchOpen()) {
+            mSearchView.closeSearch();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
