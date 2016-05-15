@@ -46,6 +46,7 @@ import rx.schedulers.Schedulers;
 public class ShotCommentActivity extends BaseActivity implements CommentListView {
     private static final int POS_LOADING = 0;
     private static final int POS_SHOW_DATA = 1;
+    private static final int POS_EMPTY = 2;
 
     @Bind(R.id.comments_count)
     TextView mCommentsTitle;
@@ -141,7 +142,7 @@ public class ShotCommentActivity extends BaseActivity implements CommentListView
 
     @Override
     public void showEmpty() {
-
+        mAnimator.setDisplayedChild(POS_EMPTY);
     }
 
     @Override

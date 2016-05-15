@@ -73,13 +73,11 @@ public class MainActivity extends BaseActivity {
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //Do some magic
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                //Do some magic
                 return false;
             }
         });
@@ -87,12 +85,12 @@ public class MainActivity extends BaseActivity {
         mSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
             @Override
             public void onSearchViewShown() {
-                //Do some magic
+                mFab.hide();
             }
 
             @Override
             public void onSearchViewClosed() {
-                //Do some magic
+                mFab.show();
             }
         });
 
