@@ -1,6 +1,7 @@
 package com.hustunique.jianguo.driclient.presenters;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.hustunique.jianguo.driclient.presenters.strategy.ILoadListDataStrategy;
 import com.hustunique.jianguo.driclient.presenters.strategy.LoadDataDelegate;
@@ -38,11 +39,12 @@ public abstract class BaseListPresenter<M, V extends ILoadListView<M>> extends B
         super.bindView(view);
         if (model == null && !isLoadingData) {
             view.showLoading();
-            loadData();
+            getData();
         }
     }
 
-    protected abstract void loadData();
+    public abstract void getData();
+    public abstract void refresh();
 
 
     @Override

@@ -19,6 +19,7 @@ import rx.schedulers.Schedulers;
  * Delegate for loading data
  */
 public class LoadDataDelegate<T> {
+
     public static final String SORT_COMMENTS = "comments";
     public static final String SORT_RECENT = "recent";
     public static final String SORT_VIEWS = "views";
@@ -28,8 +29,6 @@ public class LoadDataDelegate<T> {
     private int COUNT_PER_PAGE = 20;
     private int page = 1;
 
-
-
     private ILoadListDataStrategy<T> mLoadStrategy;
     private ICacheDataStrategy<T> mCacheStrategy;
 
@@ -38,13 +37,14 @@ public class LoadDataDelegate<T> {
     }
 
 
+    public void setCacheStrategy(ICacheDataStrategy<T> strategy) {
+        mCacheStrategy = strategy;
+    }
+
     public void setLoadStrategy(ILoadListDataStrategy<T> strategy) {
         mLoadStrategy = strategy;
     }
 
-    public void setCacheStrategy(ICacheDataStrategy<T> cacheStrategy) {
-        this.mCacheStrategy = cacheStrategy;
-    }
 
     @StringDef({SORT_COMMENTS, SORT_RECENT, SORT_VIEWS})
     @Retention(RetentionPolicy.SOURCE)
@@ -80,43 +80,60 @@ public class LoadDataDelegate<T> {
 
     public Observable<List<T>> loadData(int page) {
         params.put("page", String.valueOf(page));
-        return mLoadStrategy.loadData(params)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread());
+        return mLoadStrategy.loadData(params);
+    }
+
+
+    public void cacheNew(List<T> data) {
+        if (mCacheStrategy != null) {
+            mCacheStrategy.cacheNew(data);
+        }
     }
 
 
     public Observable<List<T>> loadFromDB() {
         if (mCacheStrategy != null) {
-            return Observable.create(new Observable.OnSubscribe<List<T>>() {
-                @Override
-                public void call(Subscriber<? super List<T>> subscriber) {
-                    subscriber.onNext(mCacheStrategy.loadFromDB());
-                    subscriber.onCompleted();
-                }
-            })
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
+            return mCacheStrategy.loadFromDB();
         }
         return null;
     }
+//    public Observable<List<T>> loadFromDB() {
+//        if (mCacheStrategy != null) {
+//            return Observable.create(new Observable.OnSubscribe<List<T>>() {
+//                @Override
+//                public void call(Subscriber<? super List<T>> subscriber) {
+//                    subscriber.onNext(mCacheStrategy.loadFromDB());
+//                    subscriber.onCompleted();
+//                }
+//            })
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread());
+//        }
+//        return null;
+//    }
+//
+//    public Observable<Boolean> cache(final List<T> datas) {
+//        final List<T> rst = Collections.synchronizedList(datas);
+//        if (mCacheStrategy != null) {
+//
+//            return Observable.create(new Observable.OnSubscribe<Boolean>() {
+//
+//                @Override
+//                public void call(Subscriber<? super Boolean> subscriber) {
+//                    subscriber.onNext(mCacheStrategy.cache(rst));
+//
+//                }
+//            })
+//                    .subscribeOn(Schedulers.io())
+//                    .observeOn(AndroidSchedulers.mainThread());
+//        }
+//        return null;
+//    }
 
-    public Observable<Boolean> cache(final List<T> datas) {
-        final List<T> rst = Collections.synchronizedList(datas);
+    public void cacheMore(List<T> data) {
         if (mCacheStrategy != null) {
-
-            return Observable.create(new Observable.OnSubscribe<Boolean>() {
-
-                @Override
-                public void call(Subscriber<? super Boolean> subscriber) {
-                    subscriber.onNext(mCacheStrategy.cache(rst));
-
-                }
-            })
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread());
+            mCacheStrategy.cacheMore(data);
         }
-        return null;
     }
 
     public int getLoadTotal() {

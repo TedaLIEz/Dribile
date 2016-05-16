@@ -1,25 +1,26 @@
 package com.hustunique.jianguo.driclient.presenters.strategy;
 
-import android.database.Cursor;
-
-import com.google.gson.Gson;
-import com.hustunique.jianguo.driclient.dao.ShotsDataHelper;
+import com.hustunique.jianguo.driclient.dao.ObservableShotsDb;
 import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.service.DribbbleShotsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by JianGuo on 5/5/16.
  * Strategy for loading all shots
  */
 public class GetAllShotsStrategy implements ILoadListDataStrategy<Shots>, ICacheDataStrategy<Shots> {
+    private ObservableShotsDb mShots;
 
+    public GetAllShotsStrategy() {
+        mShots = new ObservableShotsDb();
+    }
     @Override
     public Observable<List<Shots>> loadData(Map<String, String> params) {
         return ApiServiceFactory.createService(DribbbleShotsService.class)
@@ -28,28 +29,19 @@ public class GetAllShotsStrategy implements ILoadListDataStrategy<Shots>, ICache
 
 
     @Override
-    public List<Shots> loadFromDB() {
-        Gson gson = new Gson();
-        ShotsDataHelper helper = new ShotsDataHelper();
-        Cursor cursor = helper.getList();
-        cursor.moveToFirst();
-        List<Shots> data = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            data.add(gson.fromJson(
-                    cursor.getString(cursor.getColumnIndex(ShotsDataHelper.ShotsTable.JSON)),
-                    Shots.class));
-        }
-        return data;
+    public Observable<List<Shots>> loadFromDB() {
+        Observable<List<Shots>> observable = mShots.getObservable();
+        observable.unsubscribeOn(Schedulers.computation());
+        return observable;
     }
 
     @Override
-    public boolean cache(List<Shots> datas) {
-        if (datas != null && datas.size() != 0) {
-            ShotsDataHelper helper = new ShotsDataHelper();
-            helper.deleteAll();
-            helper.bulkInsert(datas);
-            return true;
-        }
-        return false;
+    public void cacheNew(List<Shots> datas) {
+        mShots.insertShotList(datas);
+    }
+
+    @Override
+    public void cacheMore(List<Shots> datas) {
+        mShots.addShotList(datas);
     }
 }

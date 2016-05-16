@@ -149,6 +149,7 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
     }
 
 
+
     @Override
     public void onRefresh() {
         mShotListPresenter.refresh();

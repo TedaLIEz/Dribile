@@ -35,8 +35,16 @@ public class CommentListPresenter extends BaseListPresenter<Comments, CommentLis
 
 
     @Override
-    protected void loadData() {
-        mLoadDel.loadData().subscribe(new LoadingListSubscriber() {
+    public void getData() {
+        refresh();
+    }
+
+    @Override
+    public void refresh() {
+        mLoadDel.loadData()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new LoadingListSubscriber() {
             @Override
             public void onNext(List<Comments> commentses) {
                 setModel(commentses);

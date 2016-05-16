@@ -1,6 +1,7 @@
 package com.hustunique.jianguo.driclient.ui.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.hustunique.jianguo.driclient.models.User;
 import com.hustunique.jianguo.driclient.presenters.strategy.GetAllShotsStrategy;

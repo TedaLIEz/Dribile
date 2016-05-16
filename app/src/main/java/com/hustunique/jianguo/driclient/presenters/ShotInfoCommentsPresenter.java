@@ -7,6 +7,9 @@ import com.hustunique.jianguo.driclient.views.ShotInfoCommentView;
 
 import java.util.List;
 
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
+
 /**
  * Created by JianGuo on 5/7/16.
  * Presenter for comments in ShotInfoActivity
@@ -33,8 +36,16 @@ public class ShotInfoCommentsPresenter extends BaseListPresenter<Comments, ShotI
     }
 
     @Override
-    protected void loadData() {
-        mLoadDel.loadData().subscribe(new LoadingListSubscriber() {
+    public void getData() {
+        refresh();
+    }
+
+    @Override
+    public void refresh() {
+        mLoadDel.loadData()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new LoadingListSubscriber() {
             @Override
             public void onNext(List<Comments> commentses) {
                 setModel(commentses);

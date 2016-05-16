@@ -1,9 +1,6 @@
 package com.hustunique.jianguo.driclient.presenters.strategy;
 
-import android.database.Cursor;
-
-import com.google.gson.Gson;
-import com.hustunique.jianguo.driclient.dao.LikesDataHelper;
+import com.hustunique.jianguo.driclient.dao.ObservableLikesDb;
 import com.hustunique.jianguo.driclient.models.Likes;
 import com.hustunique.jianguo.driclient.models.Shots;
 import com.hustunique.jianguo.driclient.service.DribbbleUserService;
@@ -20,7 +17,12 @@ import rx.functions.Func1;
  * Created by JianGuo on 5/5/16.
  * Strategy for loading my likes
  */
-public class GetMyLikesStrategy implements ILoadListDataStrategy<Shots>, ICacheDataStrategy<Shots> {
+public class GetMyLikesStrategy implements ILoadListDataStrategy<Shots>, ICacheDataStrategy<Shots>  {
+    private ObservableLikesDb mLikes;
+
+    public GetMyLikesStrategy() {
+        mLikes = new ObservableLikesDb();
+    }
 
     @Override
     public Observable<List<Shots>> loadData(Map<String, String> params) {
@@ -39,28 +41,17 @@ public class GetMyLikesStrategy implements ILoadListDataStrategy<Shots>, ICacheD
     }
 
     @Override
-    public List<Shots> loadFromDB() {
-        LikesDataHelper likesDataHelper = new LikesDataHelper();
-        Gson gson = new Gson();
-        Cursor cursor = likesDataHelper.getList();
-        cursor.moveToFirst();
-        List<Shots> data = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            data.add(gson.fromJson(
-                    cursor.getString(cursor.getColumnIndex(LikesDataHelper.ShotsTable.JSON)),
-                    Shots.class));
-        }
-        return data;
+    public Observable<List<Shots>> loadFromDB() {
+        return mLikes.getObservable();
     }
 
     @Override
-    public boolean cache(List<Shots> datas) {
-        if (datas != null && datas.size() != 0) {
-            LikesDataHelper helper = new LikesDataHelper();
-            helper.deleteAll();
-            helper.bulkInsert(datas);
-            return true;
-        }
-        return false;
+    public void cacheNew(List<Shots> datas) {
+        mLikes.insertShotList(datas);
+    }
+
+    @Override
+    public void cacheMore(List<Shots> datas) {
+        mLikes.addShotList(datas);
     }
 }

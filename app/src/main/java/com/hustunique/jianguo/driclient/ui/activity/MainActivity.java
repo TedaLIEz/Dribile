@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -25,8 +24,8 @@ import com.hustunique.jianguo.driclient.app.AppData;
 import com.hustunique.jianguo.driclient.app.UserManager;
 import com.hustunique.jianguo.driclient.ui.fragments.BucketListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.IFabClickFragment;
-import com.hustunique.jianguo.driclient.ui.fragments.ShotListFragment;
 import com.hustunique.jianguo.driclient.ui.fragments.LikesListFragment;
+import com.hustunique.jianguo.driclient.ui.fragments.ShotListFragment;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.squareup.picasso.Picasso;
 

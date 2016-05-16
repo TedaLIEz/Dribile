@@ -30,19 +30,11 @@ public class ShotsDataHelper extends BasicDataHelper {
         return contentValues;
     }
 
-    public int bulkInsert(List<Shots> shotsList) {
-        int insertCount = 0;
-        for (Shots shots : shotsList) {
-            ContentValues values = getContentValues(shots);
-            int n = update(values, ShotsTable.ID + "=?", new String[] {
-                    shots.getId()
-            });
-            if (n == 0) {
-                insert(values);
-                insertCount++;
-            }
-        }
-        return insertCount;
+
+    public boolean insert(Shots shots) {
+        ContentValues contentValues = getContentValues(shots);
+        insert(contentValues);
+        return true;
     }
 
     public Cursor getList() {

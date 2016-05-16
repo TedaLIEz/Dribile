@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.hustunique.jianguo.driclient.models.Buckets;
 import com.hustunique.jianguo.driclient.presenters.strategy.GetMyBucketStrategy;
-import com.hustunique.jianguo.driclient.presenters.strategy.LoadDataDelegate;
 import com.hustunique.jianguo.driclient.service.DribbbleBucketsService;
 import com.hustunique.jianguo.driclient.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.driclient.service.factories.ResponseBodyFactory;
@@ -29,6 +28,11 @@ public class BucketListPresenter extends BaseListPresenter<Buckets, BucketListVi
     public BucketListPresenter() {
         super();
         mLoadDel.setLoadStrategy(new GetMyBucketStrategy());
+    }
+
+    @Override
+    public void getData() {
+        refresh();
     }
 
     public void createBucket(String name, String description) {
@@ -82,8 +86,11 @@ public class BucketListPresenter extends BaseListPresenter<Buckets, BucketListVi
 
 
     @Override
-    protected void loadData() {
-        mLoadDel.loadData().subscribe(new LoadingListSubscriber() {
+    public void refresh() {
+        mLoadDel.loadData()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new LoadingListSubscriber() {
             @Override
             public void onNext(List<Buckets> bucketses) {
                 setModel(bucketses);
