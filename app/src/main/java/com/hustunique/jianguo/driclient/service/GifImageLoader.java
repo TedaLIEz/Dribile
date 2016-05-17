@@ -27,7 +27,6 @@ import java.nio.channels.WritableByteChannel;
  * Created by JianGuo on 4/12/16.
  * ImageLoader loading gif in Lrucache
  */
-//TODO: Add function of placeholder
 public class GifImageLoader implements ComponentCallbacks2 {
     private GifLruCache cache;
     private int COMPLETE = 0;

@@ -1,6 +1,5 @@
 package com.hustunique.jianguo.driclient.presenters;
 
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.hustunique.jianguo.driclient.models.Shots;
@@ -33,11 +32,6 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
         mLoadDel.setCacheStrategy(cacheStrategy);
     }
 
-    @Override
-    public void bindView(@NonNull ILoadListView<Shots> view) {
-        super.bindView(view);
-
-    }
 
     public int getLoadingCount() {
         return mLoadDel.getLoadTotal();

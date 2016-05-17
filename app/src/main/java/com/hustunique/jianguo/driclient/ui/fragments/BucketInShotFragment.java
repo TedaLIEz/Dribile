@@ -43,8 +43,6 @@ import rx.Observable;
 public class BucketInShotFragment extends BaseShotListFragment {
     public static final String BUCKET = "bucket";
 
-    private Buckets mBucket;
-
     public BucketInShotFragment() {
 
     }
@@ -61,7 +59,7 @@ public class BucketInShotFragment extends BaseShotListFragment {
     @Override
     protected void setStrategy() {
         if (getArguments() != null) {
-            mBucket = (Buckets) getArguments().getSerializable(BUCKET);
+            Buckets mBucket = (Buckets) getArguments().getSerializable(BUCKET);
             mShotListPresenter.setLoadStrategy(new GetShotsFromBucketStrategy(mBucket));
         }
     }

@@ -17,7 +17,6 @@ import rx.Observable;
  */
 public class ObservableLikesDb {
     private LikesDataHelper mHelper;
-//    private PublishSubject<List<Shots>> mSubject = PublishSubject.create();
 
     public ObservableLikesDb() {
         mHelper = new LikesDataHelper();
@@ -43,7 +42,6 @@ public class ObservableLikesDb {
         for (Shots shots : list) {
             mHelper.insert(shots);
         }
-//        mSubject.onNext(list);
     }
 
 
@@ -52,16 +50,14 @@ public class ObservableLikesDb {
         for (Shots shots : list) {
             mHelper.insert(shots);
         }
-//        mSubject.onNext(list);
     }
 
     public Observable<List<Shots>> getObservable() {
-        Observable<List<Shots>> observable = rx.Observable.fromCallable(new Callable<List<Shots>>() {
+        return Observable.fromCallable(new Callable<List<Shots>>() {
             @Override
             public List<Shots> call() throws Exception {
                 return getAllFromDB();
             }
         });
-        return observable;
     }
 }

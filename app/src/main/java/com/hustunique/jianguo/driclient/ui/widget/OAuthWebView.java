@@ -67,7 +67,6 @@ public class OAuthWebView extends FrameLayout {
         mProgressChangeListener = progressChangeListener;
     }
 
-    //TODO: initialize the style
     private void initStyle(AttributeSet attrs, int defStyleAttr) {
 
     }

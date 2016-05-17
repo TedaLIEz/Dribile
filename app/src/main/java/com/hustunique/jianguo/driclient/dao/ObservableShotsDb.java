@@ -19,7 +19,6 @@ import rx.subjects.PublishSubject;
  */
 public class ObservableShotsDb {
     private ShotsDataHelper mHelper;
-    private PublishSubject<List<Shots>> mSubject = PublishSubject.create();
 
 
     public ObservableShotsDb() {
@@ -45,28 +44,23 @@ public class ObservableShotsDb {
         for (Shots shots : list) {
             mHelper.insert(shots);
         }
-//        mSubject.onNext(list);
     }
 
 
     public void insertShotList(List<Shots> list) {
         mHelper.deleteAll();
-//        Log.e("driclient", "delete from table row nums " + row);
         for (Shots shots : list) {
             mHelper.insert(shots);
         }
-//        mSubject.onNext(list);
     }
 
     public Observable<List<Shots>> getObservable() {
-        Observable<List<Shots>> observable = Observable.fromCallable(new Callable<List<Shots>>() {
+        return Observable.fromCallable(new Callable<List<Shots>>() {
             @Override
             public List<Shots> call() throws Exception {
                 return getAllFromDB();
             }
         });
-//        return mSubject.concatWith(observable);
-        return observable;
     }
 
 

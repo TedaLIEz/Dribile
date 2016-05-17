@@ -78,7 +78,7 @@ public class LoadDataDelegate<T> {
         return loadData(page);
     }
 
-    public Observable<List<T>> loadData(int page) {
+    private Observable<List<T>> loadData(int page) {
         params.put("page", String.valueOf(page));
         return mLoadStrategy.loadData(params);
     }
@@ -97,38 +97,6 @@ public class LoadDataDelegate<T> {
         }
         return null;
     }
-//    public Observable<List<T>> loadFromDB() {
-//        if (mCacheStrategy != null) {
-//            return Observable.create(new Observable.OnSubscribe<List<T>>() {
-//                @Override
-//                public void call(Subscriber<? super List<T>> subscriber) {
-//                    subscriber.onNext(mCacheStrategy.loadFromDB());
-//                    subscriber.onCompleted();
-//                }
-//            })
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread());
-//        }
-//        return null;
-//    }
-//
-//    public Observable<Boolean> cache(final List<T> datas) {
-//        final List<T> rst = Collections.synchronizedList(datas);
-//        if (mCacheStrategy != null) {
-//
-//            return Observable.create(new Observable.OnSubscribe<Boolean>() {
-//
-//                @Override
-//                public void call(Subscriber<? super Boolean> subscriber) {
-//                    subscriber.onNext(mCacheStrategy.cache(rst));
-//
-//                }
-//            })
-//                    .subscribeOn(Schedulers.io())
-//                    .observeOn(AndroidSchedulers.mainThread());
-//        }
-//        return null;
-//    }
 
     public void cacheMore(List<T> data) {
         if (mCacheStrategy != null) {
