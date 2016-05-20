@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.0 rc1"
 
     defaultConfig {
-        applicationId "com.hustunique.jianguo.driclient"
+        applicationId "com.hustunique.jianguo.dribile"
         minSdkVersion 19
         targetSdkVersion 23
         versionCode 1
