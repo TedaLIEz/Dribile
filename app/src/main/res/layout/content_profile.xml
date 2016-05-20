@@ -36,7 +36,7 @@
                 android:id="@+id/user_location"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-            <com.hustunique.jianguo.driclient.ui.widget.HTMLTextView
+            <com.hustunique.jianguo.dribile.ui.widget.HTMLTextView
                 android:layout_marginTop="8dp"
                 android:textSize="14sp"
                 android:textAppearance="@style/TextAppearance.Profile.Title"

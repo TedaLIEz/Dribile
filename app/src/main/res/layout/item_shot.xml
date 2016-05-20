@@ -40,7 +40,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.hustunique.jianguo.driclient.ui.widget.AspectRatioImageView
+            <com.hustunique.jianguo.dribile.ui.widget.AspectRatioImageView
                 android:id="@+id/image"
                 tools:src="@drawable/ic_dribbble"
                 app:aspectRatioEnabled="true"

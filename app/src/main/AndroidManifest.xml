@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hustunique.jianguo.driclient">
+    package="com.hustunique.jianguo.dribile">
 
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".app.MyApp"
+        android:name="com.hustunique.jianguo.dribile.app.MyApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -15,18 +15,18 @@
 
         <!-- provider -->
         <provider
-            android:name=".dao.DataProvider"
+            android:name="com.hustunique.jianguo.dribile.dao.DataProvider"
             android:authorities="us.driclient.provider"
             android:exported="false">
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
 
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name="com.hustunique.jianguo.dribile.ui.activity.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Base.Theme.DesignDemo.Main" />
         <activity
-            android:name=".ui.activity.LoginActivity"
+            android:name="com.hustunique.jianguo.dribile.ui.activity.LoginActivity"
             android:theme="@style/Base.Theme.DesignDemo.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,12 +34,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.BaseActivity" />
+        <activity android:name="com.hustunique.jianguo.dribile.ui.activity.BaseActivity" />
         <activity
-            android:name=".ui.activity.AuthActivity"
+            android:name="com.hustunique.jianguo.dribile.ui.activity.AuthActivity"
             android:theme="@style/Base.Theme.DesignDemo.Auth" />
 
-        <service android:name=".am.DribbbleAuthenticatorService">
+        <service android:name="com.hustunique.jianguo.dribile.am.DribbbleAuthenticatorService">
             <intent-filter>
                 <action android:name="android.accounts.AccountAuthenticator" />
             </intent-filter>
@@ -50,12 +50,12 @@
         </service>
 
         <activity
-            android:name=".ui.activity.ShotInfoActivity"
+            android:name="com.hustunique.jianguo.dribile.ui.activity.ShotInfoActivity"
             android:theme="@style/Base.Theme.DesignDemo.ShotInfo" />
         <activity
-            android:name=".ui.activity.ImageDetailActivity"
+            android:name="com.hustunique.jianguo.dribile.ui.activity.ImageDetailActivity"
             android:theme="@style/Base.Theme.DesignDemo.ImageDetail" />
-        <activity android:name=".ui.activity.ProfileActivity">
+        <activity android:name="com.hustunique.jianguo.dribile.ui.activity.ProfileActivity">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -66,20 +66,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.ShotCommentActivity"
+            android:name="com.hustunique.jianguo.dribile.ui.activity.ShotCommentActivity"
             android:label="@string/title_activity_shot_comment"
             android:theme="@style/Base.Theme.DesignDemo.BaseActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".ui.activity.ShotBucketActivity"
+            android:name="com.hustunique.jianguo.dribile.ui.activity.ShotBucketActivity"
             android:theme="@style/Base.Theme.DesignDemo.ShotBucket" />
         <activity
-            android:name=".ui.activity.BucketDetailActivity"
+            android:name="com.hustunique.jianguo.dribile.ui.activity.BucketDetailActivity"
             android:theme="@style/Base.Theme.DesignDemo.BucketDetail" />
         <activity
-            android:name=".ui.activity.ShotListActivity"
+            android:name="com.hustunique.jianguo.dribile.ui.activity.ShotListActivity"
             android:theme="@style/Base.Theme.DesignDemo.ShotList" />
-        <activity android:name=".ui.activity.LikeListActivity"
+        <activity android:name="com.hustunique.jianguo.dribile.ui.activity.LikeListActivity"
             android:theme="@style/Base.Theme.DesignDemo.LikeList"/>
     </application>
 

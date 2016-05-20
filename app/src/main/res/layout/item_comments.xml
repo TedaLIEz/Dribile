@@ -25,7 +25,7 @@
             android:textAppearance="@style/TextAppearance.Shots"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <com.hustunique.jianguo.driclient.ui.widget.HTMLTextView
+        <com.hustunique.jianguo.dribile.ui.widget.HTMLTextView
             android:id="@+id/comment_body"
             tools:text="uuuh!awesome
 
