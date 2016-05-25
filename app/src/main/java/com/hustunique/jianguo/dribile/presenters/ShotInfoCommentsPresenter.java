@@ -1,13 +1,18 @@
 package com.hustunique.jianguo.dribile.presenters;
 
+import android.test.ActivityUnitTestCase;
+
 import com.hustunique.jianguo.dribile.models.Comments;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetCommentsByIdStrategy;
+import com.hustunique.jianguo.dribile.service.DribbbleShotsService;
+import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.views.ShotInfoCommentView;
 
 import java.util.List;
 
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -15,13 +20,30 @@ import rx.schedulers.Schedulers;
  * Presenter for comments in ShotInfoActivity
  */
 public class ShotInfoCommentsPresenter extends BaseListPresenter<Comments, ShotInfoCommentView> {
-    private final Shots mShot;
+    private Shots mShot;
     private static final int COMMENTS_PER_PAGE = 5;
 
     public ShotInfoCommentsPresenter(Shots shots) {
         super();
         this.mShot = shots;
         mLoadDel.setLoadStrategy(new GetCommentsByIdStrategy(shots.getId()));
+        mLoadDel.setPerPage(COMMENTS_PER_PAGE);
+    }
+
+    public ShotInfoCommentsPresenter(String id) {
+        super();
+        ApiServiceFactory.createService(DribbbleShotsService.class)
+                .getShotById(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Action1<Shots>() {
+                    @Override
+                    public void call(Shots shots) {
+                        ShotInfoCommentsPresenter.this.mShot = shots;
+
+                    }
+                });
+        mLoadDel.setLoadStrategy(new GetCommentsByIdStrategy(id));
         mLoadDel.setPerPage(COMMENTS_PER_PAGE);
     }
 

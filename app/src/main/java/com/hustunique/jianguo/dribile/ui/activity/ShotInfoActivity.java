@@ -40,6 +40,7 @@ import com.hustunique.jianguo.dribile.utils.CommonUtils;
 import com.hustunique.jianguo.dribile.views.ShotInfoCommentView;
 import com.hustunique.jianguo.dribile.views.ShotInfoView;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.RequestCreator;
 import com.wefika.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
@@ -48,6 +49,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
+
 public class ShotInfoActivity extends BaseActivity implements ShotInfoView, ShotInfoCommentView {
     private final static int POS_COMMENTS_SHOW_LOADING = 0;
     private final static int POS_COMMENTS_LOADED = 1;
@@ -132,13 +134,14 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     int tagPadding;
 
     private Shots mShot;
-
     private LinearLayoutManager linearLayoutManager;
     private CommentsAdapter commentsAdapter;
     private ShotInfoPresenter mShotInfoPresenter;
     private ShotInfoCommentsPresenter mCommentPresenter;
 
-    private @ColorInt int vibrantColor;
+    private
+    @ColorInt
+    int vibrantColor;
 
 
     @Override
@@ -146,15 +149,18 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shot_info);
         ButterKnife.bind(this);
-        if (getIntent() != null) {
-            mShot = (Shots) getIntent().getSerializableExtra("shots");
-        } else {
-            throw new NullPointerException("No shots was specified in the MainActivity " + getIntent().toString());
-        }
+        Intent intent = getIntent();
         if (savedInstanceState == null) {
-            mShotInfoPresenter = new ShotInfoPresenter();
-            mCommentPresenter = new ShotInfoCommentsPresenter(mShot);
-            mShotInfoPresenter.setModel(mShot);
+            if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
+                Uri uri = intent.getData();
+                String id = uri.getLastPathSegment().split("-")[0];
+                mShotInfoPresenter = new ShotInfoPresenter(id);
+                mCommentPresenter = new ShotInfoCommentsPresenter(id);
+            } else if (intent.getSerializableExtra("shots") != null) {
+                mShot = (Shots) getIntent().getSerializableExtra("shots");
+                mShotInfoPresenter = new ShotInfoPresenter(mShot);
+                mCommentPresenter = new ShotInfoCommentsPresenter(mShot);
+            }
         } else {
             PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
@@ -178,13 +184,13 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
         mCommentPresenter.unbindView();
     }
 
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         PresenterManager.getInstance().savePresenter(mShotInfoPresenter, outState);
         PresenterManager.getInstance().savePresenter(mCommentPresenter, outState);
     }
-
 
 
     private void initShots() {
@@ -198,11 +204,6 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Disable the title
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        Log.i("driclient", "mShot image is " + mShot.getImages().getJson());
-        Picasso.with(this)
-                .load(Uri.parse(mShot.getImages().getNormal()))
-                .into(mImageView);
-        extractColor();
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -263,7 +264,6 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
         mImageView.setDrawingCacheEnabled(false);
 
     }
-
 
 
     private void initFab() {
@@ -357,18 +357,19 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     }
 
     @Override
-    public void setShotImage(Uri imageUrl) {
-        //TODO: image resize when activity resumes, problem with resumeTag?
-//        Picasso.with(this)
-//                .load(imageUrl)
-//                .into(mImageView);
-
+    public void setShotImage(String imageUrl) {
+        //TODO: image resize when activity resumes, problem with scaleType?
+        Picasso.with(this)
+                .load(imageUrl)
+                .placeholder(R.drawable.shots_default)
+                .into(mImageView);
+        extractColor();
     }
 
     @Override
     public void setAvatar(Uri avatar_url) {
         Picasso.with(this).load(avatar_url)
-                .placeholder(AppData.getDrawable(R.drawable.avatar_default))
+                .placeholder(R.drawable.avatar_default)
                 .into(mAvatar);
     }
 
@@ -490,6 +491,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
 
     @Override
     public void addComments(Shots model) {
-        startActivityWithShot(ShotCommentActivity.class, mShot);
+        startActivityWithShot(ShotCommentActivity.class, model);
     }
+
 }

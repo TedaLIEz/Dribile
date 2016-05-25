@@ -27,7 +27,9 @@ public class HTMLTextView extends TextView{
     @Override
     public void setText(CharSequence text, BufferType type) {
         // Better use Html.fromHtml to parse the html string
-        Spanned spannable = Html.fromHtml(text.toString());
+        String rst = text.toString().replace("href=\"https", "href=\"dribile");
+
+        Spanned spannable = Html.fromHtml(rst);
         setMovementMethod(LinkMovementMethod.getInstance());
         setClickable(true);
         super.setText(spannable, type);

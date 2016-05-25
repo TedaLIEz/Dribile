@@ -90,7 +90,7 @@ public class ShotsViewHolder extends MvpViewHolder<ShotPresenter> implements Sho
     }
 
     @Override
-    public void setShotImage(Uri imageUrl) {
+    public void setShotImage(String imageUrl) {
         Picasso.with(itemView.getContext()).load(imageUrl)
                 .placeholder(AppData.getDrawable(R.drawable.shots_default))
                 .into(mImage);

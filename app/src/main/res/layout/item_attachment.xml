@@ -9,7 +9,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <ImageView
-        tools:src="@drawable/source"
         android:id="@+id/image_attachment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

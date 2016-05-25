@@ -18,7 +18,7 @@ public class ShotPresenter extends BasePresenter<Shots, ShotView> {
         view().setLikeCount(model.getLikes_count());
         view().setShotTitle(model.getTitle());
         view().setViewCount(model.getViews_count());
-        view().setShotImage(Uri.parse(model.getImages().getNormal()));
+        view().setShotImage(model.getImages().getNormal());
         if (model.getUser() != null) {
             view().setAvatar(Uri.parse(model.getUser().getAvatar_url()));
         } else {

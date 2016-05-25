@@ -14,7 +14,7 @@ public interface ShotView {
     void setCommentCount(String commentCount);
     void setLikeCount(String likeCount);
     void setAnimated(boolean animated);
-    void setShotImage(Uri imageUrl);
+    void setShotImage(String imageUrl);
     void setAvatar(Uri avatar_url);
     void goToDetailView(Shots model);
     void setDefaultAvatar();

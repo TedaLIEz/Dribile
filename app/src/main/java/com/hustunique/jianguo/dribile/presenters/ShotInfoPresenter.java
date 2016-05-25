@@ -8,6 +8,8 @@ import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.app.UserManager;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.service.DribbbleLikeService;
+import com.hustunique.jianguo.dribile.service.DribbbleShotsService;
+import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
 import com.hustunique.jianguo.dribile.views.ShotInfoView;
@@ -24,10 +26,15 @@ import rx.schedulers.Schedulers;
  */
 public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
     private boolean isLike = false;
+    private boolean firstLoad = false;
     @Override
     protected void updateView() {
         view().setCommentCount(String.format(AppData.getString(R.string.comments), model.getComments_count()));
-        view().setShotImage(Uri.parse(model.getImages().getNormal()));
+        if (!firstLoad) {
+            view().setShotImage(model.getImages().getNormal());
+            firstLoad = true;
+        }
+
         view().setAnimated(model.getAnimated().equals("true"));
         view().setViewCount(String.format(AppData.getString(R.string.views), model.getViews_count()));
         view().setLikeCount(String.format(AppData.getString(R.string.likes), model.getLikes_count()));
@@ -54,8 +61,25 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
                         }
                     }
                 });
+//        view().loadImage(model.getImages().getNormal());
     }
 
+    public ShotInfoPresenter(Shots shots) {
+        setModel(shots);
+    }
+
+    public ShotInfoPresenter(String id) {
+        ApiServiceFactory.createService(DribbbleShotsService.class)
+                .getShotById(id)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Action1<Shots>() {
+                    @Override
+                    public void call(Shots shots) {
+                        setModel(shots);
+                    }
+                });
+    }
 
     public void goToUser() {
         view().goToProfile(model.getUser());
