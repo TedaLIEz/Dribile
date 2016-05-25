@@ -26,14 +26,9 @@ import rx.schedulers.Schedulers;
  */
 public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
     private boolean isLike = false;
-    private boolean firstLoad = false;
     @Override
     protected void updateView() {
         view().setCommentCount(String.format(AppData.getString(R.string.comments), model.getComments_count()));
-        if (!firstLoad) {
-
-            firstLoad = true;
-        }
         view().setShotImage(model.getImages().getNormal());
         view().setAnimated(model.getAnimated().equals("true"));
         view().setViewCount(String.format(AppData.getString(R.string.views), model.getViews_count()));
@@ -61,7 +56,6 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
                         }
                     }
                 });
-//        view().loadImage(model.getImages().getNormal());
     }
 
     public ShotInfoPresenter(Shots shots) {
