@@ -31,10 +31,10 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
     protected void updateView() {
         view().setCommentCount(String.format(AppData.getString(R.string.comments), model.getComments_count()));
         if (!firstLoad) {
-            view().setShotImage(model.getImages().getNormal());
+
             firstLoad = true;
         }
-
+        view().setShotImage(model.getImages().getNormal());
         view().setAnimated(model.getAnimated().equals("true"));
         view().setViewCount(String.format(AppData.getString(R.string.views), model.getViews_count()));
         view().setLikeCount(String.format(AppData.getString(R.string.likes), model.getLikes_count()));

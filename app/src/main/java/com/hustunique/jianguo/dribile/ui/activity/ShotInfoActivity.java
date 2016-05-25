@@ -2,6 +2,7 @@ package com.hustunique.jianguo.dribile.ui.activity;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ import com.hustunique.jianguo.dribile.views.ShotInfoCommentView;
 import com.hustunique.jianguo.dribile.views.ShotInfoView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
+import com.squareup.picasso.Target;
 import com.wefika.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
@@ -238,12 +240,12 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
 
 
     // extract Color from the loaded image
+    @Deprecated
     private void extractColor() {
         mImageView.setDrawingCacheEnabled(true);
         mImageView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-        mImageView.layout(0, 0,
-                mImageView.getMeasuredWidth(), mImageView.getMeasuredHeight());
+        mImageView.layout(0, 0, mImageView.getMeasuredWidth(), mImageView.getMeasuredHeight());
         mImageView.buildDrawingCache(true);
         Bitmap bitmap = mImageView.getDrawingCache();
         if (bitmap != null) {
@@ -362,8 +364,35 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
         Picasso.with(this)
                 .load(imageUrl)
                 .placeholder(R.drawable.shots_default)
-                .into(mImageView);
-        extractColor();
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        mImageView.setImageBitmap(bitmap);
+                        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                            @Override
+                            public void onGenerated(Palette palette) {
+                                vibrantColor = palette.getVibrantColor(AppData.getColor(R.color.colorPrimaryDark));
+                                //TODO: I hate you Google!
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    getWindow().setStatusBarColor(vibrantColor);
+                                }
+                                toolbarLayout.setContentScrimColor(vibrantColor);
+                                toolbarLayout.setStatusBarScrimColor(vibrantColor);
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                        mImageView.setImageDrawable(errorDrawable);
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        mImageView.setImageDrawable(placeHolderDrawable);
+                    }
+                });
+
     }
 
     @Override
