@@ -79,7 +79,7 @@
 
     <style name="TextAppearance.Nav.SubTitle" parent="TextAppearance.Nav">
         <item name="android:textColor">@android:color/black</item>
-        <item name="android:textSize">@dimen/title_regular</item>
+        <item name="android:textSize">@dimen/text_size_body2</item>
         <item name="android:fontFamily">sans-serif-light</item>
     </style>
 
@@ -109,7 +109,7 @@
 
     <style name="TextAppearance.Shots.Item">
         <item name="android:textColor">@color/grey20_color</item>
-        <item name="android:textSize">@dimen/text_size_lv1</item>
+        <item name="android:textSize">@dimen/text_size_body2</item>
     </style>
 
     <style name="Shots.Item" parent="Base.Theme.DesignDemo">
@@ -134,4 +134,5 @@
     <style name="Base.Theme.DesignDemo.ShotList" parent="Base.Theme.DesignDemo.BaseActivity"></style>
 
     <style name="Base.Theme.DesignDemo.LikeList" parent="Base.Theme.DesignDemo.BaseActivity"></style>
+    <style name="Base.Theme.DesignDemo.Setting" parent="Base.Theme.DesignDemo.BaseActivity"></style>
 </resources>

@@ -35,6 +35,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity {
 
+    private static final int SETTING = 0x000000;
     @Bind(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
@@ -124,8 +125,8 @@ public class MainActivity extends BaseActivity {
                     case R.id.nav_home:
                         onShotsSelected();
                         break;
-                    case R.id.nav_user:
-                        onUserSelected();
+                    case R.id.nav_settings:
+                        onSettingSelected();
                         break;
                     case R.id.nav_buckets:
                         onBucketSelected();
@@ -134,7 +135,6 @@ public class MainActivity extends BaseActivity {
                         onLikesSelected();
                         break;
                 }
-                item.setChecked(true);
                 drawerLayout.closeDrawers();
                 return true;
             }
@@ -156,6 +156,10 @@ public class MainActivity extends BaseActivity {
         mToggle.syncState();
         drawerLayout.addDrawerListener(mToggle);
 
+    }
+
+    private void onSettingSelected() {
+        startActivityForResult(new Intent(this, SettingActivity.class), SETTING);
     }
 
     private void onLikesSelected() {
@@ -188,6 +192,7 @@ public class MainActivity extends BaseActivity {
 
     private void onShotsSelected() {
         mToolbar.setTitle("Shots");
+        mFab.hide();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         if (null == mFragmentManager.findFragmentByTag(ShotListFragment.class.getName())) {
             mContentFragment = new ShotListFragment();
@@ -256,6 +261,15 @@ public class MainActivity extends BaseActivity {
             mSearchView.closeSearch();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SETTING && resultCode == SETTING) {
+            navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
+            onShotsSelected();
         }
     }
 }

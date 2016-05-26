@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/activity_setting"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginTop="@dimen/profile_item_margin"
+                android:layout_marginBottom="@dimen/profile_item_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="@dimen/text_size_body2"
+                    android:textColor="@color/colorPrimary"
+                    android:text="General"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_clear"
+                android:clickable="true"
+                android:paddingBottom="@dimen/settings_margin"
+                android:paddingTop="@dimen/settings_margin"
+                android:layout_marginTop="@dimen/settings_margin"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:background="?android:attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="@dimen/text_size_subheading"
+                    android:textColor="@android:color/black"
+                    android:text="Clear Cache"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+                <TextView
+                    android:textSize="@dimen/text_size_body2"
+                    android:text="Clear all cache"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginTop="@dimen/profile_item_margin"
+                android:layout_marginBottom="@dimen/profile_item_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="@dimen/text_size_body2"
+                    android:textColor="@color/colorPrimary"
+                    android:text="About"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="@dimen/settings_margin"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:id="@+id/layout_about"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:paddingTop="@dimen/settings_margin"
+                    android:paddingBottom="@dimen/settings_margin"
+                    android:textSize="@dimen/text_size_subheading"
+                    android:textColor="@android:color/black"
+                    android:text="About the app"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+            <View
+                android:background="@color/grey20_color"
+                android:layout_width="match_parent"
+                android:layout_height="0.1dp"/>
+            <LinearLayout
+                android:layout_marginTop="@dimen/settings_margin"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:id="@+id/layout_contact"
+                android:paddingBottom="@dimen/settings_margin"
+                android:paddingTop="@dimen/settings_margin"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="@dimen/text_size_subheading"
+                    android:textColor="@android:color/black"
+                    android:text="Contact"
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent" />
+                <TextView
+                    android:layout_height="match_parent"
+                    android:textSize="@dimen/text_size_body2"
+                    android:text="Send me an email"
+                    android:layout_width="match_parent" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_marginTop="@dimen/profile_item_margin"
+                android:layout_marginBottom="@dimen/profile_item_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:textSize="@dimen/text_size_body2"
+                    android:textColor="@color/colorPrimary"
+                    android:text="Accounts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_marginTop="@dimen/settings_margin"
+                android:layout_marginBottom="@dimen/settings_margin"
+                android:id="@+id/layout_logout"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:paddingTop="@dimen/settings_margin"
+                    android:paddingBottom="@dimen/settings_margin"
+                    android:textSize="@dimen/text_size_subheading"
+                    android:textColor="@android:color/black"
+                    android:text="Log out"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

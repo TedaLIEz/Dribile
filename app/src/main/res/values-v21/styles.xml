@@ -91,7 +91,7 @@
 
     <style name="TextAppearance.Shots.Item">
         <item name="android:textColor">@color/grey20_color</item>
-        <item name="android:textSize">@dimen/text_size_lv1</item>
+        <item name="android:textSize">@dimen/text_size_body2</item>
     </style>
 
 
@@ -131,5 +131,6 @@
 
     <style name="Base.Theme.DesignDemo.LikeList" parent="Base.Theme.DesignDemo.BaseActivity"></style>
 
+    <style name="Base.Theme.DesignDemo.Setting" parent="Base.Theme.DesignDemo.BaseActivity"></style>
 
 </resources>
