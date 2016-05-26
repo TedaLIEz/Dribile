@@ -16,7 +16,7 @@
         <!-- provider -->
         <provider
             android:name=".dao.DataProvider"
-            android:authorities="us.driclient.provider"
+            android:authorities="us.dribile.provider"
             android:exported="false">
             <grant-uri-permission android:pathPattern=".*" />
         </provider>
