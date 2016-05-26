@@ -12,11 +12,17 @@ import android.support.v7.app.AppCompatCallback;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
 import com.hustunique.jianguo.dribile.R;
+import com.hustunique.jianguo.dribile.am.AccountGeneral;
+import com.hustunique.jianguo.dribile.app.MyApp;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.presenters.AuthPresenter;
+import com.hustunique.jianguo.dribile.service.api.Constants;
 import com.hustunique.jianguo.dribile.ui.widget.OAuthWebView;
 import com.hustunique.jianguo.dribile.views.AuthView;
 
@@ -35,13 +41,11 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
     Toolbar mToolbar;
 
 
-
     private ProgressDialog mProgressDialog;
 
     private AuthPresenter mAuthPresenter;
 
-    private AccountManager mAccountManager;
-
+    private AccountManager accountManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +56,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
         } else {
             mAuthPresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
-        mAccountManager = AccountManager.get(this);
+        accountManager = AccountManager.get(this);
         AppCompatDelegate delegate = AppCompatDelegate.create(this, this);
         delegate.onCreate(savedInstanceState);
         delegate.setContentView(R.layout.activity_auth);
@@ -79,7 +83,13 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
     }
 
     private void initWebView() {
+        // Clear cookie to clear the login details!
+        CookieSyncManager.createInstance(this);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookie();
+
         webView.allowCookies(false);
+
         webView.setAuthListener(new OAuthWebView.IAuth() {
             @Override
             public void onAuth(Uri uri) {
@@ -154,8 +164,17 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
 
     @Override
     public void addAccount(Account account, String scope, String token) {
-        mAccountManager.addAccountExplicitly(account, null, null);
-        mAccountManager.setAuthToken(account, scope, token);
+        accountManager.addAccountExplicitly(account, null, null);
+        accountManager.setAuthToken(account, scope, token);
     }
 
+//    @Override
+//    public AuthActivity getRef() {
+//        return this;
+//    }
+//
+//    @Override
+//    public void onSuccess() {
+//        mProgressDialog.dismiss();
+//    }
 }

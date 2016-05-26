@@ -40,12 +40,12 @@ public class AuthPresenter extends BasePresenter<User, AuthView> {
     public static final String TOKEN = "TOKEN";
     public static final int AUTH_OK = 0x11111101;
 
-    private AccessToken token;
-    private Account account;
     private String accountType;
     private String scope;
     private Intent intent;
 
+    private AccessToken token;
+    private Account account;
 
 
     public AuthPresenter(String accountType, String scope) {
@@ -55,23 +55,23 @@ public class AuthPresenter extends BasePresenter<User, AuthView> {
         if (scope == null || TextUtils.isEmpty(scope)) {
             scope = AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
         }
+
         this.accountType = accountType;
         this.scope = scope;
     }
 
-    private void loadUrl(String scope) {
-        if (scope == null || TextUtils.isEmpty(scope)) {
-            scope = AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
-        }
+    @Override
+    public void bindView(@NonNull AuthView view) {
+        super.bindView(view);
+        loadUrl();
+    }
+
+
+    private void loadUrl() {
         view().loadUrl(Constants.OAuth.URL_BASE_OAUTH + "authorize", MyApp.redirect_url, MyApp.client_id, scope);
     }
 
 
-    @Override
-    public void bindView(@NonNull AuthView view) {
-        super.bindView(view);
-        loadUrl(scope);
-    }
 
     public void parseToken(Uri uri) {
         String code = uri.getQueryParameter("code");
@@ -124,9 +124,6 @@ public class AuthPresenter extends BasePresenter<User, AuthView> {
 
                     @Override
                     public void onNext(User user) {
-                        // get account type
-
-
                         Bundle bundle = new Bundle();
                         bundle.putString(AccountManager.KEY_ACCOUNT_NAME, user.getName());
                         bundle.putString(AccountManager.KEY_ACCOUNT_TYPE, accountType);
@@ -138,15 +135,15 @@ public class AuthPresenter extends BasePresenter<User, AuthView> {
                         account = new Account(user.getName(), accountType);
                         intent.putExtras(bundle);
                         setModel(user);
-
                     }
                 });
 
     }
-
     @Override
     protected void updateView() {
-        view().onSuccess(intent, AUTH_OK);
         view().addAccount(account, token.getScope(), token.toString());
+        view().onSuccess(intent, AUTH_OK);
     }
+
+
 }
