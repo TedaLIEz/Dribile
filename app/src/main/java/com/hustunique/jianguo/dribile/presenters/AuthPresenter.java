@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.hustunique.jianguo.dribile.am.AccountGeneral;
@@ -14,6 +15,7 @@ import com.hustunique.jianguo.dribile.models.AccessToken;
 import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.service.DribbbleAuthService;
 import com.hustunique.jianguo.dribile.service.DribbbleUserService;
+import com.hustunique.jianguo.dribile.service.api.Constants;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.service.factories.AuthServiceFactory;
 import com.hustunique.jianguo.dribile.views.AuthView;
@@ -37,18 +39,38 @@ public class AuthPresenter extends BasePresenter<User, AuthView> {
     public static final String ERR_AUTH_MSG = "ERR_AUTH_MSG";
     public static final String TOKEN = "TOKEN";
     public static final int AUTH_OK = 0x11111101;
-    private AccountManager mAccountManager;
 
-    @Override
-    protected void updateView() {
-        view().onSuccess();
+    private AccessToken token;
+    private Account account;
+    private String accountType;
+    private String scope;
+    private Intent intent;
+
+
+
+    public AuthPresenter(String accountType, String scope) {
+        if (accountType == null || TextUtils.isEmpty(accountType)) {
+            accountType = AccountGeneral.ACCOUNT_TYPE;
+        }
+        if (scope == null || TextUtils.isEmpty(scope)) {
+            scope = AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
+        }
+        this.accountType = accountType;
+        this.scope = scope;
+    }
+
+    private void loadUrl(String scope) {
+        if (scope == null || TextUtils.isEmpty(scope)) {
+            scope = AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
+        }
+        view().loadUrl(Constants.OAuth.URL_BASE_OAUTH + "authorize", MyApp.redirect_url, MyApp.client_id, scope);
     }
 
 
     @Override
     public void bindView(@NonNull AuthView view) {
         super.bindView(view);
-        mAccountManager = AccountManager.get(view.getRef());
+        loadUrl(scope);
     }
 
     public void parseToken(Uri uri) {
@@ -74,17 +96,16 @@ public class AuthPresenter extends BasePresenter<User, AuthView> {
                         public void onNext(AccessToken token) {
                             Log.i("driclient", "successfully get token -> " + token.toString()
                                     + "\n scope -> " + token.getScope());
-
-                            onAuthSuccess(token);
+                            AuthPresenter.this.token = token;
+                            onAuthSuccess();
                         }
                     });
         } else if (uri.getQueryParameter("error") != null) {
-            view().getRef().setResult(AUTH_DENIED);
-            view().getRef().finish();
+            view().onLoginFailed(AUTH_DENIED);
         }
     }
 
-    private void onAuthSuccess(@NonNull final AccessToken token) {
+    private void onAuthSuccess() {
         Log.i("driclient", "get token -> start get user");
         DribbbleUserService dribbbleUserService = ApiServiceFactory.createService(DribbbleUserService.class, token);
         dribbbleUserService.getAuthUser()
@@ -104,11 +125,8 @@ public class AuthPresenter extends BasePresenter<User, AuthView> {
                     @Override
                     public void onNext(User user) {
                         // get account type
-                        setModel(user);
-                        String accountType = view().getRef().getIntent().getStringExtra(ARG_ACCOUNT_TYPE);
-                        if (accountType == null) {
-                            accountType = AccountGeneral.ACCOUNT_TYPE;
-                        }
+
+
                         Bundle bundle = new Bundle();
                         bundle.putString(AccountManager.KEY_ACCOUNT_NAME, user.getName());
                         bundle.putString(AccountManager.KEY_ACCOUNT_TYPE, accountType);
@@ -116,24 +134,22 @@ public class AuthPresenter extends BasePresenter<User, AuthView> {
                         bundle.putString(ARG_AUTH_TYPE, token.getScope());
                         bundle.putSerializable(AUTH_USER, user);
                         bundle.putSerializable(TOKEN, token);
-                        Intent intent = new Intent();
+                        intent = new Intent();
+                        // Can't get password in this case, just set it to null.
+                        account = new Account(user.getName(), accountType);
+//                        mAccountManager.addAccountExplicitly(account, null, null);
+//                        mAccountManager.setAuthToken(account, token.getScope(), token.toString());
                         intent.putExtras(bundle);
-                        finishLogin(intent);
+                        setModel(user);
+
                     }
                 });
 
     }
 
-    private void finishLogin(Intent intent) {
-        String accountName = intent.getStringExtra(AccountManager.KEY_ACCOUNT_NAME);
-        Account account = new Account(accountName, intent.getStringExtra(AccountManager.KEY_ACCOUNT_TYPE));
-        String authToken = intent.getStringExtra(AccountManager.KEY_AUTHTOKEN);
-        String authTokenType = intent.getStringExtra(ARG_AUTH_TYPE);
-        // Can't get password in this case, just set it to null.
-        mAccountManager.addAccountExplicitly(account, null, null);
-        mAccountManager.setAuthToken(account, authTokenType, authToken);
-        view().getRef().setAccountAuthenticatorResult(intent.getExtras());
-        view().getRef().setResult(AUTH_OK, intent);
-        view().getRef().finish();
+    @Override
+    protected void updateView() {
+        view().onSuccess(intent, AUTH_OK);
+        view().addAccount(account, token.getScope(), token.toString());
     }
 }

@@ -20,9 +20,7 @@ public class LoginPresenter extends BasePresenter<OAuthUser, LoginView> {
 
     @Override
     protected void updateView() {
-        Intent intent = new Intent(view().getRef(), MainActivity.class);
-        view().getRef().startActivity(intent);
-        view().getRef().finish();
+        view().goToMain();
     }
 
     public void login(int requestCode, int resultCode, Intent data) {
@@ -55,7 +53,7 @@ public class LoginPresenter extends BasePresenter<OAuthUser, LoginView> {
 
 
     public void auth() {
-        view().getRef().startActivityForResult(new Intent(view().getRef(), AuthActivity.class), LOGIN);
+        view().goToAuth(LOGIN);
     }
 
 

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
+import com.hustunique.jianguo.dribile.presenters.AuthPresenter;
 import com.hustunique.jianguo.dribile.presenters.LoginPresenter;
 import com.hustunique.jianguo.dribile.views.LoginView;
 
@@ -124,7 +125,15 @@ public class LoginActivity extends BaseActivity implements LoginView {
     }
 
     @Override
-    public BaseActivity getRef() {
-        return this;
+    public void goToMain() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void goToAuth(int requestCode) {
+        Intent intent = new Intent(this, AuthActivity.class);
+        startActivityForResult(intent, requestCode);
     }
 }
