@@ -2,6 +2,7 @@ package com.hustunique.jianguo.dribile.dao;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.hustunique.jianguo.dribile.app.AppData;
@@ -52,7 +53,7 @@ public class AuthUserDataHelper extends BasicDataHelper {
      */
     public Uri save(OAuthUser oAuthUser) {
         ContentValues values = getContentValues(oAuthUser);
-        if (isAuthUserExit()) {
+        if (!isAuthUserExit()) {
             update(oAuthUser);
             return DataProvider.UATH_USER_CONTENT_URI;
         }
@@ -72,6 +73,15 @@ public class AuthUserDataHelper extends BasicDataHelper {
     }
 
 
+    public int deleteAll() {
+        synchronized (DataProvider.DBLock) {
+            DataProvider.DBHelper mDBHelper = DataProvider.getDBHelper();
+            SQLiteDatabase db = mDBHelper.getWritableDatabase();
+            int row = db.delete(AuthUserDataHelper.AuthUserTable.TABLE_NAME, null, null);
+            return row;
+        }
+    }
+
     // Table for authUsers
     public static class AuthUserTable implements BaseColumns {
         public static String TABLE_NAME = "auth_user";
@@ -88,14 +98,14 @@ public class AuthUserDataHelper extends BasicDataHelper {
 
     /**
      * return true if user not exit
-     * @return <tt>true</tt> if user doesn't exit, <tt>false</tt> if exits.
+     * @return <tt>true</tt> if user exits, <tt>false</tt> if doesn't.
      */
     public boolean isAuthUserExit() {
         Cursor cursor = getList(null, null, null, null);
         if (cursor.getCount() == 0) {
-            return false;
-        } else {
             return true;
+        } else {
+            return false;
         }
     }
 

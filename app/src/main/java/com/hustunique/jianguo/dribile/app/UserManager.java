@@ -25,11 +25,11 @@ public class UserManager {
      * @return the auth-user
      */
     public static OAuthUser getCurrentUser() {
-        if (user == null) {
-            AuthUserDataHelper helper = new AuthUserDataHelper();
-            if (helper.isAuthUserExit()) {
-                user = helper.query();
-            }
+        AuthUserDataHelper helper = new AuthUserDataHelper();
+        if (!helper.isAuthUserExit()) {
+            user = helper.query();
+        } else {
+            user = null;
         }
         return user;
     }
@@ -48,8 +48,8 @@ public class UserManager {
 
     public static void updateUser() {
         DribbbleUserService dribbbleUserService = ApiServiceFactory.createService(DribbbleUserService.class);
-        dribbbleUserService.getAuthUser().observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
+        dribbbleUserService.getAuthUser().observeOn(Schedulers.io())
+                .subscribeOn(Schedulers.io())
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {

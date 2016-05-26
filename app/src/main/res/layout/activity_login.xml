@@ -56,17 +56,6 @@
             android:theme="@style/Button"
             />
 
-        <Button
-            android:id="@+id/btn_signup"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:scaleX="0"
-            android:scaleY="0"
-            android:text="@string/sign_up"
-            android:theme="@style/Button"
-            />
-
     </LinearLayout>
 
     <ImageView

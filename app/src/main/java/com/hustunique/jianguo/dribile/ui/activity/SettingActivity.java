@@ -1,18 +1,26 @@
 package com.hustunique.jianguo.dribile.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hustunique.jianguo.dribile.R;
+import com.hustunique.jianguo.dribile.app.PresenterManager;
+import com.hustunique.jianguo.dribile.presenters.SettingPresenter;
+import com.hustunique.jianguo.dribile.views.SettingView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class SettingActivity extends BaseActivity {
+public class SettingActivity extends BaseActivity implements SettingView {
 
     private static final int SETTING = 0x000000;
     @Bind(R.id.toolbar)
@@ -28,6 +36,11 @@ public class SettingActivity extends BaseActivity {
     @Bind(R.id.layout_logout)
     LinearLayout mLogout;
 
+    @Bind(R.id.rootView)
+    CoordinatorLayout rootView;
+
+    private SettingPresenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,39 +52,77 @@ public class SettingActivity extends BaseActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-        mClean.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (savedInstanceState == null) {
+            mPresenter = new SettingPresenter();
+        } else {
+            PresenterManager.getInstance().restorePresenter(savedInstanceState);
+        }
+    }
 
-            }
-        });
+    @OnClick(R.id.layout_contact)
+    void contact() {
+        mPresenter.sendEmail();
+    }
 
-        mContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
+    @OnClick(R.id.layout_logout)
+    void logoutAccount() {
+        mPresenter.logout();
+    }
 
-        mAbout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
+    @OnClick(R.id.layout_about)
+    void about() {
+        mPresenter.about();
+    }
 
-        mLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+    @OnClick(R.id.layout_clear)
+    void clear() {
+        mPresenter.clear();
+    }
 
-            }
-        });
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        PresenterManager.getInstance().savePresenter(mPresenter, outState);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.bindView(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.unbindView();
     }
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
         setResult(SETTING);
+        finish();
+    }
+
+    @Override
+    public void onClearSuccess() {
+        Snackbar.make(rootView, "Clear all cache success!", Snackbar.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onClearFailed() {
+
+    }
+
+    @Override
+    public void logout() {
+        Toast.makeText(this, "Log out success!", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
         finish();
     }
 }
