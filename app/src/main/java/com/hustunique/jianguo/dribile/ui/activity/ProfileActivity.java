@@ -2,13 +2,16 @@ package com.hustunique.jianguo.dribile.ui.activity;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hustunique.jianguo.dribile.R;
+import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.presenters.ProfilePresenter;
@@ -92,6 +95,11 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
     }
 
     private void initView() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(AppData.getColor(R.color.profile_dark));
+        }
         mTwitter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
