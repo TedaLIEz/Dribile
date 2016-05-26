@@ -74,27 +74,30 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
 
     @Override
     public void getData() {
-        mLoadDel.loadFromDB().subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Shots>>() {
-                    @Override
-                    public void onCompleted() {
-                        view().showLoading();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        if (view() != null) {
-                            view().onError(e);
+        if (mLoadDel.isCached()) {
+            mLoadDel.loadFromDB().subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<List<Shots>>() {
+                        @Override
+                        public void onCompleted() {
+                            view().showLoading();
                         }
-                    }
 
-                    @Override
-                    public void onNext(List<Shots> shotses) {
-                        setModel(shotses);
-                        Log.e("driclient", "load from database" + shotses.size());
-                    }
-                });
+                        @Override
+                        public void onError(Throwable e) {
+                            if (view() != null) {
+                                view().onError(e);
+                            }
+                        }
+
+                        @Override
+                        public void onNext(List<Shots> shotses) {
+                            setModel(shotses);
+                            Log.e("driclient", "load from database" + shotses.size());
+                        }
+                    });
+        }
+
         refresh();
     }
 

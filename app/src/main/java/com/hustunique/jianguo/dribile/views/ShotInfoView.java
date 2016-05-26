@@ -23,8 +23,6 @@ public interface ShotInfoView extends ShotView {
     void setTags(ArrayList<String> tags);
     void onLike();
     void onUnlike();
-
     void sendSharedIntent(Intent sendIntent);
-
     void addComments(Shots model);
 }

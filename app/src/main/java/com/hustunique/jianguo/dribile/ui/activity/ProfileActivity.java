@@ -117,12 +117,6 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
                 mProfilePresenter.goToShotList();
             }
         });
-        mShots.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mProfilePresenter.goToShotList();
-            }
-        });
         mLikes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

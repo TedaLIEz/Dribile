@@ -47,19 +47,22 @@ public class MainActivity extends BaseActivity {
 
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
-
     @Bind(R.id.searchView)
     MaterialSearchView mSearchView;
 
     private ActionBarDrawerToggle mToggle;
     private IFabClickFragment mContentFragment;
-
+    private FragmentManager mFragmentManager = getSupportFragmentManager();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         setSetupDrawerContent();
         initFab();
         initSearchView();
@@ -68,7 +71,8 @@ public class MainActivity extends BaseActivity {
     private void initSearchView() {
 
         mSearchView.setVoiceSearch(false);
-        mSearchView.setEllipsize(true);
+        mSearchView.setHintTextColor(R.color.grey20_color);
+        mSearchView.setHint("Search");
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -92,7 +96,6 @@ public class MainActivity extends BaseActivity {
                 mFab.show();
             }
         });
-
         mSearchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
     }
 
@@ -152,18 +155,13 @@ public class MainActivity extends BaseActivity {
         mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close);
         mToggle.syncState();
         drawerLayout.addDrawerListener(mToggle);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
     private void onLikesSelected() {
         mToolbar.setTitle("My likes");
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (null == fragmentManager.findFragmentByTag(LikesListFragment.class.getName())) {
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        if (null == mFragmentManager.findFragmentByTag(LikesListFragment.class.getName())) {
             mContentFragment = new LikesListFragment();
         }
         fragmentTransaction
@@ -173,9 +171,8 @@ public class MainActivity extends BaseActivity {
 
     private void onBucketSelected() {
         mToolbar.setTitle("My buckets");
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (null == fragmentManager.findFragmentByTag(BucketListFragment.class.getName())) {
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        if (null == mFragmentManager.findFragmentByTag(BucketListFragment.class.getName())) {
             mContentFragment = BucketListFragment.newInstance();
         }
         fragmentTransaction
@@ -191,9 +188,8 @@ public class MainActivity extends BaseActivity {
 
     private void onShotsSelected() {
         mToolbar.setTitle("Shots");
-        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if (null == fragmentManager.findFragmentByTag(ShotListFragment.class.getName())) {
+        FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
+        if (null == mFragmentManager.findFragmentByTag(ShotListFragment.class.getName())) {
             mContentFragment = new ShotListFragment();
         }
         fragmentTransaction
@@ -256,7 +252,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (mSearchView.isSearchOpen()) {
             mSearchView.closeSearch();
         } else {

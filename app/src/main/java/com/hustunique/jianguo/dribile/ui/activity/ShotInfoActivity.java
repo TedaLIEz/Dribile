@@ -220,9 +220,6 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY != oldScrollY && mFabLayout.isToolbar()) mFabLayout.hide();
-                if (scrollY != oldScrollY) {
-                    Log.e("driclient", oldScrollY + " pos changed to " + scrollY);
-                }
             }
         });
         mFooter.setOnClickListener(new View.OnClickListener() {

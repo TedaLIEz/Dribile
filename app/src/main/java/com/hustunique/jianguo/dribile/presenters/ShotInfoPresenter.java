@@ -97,6 +97,7 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
     }
 
     private void unlike() {
+        view().onUnlike();
         ResponseBodyFactory.createService(DribbbleLikeService.class)
                 .unlike(model.getId()).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -104,27 +105,38 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
                     @Override
                     public void call(Response<ResponseBody> responseBodyResponse) {
                         if (responseBodyResponse.code() == 204) {
-                            view().onUnlike();
+                            isLike = false;
                             UserManager.updateUser();
                         }
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        view().onLike();
+                    }
                 });
-        isLike = false;
+
     }
 
     private void like() {
+        view().onLike();
         ResponseBodyFactory.createService(DribbbleLikeService.class).like(model.getId()).subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Response<ResponseBody>>() {
                     @Override
                     public void call(Response<ResponseBody> responseBodyResponse) {
                         if (responseBodyResponse.code() == 201) {
-                            view().onLike();
+                            isLike = true;
                             UserManager.updateUser();
                         }
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        view().onUnlike();
+                    }
                 });
-        isLike = true;
+
     }
 
 

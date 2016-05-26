@@ -41,6 +41,10 @@ public class LoadDataDelegate<T> {
         mLoadStrategy = strategy;
     }
 
+    public boolean isCached() {
+        return mCacheStrategy != null;
+    }
+
 
     @StringDef({SORT_COMMENTS, SORT_RECENT, SORT_VIEWS})
     @Retention(RetentionPolicy.SOURCE)
