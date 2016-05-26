@@ -80,6 +80,10 @@ public class OAuthWebView extends FrameLayout {
         FrameLayout container = (FrameLayout) root.findViewById(R.id.auth_web_layout);
         authView = (WebView) container.findViewById(R.id.wv_auth);
         progressBar = (ProgressBar) container.findViewById(R.id.auth_progress);
+        WebSettings settings = authView.getSettings();
+        settings.setSaveFormData(false);
+        settings.setSavePassword(false);
+        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
         initWebView();
         initProgressBar();
     }
@@ -107,10 +111,11 @@ public class OAuthWebView extends FrameLayout {
      * Clear the current cookies
      */
     public void clearCookies() {
-        WebSettings settings = authView.getSettings();
-        settings.setSaveFormData(false);
-        settings.setSavePassword(false);
-        settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
+        authView.clearHistory();
+        authView.clearMatches();
+        authView.clearSslPreferences();
+        authView.clearCache(true);
+
     }
 
     /**
@@ -153,9 +158,15 @@ public class OAuthWebView extends FrameLayout {
                 if (mIAuth != null) {
                     mIAuth.onAuth(Uri.parse(url));
                 }
-                view.loadUrl("about:blank");
+                view.loadUrl("about:black");
             }
             super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+
         }
 
         @Override

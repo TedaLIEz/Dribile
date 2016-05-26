@@ -1,6 +1,8 @@
 package com.hustunique.jianguo.dribile.ui.activity;
 
+import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
+import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,6 +14,8 @@ import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 
 import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.am.AccountGeneral;
@@ -36,22 +40,24 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
 
-    private AppCompatDelegate delegate;
-    private String scope;
 
     private ProgressDialog mProgressDialog;
 
     private AuthPresenter mAuthPresenter;
 
+    private AccountManager accountManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String scope = getIntent().getStringExtra(AuthPresenter.ARG_AUTH_TYPE);
+        String accountType = getIntent().getStringExtra(AuthPresenter.ARG_ACCOUNT_TYPE);
         if (savedInstanceState == null) {
-            mAuthPresenter = new AuthPresenter();
+            mAuthPresenter = new AuthPresenter(accountType, scope);
         } else {
             mAuthPresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
-        delegate = AppCompatDelegate.create(this, this);
+        accountManager = AccountManager.get(this);
+        AppCompatDelegate delegate = AppCompatDelegate.create(this, this);
         delegate.onCreate(savedInstanceState);
         delegate.setContentView(R.layout.activity_auth);
         ButterKnife.bind(this);
@@ -66,13 +72,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
                 finish();
             }
         });
-        // This activity may start in the accounts settings, so first get the intent's data.
-        scope = getIntent().getStringExtra(AuthPresenter.ARG_AUTH_TYPE);
-        if (scope == null || TextUtils.isEmpty(scope)) {
-            scope = AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
-        }
         initView();
-//        mAccountManager = AccountManager.get(this);
     }
 
     private void initView() {
@@ -83,8 +83,13 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
     }
 
     private void initWebView() {
+        // Clear cookie to clear the login details!
+        CookieSyncManager.createInstance(this);
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookie();
+
         webView.allowCookies(false);
-        webView.loadUrl(Constants.OAuth.URL_BASE_OAUTH + "authorize", MyApp.redirect_url, MyApp.client_id, scope);
+
         webView.setAuthListener(new OAuthWebView.IAuth() {
             @Override
             public void onAuth(Uri uri) {
@@ -139,12 +144,37 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
     }
 
     @Override
-    public AuthActivity getRef() {
-        return this;
+    public void onLoginFailed(int resultCode) {
+        setResult(resultCode);
+        finish();
     }
 
     @Override
-    public void onSuccess() {
+    public void onSuccess(Intent intent, int resultCode) {
         mProgressDialog.dismiss();
+        setAccountAuthenticatorResult(intent.getExtras());
+        setResult(resultCode, intent);
+        finish();
     }
+
+    @Override
+    public void loadUrl(String url, String redirect_url, String client_id, String scope) {
+        webView.loadUrl(url, redirect_url, client_id, scope);
+    }
+
+    @Override
+    public void addAccount(Account account, String scope, String token) {
+        accountManager.addAccountExplicitly(account, null, null);
+        accountManager.setAuthToken(account, scope, token);
+    }
+
+//    @Override
+//    public AuthActivity getRef() {
+//        return this;
+//    }
+//
+//    @Override
+//    public void onSuccess() {
+//        mProgressDialog.dismiss();
+//    }
 }
