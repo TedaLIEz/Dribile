@@ -26,7 +26,7 @@ public class DataProvider extends ContentProvider {
 
     static final Object DBLock = new Object();
 
-    public static final String AUTHORITY = "us.driclient.provider";
+    public static final String AUTHORITY = "us.dribile.provider";
 
     public static final String SCHEME = "content://";
 
@@ -63,13 +63,13 @@ public class DataProvider extends ContentProvider {
     /*
      * MIME type definitions
      */
-    public static final String TYPE_USERS_CONTENT = "vnd.android.cursor.dir/vnd.driclient.users";
+    public static final String TYPE_USERS_CONTENT = "vnd.android.cursor.dir/vnd.dribile.users";
 
-    public static final String TYPE_AUTH_USERS_CONTENT = "vnd.android.cursor.dir/vnd.driclient.auth_user";
+    public static final String TYPE_AUTH_USERS_CONTENT = "vnd.android.cursor.dir/vnd.dribile.auth_user";
 
-    public static final String TYPE_SHOTS_CONTENT = "vnd.android.cursor.dir/vnd.driclient.shots";
+    public static final String TYPE_SHOTS_CONTENT = "vnd.android.cursor.dir/vnd.dribile.shots";
 
-    public static final String TYPE_LIKES_CONTENT = "vnd.android.cursor.dir/vnd.driclient.likes";
+    public static final String TYPE_LIKES_CONTENT = "vnd.android.cursor.dir/vnd.dribile.likes";
     /**
      * A UriMatcher instance
      */
@@ -248,7 +248,7 @@ public class DataProvider extends ContentProvider {
     }
 
     static class DBHelper extends SQLiteOpenHelper {
-        private static final String DB_NAME = "driclient.db";
+        private static final String DB_NAME = "dribile.db";
 
         private static final int VERSION = 1;
 

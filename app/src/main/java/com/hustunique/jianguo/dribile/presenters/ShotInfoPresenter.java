@@ -144,7 +144,7 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
         StringBuffer sb = new StringBuffer();
         sb.append(model.getTitle()).append(" - ");
         sb.append(model.getHtml_url()).append("\n");
-        sb.append("- Shared from Driclient");
+        sb.append("- Shared from Dribile");
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());

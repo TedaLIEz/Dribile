@@ -3,7 +3,10 @@
     package="com.hustunique.jianguo.dribile">
 
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
 
     <application
         android:name=".app.MyApp"
@@ -16,7 +19,7 @@
         <!-- provider -->
         <provider
             android:name=".dao.DataProvider"
-            android:authorities="us.driclient.provider"
+            android:authorities="us.dribile.provider"
             android:exported="false">
             <grant-uri-permission android:pathPattern=".*" />
         </provider>

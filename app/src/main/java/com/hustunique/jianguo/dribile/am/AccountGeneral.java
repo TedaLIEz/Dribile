@@ -8,12 +8,12 @@ public class AccountGeneral {
     /**
      * Account type id
      */
-    public static final String ACCOUNT_TYPE = "com.hustunique.auth_driclient";
+    public static final String ACCOUNT_TYPE = "com.hustunique.auth_dribile";
 
     /**
      * Account name
      */
-    public static final String ACCOUNT_NAME = "Driclient";
+    public static final String ACCOUNT_NAME = "Dribile";
 
     /**
      * Auth token types

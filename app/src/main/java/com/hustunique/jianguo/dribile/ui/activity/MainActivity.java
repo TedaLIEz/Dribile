@@ -31,6 +31,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity {
@@ -100,15 +101,12 @@ public class MainActivity extends BaseActivity {
         mSearchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
     }
 
-    private void initFab() {
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mContentFragment != null) {
-                    mContentFragment.onFabClick();
-                }
-            }
-        });
+
+    @OnClick(R.id.fab)
+    void initFab() {
+        if (mContentFragment != null) {
+            mContentFragment.onFabClick();
+        }
     }
 
     public void setTitle(String title) {
@@ -164,6 +162,7 @@ public class MainActivity extends BaseActivity {
 
     private void onLikesSelected() {
         mToolbar.setTitle("My likes");
+        mFab.show();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         if (null == mFragmentManager.findFragmentByTag(LikesListFragment.class.getName())) {
             mContentFragment = new LikesListFragment();
@@ -175,6 +174,7 @@ public class MainActivity extends BaseActivity {
 
     private void onBucketSelected() {
         mToolbar.setTitle("My buckets");
+        mFab.show();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         if (null == mFragmentManager.findFragmentByTag(BucketListFragment.class.getName())) {
             mContentFragment = BucketListFragment.newInstance();

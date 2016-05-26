@@ -12,7 +12,6 @@ import android.widget.ImageView;
 
 import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
-import com.hustunique.jianguo.dribile.presenters.AuthPresenter;
 import com.hustunique.jianguo.dribile.presenters.LoginPresenter;
 import com.hustunique.jianguo.dribile.views.LoginView;
 
@@ -27,7 +26,7 @@ import butterknife.OnClick;
 public class LoginActivity extends BaseActivity implements LoginView {
     public static final int STARTUP_DELAY = 300;
     public static final int ANIM_ITEM_DURATION = 1000;
-    public static final int ITEM_DELAY = 300;
+    public static final int ITEM_DELAY = 250;
 
     private boolean animationStarted = false;
 

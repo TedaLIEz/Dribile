@@ -31,6 +31,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Activity for adding shot to user's bucket
@@ -104,26 +105,24 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
                         .show();
             }
         });
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddBucketDialog dialog = new AddBucketDialog(ShotBucketActivity.this);
-                dialog.show();
-                dialog.setOnNegativeButton("No", new AddBucketDialog.OnNegativeButtonListener() {
-                    @Override
-                    public void onClick(Dialog dialog) {
-                        dialog.dismiss();
-                    }
-                });
-                dialog.setOnPositiveButton("Yes", new AddBucketDialog.OnPositiveButtonListener() {
-                    @Override
-                    public void onClick(Dialog dialog, String name, String description) {
-                        Log.i("driclient", "get name " + name + "get description " + description);
-                        mShotBucketPresenter.createBucket(name, description);
-                        dialog.dismiss();
-                    }
-                });
+    }
 
+    @OnClick(R.id.fab)
+    void initFab() {
+        AddBucketDialog dialog = new AddBucketDialog(ShotBucketActivity.this);
+        dialog.show();
+        dialog.setOnNegativeButton("No", new AddBucketDialog.OnNegativeButtonListener() {
+            @Override
+            public void onClick(Dialog dialog) {
+                dialog.dismiss();
+            }
+        });
+        dialog.setOnPositiveButton("Yes", new AddBucketDialog.OnPositiveButtonListener() {
+            @Override
+            public void onClick(Dialog dialog, String name, String description) {
+                Log.i("driclient", "get name " + name + "get description " + description);
+                mShotBucketPresenter.createBucket(name, description);
+                dialog.dismiss();
             }
         });
     }

@@ -51,6 +51,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.BindDimen;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ShotInfoActivity extends BaseActivity implements ShotInfoView, ShotInfoCommentView {
     private final static int POS_COMMENTS_SHOW_LOADING = 0;
@@ -168,7 +169,6 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
         }
 
         initShots();
-        initFab();
         initComments();
     }
 
@@ -195,23 +195,28 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     }
 
 
+
+    @OnClick(R.id.avatar_shots)
+    void goToUser() {
+        mShotInfoPresenter.goToUser();
+    }
+
+    @OnClick({R.id.shot_image, R.id.shot_play})
+    void goToDetailView() {
+        mShotInfoPresenter.goToDetailView();
+    }
+
+
+    @OnClick(R.id.comments_footer)
+    void goToMoreComments() {
+        mCommentPresenter.goToMoreComments();
+    }
+
     private void initShots() {
-        mAvatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mShotInfoPresenter.goToUser();
-            }
-        });
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         // Disable the title
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mShotInfoPresenter.goToDetailView();
-            }
-        });
     }
 
     private void initComments() {
@@ -220,13 +225,6 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY != oldScrollY && mFabLayout.isToolbar()) mFabLayout.hide();
-            }
-        });
-        mFooter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCommentPresenter.goToMoreComments();
-
             }
         });
         mComments.setAdapter(commentsAdapter);
@@ -268,41 +266,32 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     }
 
 
-    private void initFab() {
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFabLayout.show();
+    @OnClick(R.id.fabtoolbar_fab)
+    void initFab() {
+        mFabLayout.show();
+    }
 
-            }
-        });
-        mAddBuckets.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mShotInfoPresenter.addToBucket();
-            }
-        });
-        mAddLike.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mShotInfoPresenter.onClick();
-            }
-        });
-        mAddShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mShotInfoPresenter.sendShared();
-                mFabLayout.hide();
-            }
-        });
 
-        mAddComments.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mShotInfoPresenter.addComments();
-                mFabLayout.hide();
-            }
-        });
+    @OnClick(R.id.btn_add_buckets)
+    void addToBucket() {
+        mShotInfoPresenter.addToBucket();
+    }
+
+    @OnClick(R.id.btn_add_like)
+    void addToLike() {
+        mShotInfoPresenter.onClick();
+    }
+
+    @OnClick(R.id.btn_add_share)
+    void sendShared() {
+        mShotInfoPresenter.sendShared();
+        mFabLayout.hide();
+    }
+
+    @OnClick(R.id.btn_add_comments)
+    void addComments() {
+        mShotInfoPresenter.addComments();
+        mFabLayout.hide();
     }
 
     @Override
@@ -343,18 +332,13 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
         mLikeCount.setText(likeCount);
     }
 
+
     @Override
     public void setAnimated(boolean animated) {
         if (animated) {
             mImageView.setColorFilter(CommonUtils.brightIt(-100));
             mImageView.setClickable(false);
             mPlay.setVisibility(View.VISIBLE);
-            mPlay.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mShotInfoPresenter.goToDetailView();
-                }
-            });
         }
     }
 

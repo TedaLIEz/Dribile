@@ -12,15 +12,11 @@ import android.support.v7.app.AppCompatCallback;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.hustunique.jianguo.dribile.R;
-import com.hustunique.jianguo.dribile.am.AccountGeneral;
-import com.hustunique.jianguo.dribile.app.MyApp;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.presenters.AuthPresenter;
-import com.hustunique.jianguo.dribile.service.api.Constants;
 import com.hustunique.jianguo.dribile.ui.widget.OAuthWebView;
 import com.hustunique.jianguo.dribile.views.AuthView;
 
@@ -72,13 +68,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
                 finish();
             }
         });
-//        // This activity may start in the accounts settings, so first get the intent's data.
-//        scope = getIntent().getStringExtra(AuthPresenter.ARG_AUTH_TYPE);
-//        if (scope == null || TextUtils.isEmpty(scope)) {
-//            scope = AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS;
-//        }
         initView();
-//        mAccountManager = AccountManager.get(this);
     }
 
     private void initView() {

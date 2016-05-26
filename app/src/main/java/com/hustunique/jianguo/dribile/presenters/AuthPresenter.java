@@ -135,10 +135,7 @@ public class AuthPresenter extends BasePresenter<User, AuthView> {
                         bundle.putSerializable(AUTH_USER, user);
                         bundle.putSerializable(TOKEN, token);
                         intent = new Intent();
-                        // Can't get password in this case, just set it to null.
                         account = new Account(user.getName(), accountType);
-//                        mAccountManager.addAccountExplicitly(account, null, null);
-//                        mAccountManager.setAuthToken(account, token.getScope(), token.toString());
                         intent.putExtras(bundle);
                         setModel(user);
 

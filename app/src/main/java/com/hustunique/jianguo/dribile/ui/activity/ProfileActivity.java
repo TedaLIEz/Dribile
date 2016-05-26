@@ -20,6 +20,7 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends BaseActivity implements ProfileView {
@@ -100,39 +101,31 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(AppData.getColor(R.color.profile_dark));
         }
-        mTwitter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mProfilePresenter.goToTwitter();
-            }
-        });
+    }
 
-        mDribbble.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mProfilePresenter.goToDribbble();
-            }
-        });
-        mFollow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mProfilePresenter.onFollowClick();
-            }
-        });
-        mShots.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mProfilePresenter.goToShotList();
-            }
-        });
-        mLikes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mProfilePresenter.goToLikeList();
-            }
-        });
+    @OnClick(R.id.user_twitter)
+    void goToTwitter() {
+        mProfilePresenter.goToTwitter();
+    }
 
+    @OnClick(R.id.user_dribbble)
+    void goToDribbble() {
+        mProfilePresenter.goToDribbble();
+    }
 
+    @OnClick(R.id.btn_follow)
+    void onFollowClick() {
+        mProfilePresenter.onFollowClick();
+    }
+
+    @OnClick(R.id.profile_shots)
+    void goToShotList() {
+        mProfilePresenter.goToShotList();
+    }
+
+    @OnClick(R.id.profile_likes)
+    void goToLikeList() {
+        mProfilePresenter.goToLikeList();
     }
 
     @Override

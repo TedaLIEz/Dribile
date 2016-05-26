@@ -55,7 +55,7 @@ public class BaseActivity extends AppCompatActivity {
         StringBuffer sb = new StringBuffer();
         sb.append(shot.getTitle()).append(" - ");
         sb.append(shot.getHtml_url()).append("\n");
-        sb.append("- Shared from Driclient");
+        sb.append("- Shared from Dribile");
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
