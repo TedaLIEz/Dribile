@@ -15,6 +15,7 @@ import com.hustunique.jianguo.dribile.dao.sql.SQLiteTable;
  * Created by JianGuo on 4/1/16.
  * Database helper for {@link OAuthUser}
  */
+@Deprecated
 public class AuthUserDataHelper extends BasicDataHelper {
 
     public AuthUserDataHelper() {
