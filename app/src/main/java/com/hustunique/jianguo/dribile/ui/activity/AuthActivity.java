@@ -2,7 +2,6 @@ package com.hustunique.jianguo.dribile.ui.activity;
 
 import android.accounts.Account;
 import android.accounts.AccountAuthenticatorActivity;
-import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -12,17 +11,15 @@ import android.support.v7.app.AppCompatCallback;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.ActionMode;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
 import com.hustunique.jianguo.dribile.R;
-import com.hustunique.jianguo.dribile.am.AccountGeneral;
-import com.hustunique.jianguo.dribile.app.MyApp;
+import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
+import com.hustunique.jianguo.dribile.models.OAuthUser;
 import com.hustunique.jianguo.dribile.presenters.AuthPresenter;
-import com.hustunique.jianguo.dribile.service.api.Constants;
 import com.hustunique.jianguo.dribile.ui.widget.OAuthWebView;
 import com.hustunique.jianguo.dribile.views.AuthView;
 
@@ -45,7 +42,6 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
 
     private AuthPresenter mAuthPresenter;
 
-    private AccountManager accountManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +52,6 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
         } else {
             mAuthPresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
-        accountManager = AccountManager.get(this);
         AppCompatDelegate delegate = AppCompatDelegate.create(this, this);
         delegate.onCreate(savedInstanceState);
         delegate.setContentView(R.layout.activity_auth);
@@ -153,7 +148,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
     public void onSuccess(Intent intent, int resultCode) {
         mProgressDialog.dismiss();
         setAccountAuthenticatorResult(intent.getExtras());
-        setResult(resultCode, intent);
+        setResult(resultCode);
         finish();
     }
 
@@ -163,18 +158,8 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
     }
 
     @Override
-    public void addAccount(Account account, String scope, String token) {
-        accountManager.addAccountExplicitly(account, null, null);
-        accountManager.setAuthToken(account, scope, token);
+    public void addAccount(Account account, OAuthUser user) {
+        MyAccountManager.addAccount(account, user);
     }
 
-//    @Override
-//    public AuthActivity getRef() {
-//        return this;
-//    }
-//
-//    @Override
-//    public void onSuccess() {
-//        mProgressDialog.dismiss();
-//    }
 }

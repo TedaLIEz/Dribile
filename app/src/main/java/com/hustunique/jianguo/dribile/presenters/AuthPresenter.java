@@ -10,8 +10,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.hustunique.jianguo.dribile.am.AccountGeneral;
+import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.app.MyApp;
 import com.hustunique.jianguo.dribile.models.AccessToken;
+import com.hustunique.jianguo.dribile.models.OAuthUser;
 import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.service.DribbbleAuthService;
 import com.hustunique.jianguo.dribile.service.DribbbleUserService;
@@ -28,7 +30,7 @@ import rx.schedulers.Schedulers;
  * Created by JianGuo on 5/1/16.
  * Auth Presenter
  */
-public class AuthPresenter extends BasePresenter<User, AuthView> {
+public class AuthPresenter extends BasePresenter<OAuthUser, AuthView> {
     public static final String ARG_ACCOUNT_TYPE = "ACCOUNT_TYPE";
     public static final String ARG_AUTH_TYPE = "AUTH_TYPE";
     public static final String ARG_IS_ADDING_NEW_ACCOUNT = "IS_ADDING_ACCOUNT";
@@ -134,14 +136,20 @@ public class AuthPresenter extends BasePresenter<User, AuthView> {
                         intent = new Intent();
                         account = new Account(user.getName(), accountType);
                         intent.putExtras(bundle);
-                        setModel(user);
+                        OAuthUser authUser = new OAuthUser();
+                        authUser.setAccessToken(token);
+                        authUser.setUser(user);
+                        MyAccountManager.addAccount(account, authUser);
+                        MyAccountManager.setCurrentUser(model);
+                        Log.i("driclient", " get user " + authUser.getJson() + "successfully");
+                        setModel(authUser);
                     }
                 });
 
     }
+
     @Override
     protected void updateView() {
-        view().addAccount(account, token.getScope(), token.toString());
         view().onSuccess(intent, AUTH_OK);
     }
 

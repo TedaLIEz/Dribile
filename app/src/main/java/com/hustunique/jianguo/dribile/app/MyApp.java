@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.ui.activity.LoginActivity;
 import com.hustunique.jianguo.dribile.ui.activity.MainActivity;
 
@@ -26,13 +27,13 @@ public class MyApp extends Application {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                if (activity instanceof LoginActivity) {
-                    if (null != UserManager.getCurrentUser()) {
-                        Intent intent = new Intent(activity, MainActivity.class);
-                        activity.startActivity(intent);
-                        activity.finish();
-                    }
-                }
+//                if (activity instanceof LoginActivity) {
+//                    if (null != MyAccountManager.getCurrentUser()) {
+//                        Intent intent = new Intent(activity, MainActivity.class);
+//                        activity.startActivity(intent);
+//                        activity.finish();
+//                    }
+//                }
             }
 
             @Override
@@ -42,7 +43,13 @@ public class MyApp extends Application {
 
             @Override
             public void onActivityResumed(Activity activity) {
-
+                if (activity instanceof LoginActivity) {
+                    if (null != MyAccountManager.getCurrentUser()) {
+                        Intent intent = new Intent(activity, MainActivity.class);
+                        activity.startActivity(intent);
+                        activity.finish();
+                    }
+                }
             }
 
             @Override

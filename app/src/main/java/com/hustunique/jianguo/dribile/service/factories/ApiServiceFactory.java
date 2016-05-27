@@ -2,7 +2,7 @@ package com.hustunique.jianguo.dribile.service.factories;
 
 import android.util.Base64;
 
-import com.hustunique.jianguo.dribile.app.UserManager;
+import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.models.AccessToken;
 import com.hustunique.jianguo.dribile.service.api.Constants;
 
@@ -36,7 +36,7 @@ public class ApiServiceFactory extends ServiceFactory {
      * @return the service interface
      */
     public static <S> S createService(Class<S> serviceClass) {
-        return createService(serviceClass, UserManager.getCurrentToken());
+        return createService(serviceClass, MyAccountManager.getCurrentToken());
     }
 
 

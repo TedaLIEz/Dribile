@@ -1,6 +1,6 @@
 package com.hustunique.jianguo.dribile.service.factories;
 
-import com.hustunique.jianguo.dribile.app.UserManager;
+import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.models.AccessToken;
 import com.hustunique.jianguo.dribile.service.api.Constants;
 
@@ -23,7 +23,7 @@ public class ResponseBodyFactory extends ServiceFactory {
 
 
     public static <S> S createService(Class<S> serviceClass) {
-        return createService(serviceClass, UserManager.getCurrentToken());
+        return createService(serviceClass, MyAccountManager.getCurrentToken());
     }
 
     public static <S> S createService(Class<S> serviceClass, final AccessToken token) {

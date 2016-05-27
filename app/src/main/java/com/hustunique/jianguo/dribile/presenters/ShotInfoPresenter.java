@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 
 import com.hustunique.jianguo.dribile.R;
+import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.app.AppData;
-import com.hustunique.jianguo.dribile.app.UserManager;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.service.DribbbleLikeService;
 import com.hustunique.jianguo.dribile.service.DribbbleShotsService;
@@ -106,7 +106,7 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
                     public void call(Response<ResponseBody> responseBodyResponse) {
                         if (responseBodyResponse.code() == 204) {
                             isLike = false;
-                            UserManager.updateUser();
+                            MyAccountManager.updateUser();
                         }
                     }
                 }, new Action1<Throwable>() {
@@ -127,7 +127,7 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
                     public void call(Response<ResponseBody> responseBodyResponse) {
                         if (responseBodyResponse.code() == 201) {
                             isLike = true;
-                            UserManager.updateUser();
+                            MyAccountManager.updateUser();
                         }
                     }
                 }, new Action1<Throwable>() {

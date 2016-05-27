@@ -5,8 +5,8 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.hustunique.jianguo.dribile.R;
+import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.app.AppData;
-import com.hustunique.jianguo.dribile.app.UserManager;
 import com.hustunique.jianguo.dribile.models.Buckets;
 import com.hustunique.jianguo.dribile.ui.fragments.BucketInShotFragment;
 
@@ -40,7 +40,7 @@ public class BucketDetailActivity extends BaseActivity {
     private void initView() {
         mTitle.setText(bucket.getName());
         mDescription.setText(String.format(AppData.getString(R.string.bucket_description)
-                , UserManager.getCurrentUser().getUser().getName()
+                , MyAccountManager.getCurrentUser().getUser().getName()
                 , bucket.getShots_count()));
         BucketInShotFragment bucketInShotFragment = BucketInShotFragment.newInstance(bucket);
         getSupportFragmentManager().beginTransaction()

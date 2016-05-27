@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
-import com.hustunique.jianguo.dribile.app.UserManager;
+import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetUserByIdStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.ILoadDataStrategy;
@@ -71,7 +71,7 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
                         }
                     }
                 });
-        view().initFollow(model.equals(UserManager.getCurrentUser().getUser()));
+        view().initFollow(model.equals(MyAccountManager.getCurrentUser().getUser()));
         view().setAvatar(model.getAvatar_url());
     }
 
@@ -101,7 +101,7 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
                             if (responseBodyResponse.code() == 204) {
                                 isFollowed = false;
                                 view().unfollowed();
-                                UserManager.updateUser();
+                                MyAccountManager.updateUser();
                             }
                         }
                     });
@@ -116,7 +116,7 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
                             if (responseBodyResponse.code() == 204) {
                                 isFollowed = true;
                                 view().followed();
-                                UserManager.updateUser();
+                                MyAccountManager.updateUser();
                             }
                         }
                     });

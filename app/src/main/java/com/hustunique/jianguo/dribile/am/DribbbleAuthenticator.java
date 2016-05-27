@@ -74,6 +74,7 @@ public class DribbbleAuthenticator extends AbstractAccountAuthenticator {
 
 
 
+
     @Override
     public String getAuthTokenLabel(String authTokenType) {
         if (authTokenType.equals(AccountGeneral.AUTHTOKEN_TYPE_FULL_ACCESS)) {
@@ -94,4 +95,5 @@ public class DribbbleAuthenticator extends AbstractAccountAuthenticator {
     public Bundle hasFeatures(AccountAuthenticatorResponse response, Account account, String[] features) throws NetworkErrorException {
         return null;
     }
+
 }

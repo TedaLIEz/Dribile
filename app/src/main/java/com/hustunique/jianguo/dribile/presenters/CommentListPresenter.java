@@ -5,8 +5,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.hustunique.jianguo.dribile.R;
+import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.app.AppData;
-import com.hustunique.jianguo.dribile.app.UserManager;
 import com.hustunique.jianguo.dribile.models.Comments;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetCommentsByIdStrategy;
@@ -61,7 +61,7 @@ public class CommentListPresenter extends BaseListPresenter<Comments, CommentLis
             view().setSubTitle(String.format(AppData.getString(R.string.comments_subtitle)
                     , mShot.getTitle()
                     , mShot.getUser().getName()));
-            view().setAvatar(Uri.parse(UserManager.getCurrentUser().getUser().getAvatar_url()));
+            view().setAvatar(Uri.parse(MyAccountManager.getCurrentUser().getUser().getAvatar_url()));
         }
     }
 

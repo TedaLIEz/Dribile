@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hustunique.jianguo.dribile.R;
+import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.presenters.SettingPresenter;
 import com.hustunique.jianguo.dribile.views.SettingView;
@@ -119,6 +120,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     @Override
     public void logout() {
+        MyAccountManager.removeAccount();
         Toast.makeText(this, "Log out success!", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

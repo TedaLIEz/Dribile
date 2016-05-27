@@ -20,8 +20,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.hustunique.jianguo.dribile.R;
+import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.app.AppData;
-import com.hustunique.jianguo.dribile.app.UserManager;
 import com.hustunique.jianguo.dribile.ui.fragments.BucketListFragment;
 import com.hustunique.jianguo.dribile.ui.fragments.IFabClickFragment;
 import com.hustunique.jianguo.dribile.ui.fragments.LikesListFragment;
@@ -143,11 +143,11 @@ public class MainActivity extends BaseActivity {
         TextView html = (TextView) header.findViewById(R.id.auth_user_html);
 
         Picasso.with(this)
-                .load(Uri.parse(UserManager.getCurrentUser().getUser().getAvatar_url()))
+                .load(Uri.parse(MyAccountManager.getCurrentUser().getUser().getAvatar_url()))
                 .placeholder(AppData.getDrawable(R.drawable.avatar_default))
                 .into(avatar);
-        name.setText(UserManager.getCurrentUser().getUser().getName());
-        html.setText(UserManager.getCurrentUser().getUser().getHtml_url());
+        name.setText(MyAccountManager.getCurrentUser().getUser().getName());
+        html.setText(MyAccountManager.getCurrentUser().getUser().getHtml_url());
 
         navigationView.addHeaderView(header);
         mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close);
@@ -184,11 +184,6 @@ public class MainActivity extends BaseActivity {
         fragmentTransaction.commit();
     }
 
-    private void onUserSelected() {
-        Intent intent = new Intent(this, ProfileActivity.class);
-        intent.putExtra(ProfileActivity.USER, UserManager.getCurrentUser().getUser());
-        startActivity(intent);
-    }
 
     private void onShotsSelected() {
         mToolbar.setTitle("Shots");

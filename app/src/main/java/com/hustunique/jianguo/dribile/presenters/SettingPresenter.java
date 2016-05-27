@@ -1,6 +1,5 @@
 package com.hustunique.jianguo.dribile.presenters;
 
-import com.hustunique.jianguo.dribile.dao.AuthUserDataHelper;
 import com.hustunique.jianguo.dribile.dao.LikesDataHelper;
 import com.hustunique.jianguo.dribile.dao.ShotsDataHelper;
 import com.hustunique.jianguo.dribile.views.SettingView;
@@ -34,8 +33,6 @@ public class SettingPresenter extends BasePresenter<Void, SettingView>{
 
     public void logout() {
         clearData();
-        AuthUserDataHelper authUserDataHelper = new AuthUserDataHelper();
-        int row = authUserDataHelper.deleteAll();
         view().logout();
     }
 
