@@ -82,8 +82,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:paddingTop="@dimen/settings_margin"
-                    android:paddingBottom="@dimen/settings_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
                     android:textSize="@dimen/text_size_subheading"
                     android:textColor="@android:color/black"
                     android:text="About the app"
@@ -144,8 +144,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
-                    android:paddingTop="@dimen/settings_margin"
-                    android:paddingBottom="@dimen/settings_margin"
+                    android:paddingTop="@dimen/activity_vertical_margin"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
                     android:textSize="@dimen/text_size_subheading"
                     android:textColor="@android:color/black"
                     android:text="Log out"
