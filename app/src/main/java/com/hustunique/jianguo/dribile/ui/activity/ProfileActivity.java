@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ViewAnimator;
 
 import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.app.AppData;
@@ -24,6 +26,8 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends BaseActivity implements ProfileView {
+    private static final int POS_LOADED = 0;
+    private static final int POS_LOADING = 1;
     @Bind(R.id.user_bio)
     TextView mBio;
     @Bind(R.id.user_followers_count)
@@ -50,6 +54,9 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
     LinearLayout mShots;
     @Bind(R.id.profile_likes)
     LinearLayout mLikes;
+    @Bind(R.id.animator)
+    ViewAnimator mAnimator;
+
     public static final String USER = "user";
     private ProfilePresenter mProfilePresenter;
 
@@ -210,5 +217,20 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
         Intent intent = new Intent(this, LikeListActivity.class);
         intent.putExtra(LikeListActivity.USER, model);
         startActivity(intent);
+    }
+
+    @Override
+    public void onError(Throwable throwable) {
+        Log.wtf("driclient", throwable);
+    }
+
+    @Override
+    public void showLoading() {
+        mAnimator.setDisplayedChild(POS_LOADING);
+    }
+
+    @Override
+    public void showData() {
+        mAnimator.setDisplayedChild(POS_LOADED);
     }
 }

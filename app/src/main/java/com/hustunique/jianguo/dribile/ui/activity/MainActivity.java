@@ -95,7 +95,9 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onSearchViewClosed() {
-                mFab.show();
+                if (!(mContentFragment instanceof ShotListFragment)) {
+                    mFab.show();
+                }
             }
         });
         mSearchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));

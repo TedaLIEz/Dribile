@@ -25,13 +25,13 @@
                 android:layout_height="32dp" />
             <TextView
                 android:id="@+id/shots_title"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
                 android:gravity="center_vertical"
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:textAppearance="@style/TextAppearance.Shots"
-                tools:text="National Geographic Redisign"
+                tools:text="WIP-Google Home: New Google Product Landing"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content">
             <com.hustunique.jianguo.dribile.ui.widget.AspectRatioImageView
                 android:id="@+id/image"
-                tools:src="@drawable/ic_dribbble"
+                tools:src="@drawable/shots_default"
                 app:aspectRatioEnabled="true"
                 app:aspectRatio="0.75"
                 android:layout_width="match_parent"

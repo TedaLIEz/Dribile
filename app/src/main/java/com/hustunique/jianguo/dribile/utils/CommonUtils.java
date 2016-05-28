@@ -200,4 +200,15 @@ public class CommonUtils {
     }
 
 
+    public static String numToK(String num) {
+        StringBuilder sb = new StringBuilder();
+        if (num.length() >= 5) {
+            sb.append(num.substring(0, 2)).append("k");
+            return sb.toString();
+        } else {
+            return num;
+        }
+    }
+
+
 }

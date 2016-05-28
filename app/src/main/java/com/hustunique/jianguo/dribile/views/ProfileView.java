@@ -26,4 +26,10 @@ public interface ProfileView {
     void goToShotList(User model);
 
     void goToLikeList(User model);
+
+    void onError(Throwable throwable);
+
+    void showLoading();
+
+    void showData();
 }

@@ -2,6 +2,7 @@ package com.hustunique.jianguo.dribile.presenters;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.hustunique.jianguo.dribile.am.MyAccountManager;
@@ -10,6 +11,7 @@ import com.hustunique.jianguo.dribile.presenters.strategy.GetUserByIdStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.ILoadDataStrategy;
 import com.hustunique.jianguo.dribile.service.DribbbleUserService;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
+import com.hustunique.jianguo.dribile.utils.CommonUtils;
 import com.hustunique.jianguo.dribile.utils.NetUtils;
 import com.hustunique.jianguo.dribile.views.ProfileView;
 
@@ -25,6 +27,7 @@ import rx.schedulers.Schedulers;
 public class ProfilePresenter extends BasePresenter<User, ProfileView> {
     private ILoadDataStrategy<User> strategy;
     public ProfilePresenter(String id) {
+
         strategy = new GetUserByIdStrategy(id);
         strategy.loadData(null)
                 .observeOn(AndroidSchedulers.mainThread())
@@ -33,6 +36,11 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
                     @Override
                     public void call(User user) {
                         setModel(user);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        view().onError(throwable);
                     }
                 });
     }
@@ -46,13 +54,15 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
 
     @Override
     protected void updateView() {
+        view().showData();
         view().setBio(model.getBio());
         view().setName(model.getName());
-        view().setFollowerCount(model.getFollowers_count());
-        view().setFollowingCount(model.getFollowings_count());
-        view().setLikeCount(model.getLikes_count());
-        view().setLocation(model.getLocation());
-        view().setShotCount(model.getShots_count());
+
+        view().setFollowerCount(CommonUtils.numToK(model.getFollowers_count()));
+        view().setFollowingCount(CommonUtils.numToK(model.getFollowings_count()));
+        view().setLikeCount(CommonUtils.numToK(model.getLikes_count()));
+        view().setLocation(CommonUtils.numToK(model.getLocation()));
+        view().setShotCount(CommonUtils.numToK(model.getShots_count()));
         ResponseBodyFactory.createService(DribbbleUserService.class)
                 .isFollowed(model.getId())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -87,6 +97,15 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(model.getHtml_url()));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         view().goToDribbble(intent);
+    }
+
+    @Override
+    public void bindView(@NonNull ProfileView view) {
+        super.bindView(view);
+        if (strategy != null) {
+            view().showLoading();
+        }
+
     }
 
     public void onFollowClick() {
