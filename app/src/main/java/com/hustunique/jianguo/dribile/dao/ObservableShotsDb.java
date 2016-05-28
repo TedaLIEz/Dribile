@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import com.hustunique.jianguo.dribile.models.Shots;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Callable;
 
@@ -24,17 +26,23 @@ public class ObservableShotsDb {
     }
 
     private List<Shots> getAllFromDB() {
-        Gson gson = new Gson();
-        Cursor cursor = mHelper.getList();
-        cursor.moveToFirst();
-        List<Shots> data = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            data.add(gson.fromJson(
-                    cursor.getString(cursor.getColumnIndex(ShotsDataHelper.ShotsTable.JSON)),
-                    Shots.class));
-        }
-        cursor.close();
-        return data;
+            Gson gson = new Gson();
+            Cursor cursor = mHelper.getList();
+            List<Shots> data = new ArrayList<>();
+            if (cursor.moveToFirst()) {
+                do {
+                    data.add(gson.fromJson(cursor.getString(cursor.getColumnIndex(ShotsDataHelper.ShotsTable.JSON)),
+                            Shots.class));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+            Collections.sort(data, new Comparator<Shots>() {
+                @Override
+                public int compare(Shots lhs, Shots rhs) {
+                    return -(Integer.valueOf(lhs.getViews_count()) - Integer.valueOf(rhs.getViews_count()));
+                }
+            });
+            return data;
     }
 
 
