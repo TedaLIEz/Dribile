@@ -34,7 +34,7 @@ public class AboutActivity extends BaseActivity {
                 .addEmail("aliezted@gmail.com")
                 .addWebsite("http://tedaliez.github.io")
                 .addTwitter("TedaLIEz")
-                .addGitHub("TedaLIEz")
+                .addGitHub("TedaLIEz/dribile")
                 .create();
         aboutLayout.addView(aboutPage);
     }
