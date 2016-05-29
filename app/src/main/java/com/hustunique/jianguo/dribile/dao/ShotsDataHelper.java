@@ -38,16 +38,10 @@ public class ShotsDataHelper extends BasicDataHelper {
         return true;
     }
 
-    //TODO: strange when getting data from database.
     public Cursor getList() {
-        synchronized (DataProvider.DBLock) {
-            DataProvider.DBHelper mDBHelper = DataProvider.getDBHelper();
-            SQLiteDatabase db = mDBHelper.getWritableDatabase();
-            return db.query(ShotsTable.TABLE_NAME, new String[] {ShotsTable.JSON}, null ,null, null, null, ShotsTable.VIEWS + " DESC");
-        }
-//        return getList(new String[]{
-//                ShotsTable.JSON
-//        }, null, null, ShotsTable.VIEWS + " DESC");
+        return getList(new String[]{
+                ShotsTable.JSON
+        }, null, null, ShotsTable.VIEWS + " DESC");
     }
 
     public int deleteAll() {

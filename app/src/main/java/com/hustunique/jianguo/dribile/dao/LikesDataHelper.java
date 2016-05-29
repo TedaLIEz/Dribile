@@ -23,11 +23,13 @@ public class LikesDataHelper extends BasicDataHelper {
 
     private ContentValues getContentValues(Shots shots) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(LikesDataHelper.ShotsTable.ID, shots.getId());
-        contentValues.put(LikesDataHelper.ShotsTable.JSON, shots.getJson());
+        contentValues.put(ShotsTable.ID, shots.getId());
+        contentValues.put(ShotsTable.VIEWS, Integer.valueOf(shots.getViews_count()));
+        contentValues.put(ShotsTable.COMMENTS, Integer.valueOf(shots.getComments_count()));
+        contentValues.put(ShotsTable.LIKES, Integer.valueOf(shots.getLikes_count()));
+        contentValues.put(ShotsTable.JSON, shots.getJson());
         return contentValues;
     }
-
 
 
     public boolean insert(Shots shots) {
@@ -37,19 +39,20 @@ public class LikesDataHelper extends BasicDataHelper {
     }
 
     public Cursor getList() {
-        return getList(new String[] {
+        return getList(new String[]{
                 LikesDataHelper.ShotsTable.JSON
-        }, null, null, LikesDataHelper.ShotsTable.ID + " DESC LIMIT 21");
+        }, null, null, ShotsTable.ID + " + 0 DESC");
     }
 
     public int deleteAll() {
         synchronized (DataProvider.DBLock) {
             DataProvider.DBHelper mDBHelper = DataProvider.getDBHelper();
             SQLiteDatabase db = mDBHelper.getWritableDatabase();
-            int row = db.delete(LikesDataHelper.ShotsTable.TABLE_NAME, null, null);
+            int row = db.delete(ShotsTable.TABLE_NAME, null, null);
             return row;
         }
     }
+
     @Override
     protected Uri getContentUri() {
         return DataProvider.LIKES_CONTENT_URI;
@@ -61,7 +64,12 @@ public class LikesDataHelper extends BasicDataHelper {
 
         public static final String ID = "id";
 
-        public static final SQLiteTable TABLE = new SQLiteTable(TABLE_NAME).addColumn(ID,
-                Column.DataType.TEXT).addColumn(JSON, Column.DataType.TEXT);
+        public static final SQLiteTable TABLE
+                = new SQLiteTable(TABLE_NAME)
+                .addColumn(ID, Column.DataType.TEXT)
+                .addColumn(VIEWS, Column.DataType.INTEGER)
+                .addColumn(COMMENTS, Column.DataType.INTEGER)
+                .addColumn(LIKES, Column.DataType.INTEGER)
+                .addColumn(JSON, Column.DataType.TEXT);
     }
 }

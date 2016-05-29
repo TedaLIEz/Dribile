@@ -36,12 +36,6 @@ public class ObservableShotsDb {
                 } while (cursor.moveToNext());
             }
             cursor.close();
-            Collections.sort(data, new Comparator<Shots>() {
-                @Override
-                public int compare(Shots lhs, Shots rhs) {
-                    return -(Integer.valueOf(lhs.getViews_count()) - Integer.valueOf(rhs.getViews_count()));
-                }
-            });
             return data;
     }
 

@@ -24,14 +24,13 @@ public class ObservableLikesDb {
 
     private List<Shots> getAllFromDB() {
         Gson gson = new Gson();
-
         Cursor cursor = mHelper.getList();
-        cursor.moveToFirst();
         List<Shots> data = new ArrayList<>();
-        while (cursor.moveToNext()) {
-            data.add(gson.fromJson(
-                    cursor.getString(cursor.getColumnIndex(LikesDataHelper.ShotsTable.JSON)),
-                    Shots.class));
+        if (cursor.moveToFirst()) {
+            do {
+                data.add(gson.fromJson(cursor.getString(cursor.getColumnIndex(ShotsDataHelper.ShotsTable.JSON)),
+                        Shots.class));
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return data;
