@@ -44,6 +44,16 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
+
+    <style name="Base.Theme.DesignDemo.ShotList" parent="Base.Theme.DesignDemo.BaseActivity"></style>
+
+    <style name="Base.Theme.DesignDemo.LikeList" parent="Base.Theme.DesignDemo.BaseActivity"></style>
+    <style name="Base.Theme.DesignDemo.Setting" parent="Base.Theme.DesignDemo.BaseActivity"></style>
+    <style name="Base.Theme.DesignDemo.About" parent="Base.Theme.DesignDemo.BaseActivity">
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
 
         <!--Whether bars should rotate or not during transition-->
@@ -120,6 +130,14 @@
         <item name="android:textAppearance">@style/TextAppearance.Shots.Item</item>
     </style>
 
+    <style name="About" parent="Base.Theme.DesignDemo"/>
+
+    <style name="About.SubTitle" parent="About">
+        <item name="android:layout_marginTop">@dimen/settings_margin</item>
+        <item name="android:layout_marginBottom">@dimen/settings_margin</item>
+        <item name="android:textSize">@dimen/text_size_subheading</item>
+    </style>
+
     <style name="TextAppearance.Title" parent="TextAppearance">
         <item name="android:textSize">@dimen/toolbar_title</item>
     </style>
@@ -131,8 +149,5 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
-    <style name="Base.Theme.DesignDemo.ShotList" parent="Base.Theme.DesignDemo.BaseActivity"></style>
 
-    <style name="Base.Theme.DesignDemo.LikeList" parent="Base.Theme.DesignDemo.BaseActivity"></style>
-    <style name="Base.Theme.DesignDemo.Setting" parent="Base.Theme.DesignDemo.BaseActivity"></style>
 </resources>

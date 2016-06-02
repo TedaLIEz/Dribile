@@ -6,6 +6,7 @@ import android.preference.PreferenceActivity;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -61,7 +62,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
     }
 
     @OnClick(R.id.layout_contact)
-    void contact() {
+    void contactClick() {
         mPresenter.sendEmail();
     }
 
@@ -73,12 +74,12 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
 
     @OnClick(R.id.layout_about)
-    void about() {
+    void aboutClick() {
         mPresenter.about();
     }
 
     @OnClick(R.id.layout_clear)
-    void clear() {
+    void clearClick() {
         mPresenter.clear();
     }
 
@@ -114,8 +115,8 @@ public class SettingActivity extends BaseActivity implements SettingView {
     }
 
     @Override
-    public void onClearFailed() {
-
+    public void onClearFailed(Exception e) {
+        Log.wtf("driclient", e);
     }
 
     @Override
@@ -126,5 +127,15 @@ public class SettingActivity extends BaseActivity implements SettingView {
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void sendEmailIntent(Intent emailIntent) {
+        startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+    }
+
+    @Override
+    public void about() {
+        startActivity(new Intent(this, AboutActivity.class));
     }
 }

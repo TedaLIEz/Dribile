@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
 
     <application
@@ -30,6 +29,7 @@
             android:theme="@style/Base.Theme.DesignDemo.Main" />
         <activity
             android:name=".ui.activity.LoginActivity"
+            android:launchMode="singleTask"
             android:theme="@style/Base.Theme.DesignDemo.Login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -100,10 +100,11 @@
         <activity
             android:name=".ui.activity.LikeListActivity"
             android:theme="@style/Base.Theme.DesignDemo.LikeList" />
-        <activity android:name=".ui.activity.SettingActivity"
-            android:theme="@style/Base.Theme.DesignDemo.Setting">
-
-        </activity>
+        <activity
+            android:name=".ui.activity.SettingActivity"
+            android:theme="@style/Base.Theme.DesignDemo.Setting" />
+        <activity android:name=".ui.activity.AboutActivity"
+            android:theme="@style/Base.Theme.DesignDemo.About"></activity>
     </application>
 
 </manifest>

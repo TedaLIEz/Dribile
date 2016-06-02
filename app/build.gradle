@@ -52,4 +52,5 @@ dependencies {
     compile 'com.rengwuxian.materialedittext:library:2.1.4'
     compile 'com.google.guava:guava:18.0'
     compile 'com.miguelcatalan:materialsearchview:1.4.0'
+    compile 'com.github.medyo:android-about-page:1.0.8'
 }
