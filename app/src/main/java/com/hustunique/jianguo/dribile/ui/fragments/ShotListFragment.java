@@ -2,6 +2,7 @@ package com.hustunique.jianguo.dribile.ui.fragments;
 
 import android.os.Bundle;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetAllShotsStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetShotByIdStrategy;
@@ -13,6 +14,7 @@ import com.hustunique.jianguo.dribile.presenters.strategy.GetShotByIdStrategy;
  */
 public class ShotListFragment extends BaseShotListFragment implements IFabClickFragment {
     public static final String USER = "user";
+
     public ShotListFragment() {
         // Required empty public constructor
     }

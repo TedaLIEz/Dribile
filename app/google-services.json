@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "308492483253",
+    "firebase_url": "https://project-1153854156734739401.firebaseio.com",
+    "project_id": "project-1153854156734739401",
+    "storage_bucket": "project-1153854156734739401.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308492483253:android:38a49f9bc8f60cf3",
+        "android_client_info": {
+          "package_name": "com.hustunique.jianguo.dribile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308492483253-avc7js8sq4p9a7pmdrdjp2283jv2il0s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9R6O7S6WW9YsnYF4uQWsW5QCxYXqeLh0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -25,4 +25,6 @@ public interface ShotInfoView extends ShotView {
     void onUnlike();
     void sendSharedIntent(Intent sendIntent);
     void addComments(Shots model);
+
+    void FAEvent(Shots model);
 }

@@ -28,6 +28,7 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
     private boolean isLike = false;
     @Override
     protected void updateView() {
+        view().FAEvent(model);
         view().setCommentCount(String.format(AppData.getString(R.string.comments), model.getComments_count()));
         view().setShotImage(model.getImages().getNormal());
         view().setAnimated(model.getAnimated().equals("true"));

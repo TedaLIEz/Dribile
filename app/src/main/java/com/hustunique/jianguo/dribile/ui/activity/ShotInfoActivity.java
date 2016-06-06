@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.ViewAnimator;
 
 import com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
@@ -132,19 +133,15 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     LinearLayout mFooter;
     @BindDimen(R.dimen.item_divider_size)
     int dividerSize;
-
     @BindDimen(R.dimen.shot_tag_padding)
     int tagPadding;
 
-    private Shots mShot;
     private LinearLayoutManager linearLayoutManager;
     private CommentsAdapter commentsAdapter;
     private ShotInfoPresenter mShotInfoPresenter;
     private ShotInfoCommentsPresenter mCommentPresenter;
-
-    private
-    @ColorInt
-    int vibrantColor;
+    private FirebaseAnalytics mAnalytics;
+    private @ColorInt int vibrantColor;
 
 
     @Override
@@ -152,6 +149,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shot_info);
         ButterKnife.bind(this);
+        mAnalytics = FirebaseAnalytics.getInstance(this);
         Intent intent = getIntent();
         if (savedInstanceState == null) {
             if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
@@ -160,7 +158,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
                 mShotInfoPresenter = new ShotInfoPresenter(id);
                 mCommentPresenter = new ShotInfoCommentsPresenter(id);
             } else if (intent.getSerializableExtra("shots") != null) {
-                mShot = (Shots) getIntent().getSerializableExtra("shots");
+                Shots mShot = (Shots) getIntent().getSerializableExtra("shots");
                 mShotInfoPresenter = new ShotInfoPresenter(mShot);
                 mCommentPresenter = new ShotInfoCommentsPresenter(mShot);
             }
@@ -505,6 +503,14 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     @Override
     public void addComments(Shots model) {
         startActivityWithShot(ShotCommentActivity.class, model);
+    }
+
+    @Override
+    public void FAEvent(Shots model) {
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, model.getId());
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, model.getTitle());
+        mAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
     }
 
 }
