@@ -149,5 +149,7 @@
         <item name="android:backgroundDimEnabled">false</item>
     </style>
 
+    <style name="Base.Theme.DesignDemo.License" parent="Base.Theme.DesignDemo.BaseActivity"></style>
+
 
 </resources>

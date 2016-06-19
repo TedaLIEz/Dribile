@@ -13,4 +13,6 @@ public interface SettingView {
     void sendEmailIntent(Intent emailIntent);
 
     void about();
+
+    void license();
 }

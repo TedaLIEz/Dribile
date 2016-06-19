@@ -37,6 +37,8 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     @Bind(R.id.layout_logout)
     LinearLayout mLogout;
+    @Bind(R.id.layout_license)
+    LinearLayout mLicense;
 
     @Bind(R.id.rootView)
     CoordinatorLayout rootView;
@@ -54,6 +56,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setTitle("Settings");
         if (savedInstanceState == null) {
             mPresenter = new SettingPresenter();
         } else {
@@ -83,6 +86,10 @@ public class SettingActivity extends BaseActivity implements SettingView {
         mPresenter.clear();
     }
 
+    @OnClick(R.id.layout_license)
+    void licenseClick() {
+        mPresenter.license();
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -137,5 +144,10 @@ public class SettingActivity extends BaseActivity implements SettingView {
     @Override
     public void about() {
         startActivity(new Intent(this, AboutActivity.class));
+    }
+
+    @Override
+    public void license() {
+        startActivity(new Intent(this, LicenseActivity.class));
     }
 }

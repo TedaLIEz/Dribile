@@ -49,4 +49,8 @@ public class SettingPresenter extends BasePresenter<Void, SettingView>{
     public void about() {
         view().about();
     }
+
+    public void license() {
+        view().license();
+    }
 }

@@ -13,12 +13,9 @@ import mehdi.sakout.aboutpage.Element;
 
 public class AboutActivity extends BaseActivity {
 
-    @Bind(R.id.container)
-    FrameLayout aboutLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
         Element versionElement = new Element();
         versionElement.setTitle("Version 0.1");
@@ -36,6 +33,6 @@ public class AboutActivity extends BaseActivity {
                 .addTwitter("TedaLIEz")
                 .addGitHub("TedaLIEz/dribile")
                 .create();
-        aboutLayout.addView(aboutPage);
+        setContentView(aboutPage);
     }
 }
