@@ -507,10 +507,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
 
     @Override
     public void FAEvent(Shots model) {
-        Bundle bundle = new Bundle();
-        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, model.getId());
-        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, model.getTitle());
-        mAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
+        mAnalytics.setUserProperty("clicked_view", model.getId());
     }
 
 }
