@@ -26,6 +26,7 @@ import rx.schedulers.Schedulers;
  */
 public class ProfilePresenter extends BasePresenter<User, ProfileView> {
     private ILoadDataStrategy<User> strategy;
+    private boolean isLoaded;
     public ProfilePresenter(String id) {
 
         strategy = new GetUserByIdStrategy(id);
@@ -54,6 +55,7 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
 
     @Override
     protected void updateView() {
+        isLoaded = true;
         view().showData();
         view().setBio(model.getBio());
         view().setName(model.getName());
@@ -102,7 +104,7 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
     @Override
     public void bindView(@NonNull ProfileView view) {
         super.bindView(view);
-        if (strategy != null) {
+        if (!isLoaded) {
             view().showLoading();
         }
 
