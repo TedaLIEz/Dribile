@@ -6,6 +6,7 @@ import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.strategy.ICacheDataStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.ILoadListDataStrategy;
 import com.hustunique.jianguo.dribile.views.ILoadListView;
+import com.hustunique.jianguo.dribile.views.LikeListView;
 
 import java.util.List;
 
@@ -18,9 +19,9 @@ import rx.subjects.BehaviorSubject;
  * Created by JianGuo on 5/4/16.
  * Presenter for listing shots.
  */
-public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Shots>> {
+public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
 
-    public ShotListPresenter() {
+    public LikeListPresenter() {
         super();
     }
 
@@ -30,6 +31,11 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
 
     public void setCacheStrategy(ICacheDataStrategy<Shots> cacheStrategy) {
         mLoadDel.setCacheStrategy(cacheStrategy);
+    }
+
+    public void removeChild(int pos) {
+        model.remove(pos);
+        view().unlikeShot(pos);
     }
 
     public int getLoadingCount() {

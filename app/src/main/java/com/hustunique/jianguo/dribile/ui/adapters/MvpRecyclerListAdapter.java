@@ -59,6 +59,10 @@ public abstract class MvpRecyclerListAdapter<M, P extends BasePresenter, VH exte
         }
     }
 
+    public void removeItem(int pos) {
+        removeItem(getItem(pos));
+    }
+
     public void removeItem(M item) {
         int position = getItemPosition(item);
         if (position >= 0) {

@@ -482,6 +482,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
         mFooter.setVisibility(View.VISIBLE);
     }
 
+
     @Override
     public void goToMoreComments(Shots shots) {
         startActivityWithShot(ShotCommentActivity.class, shots);

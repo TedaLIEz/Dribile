@@ -13,4 +13,5 @@ public interface ILoadListView<M> {
     void showData(List<M> bucketsList);
 
     void showLoadingMore();
+
 }

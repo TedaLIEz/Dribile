@@ -184,7 +184,6 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
 
     }
 
-
     @Override
     public void removeBucket(Buckets bucket) {
         Snackbar.make(mViewAnimator,

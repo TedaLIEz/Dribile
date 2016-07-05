@@ -3,6 +3,7 @@ package com.hustunique.jianguo.dribile.ui.fragments;
 import android.os.Bundle;
 
 import com.hustunique.jianguo.dribile.models.Buckets;
+import com.hustunique.jianguo.dribile.presenters.ShotListPresenter;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetShotsFromBucketStrategy;
 
 /**
@@ -26,10 +27,10 @@ public class BucketInShotFragment extends BaseShotListFragment {
 
 
     @Override
-    protected void setStrategy() {
+    protected void setStrategy(ShotListPresenter shotListPresenter) {
         if (getArguments() != null) {
             Buckets mBucket = (Buckets) getArguments().getSerializable(BUCKET);
-            mShotListPresenter.setLoadStrategy(new GetShotsFromBucketStrategy(mBucket));
+            shotListPresenter.setLoadStrategy(new GetShotsFromBucketStrategy(mBucket));
         }
     }
 

@@ -52,7 +52,7 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
     @Bind(R.id.loading)
     ProgressBar mProgress;
 
-    protected ShotListPresenter mShotListPresenter;
+    private ShotListPresenter mShotListPresenter;
 
     public BaseShotListFragment() {
 
@@ -87,13 +87,13 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             mShotListPresenter = new ShotListPresenter();
-            setStrategy();
+            setStrategy(mShotListPresenter);
         } else {
             mShotListPresenter = PresenterManager.getInstance().restorePresenter(savedInstanceState);
         }
     }
 
-    protected abstract void setStrategy();
+    protected abstract void setStrategy(ShotListPresenter shotListPresenter);
 
     private void initSwipeLayout() {
         swipeRefreshLayout.setColorSchemeColors(schemeColor);
@@ -102,8 +102,13 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
     }
 
 
+    protected void configureRecyclerView(RecyclerView recyclerView, ShotListPresenter shotListPresenter) {
+
+    }
+
     private void initRecyclerView() {
         mAdapter = new ShotsAdapter(getActivity(), R.layout.item_shot);
+        configureRecyclerView(mRecyclerView, mShotListPresenter);
         mRecyclerView.setAdapter(new ScaleInAnimationAdapter(mAdapter));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.addItemDecoration(new PaddingItemDecoration(dividerSize));
@@ -193,9 +198,6 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
     public void showLoadingMore() {
         mProgress.setVisibility(View.VISIBLE);
     }
-
-
-
 
 
 }

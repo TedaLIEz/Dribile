@@ -197,6 +197,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
 
     }
 
+
     @Override
     public void removeBucket(Buckets bucket) {
         Snackbar.make(mViewAnimator,

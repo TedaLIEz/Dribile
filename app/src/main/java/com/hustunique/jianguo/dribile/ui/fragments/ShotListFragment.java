@@ -1,8 +1,12 @@
 package com.hustunique.jianguo.dribile.ui.fragments;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 
 import com.hustunique.jianguo.dribile.models.User;
+import com.hustunique.jianguo.dribile.presenters.ShotListPresenter;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetAllShotsStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetShotByIdStrategy;
 
@@ -13,22 +17,25 @@ import com.hustunique.jianguo.dribile.presenters.strategy.GetShotByIdStrategy;
  */
 public class ShotListFragment extends BaseShotListFragment implements IFabClickFragment {
     public static final String USER = "user";
+
     public ShotListFragment() {
         // Required empty public constructor
     }
 
     @Override
-    protected void setStrategy() {
+    protected void setStrategy(ShotListPresenter shotListPresenter) {
         if (getArguments() != null) {
             User user = (User) getArguments().getSerializable(USER);
-            mShotListPresenter.setLoadStrategy(new GetShotByIdStrategy(user));
+            shotListPresenter.setLoadStrategy(new GetShotByIdStrategy(user));
         } else {
             GetAllShotsStrategy getAllShotsStrategy = new GetAllShotsStrategy();
-            mShotListPresenter.setLoadStrategy(getAllShotsStrategy);
-            mShotListPresenter.setCacheStrategy(getAllShotsStrategy);
+            shotListPresenter.setLoadStrategy(getAllShotsStrategy);
+            shotListPresenter.setCacheStrategy(getAllShotsStrategy);
         }
 
     }
+
+
 
     public static ShotListFragment newInstance(User user) {
         Bundle args = new Bundle();
@@ -37,6 +44,7 @@ public class ShotListFragment extends BaseShotListFragment implements IFabClickF
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public void onFabClick() {
 
