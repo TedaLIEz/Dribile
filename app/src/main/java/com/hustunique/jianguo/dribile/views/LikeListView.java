@@ -7,4 +7,8 @@ import com.hustunique.jianguo.dribile.models.Shots;
  */
 public interface LikeListView extends ILoadListView<Shots>{
     void unlikeShot(int pos);
+
+    void restoreShot(int pos, Shots removeShot);
+
+    void showUndo(int pos);
 }

@@ -36,6 +36,17 @@ public abstract class MvpRecyclerListAdapter<M, P extends BasePresenter, VH exte
         notifyItemRangeInserted(oldSize, addedSize);
     }
 
+    public void addItem(M item, int pos) {
+        addInternal(item, pos);
+        notifyItemInserted(pos);
+
+    }
+
+    private void addInternal(M item, int pos) {
+        models.add(pos, item);
+        presenters.put(getModelId(item), createPresenter(item));
+    }
+
     public void addItem(M item) {
         addInternal(item);
         notifyItemInserted(models.size());

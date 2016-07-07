@@ -2,6 +2,7 @@ package com.hustunique.jianguo.dribile.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -247,7 +248,29 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
     }
 
     @Override
-    public void unlikeShot(int pos) {
+    public void unlikeShot(final int pos) {
         mAdapter.removeItem(pos);
+    }
+
+    @Override
+    public void restoreShot(int pos, Shots removeShot) {
+        mAdapter.addItem(removeShot, pos);
+        if (pos == 0) {
+            mRecyclerView.scrollToPosition(0);
+        }
+    }
+
+    @Override
+    public void showUndo(final int pos) {
+        Snackbar snackbar = Snackbar
+                .make(mRecyclerView, "Shots unlike", Snackbar.LENGTH_LONG)
+                .setAction("UNDO", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mLikeListPresenter.restoreShot(pos);
+                        Log.i("dribbble", "undo with pos " + pos);
+                    }
+                });
+        snackbar.show();
     }
 }

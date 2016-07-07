@@ -27,6 +27,7 @@ import rx.subjects.BehaviorSubject;
  */
 public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
 
+    private Shots unlikeShot;
     public LikeListPresenter() {
         super();
     }
@@ -41,6 +42,7 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
 
     //TODO: show undo snackbar
     public void removeChild(final int pos) {
+        unlikeShot = model.get(pos);
         view().unlikeShot(pos);
         ResponseBodyFactory.createService(DribbbleLikeService.class)
                 .unlike(model.get(pos).getId()).subscribeOn(Schedulers.newThread())
@@ -49,10 +51,12 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
                     @Override
                     public void call(Response<ResponseBody> responseBodyResponse) {
                         if (responseBodyResponse.code() == 204) {
+                            view().showUndo(pos);
                             model.remove(pos);
                             MyAccountManager.updateUser();
                             Log.i("dribbble", "unlike success");
                         } else {
+                            view().restoreShot(pos, unlikeShot);
                             Log.i("dribbble", responseBodyResponse.code() + "");
                         }
                     }
@@ -60,6 +64,7 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
                     @Override
                     public void call(Throwable throwable) {
                         Log.i("dribbble", "unlike error");
+                        view().restoreShot(pos, unlikeShot);
                     }
                 });
 
@@ -178,4 +183,24 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
     }
 
 
+    public void restoreShot(final int pos) {
+        view().restoreShot(pos, unlikeShot);
+        ResponseBodyFactory.createService(DribbbleLikeService.class).like(unlikeShot.getId()).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Response<ResponseBody>>() {
+                    @Override
+                    public void call(Response<ResponseBody> responseBodyResponse) {
+                        if (responseBodyResponse.code() == 201) {
+                            MyAccountManager.updateUser();
+                        } else {
+                            view().unlikeShot(pos);
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        view().unlikeShot(pos);
+                    }
+                });
+    }
 }
