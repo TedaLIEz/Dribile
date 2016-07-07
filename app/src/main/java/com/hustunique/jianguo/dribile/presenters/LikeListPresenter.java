@@ -2,16 +2,22 @@ package com.hustunique.jianguo.dribile.presenters;
 
 import android.util.Log;
 
+import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.strategy.ICacheDataStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.ILoadListDataStrategy;
+import com.hustunique.jianguo.dribile.service.DribbbleLikeService;
+import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.dribile.views.ILoadListView;
 import com.hustunique.jianguo.dribile.views.LikeListView;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import rx.subjects.BehaviorSubject;
 
@@ -33,9 +39,30 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
         mLoadDel.setCacheStrategy(cacheStrategy);
     }
 
-    public void removeChild(int pos) {
-        model.remove(pos);
+    //TODO: show undo snackbar
+    public void removeChild(final int pos) {
         view().unlikeShot(pos);
+        ResponseBodyFactory.createService(DribbbleLikeService.class)
+                .unlike(model.get(pos).getId()).subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Response<ResponseBody>>() {
+                    @Override
+                    public void call(Response<ResponseBody> responseBodyResponse) {
+                        if (responseBodyResponse.code() == 204) {
+                            model.remove(pos);
+                            MyAccountManager.updateUser();
+                            Log.i("dribbble", "unlike success");
+                        } else {
+                            Log.i("dribbble", responseBodyResponse.code() + "");
+                        }
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Log.i("dribbble", "unlike error");
+                    }
+                });
+
     }
 
     public int getLoadingCount() {
