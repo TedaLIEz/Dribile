@@ -23,6 +23,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewAnimator;
 
 import com.github.fafaldo.fabtoolbar.widget.FABToolbarLayout;
@@ -469,6 +470,8 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     @Override
     public void onError(Throwable e) {
         Log.wtf("driclient", e);
+        Toast.makeText(this, "Error loading shots", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

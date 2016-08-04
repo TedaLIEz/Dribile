@@ -164,7 +164,7 @@ public class MainActivity extends BaseActivity {
 
     private void onLikesSelected() {
         mToolbar.setTitle("My likes");
-        mFab.show();
+        mFab.hide();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         if (null == mFragmentManager.findFragmentByTag(LikesListFragment.class.getName())) {
             mContentFragment = new LikesListFragment();

@@ -40,7 +40,6 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
         mLoadDel.setCacheStrategy(cacheStrategy);
     }
 
-    //TODO: show undo snackbar
     public void removeChild(final int pos) {
         unlikeShot = model.get(pos);
         view().unlikeShot(pos);
@@ -55,6 +54,8 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
                             model.remove(pos);
                             MyAccountManager.updateUser();
                             Log.i("dribbble", "unlike success");
+                        } else if (responseBodyResponse.code() == 404) {
+                            model.remove(pos);
                         } else {
                             view().restoreShot(pos, unlikeShot);
                             Log.i("dribbble", responseBodyResponse.code() + "");
