@@ -8,6 +8,7 @@ import com.hustunique.jianguo.dribile.presenters.strategy.ICacheDataStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.ILoadListDataStrategy;
 import com.hustunique.jianguo.dribile.service.DribbbleLikeService;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
+import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.ILoadListView;
 import com.hustunique.jianguo.dribile.views.LikeListView;
 
@@ -28,6 +29,7 @@ import rx.subjects.BehaviorSubject;
 public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
 
     private Shots unlikeShot;
+
     public LikeListPresenter() {
         super();
     }
@@ -171,8 +173,8 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
                         rst.onNext(shotses);
                     }
                 });
-        rst.asObservable().subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        rst.asObservable()
+                .compose(new ObservableTransformer<List<Shots>>())
                 .subscribe(new LoadingListSubscriber() {
                     @Override
                     public void onNext(List<Shots> shotses) {

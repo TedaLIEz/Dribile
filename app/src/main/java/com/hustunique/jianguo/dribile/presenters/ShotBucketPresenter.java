@@ -12,6 +12,7 @@ import com.hustunique.jianguo.dribile.service.DribbbleBucketsService;
 import com.hustunique.jianguo.dribile.service.DribbbleUserService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
+import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.BucketInShotListView;
 
 import java.util.List;
@@ -66,8 +67,7 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInSh
         isLoadingData = true;
         ApiServiceFactory.createService(DribbbleUserService.class)
                 .getAuthBuckets()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(new ObservableTransformer<List<Buckets>>())
                 .subscribe(new Subscriber<List<Buckets>>() {
                     @Override
                     public void onCompleted() {
@@ -148,11 +148,10 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInSh
 
         ResponseBodyFactory.createService(DribbbleBucketsService.class)
                 .putShotInBucket(bucket.getId(), mShot.getId())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<retrofit2.Response<ResponseBody>>() {
+                .compose(new ObservableTransformer<Response<ResponseBody>>())
+                .subscribe(new Action1<Response<ResponseBody>>() {
                     @Override
-                    public void call(retrofit2.Response<ResponseBody> responseBodyResponse) {
+                    public void call(Response<ResponseBody> responseBodyResponse) {
                         if (responseBodyResponse.code() == 204) {
                             view().addToBucket(bucket);
                         } else {

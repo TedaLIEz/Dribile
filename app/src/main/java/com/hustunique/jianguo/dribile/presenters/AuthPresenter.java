@@ -20,6 +20,7 @@ import com.hustunique.jianguo.dribile.service.DribbbleUserService;
 import com.hustunique.jianguo.dribile.service.api.Constants;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.service.factories.AuthServiceFactory;
+import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.AuthView;
 
 import rx.Subscriber;
@@ -81,8 +82,7 @@ public class AuthPresenter extends BasePresenter<OAuthUser, AuthView> {
             final DribbbleAuthService authService = AuthServiceFactory.
                     createAuthService(DribbbleAuthService.class);
             authService.getAccessToken(MyApp.client_id, MyApp.client_secret, code)
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .compose(new ObservableTransformer<AccessToken>())
                     .subscribe(new Subscriber<AccessToken>() {
                         @Override
                         public void onCompleted() {
@@ -111,8 +111,7 @@ public class AuthPresenter extends BasePresenter<OAuthUser, AuthView> {
         Log.i("driclient", "get token -> start get user");
         DribbbleUserService dribbbleUserService = ApiServiceFactory.createService(DribbbleUserService.class, token);
         dribbbleUserService.getAuthUser()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(new ObservableTransformer<User>())
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {

@@ -12,7 +12,10 @@ import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetCommentsByIdStrategy;
 import com.hustunique.jianguo.dribile.service.DribbbleShotsService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
+import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.CommentListView;
+
+import org.w3c.dom.Comment;
 
 import java.util.List;
 
@@ -42,8 +45,7 @@ public class CommentListPresenter extends BaseListPresenter<Comments, CommentLis
     @Override
     public void refresh() {
         mLoadDel.loadData()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
+                .compose(new ObservableTransformer<List<Comments>>())
                 .subscribe(new LoadingListSubscriber() {
             @Override
             public void onNext(List<Comments> commentses) {
@@ -69,8 +71,7 @@ public class CommentListPresenter extends BaseListPresenter<Comments, CommentLis
         if (comment != null && TextUtils.isEmpty(comment.trim())) return;
         ApiServiceFactory.createService(DribbbleShotsService.class)
                 .addComment(mShot.getId(), comment)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(new ObservableTransformer<Comments>())
                 .subscribe(new Subscriber<Comments>() {
                     @Override
                     public void onCompleted() {

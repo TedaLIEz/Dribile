@@ -6,6 +6,7 @@ import com.hustunique.jianguo.dribile.models.AccessToken;
  * Created by JianGuo on 3/30/16.
  * Helper class to get token via OAuth
  */
+@Deprecated
 public class AuthHelper {
 
     private static AccessToken accessToken;

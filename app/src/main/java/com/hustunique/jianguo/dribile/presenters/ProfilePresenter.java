@@ -13,6 +13,7 @@ import com.hustunique.jianguo.dribile.service.DribbbleUserService;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
 import com.hustunique.jianguo.dribile.utils.NetUtils;
+import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.ProfileView;
 
 import okhttp3.ResponseBody;
@@ -31,8 +32,7 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
 
         strategy = new GetUserByIdStrategy(id);
         strategy.loadData(null)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
+                .compose(new ObservableTransformer<User>())
                 .subscribe(new Action1<User>() {
                     @Override
                     public void call(User user) {
@@ -67,8 +67,7 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
         view().setShotCount(CommonUtils.numToK(model.getShots_count()));
         ResponseBodyFactory.createService(DribbbleUserService.class)
                 .isFollowed(model.getId())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
+                .compose(new ObservableTransformer<Response<ResponseBody>>())
                 .subscribe(new Action1<Response<ResponseBody>>() {
                     @Override
                     public void call(Response<ResponseBody> responseBodyResponse) {

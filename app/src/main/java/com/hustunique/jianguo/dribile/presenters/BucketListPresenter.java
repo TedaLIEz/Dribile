@@ -7,6 +7,7 @@ import com.hustunique.jianguo.dribile.presenters.strategy.GetMyBucketStrategy;
 import com.hustunique.jianguo.dribile.service.DribbbleBucketsService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
+import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.BucketListView;
 
 import java.util.List;
@@ -38,8 +39,7 @@ public class BucketListPresenter extends BaseListPresenter<Buckets, BucketListVi
     public void createBucket(String name, String description) {
         ApiServiceFactory.createService(DribbbleBucketsService.class)
                 .createBucket(name, description)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(new ObservableTransformer<Buckets>())
                 .subscribe(new Subscriber<Buckets>() {
                     @Override
                     public void onCompleted() {

@@ -5,6 +5,7 @@ import android.util.Log;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.strategy.ICacheDataStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.ILoadListDataStrategy;
+import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.ILoadListView;
 
 import java.util.List;
@@ -60,8 +61,8 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
                         rst.onNext(shotses);
                     }
                 });
-        rst.asObservable().subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        rst.asObservable()
+                .compose(new ObservableTransformer<List<Shots>>())
                 .subscribe(new LoadingListSubscriber() {
                     @Override
                     public void onNext(List<Shots> shotses) {
@@ -74,8 +75,8 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
     @Override
     public void getData() {
         if (mLoadDel.isCached()) {
-            mLoadDel.loadFromDB().subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
+            mLoadDel.loadFromDB()
+                    .compose(new ObservableTransformer<List<Shots>>())
                     .subscribe(new Subscriber<List<Shots>>() {
                         @Override
                         public void onCompleted() {
@@ -132,8 +133,8 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
                         rst.onNext(shotses);
                     }
                 });
-        rst.asObservable().subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        rst.asObservable()
+                .compose(new ObservableTransformer<List<Shots>>())
                 .subscribe(new LoadingListSubscriber() {
                     @Override
                     public void onNext(List<Shots> shotses) {

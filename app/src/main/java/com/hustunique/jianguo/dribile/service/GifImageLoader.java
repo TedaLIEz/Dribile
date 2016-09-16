@@ -33,6 +33,7 @@ public class GifImageLoader implements ComponentCallbacks2 {
         int maxKb = am.getMemoryClass() * 1024;
         int limitKb = maxKb / 8;
         cache = new GifLruCache(limitKb);
+        ctx.registerComponentCallbacks(this);
     }
 
     public GifImageLoader display(String url, GifImageView imageView) {

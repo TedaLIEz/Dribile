@@ -12,6 +12,7 @@ import com.hustunique.jianguo.dribile.service.DribbbleShotsService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.ShotInfoView;
 
 import okhttp3.ResponseBody;
@@ -45,8 +46,8 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
         }
         view().setTags(model.getTags());
         ResponseBodyFactory.createService(DribbbleLikeService.class)
-                .isLike(model.getId()).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .isLike(model.getId())
+                .compose(new ObservableTransformer<Response<ResponseBody>>())
                 .subscribe(new Action1<Response<ResponseBody>>() {
                     @Override
                     public void call(Response<ResponseBody> responseBodyResponse) {
@@ -65,8 +66,7 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
     public ShotInfoPresenter(String id) {
         ApiServiceFactory.createService(DribbbleShotsService.class)
                 .getShotById(id)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
+                .compose(new ObservableTransformer<Shots>())
                 .subscribe(new Action1<Shots>() {
                     @Override
                     public void call(Shots shots) {
@@ -99,8 +99,8 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
     private void unlike() {
         view().onUnlike();
         ResponseBodyFactory.createService(DribbbleLikeService.class)
-                .unlike(model.getId()).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .unlike(model.getId())
+                .compose(new ObservableTransformer<Response<ResponseBody>>())
                 .subscribe(new Action1<Response<ResponseBody>>() {
                     @Override
                     public void call(Response<ResponseBody> responseBodyResponse) {
@@ -120,8 +120,8 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
 
     private void like() {
         view().onLike();
-        ResponseBodyFactory.createService(DribbbleLikeService.class).like(model.getId()).subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+        ResponseBodyFactory.createService(DribbbleLikeService.class).like(model.getId())
+                .compose(new ObservableTransformer<Response<ResponseBody>>())
                 .subscribe(new Action1<Response<ResponseBody>>() {
                     @Override
                     public void call(Response<ResponseBody> responseBodyResponse) {
