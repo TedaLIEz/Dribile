@@ -16,7 +16,7 @@ import com.hustunique.jianguo.dribile.presenters.strategy.GetShotByIdStrategy;
  * Basic Fragment for loading shots
  */
 public class ShotListFragment extends BaseShotListFragment implements IFabClickFragment {
-    public static final String USER = "user";
+    public static final String EXTRA_USER = "extra_user";
 
     public ShotListFragment() {
         // Required empty public constructor
@@ -25,7 +25,7 @@ public class ShotListFragment extends BaseShotListFragment implements IFabClickF
     @Override
     protected void setStrategy(ShotListPresenter shotListPresenter) {
         if (getArguments() != null) {
-            User user = (User) getArguments().getSerializable(USER);
+            User user = (User) getArguments().getSerializable(EXTRA_USER);
             shotListPresenter.setLoadStrategy(new GetShotByIdStrategy(user));
         } else {
             GetAllShotsStrategy getAllShotsStrategy = new GetAllShotsStrategy();
@@ -39,7 +39,7 @@ public class ShotListFragment extends BaseShotListFragment implements IFabClickF
 
     public static ShotListFragment newInstance(User user) {
         Bundle args = new Bundle();
-        args.putSerializable(USER, user);
+        args.putSerializable(EXTRA_USER, user);
         ShotListFragment fragment = new ShotListFragment();
         fragment.setArguments(args);
         return fragment;

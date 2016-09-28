@@ -1,6 +1,7 @@
 package com.hustunique.jianguo.dribile.presenters;
 
 import android.content.Intent;
+import android.media.ExifInterface;
 import android.support.annotation.NonNull;
 
 import com.hustunique.jianguo.dribile.R;
@@ -32,7 +33,7 @@ import rx.schedulers.Schedulers;
 public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInShotListView> {
     private static final String TAG = "ShotBucketPresenter";
     private boolean isLoadingData = false;
-    protected static final String SHOT = "shot";
+    protected static final String EXTRA_SHOT = "extra_shot";
     private Shots mShot;
 
     public ShotBucketPresenter() {
@@ -41,7 +42,7 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInSh
 
 
     public ShotBucketPresenter(Intent intent) {
-        mShot = (Shots) intent.getSerializableExtra(SHOT);
+        mShot = (Shots) intent.getSerializableExtra(EXTRA_SHOT);
     }
 
     @Override

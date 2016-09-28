@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.ShotPresenter;
+import com.hustunique.jianguo.dribile.ui.activity.BaseActivity;
 import com.hustunique.jianguo.dribile.ui.activity.ShotInfoActivity;
 import com.hustunique.jianguo.dribile.ui.viewholders.ShotsViewHolder;
 
@@ -53,7 +54,7 @@ public class ShotsAdapter extends MvpRecyclerListAdapter<Shots, ShotPresenter, S
             @Override
             public void onShotClick(Shots model) {
                 Intent intent = new Intent(mContext, ShotInfoActivity.class);
-                intent.putExtra("shots", model);
+                intent.putExtra(BaseActivity.EXTRA_SHOT, model);
                 mContext.startActivity(intent);
             }
         });

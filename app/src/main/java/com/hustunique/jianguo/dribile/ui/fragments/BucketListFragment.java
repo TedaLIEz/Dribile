@@ -41,6 +41,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
     private static final int POS_EMPTY = 2;
     private static final int POS_LOADING = 0;
     private static final String TAG = "BucketListFragment";
+    public static final String EXTRA_BUCKET = "extra_bucket";
     @Bind(R.id.rv_buckets)
     RecyclerView mBuckets;
 
@@ -141,7 +142,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
 
             private void showShots(Buckets buckets) {
                 Intent intent = new Intent(getActivity(), BucketDetailActivity.class);
-                intent.putExtra(BucketDetailActivity.BUCKET, buckets);
+                intent.putExtra(EXTRA_BUCKET, buckets);
                 startActivity(intent);
             }
         });

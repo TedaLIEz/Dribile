@@ -14,8 +14,8 @@ import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.models.Shots;
 
 public class BaseActivity extends AppCompatActivity {
-    protected static final String SHOT = "shot";
-
+    public static final String EXTRA_SHOT = "extra_shot";
+    public static final String EXTRA_USER = "extra_user";
     protected String getTag() {
         return getClass().getSimpleName();
     }
@@ -26,7 +26,7 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void startActivityWithShot(Class<? extends BaseActivity> clazz, Shots shot) {
         Intent intent = new Intent(this, clazz);
-        intent.putExtra(SHOT, shot);
+        intent.putExtra(EXTRA_SHOT, shot);
         startActivity(intent);
     }
 

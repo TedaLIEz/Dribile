@@ -50,7 +50,6 @@ public class SettingActivity extends BaseActivity implements SettingView {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-//        mToolbar.setTitle("Settings");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);

@@ -10,7 +10,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class ImageDetailActivity extends BaseActivity {
-    public static final String SHARED_SHOTS = "shared_shots";
     @Bind(R.id.image_shot_detail)
     DetailImageLayout mDetailImageLayout;
 
@@ -19,7 +18,7 @@ public class ImageDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_detail);
         ButterKnife.bind(this);
-        mDetailImageLayout.load((Shots) getIntent().getSerializableExtra(SHARED_SHOTS));
+        mDetailImageLayout.load((Shots) getIntent().getSerializableExtra(EXTRA_SHOT));
     }
 
 

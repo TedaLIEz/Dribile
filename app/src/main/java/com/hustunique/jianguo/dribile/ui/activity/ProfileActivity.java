@@ -58,7 +58,7 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
     @Bind(R.id.animator)
     ViewAnimator mAnimator;
 
-    public static final String USER = "user";
+
     private ProfilePresenter mProfilePresenter;
 
     @Override
@@ -71,7 +71,7 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
             Uri uri = intent.getData();
             mProfilePresenter = new ProfilePresenter(uri.getLastPathSegment());
         } else {
-            User user = (User) getIntent().getSerializableExtra(USER);
+            User user = (User) getIntent().getSerializableExtra(EXTRA_USER);
             if (user == null) {
                 throw new IllegalArgumentException("you must give a user to show profile");
             }
@@ -209,14 +209,14 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
     @Override
     public void goToShotList(User model) {
         Intent intent = new Intent(ProfileActivity.this, ShotListActivity.class);
-        intent.putExtra(ShotListActivity.USER, model);
+        intent.putExtra(EXTRA_USER, model);
         startActivity(intent);
     }
 
     @Override
     public void goToLikeList(User model) {
         Intent intent = new Intent(this, LikeListActivity.class);
-        intent.putExtra(LikeListActivity.USER, model);
+        intent.putExtra(EXTRA_USER, model);
         startActivity(intent);
     }
 

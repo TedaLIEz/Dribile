@@ -14,7 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class BucketDetailActivity extends BaseActivity {
-    public static final String BUCKET = "bucket";
+    public static final String EXTRA_BUCKET = "extra_bucket";
     @Bind(R.id.bucket_detail)
     TextView mDescription;
     @Bind(R.id.bucket_name)
@@ -30,7 +30,7 @@ public class BucketDetailActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        bucket = (Buckets) getIntent().getSerializableExtra(BUCKET);
+        bucket = (Buckets) getIntent().getSerializableExtra(EXTRA_BUCKET);
         if (bucket == null) {
             throw new NullPointerException("you must give a bucket!");
         }

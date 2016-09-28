@@ -60,7 +60,7 @@ public class ShotCommentActivity extends BaseActivity implements CommentListView
         setContentView(R.layout.activity_shot_comment);
 
         ButterKnife.bind(this);
-        Shots mShot = (Shots) getIntent().getSerializableExtra(SHOT);
+        Shots mShot = (Shots) getIntent().getSerializableExtra(EXTRA_SHOT);
         if (mShot == null || TextUtils.isEmpty(mShot.getComments_url())) {
             throw new NullPointerException("shot in ShotCommentActivity mustn't be null");
         }

@@ -11,7 +11,7 @@ import com.hustunique.jianguo.dribile.presenters.strategy.GetShotsFromBucketStra
  * Fragment for listing shots in the bucket
  */
 public class BucketInShotFragment extends BaseShotListFragment {
-    public static final String BUCKET = "bucket";
+    public static final String EXTRA_BUCKET = "extra_bucket";
 
     public BucketInShotFragment() {
 
@@ -20,7 +20,7 @@ public class BucketInShotFragment extends BaseShotListFragment {
     public static BucketInShotFragment newInstance(Buckets buckets) {
         BucketInShotFragment bucketInShotFragment = new BucketInShotFragment();
         Bundle bundle = new Bundle();
-        bundle.putSerializable(BUCKET, buckets);
+        bundle.putSerializable(EXTRA_BUCKET, buckets);
         bucketInShotFragment.setArguments(bundle);
         return bucketInShotFragment;
     }
@@ -29,7 +29,7 @@ public class BucketInShotFragment extends BaseShotListFragment {
     @Override
     protected void setStrategy(ShotListPresenter shotListPresenter) {
         if (getArguments() != null) {
-            Buckets mBucket = (Buckets) getArguments().getSerializable(BUCKET);
+            Buckets mBucket = (Buckets) getArguments().getSerializable(EXTRA_BUCKET);
             shotListPresenter.setLoadStrategy(new GetShotsFromBucketStrategy(mBucket));
         }
     }

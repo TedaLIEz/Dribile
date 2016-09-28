@@ -160,8 +160,8 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
                 String id = uri.getLastPathSegment().split("-")[0];
                 mShotInfoPresenter = new ShotInfoPresenter(id);
                 mCommentPresenter = new ShotInfoCommentsPresenter(id);
-            } else if (intent.getSerializableExtra("shots") != null) {
-                mShot = (Shots) getIntent().getSerializableExtra("shots");
+            } else if (intent.getSerializableExtra(EXTRA_SHOT) != null) {
+                mShot = (Shots) getIntent().getSerializableExtra(EXTRA_SHOT);
                 mShotInfoPresenter = new ShotInfoPresenter(mShot);
                 mCommentPresenter = new ShotInfoCommentsPresenter(mShot);
             }
@@ -390,7 +390,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     @Override
     public void goToDetailView(Shots model) {
         Intent intent = new Intent(ShotInfoActivity.this, ImageDetailActivity.class);
-        intent.putExtra(ImageDetailActivity.SHARED_SHOTS, model);
+        intent.putExtra(EXTRA_SHOT, model);
         startActivity(intent);
     }
 
@@ -402,7 +402,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     @Override
     public void goToProfile(User user) {
         Intent intent = new Intent(ShotInfoActivity.this, ProfileActivity.class);
-        intent.putExtra(ProfileActivity.USER, user);
+        intent.putExtra(EXTRA_USER, user);
         startActivity(intent);
     }
 

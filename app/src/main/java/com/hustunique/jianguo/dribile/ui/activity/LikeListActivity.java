@@ -16,7 +16,6 @@ public class LikeListActivity extends BaseActivity {
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     private User mUser;
-    public static final String USER = "user";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +26,7 @@ public class LikeListActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationIcon(AppData.getDrawable(R.drawable.ic_close_white_24dp));
-        mUser = (User) getIntent().getSerializableExtra(USER);
+        mUser = (User) getIntent().getSerializableExtra(EXTRA_USER);
         getSupportActionBar().setTitle(String.format(AppData.getString(R.string.user_likes), mUser.getName()));
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container,
