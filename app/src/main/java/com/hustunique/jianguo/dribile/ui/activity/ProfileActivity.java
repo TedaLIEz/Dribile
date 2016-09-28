@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,6 +16,7 @@ import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.presenters.ProfilePresenter;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.ProfileView;
 import com.squareup.picasso.Picasso;
 
@@ -28,6 +28,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileActivity extends BaseActivity implements ProfileView {
     private static final int POS_LOADED = 0;
     private static final int POS_LOADING = 1;
+    private static final String TAG = "ProfileActivity";
     @Bind(R.id.user_bio)
     TextView mBio;
     @Bind(R.id.user_followers_count)
@@ -221,7 +222,7 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
 
     @Override
     public void onError(Throwable throwable) {
-        Log.wtf("driclient", throwable);
+        Logger.wtf(TAG, throwable);
     }
 
     @Override

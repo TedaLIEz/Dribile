@@ -6,8 +6,6 @@ import com.google.gson.Gson;
 import com.hustunique.jianguo.dribile.models.Shots;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Callable;
 

@@ -17,12 +17,12 @@ import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.LikeListPresenter;
-import com.hustunique.jianguo.dribile.presenters.ShotListPresenter;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetLikesByIdStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetMyLikesStrategy;
 import com.hustunique.jianguo.dribile.ui.adapters.ShotsAdapter;
 import com.hustunique.jianguo.dribile.ui.widget.PaddingItemDecoration;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.LikeListView;
 
 import java.util.List;
@@ -41,7 +41,7 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
  */
 public class LikesListFragment extends BaseFragment implements LikeListView, IFabClickFragment, SwipeRefreshLayout.OnRefreshListener {
     public static final String ID = "id";
-
+    public static final String TAG = "LikesListFragment";
     private LikeListPresenter mLikeListPresenter;
 
 
@@ -213,7 +213,7 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
 
     @Override
     public void onError(Throwable e) {
-        Log.wtf("driclient", e);
+        Logger.wtf(TAG, e);
     }
 
     @Override
@@ -268,7 +268,7 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
                     @Override
                     public void onClick(View view) {
                         mLikeListPresenter.restoreShot(pos);
-                        Log.i("dribbble", "undo with pos " + pos);
+                        Log.i(TAG, "undo with pos " + pos);
                     }
                 });
         snackbar.show();

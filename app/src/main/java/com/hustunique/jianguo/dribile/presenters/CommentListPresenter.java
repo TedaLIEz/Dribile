@@ -2,7 +2,6 @@ package com.hustunique.jianguo.dribile.presenters;
 
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.am.MyAccountManager;
@@ -12,22 +11,20 @@ import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetCommentsByIdStrategy;
 import com.hustunique.jianguo.dribile.service.DribbbleShotsService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.CommentListView;
-
-import org.w3c.dom.Comment;
 
 import java.util.List;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by JianGuo on 5/6/16.
  * Presenter for listing comments
  */
 public class CommentListPresenter extends BaseListPresenter<Comments, CommentListView> {
+    private static final String TAG = "CommentListPresenter";
     private final Shots mShot;
     public CommentListPresenter(Shots shots) {
         super();
@@ -75,7 +72,7 @@ public class CommentListPresenter extends BaseListPresenter<Comments, CommentLis
                 .subscribe(new Subscriber<Comments>() {
                     @Override
                     public void onCompleted() {
-                        Log.i("driclient", "send comment success!");
+                        Logger.i(TAG, "send comment success!");
                     }
 
                     @Override

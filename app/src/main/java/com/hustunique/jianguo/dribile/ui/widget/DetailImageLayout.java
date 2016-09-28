@@ -4,7 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -14,6 +13,7 @@ import com.felipecsl.gifimageview.library.GifImageView;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.service.GifImageLoader;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -23,6 +23,7 @@ import com.squareup.picasso.Picasso;
  */
 public class DetailImageLayout extends FrameLayout {
 
+    private static final String TAG = "DetailImageLayout";
     private Context ctx;
     private ProgressBar mProgressBar;
     private GifImageView mGif;
@@ -56,7 +57,7 @@ public class DetailImageLayout extends FrameLayout {
     }
 
     public void load(@NonNull Shots shots) {
-        Log.i("driclient", "loading url " + shots.getJson());
+        Logger.i(TAG, "loading url " + shots.getJson());
         if (CommonUtils.isGif(shots)) {
             new GifImageLoader(ctx).display(shots.getImages().getHidpi() == null ? shots.getImages().getNormal() : shots.getImages().getHidpi(), mGif).callback(new GifImageLoader.Callback() {
                 @Override

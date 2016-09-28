@@ -2,7 +2,6 @@ package com.hustunique.jianguo.dribile.presenters;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.app.AppData;
@@ -12,6 +11,7 @@ import com.hustunique.jianguo.dribile.service.DribbbleBucketsService;
 import com.hustunique.jianguo.dribile.service.DribbbleUserService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.BucketInShotListView;
 
@@ -30,6 +30,7 @@ import rx.schedulers.Schedulers;
  * Show buckets by shots' id
  */
 public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInShotListView> {
+    private static final String TAG = "ShotBucketPresenter";
     private boolean isLoadingData = false;
     protected static final String SHOT = "shot";
     private Shots mShot;
@@ -71,7 +72,7 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInSh
                 .subscribe(new Subscriber<List<Buckets>>() {
                     @Override
                     public void onCompleted() {
-                        Log.i("driclient", "load buckets successfully");
+                        Logger.i(TAG, "load buckets successfully");
                         isLoadingData = false;
                     }
 
@@ -81,7 +82,7 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInSh
                             HttpException exception = (HttpException) e;
                             view().onError(exception);
                         }
-                        Log.wtf("driclient", e);
+                        Logger.wtf(TAG, e);
                     }
 
                     @Override
@@ -106,7 +107,7 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInSh
                                 view().showEmpty();
                             }
                         } else {
-                            Log.e("driclient" ,"delete bucket " + bucket.getId() + " failed");
+                            Logger.e(TAG ,"delete bucket " + bucket.getId() + " failed");
                         }
                     }
                 });
@@ -125,7 +126,7 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInSh
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.wtf("driclient", e);
+                        Logger.wtf(TAG, e);
                     }
 
                     @Override
@@ -141,7 +142,7 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInSh
 
     public void addToBucket(final Buckets bucket) {
         if (mShot == null) {
-            Log.e("driclient", "shot must given!");
+            Logger.e(TAG, "shot must given!");
             return;
 
         }
@@ -155,7 +156,7 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInSh
                         if (responseBodyResponse.code() == 204) {
                             view().addToBucket(bucket);
                         } else {
-                            Log.e("driclient", "add to bucket failed " + responseBodyResponse.code());
+                            Logger.e(TAG, "add to bucket failed " + responseBodyResponse.code());
                         }
                     }
                 });

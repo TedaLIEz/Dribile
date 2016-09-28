@@ -1,17 +1,15 @@
 package com.hustunique.jianguo.dribile.presenters;
 
-import android.util.Log;
-
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.strategy.ICacheDataStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.ILoadListDataStrategy;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.ILoadListView;
 
 import java.util.List;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import rx.subjects.BehaviorSubject;
 
@@ -20,6 +18,8 @@ import rx.subjects.BehaviorSubject;
  * Presenter for listing shots.
  */
 public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Shots>> {
+
+    private static final String TAG = "ShotListPresenter";
 
     public ShotListPresenter() {
         super();
@@ -39,7 +39,7 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
 
     @Override
     public void refresh() {
-        Log.i("driclient", "load data executed from network");
+        Logger.i(TAG, "load data executed from network");
         final BehaviorSubject<List<Shots>> rst = BehaviorSubject.create();
         mLoadDel.loadData().observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
@@ -56,7 +56,7 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
 
                     @Override
                     public void onNext(List<Shots> shotses) {
-                        Log.e("driclient", "cache new data " + shotses.size());
+                        Logger.i(TAG, "cache new data " + shotses.size());
                         mLoadDel.cacheNew(shotses);
                         rst.onNext(shotses);
                     }
@@ -66,7 +66,7 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
                 .subscribe(new LoadingListSubscriber() {
                     @Override
                     public void onNext(List<Shots> shotses) {
-                        Log.e("driclient", "load data from refresh " + shotses.size());
+                        Logger.i(TAG, "load data from refresh " + shotses.size());
                         setModel(shotses);
                     }
                 });
@@ -93,7 +93,7 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
                         @Override
                         public void onNext(List<Shots> shotses) {
                             setModel(shotses);
-                            Log.e("driclient", "load from database" + shotses.size());
+                            Logger.i(TAG, "load from database" + shotses.size());
                         }
                     });
         }
@@ -128,7 +128,7 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
 
                     @Override
                     public void onNext(List<Shots> shotses) {
-                        Log.e("driclient", "cache loadMore data " + shotses.size());
+                        Logger.i(TAG, "cache loadMore data " + shotses.size());
                         mLoadDel.cacheMore(shotses);
                         rst.onNext(shotses);
                     }
@@ -138,7 +138,7 @@ public class ShotListPresenter extends BaseListPresenter<Shots, ILoadListView<Sh
                 .subscribe(new LoadingListSubscriber() {
                     @Override
                     public void onNext(List<Shots> shotses) {
-                        Log.e("driclient", "load loadMore data " + shotses.size());
+                        Logger.i(TAG, "load loadMore data " + shotses.size());
                         model.addAll(shotses);
                         view().showData(model);
                     }

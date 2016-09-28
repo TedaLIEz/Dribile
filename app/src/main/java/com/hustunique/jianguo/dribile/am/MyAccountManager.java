@@ -12,6 +12,7 @@ import com.hustunique.jianguo.dribile.models.OAuthUser;
 import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.service.DribbbleUserService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
+import com.hustunique.jianguo.dribile.utils.Logger;
 
 import rx.Subscriber;
 import rx.schedulers.Schedulers;
@@ -23,6 +24,7 @@ import rx.schedulers.Schedulers;
 public class MyAccountManager {
     private static final String USER_DATA = "USER_DATA";
     private static final String USER_TOKEN = "USER_TOKEN";
+    private static final String TAG = "MyAccountManager";
     private static AccountManager accountManager = AccountManager.get(AppData.getContext());
     private static Account currAccount;
     private static OAuthUser currUser;
@@ -87,7 +89,7 @@ public class MyAccountManager {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.wtf("driclient", e);
+                        Logger.wtf(TAG, e);
                     }
 
                     @Override

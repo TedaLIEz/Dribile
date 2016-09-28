@@ -13,9 +13,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.BaseColumns;
-import android.util.Log;
 
 import com.hustunique.jianguo.dribile.app.AppData;
+import com.hustunique.jianguo.dribile.utils.Logger;
 
 
 /**
@@ -173,7 +173,7 @@ public class DataProvider extends ContentProvider {
                 }
                 db.setTransactionSuccessful();
             } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
+                Logger.e(TAG, e.getMessage());
             } finally {
                 db.endTransaction();
             }
@@ -201,7 +201,7 @@ public class DataProvider extends ContentProvider {
                 getContext().getContentResolver().notifyChange(uri, null);
                 return values.length;
             } catch (Exception e) {
-                Log.e(TAG, e.getMessage());
+                Logger.e(TAG, e.getMessage());
             } finally {
                 db.endTransaction();
             }

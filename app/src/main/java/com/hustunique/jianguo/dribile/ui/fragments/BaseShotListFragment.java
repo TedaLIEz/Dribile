@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import com.hustunique.jianguo.dribile.presenters.ShotListPresenter;
 import com.hustunique.jianguo.dribile.ui.adapters.ShotsAdapter;
 import com.hustunique.jianguo.dribile.ui.widget.PaddingItemDecoration;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.ILoadListView;
 
 import java.util.List;
@@ -34,7 +34,7 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
  */
 public abstract class BaseShotListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,ILoadListView<Shots> {
     private ShotsAdapter mAdapter;
-
+    private static final String TAG = "BaseShotListFragment";
     private GridLayoutManager mGridLayoutManager;
 
     @BindColor(R.color.colorAccent)
@@ -179,7 +179,7 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
 
     @Override
     public void onError(Throwable e) {
-        Log.wtf("driclient", e);
+        Logger.wtf(TAG, e);
     }
 
     @Override

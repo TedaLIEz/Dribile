@@ -15,7 +15,6 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,10 +38,10 @@ import com.hustunique.jianguo.dribile.ui.adapters.CommentsAdapter;
 import com.hustunique.jianguo.dribile.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.dribile.ui.widget.HTMLTextView;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.ShotInfoCommentView;
 import com.hustunique.jianguo.dribile.views.ShotInfoView;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.RequestCreator;
 import com.squareup.picasso.Target;
 import com.wefika.flowlayout.FlowLayout;
 
@@ -61,6 +60,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
 
     private final static int POS_SHOT_TAGS = 0;
     private final static int POS_TAGS_SHOW_EMPTY = 1;
+    private static final String TAG = "ShotInfoActivity";
     @Bind(R.id.rv_comments)
     RecyclerView mComments;
 
@@ -253,7 +253,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
                 @Override
                 public void onGenerated(Palette palette) {
                     vibrantColor = palette.getVibrantColor(AppData.getColor(R.color.colorPrimaryDark));
-                    //TODO: I hate you Google!
+                    //I hate you Google!
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         getWindow().setStatusBarColor(vibrantColor);
                     }
@@ -469,7 +469,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
 
     @Override
     public void onError(Throwable e) {
-        Log.wtf("driclient", e);
+        Logger.wtf(TAG, e);
         Toast.makeText(this, "Error loading shots", Toast.LENGTH_SHORT).show();
         finish();
     }

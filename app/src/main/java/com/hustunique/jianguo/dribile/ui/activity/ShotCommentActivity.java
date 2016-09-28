@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -21,6 +20,7 @@ import com.hustunique.jianguo.dribile.presenters.CommentListPresenter;
 import com.hustunique.jianguo.dribile.ui.adapters.CommentsAdapter;
 import com.hustunique.jianguo.dribile.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.CommentListView;
 import com.squareup.picasso.Picasso;
 
@@ -35,6 +35,7 @@ public class ShotCommentActivity extends BaseActivity implements CommentListView
     private static final int POS_LOADING = 0;
     private static final int POS_SHOW_DATA = 1;
     private static final int POS_EMPTY = 2;
+    private static final String TAG = "ShotCommentActivity";
 
     @Bind(R.id.comments_count)
     TextView mCommentsTitle;
@@ -108,7 +109,7 @@ public class ShotCommentActivity extends BaseActivity implements CommentListView
 
     @Override
     public void onAddCommentError(Throwable e) {
-        Log.wtf("driclient", e);
+        Logger.wtf(TAG, e);
         mEditText.setText("");
     }
 
@@ -140,7 +141,7 @@ public class ShotCommentActivity extends BaseActivity implements CommentListView
 
     @Override
     public void onError(Throwable e) {
-        Log.wtf("driclient", e);
+        Logger.wtf(TAG, e);
     }
 
     @Override

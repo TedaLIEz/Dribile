@@ -11,8 +11,6 @@ import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 
@@ -25,6 +23,7 @@ import com.hustunique.jianguo.dribile.ui.adapters.BucketsAdapter;
 import com.hustunique.jianguo.dribile.ui.widget.AddBucketDialog;
 import com.hustunique.jianguo.dribile.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.BucketInShotListView;
 
 import java.util.List;
@@ -40,6 +39,7 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
     private static final int POS_LIST = 1;
     private static final int POS_LOADING = 0;
     private static final int POS_EMPTY = 2;
+    private static final String TAG = "ShotBucketActivity";
     @Bind(R.id.rv_buckets)
     RecyclerView mBuckets;
     @Bind(R.id.fab)
@@ -120,7 +120,7 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
         dialog.setOnPositiveButton("Yes", new AddBucketDialog.OnPositiveButtonListener() {
             @Override
             public void onClick(Dialog dialog, String name, String description) {
-                Log.i("driclient", "get name " + name + "get description " + description);
+                Logger.i(TAG, "get name " + name + "get description " + description);
                 mShotBucketPresenter.createBucket(name, description);
                 dialog.dismiss();
             }

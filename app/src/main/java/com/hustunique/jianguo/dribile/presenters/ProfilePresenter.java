@@ -3,7 +3,6 @@ package com.hustunique.jianguo.dribile.presenters;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.models.User;
@@ -12,6 +11,7 @@ import com.hustunique.jianguo.dribile.presenters.strategy.ILoadDataStrategy;
 import com.hustunique.jianguo.dribile.service.DribbbleUserService;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.utils.NetUtils;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.ProfileView;
@@ -26,6 +26,7 @@ import rx.schedulers.Schedulers;
  * Created by JianGuo on 5/8/16.
  */
 public class ProfilePresenter extends BasePresenter<User, ProfileView> {
+    private static final String TAG = "ProfilePresenter";
     private ILoadDataStrategy<User> strategy;
     private boolean isLoaded;
     public ProfilePresenter(String id) {
@@ -78,7 +79,7 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
                             isFollowed = false;
                             view().unfollowed();
                         } else {
-                            Log.e("driclient", "network error " + responseBodyResponse.code());
+                            Logger.e(TAG, "network error " + responseBodyResponse.code());
                         }
                     }
                 });

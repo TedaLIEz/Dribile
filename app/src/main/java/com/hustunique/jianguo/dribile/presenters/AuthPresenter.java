@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.hustunique.jianguo.dribile.am.AccountGeneral;
 import com.hustunique.jianguo.dribile.am.MyAccountManager;
@@ -20,12 +19,11 @@ import com.hustunique.jianguo.dribile.service.DribbbleUserService;
 import com.hustunique.jianguo.dribile.service.api.Constants;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.service.factories.AuthServiceFactory;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.AuthView;
 
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by JianGuo on 5/1/16.
@@ -41,6 +39,7 @@ public class AuthPresenter extends BasePresenter<OAuthUser, AuthView> {
     public static final int AUTH_CANCELED = 0x11111100;
     public static final String ERR_AUTH_MSG = "ERR_AUTH_MSG";
     public static final String TOKEN = "TOKEN";
+    private static final String TAG = "AuthPresenter";
     public static final int AUTH_OK = 0x11111101;
 
     private String accountType;
@@ -96,7 +95,7 @@ public class AuthPresenter extends BasePresenter<OAuthUser, AuthView> {
 
                         @Override
                         public void onNext(AccessToken token) {
-                            Log.i("driclient", "successfully get token -> " + token.toString()
+                            Logger.i(TAG, "successfully get token -> " + token.toString()
                                     + "\n scope -> " + token.getScope());
                             AuthPresenter.this.token = token;
                             onAuthSuccess();
@@ -108,7 +107,7 @@ public class AuthPresenter extends BasePresenter<OAuthUser, AuthView> {
     }
 
     private void onAuthSuccess() {
-        Log.i("driclient", "get token -> start get user");
+        Logger.i(TAG, "get token -> start get user");
         DribbbleUserService dribbbleUserService = ApiServiceFactory.createService(DribbbleUserService.class, token);
         dribbbleUserService.getAuthUser()
                 .compose(new ObservableTransformer<User>())
@@ -140,7 +139,7 @@ public class AuthPresenter extends BasePresenter<OAuthUser, AuthView> {
                         authUser.setUser(user);
                         MyAccountManager.addAccount(account, authUser);
                         MyAccountManager.setCurrentUser(model);
-                        Log.i("driclient", " get user " + authUser.getJson() + "successfully");
+                        Logger.i(TAG, " get user " + authUser.getJson() + "successfully");
                         setModel(authUser);
                     }
                 });

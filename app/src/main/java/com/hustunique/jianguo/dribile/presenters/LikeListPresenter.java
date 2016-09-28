@@ -1,15 +1,13 @@
 package com.hustunique.jianguo.dribile.presenters;
 
-import android.util.Log;
-
 import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.strategy.ICacheDataStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.ILoadListDataStrategy;
 import com.hustunique.jianguo.dribile.service.DribbbleLikeService;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
-import com.hustunique.jianguo.dribile.views.ILoadListView;
 import com.hustunique.jianguo.dribile.views.LikeListView;
 
 import java.util.List;
@@ -28,6 +26,7 @@ import rx.subjects.BehaviorSubject;
  */
 public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
 
+    private static final String TAG = "LikeListPresenter";
     private Shots unlikeShot;
 
     public LikeListPresenter() {
@@ -55,18 +54,18 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
                             view().showUndo(pos);
                             model.remove(pos);
                             MyAccountManager.updateUser();
-                            Log.i("dribbble", "unlike success");
+                            Logger.i(TAG, "unlike success");
                         } else if (responseBodyResponse.code() == 404) {
                             model.remove(pos);
                         } else {
                             view().restoreShot(pos, unlikeShot);
-                            Log.i("dribbble", responseBodyResponse.code() + "");
+                            Logger.i(TAG, responseBodyResponse.code() + "");
                         }
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        Log.i("dribbble", "unlike error");
+                        Logger.e(TAG, "unlike error");
                         view().restoreShot(pos, unlikeShot);
                     }
                 });
@@ -79,7 +78,7 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
 
     @Override
     public void refresh() {
-        Log.i("driclient", "load data executed from network");
+        Logger.i(TAG, "load data executed from network");
         final BehaviorSubject<List<Shots>> rst = BehaviorSubject.create();
         mLoadDel.loadData().observeOn(Schedulers.io())
                 .subscribeOn(Schedulers.io())
@@ -96,7 +95,7 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
 
                     @Override
                     public void onNext(List<Shots> shotses) {
-                        Log.e("driclient", "cache new data " + shotses.size());
+                        Logger.i(TAG, "cache new data " + shotses.size());
                         mLoadDel.cacheNew(shotses);
                         rst.onNext(shotses);
                     }
@@ -106,7 +105,7 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
                 .subscribe(new LoadingListSubscriber() {
                     @Override
                     public void onNext(List<Shots> shotses) {
-                        Log.e("driclient", "load data from refresh " + shotses.size());
+                        Logger.i(TAG, "load data from refresh " + shotses.size());
                         setModel(shotses);
                     }
                 });
@@ -133,7 +132,7 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
                         @Override
                         public void onNext(List<Shots> shotses) {
                             setModel(shotses);
-                            Log.e("driclient", "load from database" + shotses.size());
+                            Logger.e(TAG, "load from database" + shotses.size());
                         }
                     });
         }
@@ -168,7 +167,7 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
 
                     @Override
                     public void onNext(List<Shots> shotses) {
-                        Log.e("driclient", "cache loadMore data " + shotses.size());
+                        Logger.i(TAG, "cache loadMore data " + shotses.size());
                         mLoadDel.cacheMore(shotses);
                         rst.onNext(shotses);
                     }
@@ -178,7 +177,7 @@ public class LikeListPresenter extends BaseListPresenter<Shots, LikeListView> {
                 .subscribe(new LoadingListSubscriber() {
                     @Override
                     public void onNext(List<Shots> shotses) {
-                        Log.e("driclient", "load loadMore data " + shotses.size());
+                        Logger.i(TAG, "load loadMore data " + shotses.size());
                         model.addAll(shotses);
                         view().showData(model);
                     }

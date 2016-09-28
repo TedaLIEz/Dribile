@@ -2,20 +2,17 @@ package com.hustunique.jianguo.dribile.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.presenters.SettingPresenter;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.SettingView;
 
 import butterknife.Bind;
@@ -25,6 +22,7 @@ import butterknife.OnClick;
 public class SettingActivity extends BaseActivity implements SettingView {
 
     private static final int SETTING = 0x000000;
+    private static final String TAG = "SettingActivity";
     @Bind(R.id.toolbar)
     Toolbar mToolbar;
     @Bind(R.id.layout_clear)
@@ -123,7 +121,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     @Override
     public void onClearFailed(Exception e) {
-        Log.wtf("driclient", e);
+        Logger.wtf(TAG, e);
     }
 
     @Override

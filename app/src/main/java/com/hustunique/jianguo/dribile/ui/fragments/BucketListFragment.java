@@ -40,6 +40,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
     private static final int POS_LIST = 1;
     private static final int POS_EMPTY = 2;
     private static final int POS_LOADING = 0;
+    private static final String TAG = "BucketListFragment";
     @Bind(R.id.rv_buckets)
     RecyclerView mBuckets;
 
@@ -182,7 +183,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
 
     @Override
     public void onError(Throwable e) {
-        Log.wtf("driclient", e);
+        Log.wtf(TAG, e);
         Snackbar.make(mViewAnimator, "Failed to create bucket", Snackbar.LENGTH_SHORT).show();
     }
 

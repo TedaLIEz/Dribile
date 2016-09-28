@@ -1,12 +1,11 @@
 package com.hustunique.jianguo.dribile.presenters;
 
-import android.util.Log;
-
 import com.hustunique.jianguo.dribile.models.Buckets;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetMyBucketStrategy;
 import com.hustunique.jianguo.dribile.service.DribbbleBucketsService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.BucketListView;
 
@@ -24,7 +23,7 @@ import rx.schedulers.Schedulers;
  * Presenter for loading buckets of the auth user.
  */
 public class BucketListPresenter extends BaseListPresenter<Buckets, BucketListView> {
-
+    private static final String TAG = "BucketListPresenter";
 
     public BucketListPresenter() {
         super();
@@ -48,7 +47,7 @@ public class BucketListPresenter extends BaseListPresenter<Buckets, BucketListVi
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.wtf("driclient", e);
+                        Logger.wtf(TAG, e);
                     }
 
                     @Override
@@ -78,7 +77,7 @@ public class BucketListPresenter extends BaseListPresenter<Buckets, BucketListVi
                                 view().showEmpty();
                             }
                         } else {
-                            Log.e("driclient", "delete bucket " + bucket.getId() + " failed");
+                            Logger.e(TAG, "delete bucket " + bucket.getId() + " failed");
                         }
                     }
                 });
