@@ -8,6 +8,7 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.hustunique.jianguo.dribile.R;
+import com.hustunique.jianguo.dribile.app.AppData;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
 import butterknife.Bind;
@@ -82,7 +83,7 @@ public class AddBucketDialog extends Dialog implements View.OnClickListener {
             case R.id.bucket_positive:
                 if (onPositiveButtonListener != null) {
                     if (mName.getText().length() == 0) {
-                        mName.setError("Name should be given");
+                        mName.setError(AppData.getString(R.string.bucket_dialog_error));
                         break;
                     }
                     onPositiveButtonListener.onClick(this, mName.getText().toString(), mDescription.getText().toString());

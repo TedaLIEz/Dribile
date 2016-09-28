@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.hustunique.jianguo.dribile.R;
+import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.LikeListPresenter;
@@ -263,7 +264,7 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
     @Override
     public void showUndo(final int pos) {
         Snackbar snackbar = Snackbar
-                .make(mRecyclerView, "Shots unlike", Snackbar.LENGTH_LONG)
+                .make(mRecyclerView, AppData.getString(R.string.unlike_shots), Snackbar.LENGTH_LONG)
                 .setAction("UNDO", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

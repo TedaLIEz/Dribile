@@ -88,15 +88,15 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
             @Override
             public void onLongClick(final Buckets buckets) {
                 new AlertDialog.Builder(new ContextThemeWrapper(ShotBucketActivity.this, android.R.style.Theme_Holo_Dialog))
-                        .setTitle("Delete bucket?")
-                        .setMessage("Are you sure you want to delete this bucket?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(AppData.getString(R.string.delete_bucket_title))
+                        .setMessage(AppData.getString(R.string.delete_bucket_content))
+                        .setPositiveButton(AppData.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mShotBucketPresenter.deleteBucket(buckets);
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(AppData.getString(R.string.no), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -111,13 +111,13 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
     void initFab() {
         AddBucketDialog dialog = new AddBucketDialog(ShotBucketActivity.this);
         dialog.show();
-        dialog.setOnNegativeButton("No", new AddBucketDialog.OnNegativeButtonListener() {
+        dialog.setOnNegativeButton(AppData.getString(R.string.no), new AddBucketDialog.OnNegativeButtonListener() {
             @Override
             public void onClick(Dialog dialog) {
                 dialog.dismiss();
             }
         });
-        dialog.setOnPositiveButton("Yes", new AddBucketDialog.OnPositiveButtonListener() {
+        dialog.setOnPositiveButton(AppData.getString(R.string.yes), new AddBucketDialog.OnPositiveButtonListener() {
             @Override
             public void onClick(Dialog dialog, String name, String description) {
                 Logger.i(TAG, "get name " + name + "get description " + description);
@@ -170,7 +170,7 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
 
     @Override
     public void onError(Throwable e) {
-        Snackbar.make(mCoordinatorLayout, "Network Exception!", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mCoordinatorLayout, AppData.getString(R.string.network_error), Snackbar.LENGTH_SHORT).show();
     }
 
     @Override

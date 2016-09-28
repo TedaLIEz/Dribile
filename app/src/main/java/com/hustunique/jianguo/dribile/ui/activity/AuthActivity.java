@@ -17,6 +17,7 @@ import android.webkit.CookieSyncManager;
 
 import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.am.MyAccountManager;
+import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.models.OAuthUser;
 import com.hustunique.jianguo.dribile.presenters.AuthPresenter;
@@ -57,7 +58,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
         delegate.setContentView(R.layout.activity_auth);
         ButterKnife.bind(this);
         delegate.setSupportActionBar(mToolbar);
-        delegate.getSupportActionBar().setTitle("Log in to Dribbble");
+        delegate.getSupportActionBar().setTitle(AppData.getString(R.string.log_in_to_dribbble));
         delegate.getSupportActionBar().setDisplayShowTitleEnabled(true);
         mToolbar.setNavigationIcon(R.drawable.ic_close_white_24dp);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -73,7 +74,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
     private void initView() {
         initWebView();
         mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setMessage("Login to Dribbble");
+        mProgressDialog.setMessage(AppData.getString(R.string.log_in_to_dribbble));
 
     }
 

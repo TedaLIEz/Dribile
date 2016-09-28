@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity {
 
         mSearchView.setVoiceSearch(false);
         mSearchView.setHintTextColor(R.color.grey20_color);
-        mSearchView.setHint("Search");
+        mSearchView.setHint(AppData.getString(R.string.search_hint));
         mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -163,7 +163,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onLikesSelected() {
-        mToolbar.setTitle("My likes");
+        mToolbar.setTitle(AppData.getString(R.string.my_likes));
         mFab.hide();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         if (null == mFragmentManager.findFragmentByTag(LikesListFragment.class.getName())) {
@@ -175,7 +175,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void onBucketSelected() {
-        mToolbar.setTitle("My buckets");
+        mToolbar.setTitle(AppData.getString(R.string.my_buckets));
         mFab.show();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         if (null == mFragmentManager.findFragmentByTag(BucketListFragment.class.getName())) {
@@ -188,7 +188,7 @@ public class MainActivity extends BaseActivity {
 
 
     private void onShotsSelected() {
-        mToolbar.setTitle("Shots");
+        mToolbar.setTitle(AppData.getString(R.string.shots_title));
         mFab.hide();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         if (null == mFragmentManager.findFragmentByTag(ShotListFragment.class.getName())) {

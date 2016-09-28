@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.am.MyAccountManager;
+import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.presenters.SettingPresenter;
 import com.hustunique.jianguo.dribile.utils.Logger;
@@ -49,12 +50,12 @@ public class SettingActivity extends BaseActivity implements SettingView {
         setContentView(R.layout.activity_setting);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-        mToolbar.setTitle("Settings");
+//        mToolbar.setTitle("Settings");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
-        getSupportActionBar().setTitle("Settings");
+        getSupportActionBar().setTitle(AppData.getString(R.string.settings));
         if (savedInstanceState == null) {
             mPresenter = new SettingPresenter();
         } else {
@@ -116,7 +117,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     @Override
     public void onClearSuccess() {
-        Snackbar.make(rootView, "Clear all cache success!", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(rootView, AppData.getString(R.string.clear_cache_success), Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -127,7 +128,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
     @Override
     public void logout() {
         MyAccountManager.removeAccount();
-        Toast.makeText(this, "Log out success!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, AppData.getString(R.string.log_out_success), Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
@@ -136,7 +137,7 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     @Override
     public void sendEmailIntent(Intent emailIntent) {
-        startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+        startActivity(Intent.createChooser(emailIntent, AppData.getString(R.string.send_mail)));
     }
 
     @Override

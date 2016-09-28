@@ -10,8 +10,10 @@ import android.graphics.drawable.Drawable;
  */
 public class AppData {
     private static Context sContext;
-    public static String email = "aliezted@gmail.com";
-
+    public static final String EMAIL = "aliezted@gmail.com";
+    public static final String HOME_PAGE = "http://tedaliez.github.io";
+    public static final String TWITTER = "TedaLIEz";
+    public static final String GITHUB = "TedaLIEz/dribile";
     public static void init(Context context) {
         sContext = context;
     }

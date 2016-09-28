@@ -5,9 +5,17 @@
     <string name="label">Dribile</string>
     <string name="drawer_close">close</string>
     <string name="drawer_open">open</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="network_error">Network Error!</string>
 
     <string name="shared_shot_image">shared_shot_image</string>
 
+    <!-- AboutActivity -->
+    <string name="version">Version 0.1</string>
+    <string name="change_log">Changelog</string>
+    <string name="description">Simple Application using dribbble api</string>
+    <string name="connect">Connect to us</string>
 
     <!-- ShotInfoActivity-->
     <string name="no_description">(No Description)</string>
@@ -41,4 +49,39 @@
 
     <!-- LikeListActivity -->
     <string name="user_likes">%1$s\'s likes</string>
+
+    <!-- BaseActivity -->
+    <string name="share_from_dribile">- Shared from Dribile</string>
+
+    <!-- LicenseActivity -->
+    <string name="open_source">Open Source License</string>
+
+
+    <!-- ProfileActivity -->
+    <string name="followed">FOLLOWED</string>
+    <string name="follow">FOLLOW</string>
+    <string name="no_twitter">Wops! He didn\'t leave his twitter here</string>
+
+    <!-- SettingActivity -->
+    <string name="clear_cache_success">Clear all cache success!</string>
+    <string name="log_out_success">Log out success!</string>
+    <string name="send_mail">Send mail…</string>
+    <string name="settings">Settings</string>
+
+    <!-- ShotBucketActivity -->
+    <string name="delete_bucket_title">Delete bucket</string>
+    <string name="delete_bucket_content">Are you sure you want to delete this bucket?</string>
+
+    <!-- ShotInfoActivity -->
+    <string name="load_shots_error">Error loading shots</string>
+    <string name="my_likes">My likes</string>
+    <string name="my_buckets">My buckets</string>
+    <string name="shots_title">Shots</string>
+
+    <!-- LikesListFragment -->
+    <string name="unlike_shots">Unlike shots</string>
+
+    <string name="bucket_dialog_error">Name should be given!</string>
+
+
 </resources>

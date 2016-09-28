@@ -183,17 +183,17 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
 
     @Override
     public void followed() {
-        mFollow.setText("FOLLOWED");
+        mFollow.setText(AppData.getString(R.string.followed));
     }
 
     @Override
     public void unfollowed() {
-        mFollow.setText("FOLLOW");
+        mFollow.setText(AppData.getString(R.string.follow));
     }
 
     @Override
     public void noTwitter() {
-        showMessage("Wops! He didn't leave his twitter here");
+        showMessage(AppData.getString(R.string.no_twitter));
     }
 
     @Override

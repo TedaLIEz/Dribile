@@ -470,7 +470,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     @Override
     public void onError(Throwable e) {
         Logger.wtf(TAG, e);
-        Toast.makeText(this, "Error loading shots", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, AppData.getString(R.string.load_shots_error), Toast.LENGTH_SHORT).show();
         finish();
     }
 

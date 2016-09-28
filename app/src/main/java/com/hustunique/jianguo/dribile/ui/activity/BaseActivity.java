@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.models.Shots;
 
@@ -52,13 +53,12 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void sendSharedIntent(Shots shot) {
-        StringBuffer sb = new StringBuffer();
-        sb.append(shot.getTitle()).append(" - ");
-        sb.append(shot.getHtml_url()).append("\n");
-        sb.append("- Shared from Dribile");
+        String sb = shot.getTitle() + " - " +
+                shot.getHtml_url() + "\n" +
+                AppData.getString(R.string.share_from_dribile);
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, sb.toString());
+        sendIntent.putExtra(Intent.EXTRA_TEXT, sb);
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
     }

@@ -43,7 +43,7 @@ public class SettingPresenter extends BasePresenter<Void, SettingView>{
     public void sendEmail() {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setData(Uri.parse("mailto:"));
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {AppData.email} );
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {AppData.EMAIL} );
         view().sendEmailIntent(emailIntent);
     }
 
