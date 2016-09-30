@@ -3,7 +3,6 @@ package com.hustunique.jianguo.dribile.ui.fragments;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -26,7 +25,7 @@ import com.hustunique.jianguo.dribile.ui.adapters.BucketsAdapter;
 import com.hustunique.jianguo.dribile.ui.viewholders.BucketsViewHolder;
 import com.hustunique.jianguo.dribile.ui.widget.AddBucketDialog;
 import com.hustunique.jianguo.dribile.ui.widget.DividerItemDecoration;
-import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.views.BucketListView;
 
 import java.util.List;
@@ -43,7 +42,6 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
     private static final int POS_EMPTY = 2;
     private static final int POS_LOADING = 0;
     private static final String TAG = "BucketListFragment";
-    public static final String EXTRA_BUCKET = "EXTRA_BUCKET";
     @Bind(R.id.rv_buckets)
     RecyclerView mBuckets;
 
@@ -139,13 +137,10 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
         mAdapter.setOnItemClickListener(new BucketsViewHolder.OnBucketClickListener() {
             @Override
             public void onBucketClick(Buckets model) {
-                showShots(model);
-            }
-
-            private void showShots(Buckets buckets) {
-                Intent intent = new Intent(getActivity(), BucketDetailActivity.class);
-                intent.putExtra(EXTRA_BUCKET, buckets);
-                startActivity(intent);
+                if (model.getShots_count().equals("0")) {
+                    return;
+                }
+                Utils.startActivityWithBucket(getActivity(), BucketDetailActivity.class, model);
             }
         });
         mAdapter.setOnItemLongClickListener(new BucketsViewHolder.OnBucketLongClickListener() {
@@ -187,7 +182,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
     @Override
     public void onError(Throwable e) {
         Log.wtf(TAG, e);
-        Snackbar.make(mViewAnimator, AppData.getString(R.string.create_bucket_fail), Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(getActivity().findViewById(android.R.id.content), AppData.getString(R.string.create_bucket_fail), Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
@@ -204,8 +199,8 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
 
     @Override
     public void removeBucket(Buckets bucket) {
-        Snackbar.make(mViewAnimator,
-                CommonUtils.coloredString(R.string.delete_bucket_success,
+        Snackbar.make(getActivity().findViewById(R.id.fab),
+                Utils.coloredString(R.string.delete_bucket_success,
                         R.color.colorPrimary,
                         bucket.getName()+""),
                 Snackbar.LENGTH_SHORT).show();
@@ -214,8 +209,8 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
 
     @Override
     public void createBucket(Buckets bucket) {
-        Snackbar.make(mViewAnimator,
-                CommonUtils.coloredString(R.string.create_bucket_success,
+        Snackbar.make(getActivity().findViewById(R.id.fab),
+                Utils.coloredString(R.string.create_bucket_success,
                         R.color.colorPrimary,
                         bucket.getName()+""),
                 Snackbar.LENGTH_SHORT).show();

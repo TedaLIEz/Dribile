@@ -23,7 +23,7 @@ import com.hustunique.jianguo.dribile.ui.adapters.BucketsAdapter;
 import com.hustunique.jianguo.dribile.ui.viewholders.BucketsViewHolder;
 import com.hustunique.jianguo.dribile.ui.widget.AddBucketDialog;
 import com.hustunique.jianguo.dribile.ui.widget.DividerItemDecoration;
-import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.BucketInShotListView;
 
@@ -188,7 +188,7 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
     @Override
     public void removeBucket(Buckets bucket) {
         Snackbar.make(mViewAnimator,
-                CommonUtils.coloredString(R.string.delete_bucket_success,
+                Utils.coloredString(R.string.delete_bucket_success,
                         R.color.colorPrimary,
                         bucket.getName()),
                 Snackbar.LENGTH_SHORT).show();
@@ -198,7 +198,7 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
     @Override
     public void createBucket(Buckets bucket) {
         Snackbar.make(mViewAnimator,
-                CommonUtils.coloredString(R.string.create_bucket_success,
+                Utils.coloredString(R.string.create_bucket_success,
                         R.color.colorPrimary,
                         bucket.getName()),
                 Snackbar.LENGTH_SHORT).show();

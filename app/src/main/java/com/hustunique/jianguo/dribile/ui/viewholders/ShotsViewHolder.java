@@ -7,10 +7,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hustunique.jianguo.dribile.R;
-import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.ShotPresenter;
-import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.views.ShotView;
 import com.squareup.picasso.Picasso;
 
@@ -83,7 +82,7 @@ public class ShotsViewHolder extends MvpViewHolder<ShotPresenter> implements Sho
     public void setAnimated(boolean animated) {
         if (animated) {
             mGif.setVisibility(View.VISIBLE);
-            mImage.setColorFilter(CommonUtils.brightIt(-100));
+            mImage.setColorFilter(Utils.brightIt(-100));
         } else {
             mGif.setVisibility(View.INVISIBLE);
         }

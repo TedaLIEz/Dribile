@@ -1,5 +1,7 @@
 package com.hustunique.jianguo.dribile.presenters;
 
+import android.app.usage.NetworkStats;
+
 import com.hustunique.jianguo.dribile.models.Buckets;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetMyBucketStrategy;
 import com.hustunique.jianguo.dribile.service.DribbbleBucketsService;
@@ -65,8 +67,7 @@ public class BucketListPresenter extends BaseListPresenter<Buckets, BucketListVi
     public void deleteBucket(final Buckets bucket) {
         ResponseBodyFactory.createService(DribbbleBucketsService.class)
                 .deleteBucket(bucket.getId())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(new ObservableTransformer<Response<ResponseBody>>())
                 .subscribe(new Action1<Response<ResponseBody>>() {
                     @Override
                     public void call(retrofit2.Response<ResponseBody> responseBodyResponse) {
@@ -87,8 +88,7 @@ public class BucketListPresenter extends BaseListPresenter<Buckets, BucketListVi
     @Override
     public void refresh() {
         mLoadDel.loadData()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(new ObservableTransformer<List<Buckets>>())
                 .subscribe(new LoadingListSubscriber() {
             @Override
             public void onNext(List<Buckets> bucketses) {

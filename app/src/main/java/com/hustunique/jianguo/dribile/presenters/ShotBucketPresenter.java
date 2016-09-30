@@ -1,7 +1,6 @@
 package com.hustunique.jianguo.dribile.presenters;
 
 import android.content.Intent;
-import android.media.ExifInterface;
 import android.support.annotation.NonNull;
 
 import com.hustunique.jianguo.dribile.R;
@@ -14,6 +13,7 @@ import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
+import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.views.BucketInShotListView;
 
 import java.util.List;
@@ -22,9 +22,7 @@ import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava.HttpException;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by JianGuo on 5/3/16.
@@ -33,7 +31,6 @@ import rx.schedulers.Schedulers;
 public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInShotListView> {
     private static final String TAG = "ShotBucketPresenter";
     private boolean isLoadingData = false;
-    protected static final String EXTRA_SHOT = "EXTRA_SHOT";
     private Shots mShot;
 
     public ShotBucketPresenter() {
@@ -42,7 +39,7 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInSh
 
 
     public ShotBucketPresenter(Intent intent) {
-        mShot = (Shots) intent.getSerializableExtra(EXTRA_SHOT);
+        mShot = (Shots) intent.getSerializableExtra(Utils.EXTRA_SHOT);
     }
 
     @Override
@@ -96,8 +93,7 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInSh
     public void deleteBucket(final Buckets bucket) {
         ResponseBodyFactory.createService(DribbbleBucketsService.class)
                 .deleteBucket(bucket.getId())
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(new ObservableTransformer<Response<ResponseBody>>())
                 .subscribe(new Action1<Response<ResponseBody>>() {
                     @Override
                     public void call(retrofit2.Response<ResponseBody> responseBodyResponse) {
@@ -117,8 +113,7 @@ public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInSh
     public void createBucket(String name, String description) {
         ApiServiceFactory.createService(DribbbleBucketsService.class)
                 .createBucket(name, description)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
+                .compose(new ObservableTransformer<Buckets>())
                 .subscribe(new Subscriber<Buckets>() {
                     @Override
                     public void onCompleted() {

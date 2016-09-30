@@ -16,6 +16,7 @@ import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.presenters.ProfilePresenter;
+import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.ProfileView;
 import com.squareup.picasso.Picasso;
@@ -71,7 +72,7 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
             Uri uri = intent.getData();
             mProfilePresenter = new ProfilePresenter(uri.getLastPathSegment());
         } else {
-            User user = (User) getIntent().getSerializableExtra(EXTRA_USER);
+            User user = (User) getIntent().getSerializableExtra(Utils.EXTRA_USER);
             if (user == null) {
                 throw new IllegalArgumentException("you must give a user to show profile");
             }
@@ -208,16 +209,12 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
 
     @Override
     public void goToShotList(User model) {
-        Intent intent = new Intent(ProfileActivity.this, ShotListActivity.class);
-        intent.putExtra(EXTRA_USER, model);
-        startActivity(intent);
+        Utils.startActivityWithUser(this, ShotListActivity.class, model);
     }
 
     @Override
     public void goToLikeList(User model) {
-        Intent intent = new Intent(this, LikeListActivity.class);
-        intent.putExtra(EXTRA_USER, model);
-        startActivity(intent);
+        Utils.startActivityWithUser(this, LikeListActivity.class, model);
     }
 
     @Override

@@ -10,7 +10,7 @@ import com.hustunique.jianguo.dribile.presenters.strategy.GetUserByIdStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.ILoadDataStrategy;
 import com.hustunique.jianguo.dribile.service.DribbbleUserService;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
-import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.utils.NetUtils;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
@@ -18,9 +18,7 @@ import com.hustunique.jianguo.dribile.views.ProfileView;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by JianGuo on 5/8/16.
@@ -61,11 +59,11 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
         view().setBio(model.getBio());
         view().setName(model.getName());
 
-        view().setFollowerCount(CommonUtils.numToK(model.getFollowers_count()));
-        view().setFollowingCount(CommonUtils.numToK(model.getFollowings_count()));
-        view().setLikeCount(CommonUtils.numToK(model.getLikes_count()));
-        view().setLocation(CommonUtils.numToK(model.getLocation()));
-        view().setShotCount(CommonUtils.numToK(model.getShots_count()));
+        view().setFollowerCount(Utils.numToK(model.getFollowers_count()));
+        view().setFollowingCount(Utils.numToK(model.getFollowings_count()));
+        view().setLikeCount(Utils.numToK(model.getLikes_count()));
+        view().setLocation(Utils.numToK(model.getLocation()));
+        view().setShotCount(Utils.numToK(model.getShots_count()));
         ResponseBodyFactory.createService(DribbbleUserService.class)
                 .isFollowed(model.getId())
                 .compose(new ObservableTransformer<Response<ResponseBody>>())
@@ -114,8 +112,7 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
         if (isFollowed) {
             ResponseBodyFactory.createService(DribbbleUserService.class)
                     .unFollow(model.getId())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.newThread())
+                    .compose(new ObservableTransformer<Response<ResponseBody>>())
                     .subscribe(new Action1<Response<ResponseBody>>() {
                         @Override
                         public void call(Response<ResponseBody> responseBodyResponse) {
@@ -129,8 +126,7 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
         } else {
             ResponseBodyFactory.createService(DribbbleUserService.class)
                     .follow(model.getId())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeOn(Schedulers.newThread())
+                    .compose(new ObservableTransformer<Response<ResponseBody>>())
                     .subscribe(new Action1<Response<ResponseBody>>() {
                         @Override
                         public void call(Response<ResponseBody> responseBodyResponse) {

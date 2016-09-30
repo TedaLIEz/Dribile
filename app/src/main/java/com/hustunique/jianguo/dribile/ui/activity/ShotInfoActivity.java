@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -39,7 +38,7 @@ import com.hustunique.jianguo.dribile.ui.adapters.CommentsAdapter;
 import com.hustunique.jianguo.dribile.ui.viewholders.CommentsViewHolder;
 import com.hustunique.jianguo.dribile.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.dribile.ui.widget.HTMLTextView;
-import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.ShotInfoCommentView;
 import com.hustunique.jianguo.dribile.views.ShotInfoView;
@@ -157,13 +156,14 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
         ButterKnife.bind(this);
         Intent intent = getIntent();
         if (savedInstanceState == null) {
+            Object shots = intent.getSerializableExtra(Utils.EXTRA_SHOT);
             if (intent.getAction() != null && intent.getAction().equals(Intent.ACTION_VIEW)) {
                 Uri uri = intent.getData();
                 String id = uri.getLastPathSegment().split("-")[0];
                 mShotInfoPresenter = new ShotInfoPresenter(id);
                 mCommentPresenter = new ShotInfoCommentsPresenter(id);
-            } else if (intent.getSerializableExtra(EXTRA_SHOT) != null) {
-                mShot = (Shots) getIntent().getSerializableExtra(EXTRA_SHOT);
+            } else if (shots != null) {
+                mShot = (Shots) shots;
                 mShotInfoPresenter = new ShotInfoPresenter(mShot);
                 mCommentPresenter = new ShotInfoCommentsPresenter(mShot);
             }
@@ -198,7 +198,6 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     }
 
 
-
     @OnClick(R.id.avatar_shots)
     void goToUser() {
         mShotInfoPresenter.goToUser();
@@ -227,9 +226,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
         commentsAdapter.setOnItemClickListener(new CommentsViewHolder.OnCommentClickListener() {
             @Override
             public void onCommentClick(Comments model) {
-                Intent intent = new Intent(ShotInfoActivity.this, ProfileActivity.class);
-                intent.putExtra(EXTRA_USER, model.getUser());
-                startActivity(intent);
+                Utils.startActivityWithUser(ShotInfoActivity.this, ProfileActivity.class, model.getUser());
             }
         });
         mScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -347,7 +344,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     @Override
     public void setAnimated(boolean animated) {
         if (animated) {
-            mImageView.setColorFilter(CommonUtils.brightIt(-100));
+            mImageView.setColorFilter(Utils.brightIt(-100));
             mImageView.setClickable(false);
             mPlay.setVisibility(View.VISIBLE);
         }
@@ -399,9 +396,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
 
     @Override
     public void goToDetailView(Shots model) {
-        Intent intent = new Intent(ShotInfoActivity.this, ImageDetailActivity.class);
-        intent.putExtra(EXTRA_SHOT, model);
-        startActivity(intent);
+        Utils.startActivityWithShot(this, ShotInfoActivity.class, model);
     }
 
     @Override
@@ -411,14 +406,12 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
 
     @Override
     public void goToProfile(User user) {
-        Intent intent = new Intent(ShotInfoActivity.this, ProfileActivity.class);
-        intent.putExtra(EXTRA_USER, user);
-        startActivity(intent);
+        Utils.startActivityWithUser(this, ProfileActivity.class, user);
     }
 
     @Override
     public void addToBucket(Shots model) {
-        startActivityWithShot(ShotBucketActivity.class, model);
+        Utils.startActivityWithShot(this, ShotBucketActivity.class, model);
         mFabLayout.hide();
     }
 
@@ -498,7 +491,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
 
     @Override
     public void goToMoreComments(Shots shots) {
-        startActivityWithShot(ShotCommentActivity.class, shots);
+        Utils.startActivityWithShot(this, ShotCommentActivity.class, shots);
     }
 
     @Override
@@ -518,7 +511,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
 
     @Override
     public void addComments(Shots model) {
-        startActivityWithShot(ShotCommentActivity.class, model);
+        Utils.startActivityWithShot(this, ShotCommentActivity.class, model);
     }
 
 }

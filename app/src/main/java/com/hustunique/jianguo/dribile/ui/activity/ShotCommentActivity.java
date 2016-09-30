@@ -1,6 +1,5 @@
 package com.hustunique.jianguo.dribile.ui.activity;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -21,7 +20,7 @@ import com.hustunique.jianguo.dribile.presenters.CommentListPresenter;
 import com.hustunique.jianguo.dribile.ui.adapters.CommentsAdapter;
 import com.hustunique.jianguo.dribile.ui.viewholders.CommentsViewHolder;
 import com.hustunique.jianguo.dribile.ui.widget.DividerItemDecoration;
-import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.CommentListView;
 import com.squareup.picasso.Picasso;
@@ -62,7 +61,7 @@ public class ShotCommentActivity extends BaseActivity implements CommentListView
         setContentView(R.layout.activity_shot_comment);
 
         ButterKnife.bind(this);
-        Shots mShot = (Shots) getIntent().getSerializableExtra(EXTRA_SHOT);
+        Shots mShot = (Shots) getIntent().getSerializableExtra(Utils.EXTRA_SHOT);
         if (mShot == null || TextUtils.isEmpty(mShot.getComments_url())) {
             throw new NullPointerException("shot in ShotCommentActivity mustn't be null");
         }
@@ -86,7 +85,7 @@ public class ShotCommentActivity extends BaseActivity implements CommentListView
             @Override
             public void onClick(View v) {
                 mCommentListPresenter.sendComments(mEditText.getText().toString());
-                CommonUtils.hideSoftInputFromWindow(ShotCommentActivity.this);
+                Utils.hideSoftInputFromWindow(ShotCommentActivity.this);
             }
         });
         initCommentsRecyclerView();
@@ -98,9 +97,7 @@ public class ShotCommentActivity extends BaseActivity implements CommentListView
         mAdapter.setOnItemClickListener(new CommentsViewHolder.OnCommentClickListener() {
             @Override
             public void onCommentClick(Comments model) {
-                Intent intent = new Intent(ShotCommentActivity.this, ProfileActivity.class);
-                intent.putExtra(EXTRA_USER, model.getUser());
-                startActivity(intent);
+                Utils.startActivityWithUser(ShotCommentActivity.this, ProfileActivity.class, model.getUser());
             }
         });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);

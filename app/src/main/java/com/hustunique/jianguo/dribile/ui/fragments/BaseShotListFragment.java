@@ -1,6 +1,5 @@
 package com.hustunique.jianguo.dribile.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,7 +18,7 @@ import com.hustunique.jianguo.dribile.ui.activity.ShotInfoActivity;
 import com.hustunique.jianguo.dribile.ui.adapters.ShotsAdapter;
 import com.hustunique.jianguo.dribile.ui.viewholders.ShotsViewHolder;
 import com.hustunique.jianguo.dribile.ui.widget.PaddingItemDecoration;
-import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.ILoadListView;
 
@@ -80,7 +79,7 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shots, container, false);
         ButterKnife.bind(this, view);
-        mProgress.setPadding(0, 0, 0, CommonUtils.getTransparentNavigationBarHeight(getActivity()));
+        mProgress.setPadding(0, 0, 0, Utils.getTransparentNavigationBarHeight(getActivity()));
         initSwipeLayout();
         initRecyclerView();
         return view;
@@ -115,9 +114,7 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
         mAdapter.setOnItemClickListener(new ShotsViewHolder.OnShotClickListener() {
             @Override
             public void onShotClick(Shots model) {
-                Intent intent = new Intent(BaseShotListFragment.this.getActivity(), ShotInfoActivity.class);
-                intent.putExtra(EXTRA_SHOT, model);
-                startActivity(intent);
+                Utils.startActivityWithShot(BaseShotListFragment.this.getActivity(), ShotInfoActivity.class, model);
             }
         });
         configureRecyclerView(mRecyclerView, mShotListPresenter);
@@ -131,7 +128,7 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
                 mRecyclerView.getPaddingTop(),
                 mRecyclerView.getPaddingRight(),
                 mRecyclerView.getPaddingBottom()
-                        + CommonUtils.getTransparentNavigationBarHeight(getActivity()));
+                        + Utils.getTransparentNavigationBarHeight(getActivity()));
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             boolean loading = true;
 

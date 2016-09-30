@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 import com.felipecsl.gifimageview.library.GifImageView;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.service.GifImageLoader;
-import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.utils.Logger;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -58,7 +58,7 @@ public class DetailImageLayout extends FrameLayout {
 
     public void load(@NonNull Shots shots) {
         Logger.i(TAG, "loading url " + shots.getJson());
-        if (CommonUtils.isGif(shots)) {
+        if (Utils.isGif(shots)) {
             new GifImageLoader(ctx).display(shots.getImages().getHidpi() == null ? shots.getImages().getNormal() : shots.getImages().getHidpi(), mGif).callback(new GifImageLoader.Callback() {
                 @Override
                 public void onCompleted() {

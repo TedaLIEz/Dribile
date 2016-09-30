@@ -1,7 +1,5 @@
 package com.hustunique.jianguo.dribile.presenters;
 
-import android.test.ActivityUnitTestCase;
-
 import com.hustunique.jianguo.dribile.models.Comments;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetCommentsByIdStrategy;
@@ -12,9 +10,7 @@ import com.hustunique.jianguo.dribile.views.ShotInfoCommentView;
 
 import java.util.List;
 
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by JianGuo on 5/7/16.

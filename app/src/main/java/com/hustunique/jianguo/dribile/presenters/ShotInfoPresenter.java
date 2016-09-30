@@ -11,15 +11,13 @@ import com.hustunique.jianguo.dribile.service.DribbbleLikeService;
 import com.hustunique.jianguo.dribile.service.DribbbleShotsService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
-import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.ShotInfoView;
 
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by JianGuo on 5/6/16.
@@ -36,7 +34,7 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
         view().setLikeCount(String.format(AppData.getString(R.string.likes), model.getLikes_count()));
         view().setBucketCount(String.format(AppData.getString(R.string.buckets), model.getBuckets_count()));
         view().setDescription(model.getDescription() == null ? AppData.getString(R.string.no_description) : model.getDescription().equals("") ? AppData.getString(R.string.no_description) : model.getDescription());
-        view().setTime(String.format(AppData.getString(R.string.shots_time), CommonUtils.formatDate(model.getCreated_at())));
+        view().setTime(String.format(AppData.getString(R.string.shots_time), Utils.formatDate(model.getCreated_at())));
         view().setShotTitle(model.getTitle());
         view().setUserName(model.getUser().getName());
         if (model.getUser() != null) {

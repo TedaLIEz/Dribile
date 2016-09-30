@@ -1,6 +1,5 @@
 package com.hustunique.jianguo.dribile.ui.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -25,7 +24,7 @@ import com.hustunique.jianguo.dribile.ui.activity.ShotInfoActivity;
 import com.hustunique.jianguo.dribile.ui.adapters.ShotsAdapter;
 import com.hustunique.jianguo.dribile.ui.viewholders.ShotsViewHolder;
 import com.hustunique.jianguo.dribile.ui.widget.PaddingItemDecoration;
-import com.hustunique.jianguo.dribile.utils.CommonUtils;
+import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.LikeListView;
 
@@ -77,7 +76,7 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shots, container, false);
         ButterKnife.bind(this, view);
-        mProgress.setPadding(0, 0, 0, CommonUtils.getTransparentNavigationBarHeight(getActivity()));
+        mProgress.setPadding(0, 0, 0, Utils.getTransparentNavigationBarHeight(getActivity()));
         initSwipeLayout();
         initRecyclerView();
         return view;
@@ -149,9 +148,7 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
         mAdapter.setOnItemClickListener(new ShotsViewHolder.OnShotClickListener() {
             @Override
             public void onShotClick(Shots model) {
-                Intent intent = new Intent(LikesListFragment.this.getActivity(), ShotInfoActivity.class);
-                intent.putExtra(EXTRA_SHOT, model);
-                startActivity(intent);
+                Utils.startActivityWithShot(getActivity(), ShotInfoActivity.class, model);
             }
         });
         configureRecyclerView(mRecyclerView, mLikeListPresenter);
@@ -165,7 +162,7 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
                 mRecyclerView.getPaddingTop(),
                 mRecyclerView.getPaddingRight(),
                 mRecyclerView.getPaddingBottom()
-                        + CommonUtils.getTransparentNavigationBarHeight(getActivity()));
+                        + Utils.getTransparentNavigationBarHeight(getActivity()));
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             boolean loading = true;
 

@@ -9,12 +9,12 @@ import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.models.Buckets;
 import com.hustunique.jianguo.dribile.ui.fragments.BucketInShotFragment;
+import com.hustunique.jianguo.dribile.utils.Utils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class BucketDetailActivity extends BaseActivity {
-    public static final String EXTRA_BUCKET = "EXTRA_BUCKET";
     @Bind(R.id.bucket_detail)
     TextView mDescription;
     @Bind(R.id.bucket_name)
@@ -30,7 +30,7 @@ public class BucketDetailActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-        bucket = (Buckets) getIntent().getSerializableExtra(EXTRA_BUCKET);
+        bucket = (Buckets) getIntent().getSerializableExtra(Utils.EXTRA_BUCKET);
         if (bucket == null) {
             throw new NullPointerException("you must give a bucket!");
         }

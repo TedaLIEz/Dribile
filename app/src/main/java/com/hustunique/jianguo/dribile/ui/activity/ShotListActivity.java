@@ -8,6 +8,7 @@ import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.ui.fragments.ShotListFragment;
+import com.hustunique.jianguo.dribile.utils.Utils;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -26,7 +27,7 @@ public class ShotListActivity extends BaseActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationIcon(AppData.getDrawable(R.drawable.ic_close_white_24dp));
-        mUser = (User) getIntent().getSerializableExtra(EXTRA_USER);
+        mUser = (User) getIntent().getSerializableExtra(Utils.EXTRA_USER);
         getSupportActionBar().setTitle(String.format(AppData.getString(R.string.user_shots), mUser.getName()));
         if (mUser == null) throw new NullPointerException("must give a user!");
         getSupportFragmentManager().beginTransaction()
