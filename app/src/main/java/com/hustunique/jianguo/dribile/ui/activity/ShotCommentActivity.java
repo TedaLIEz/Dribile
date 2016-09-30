@@ -1,5 +1,6 @@
 package com.hustunique.jianguo.dribile.ui.activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +19,7 @@ import com.hustunique.jianguo.dribile.models.Comments;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.CommentListPresenter;
 import com.hustunique.jianguo.dribile.ui.adapters.CommentsAdapter;
+import com.hustunique.jianguo.dribile.ui.viewholders.CommentsViewHolder;
 import com.hustunique.jianguo.dribile.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
 import com.hustunique.jianguo.dribile.utils.Logger;
@@ -93,6 +95,14 @@ public class ShotCommentActivity extends BaseActivity implements CommentListView
     //TODO: incorrect position of recyclerView
     private void initCommentsRecyclerView() {
         mAdapter = new CommentsAdapter(this, R.layout.item_comments);
+        mAdapter.setOnItemClickListener(new CommentsViewHolder.OnCommentClickListener() {
+            @Override
+            public void onCommentClick(Comments model) {
+                Intent intent = new Intent(ShotCommentActivity.this, ProfileActivity.class);
+                intent.putExtra(EXTRA_USER, model.getUser());
+                startActivity(intent);
+            }
+        });
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mComments.setAdapter(new SlideInBottomAnimationAdapter(mAdapter));
         mComments.setLayoutManager(linearLayoutManager);

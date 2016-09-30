@@ -1,5 +1,6 @@
 package com.hustunique.jianguo.dribile.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -20,7 +21,9 @@ import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.LikeListPresenter;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetLikesByIdStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetMyLikesStrategy;
+import com.hustunique.jianguo.dribile.ui.activity.ShotInfoActivity;
 import com.hustunique.jianguo.dribile.ui.adapters.ShotsAdapter;
+import com.hustunique.jianguo.dribile.ui.viewholders.ShotsViewHolder;
 import com.hustunique.jianguo.dribile.ui.widget.PaddingItemDecoration;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
 import com.hustunique.jianguo.dribile.utils.Logger;
@@ -143,6 +146,14 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
 
     private void initRecyclerView() {
         mAdapter = new ShotsAdapter(getActivity(), R.layout.item_shot);
+        mAdapter.setOnItemClickListener(new ShotsViewHolder.OnShotClickListener() {
+            @Override
+            public void onShotClick(Shots model) {
+                Intent intent = new Intent(LikesListFragment.this.getActivity(), ShotInfoActivity.class);
+                intent.putExtra(EXTRA_SHOT, model);
+                startActivity(intent);
+            }
+        });
         configureRecyclerView(mRecyclerView, mLikeListPresenter);
         mRecyclerView.setAdapter(new ScaleInAnimationAdapter(mAdapter));
         mRecyclerView.setHasFixedSize(true);

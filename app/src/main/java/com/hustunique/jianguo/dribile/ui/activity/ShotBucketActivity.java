@@ -20,6 +20,7 @@ import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.models.Buckets;
 import com.hustunique.jianguo.dribile.presenters.ShotBucketPresenter;
 import com.hustunique.jianguo.dribile.ui.adapters.BucketsAdapter;
+import com.hustunique.jianguo.dribile.ui.viewholders.BucketsViewHolder;
 import com.hustunique.jianguo.dribile.ui.widget.AddBucketDialog;
 import com.hustunique.jianguo.dribile.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
@@ -78,22 +79,22 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
         mBuckets.setLayoutManager(linearLayoutManager);
         mBuckets.setAdapter(mAdapter);
         mBuckets.addItemDecoration(new DividerItemDecoration(this, R.drawable.divider));
-        mAdapter.setOnItemClickListener(new BucketsAdapter.OnItemClickListener() {
+        mAdapter.setOnItemClickListener(new BucketsViewHolder.OnBucketClickListener() {
             @Override
-            public void onClick(Buckets buckets) {
-                mShotBucketPresenter.addToBucket(buckets);
+            public void onBucketClick(Buckets model) {
+                mShotBucketPresenter.addToBucket(model);
             }
         });
-        mAdapter.setOnItemLongClickListener(new BucketsAdapter.OnItemLongClickListener() {
+        mAdapter.setOnItemLongClickListener(new BucketsViewHolder.OnBucketLongClickListener() {
             @Override
-            public void onLongClick(final Buckets buckets) {
+            public void onLongClick(final Buckets model) {
                 new AlertDialog.Builder(new ContextThemeWrapper(ShotBucketActivity.this, android.R.style.Theme_Holo_Dialog))
                         .setTitle(AppData.getString(R.string.delete_bucket_title))
                         .setMessage(AppData.getString(R.string.delete_bucket_content))
                         .setPositiveButton(AppData.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mShotBucketPresenter.deleteBucket(buckets);
+                                mShotBucketPresenter.deleteBucket(model);
                             }
                         })
                         .setNegativeButton(AppData.getString(R.string.no), new DialogInterface.OnClickListener() {

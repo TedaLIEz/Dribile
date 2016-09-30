@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -35,6 +36,7 @@ import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.presenters.ShotInfoCommentsPresenter;
 import com.hustunique.jianguo.dribile.presenters.ShotInfoPresenter;
 import com.hustunique.jianguo.dribile.ui.adapters.CommentsAdapter;
+import com.hustunique.jianguo.dribile.ui.viewholders.CommentsViewHolder;
 import com.hustunique.jianguo.dribile.ui.widget.DividerItemDecoration;
 import com.hustunique.jianguo.dribile.ui.widget.HTMLTextView;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
@@ -222,6 +224,14 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
 
     private void initComments() {
         commentsAdapter = new CommentsAdapter(this, R.layout.item_comments);
+        commentsAdapter.setOnItemClickListener(new CommentsViewHolder.OnCommentClickListener() {
+            @Override
+            public void onCommentClick(Comments model) {
+                Intent intent = new Intent(ShotInfoActivity.this, ProfileActivity.class);
+                intent.putExtra(EXTRA_USER, model.getUser());
+                startActivity(intent);
+            }
+        });
         mScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {

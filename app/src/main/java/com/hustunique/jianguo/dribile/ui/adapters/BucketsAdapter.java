@@ -18,24 +18,15 @@ public class BucketsAdapter extends MvpRecyclerListAdapter<Buckets, BucketPresen
 
     @LayoutRes
     int layout;
+    private BucketsViewHolder.OnBucketClickListener onItemClickListener;
+    private BucketsViewHolder.OnBucketLongClickListener onItemLongClickListener;
 
-    public interface OnItemLongClickListener {
-        void onLongClick(Buckets buckets);
-    }
-    public interface OnItemClickListener {
-        void onClick(Buckets buckets);
-    }
-
-
-    private OnItemClickListener onItemClickListener;
-
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+    public void setOnItemClickListener(BucketsViewHolder.OnBucketClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
 
-    public OnItemLongClickListener onItemLongClickListener;
-    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+    public void setOnItemLongClickListener(BucketsViewHolder.OnBucketLongClickListener onItemLongClickListener) {
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
@@ -44,22 +35,8 @@ public class BucketsAdapter extends MvpRecyclerListAdapter<Buckets, BucketPresen
     @Override
     public BucketsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         BucketsViewHolder bucketsViewHolder = new BucketsViewHolder(LayoutInflater.from(mContext).inflate(layout, parent, false));
-        bucketsViewHolder.setListener(new BucketsViewHolder.OnBucketClickListener() {
-            @Override
-            public void onBucketClick(Buckets model) {
-                if (onItemClickListener != null) {
-                    onItemClickListener.onClick(model);
-                }
-            }
-        });
-        bucketsViewHolder.setLongClickListener(new BucketsViewHolder.OnBucketLongClickListener() {
-            @Override
-            public void onLongClick(Buckets model) {
-                if (onItemLongClickListener != null) {
-                    onItemLongClickListener.onLongClick(model);
-                }
-            }
-        });
+        bucketsViewHolder.setListener(onItemClickListener);
+        bucketsViewHolder.setLongClickListener(onItemLongClickListener);
         return bucketsViewHolder;
     }
 

@@ -1,5 +1,6 @@
 package com.hustunique.jianguo.dribile.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,7 +15,9 @@ import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.ShotListPresenter;
+import com.hustunique.jianguo.dribile.ui.activity.ShotInfoActivity;
 import com.hustunique.jianguo.dribile.ui.adapters.ShotsAdapter;
+import com.hustunique.jianguo.dribile.ui.viewholders.ShotsViewHolder;
 import com.hustunique.jianguo.dribile.ui.widget.PaddingItemDecoration;
 import com.hustunique.jianguo.dribile.utils.CommonUtils;
 import com.hustunique.jianguo.dribile.utils.Logger;
@@ -33,6 +36,7 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
  * Base Fragment loading shots.
  */
 public abstract class BaseShotListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,ILoadListView<Shots> {
+
     private ShotsAdapter mAdapter;
     private static final String TAG = "BaseShotListFragment";
     private GridLayoutManager mGridLayoutManager;
@@ -108,6 +112,14 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
 
     private void initRecyclerView() {
         mAdapter = new ShotsAdapter(getActivity(), R.layout.item_shot);
+        mAdapter.setOnItemClickListener(new ShotsViewHolder.OnShotClickListener() {
+            @Override
+            public void onShotClick(Shots model) {
+                Intent intent = new Intent(BaseShotListFragment.this.getActivity(), ShotInfoActivity.class);
+                intent.putExtra(EXTRA_SHOT, model);
+                startActivity(intent);
+            }
+        });
         configureRecyclerView(mRecyclerView, mShotListPresenter);
         mRecyclerView.setAdapter(new ScaleInAnimationAdapter(mAdapter));
         mRecyclerView.setHasFixedSize(true);
