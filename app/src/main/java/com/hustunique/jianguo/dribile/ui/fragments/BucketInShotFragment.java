@@ -11,7 +11,7 @@ import com.hustunique.jianguo.dribile.presenters.strategy.GetShotsFromBucketStra
  * Fragment for listing shots in the bucket
  */
 public class BucketInShotFragment extends BaseShotListFragment {
-    public static final String EXTRA_BUCKET = "extra_bucket";
+    public static final String EXTRA_BUCKET = "EXTRA_BUCKET";
 
     public BucketInShotFragment() {
 

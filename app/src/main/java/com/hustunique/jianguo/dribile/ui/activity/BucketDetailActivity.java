@@ -14,7 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 
 public class BucketDetailActivity extends BaseActivity {
-    public static final String EXTRA_BUCKET = "extra_bucket";
+    public static final String EXTRA_BUCKET = "EXTRA_BUCKET";
     @Bind(R.id.bucket_detail)
     TextView mDescription;
     @Bind(R.id.bucket_name)

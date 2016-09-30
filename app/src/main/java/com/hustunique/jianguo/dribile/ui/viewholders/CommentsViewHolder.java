@@ -42,6 +42,12 @@ public class CommentsViewHolder extends MvpViewHolder<CommentPresenter> implemen
     public CommentsViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        mAvatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onCommentClicked();
+            }
+        });
     }
 
 
@@ -81,7 +87,9 @@ public class CommentsViewHolder extends MvpViewHolder<CommentPresenter> implemen
 
     @Override
     public void goToDetailView(Comments model) {
-
+        if (mOnCommentClickListener != null) {
+            mOnCommentClickListener.onCommentClick(model);
+        }
     }
 
     public interface OnCommentClickListener {

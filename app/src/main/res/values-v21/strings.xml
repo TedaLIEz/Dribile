@@ -82,6 +82,7 @@
     <string name="unlike_shots">Unlike shots</string>
 
     <string name="bucket_dialog_error">Name should be given!</string>
+    <string name="create_bucket_fail">Failed to create bucket</string>
 
 
 </resources>

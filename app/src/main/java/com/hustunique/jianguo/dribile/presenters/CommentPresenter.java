@@ -18,7 +18,7 @@ public class CommentPresenter extends BasePresenter<Comments, CommentView> {
         view().setLikeCount(model.getLikes_count());
     }
 
-    public void onShotClicked() {
+    public void onCommentClicked() {
         if (setupDone()) {
             view().goToDetailView(model);
         }

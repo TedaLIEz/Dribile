@@ -33,7 +33,7 @@ import rx.schedulers.Schedulers;
 public class ShotBucketPresenter extends BasePresenter<List<Buckets>, BucketInShotListView> {
     private static final String TAG = "ShotBucketPresenter";
     private boolean isLoadingData = false;
-    protected static final String EXTRA_SHOT = "extra_shot";
+    protected static final String EXTRA_SHOT = "EXTRA_SHOT";
     private Shots mShot;
 
     public ShotBucketPresenter() {

@@ -16,7 +16,7 @@ import com.hustunique.jianguo.dribile.presenters.strategy.GetShotByIdStrategy;
  * Basic Fragment for loading shots
  */
 public class ShotListFragment extends BaseShotListFragment implements IFabClickFragment {
-    public static final String EXTRA_USER = "extra_user";
+    public static final String EXTRA_USER = "EXTRA_USER";
 
     public ShotListFragment() {
         // Required empty public constructor

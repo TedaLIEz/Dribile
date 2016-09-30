@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.ViewAnimator;
 
 import com.hustunique.jianguo.dribile.R;
+import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.models.Buckets;
 import com.hustunique.jianguo.dribile.presenters.BucketListPresenter;
@@ -41,7 +42,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
     private static final int POS_EMPTY = 2;
     private static final int POS_LOADING = 0;
     private static final String TAG = "BucketListFragment";
-    public static final String EXTRA_BUCKET = "extra_bucket";
+    public static final String EXTRA_BUCKET = "EXTRA_BUCKET";
     @Bind(R.id.rv_buckets)
     RecyclerView mBuckets;
 
@@ -62,13 +63,13 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
     public void onFabClick() {
         AddBucketDialog dialog = new AddBucketDialog(getActivity());
         dialog.show();
-        dialog.setOnNegativeButton("No", new AddBucketDialog.OnNegativeButtonListener() {
+        dialog.setOnNegativeButton(AppData.getString(R.string.no), new AddBucketDialog.OnNegativeButtonListener() {
             @Override
             public void onClick(Dialog dialog) {
                 dialog.dismiss();
             }
         });
-        dialog.setOnPositiveButton("Yes", new AddBucketDialog.OnPositiveButtonListener() {
+        dialog.setOnPositiveButton(AppData.getString(R.string.yes), new AddBucketDialog.OnPositiveButtonListener() {
             @Override
             public void onClick(Dialog dialog, String name, String description) {
                 mBucketListPresenter.createBucket(name, description);
@@ -150,15 +151,15 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
             @Override
             public void onLongClick(final Buckets buckets) {
                 new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), android.R.style.Theme_Holo_Dialog))
-                        .setTitle("Delete bucket?")
-                        .setMessage("Are you sure you want to delete this bucket?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(AppData.getString(R.string.delete_bucket_title))
+                        .setMessage(AppData.getString(R.string.delete_bucket_content))
+                        .setPositiveButton(AppData.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mBucketListPresenter.deleteBucket(buckets);
                             }
                         })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        .setNegativeButton(AppData.getString(R.string.no), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -185,7 +186,7 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
     @Override
     public void onError(Throwable e) {
         Log.wtf(TAG, e);
-        Snackbar.make(mViewAnimator, "Failed to create bucket", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mViewAnimator, AppData.getString(R.string.create_bucket_fail), Snackbar.LENGTH_SHORT).show();
     }
 
     @Override
