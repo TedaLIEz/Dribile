@@ -14,21 +14,14 @@ import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.models.Shots;
 
 public class BaseActivity extends AppCompatActivity {
-    public static final String EXTRA_SHOT = "EXTRA_SHOT";
-    public static final String EXTRA_USER = "EXTRA_USER";
-    protected String getTag() {
-        return getClass().getSimpleName();
-    }
+
+
+    @Deprecated
     protected  void startActivity(Class<? extends BaseActivity> clazz) {
         Intent intent = new Intent(this, clazz);
         startActivity(intent);
     }
 
-    protected void startActivityWithShot(Class<? extends BaseActivity> clazz, Shots shot) {
-        Intent intent = new Intent(this, clazz);
-        intent.putExtra(EXTRA_SHOT, shot);
-        startActivity(intent);
-    }
 
     protected void showMessage(@NonNull final String msg) {
         if (TextUtils.isEmpty(msg)) return;

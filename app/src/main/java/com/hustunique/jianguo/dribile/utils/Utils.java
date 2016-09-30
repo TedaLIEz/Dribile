@@ -2,6 +2,7 @@ package com.hustunique.jianguo.dribile.utils;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -20,7 +21,9 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import com.hustunique.jianguo.dribile.app.AppData;
+import com.hustunique.jianguo.dribile.models.Buckets;
 import com.hustunique.jianguo.dribile.models.Shots;
+import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.ui.activity.BaseActivity;
 
 import java.lang.reflect.Method;
@@ -33,7 +36,11 @@ import java.util.Date;
 /**
  * Created by JianGuo on 4/4/16.
  */
-public class CommonUtils {
+public class Utils {
+
+    public static final String EXTRA_SHOT = "EXTRA_SHOT";
+    public static final String EXTRA_USER = "EXTRA_USER";
+    public static final String EXTRA_BUCKET = "EXTRA_BUCKET";
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static boolean getNavigationBarVisibility(Context context) {
@@ -208,6 +215,24 @@ public class CommonUtils {
         } else {
             return num;
         }
+    }
+
+    public static void startActivityWithShot(Context context, Class<? extends BaseActivity> clazz, Shots shots) {
+        Intent intent = new Intent(context, clazz);
+        intent.putExtra(EXTRA_SHOT, shots);
+        context.startActivity(intent);
+    }
+
+    public static void startActivityWithUser(Context context, Class<? extends BaseActivity> clazz, User user) {
+        Intent intent = new Intent(context, clazz);
+        intent.putExtra(EXTRA_USER, user);
+        context.startActivity(intent);
+    }
+
+    public static void startActivityWithBucket(Context context, Class<? extends BaseActivity> clazz, Buckets buckets) {
+        Intent intent = new Intent(context, clazz);
+        intent.putExtra(EXTRA_BUCKET, buckets);
+        context.startActivity(intent);
     }
 
 

@@ -1,14 +1,12 @@
 package com.hustunique.jianguo.dribile.ui.fragments;
 
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 
 import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.presenters.ShotListPresenter;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetAllShotsStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetShotByIdStrategy;
+import com.hustunique.jianguo.dribile.utils.Utils;
 
 
 /**
@@ -25,7 +23,7 @@ public class ShotListFragment extends BaseShotListFragment implements IFabClickF
     @Override
     protected void setStrategy(ShotListPresenter shotListPresenter) {
         if (getArguments() != null) {
-            User user = (User) getArguments().getSerializable(EXTRA_USER);
+            User user = (User) getArguments().getSerializable(Utils.EXTRA_USER);
             shotListPresenter.setLoadStrategy(new GetShotByIdStrategy(user));
         } else {
             GetAllShotsStrategy getAllShotsStrategy = new GetAllShotsStrategy();
@@ -39,7 +37,7 @@ public class ShotListFragment extends BaseShotListFragment implements IFabClickF
 
     public static ShotListFragment newInstance(User user) {
         Bundle args = new Bundle();
-        args.putSerializable(EXTRA_USER, user);
+        args.putSerializable(Utils.EXTRA_USER, user);
         ShotListFragment fragment = new ShotListFragment();
         fragment.setArguments(args);
         return fragment;
