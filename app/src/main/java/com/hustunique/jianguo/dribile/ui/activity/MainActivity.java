@@ -145,11 +145,11 @@ public class MainActivity extends BaseActivity {
         TextView html = (TextView) header.findViewById(R.id.auth_user_html);
 
         Picasso.with(this)
-                .load(Uri.parse(MyAccountManager.getCurrentUser().getUser().getAvatar_url()))
+                .load(Uri.parse(MyAccountManager.getCurrentUser().getAvatar_url()))
                 .placeholder(AppData.getDrawable(R.drawable.avatar_default))
                 .into(avatar);
-        name.setText(MyAccountManager.getCurrentUser().getUser().getName());
-        html.setText(MyAccountManager.getCurrentUser().getUser().getHtml_url());
+        name.setText(MyAccountManager.getCurrentUser().getName());
+        html.setText(MyAccountManager.getCurrentUser().getHtml_url());
 
         navigationView.addHeaderView(header);
         mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.drawer_open, R.string.drawer_close);
@@ -256,6 +256,8 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         if (mSearchView.isSearchOpen()) {
             mSearchView.closeSearch();
+        } else if (!(mContentFragment instanceof ShotListFragment)){
+            onShotsSelected();
         } else {
             super.onBackPressed();
         }

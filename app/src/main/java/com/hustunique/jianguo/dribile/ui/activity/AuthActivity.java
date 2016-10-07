@@ -133,6 +133,7 @@ public class AuthActivity extends AccountAuthenticatorActivity implements AppCom
 
     @Override
     public void onError(Throwable e) {
+        mProgressDialog.dismiss();
         Intent intent = new Intent();
         intent.putExtra(AuthPresenter.ERR_AUTH_MSG, e.getMessage());
         setResult(AuthPresenter.AUTH_FAILED, intent);

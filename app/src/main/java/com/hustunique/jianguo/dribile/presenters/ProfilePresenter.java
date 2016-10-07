@@ -81,7 +81,7 @@ public class ProfilePresenter extends BasePresenter<User, ProfileView> {
                         }
                     }
                 });
-        view().initFollow(model.equals(MyAccountManager.getCurrentUser().getUser()));
+        view().initFollow(model.equals(MyAccountManager.getCurrentUser()));
         view().setAvatar(model.getAvatar_url());
     }
 

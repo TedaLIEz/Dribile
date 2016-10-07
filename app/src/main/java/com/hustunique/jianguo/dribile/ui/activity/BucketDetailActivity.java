@@ -40,7 +40,7 @@ public class BucketDetailActivity extends BaseActivity {
     private void initView() {
         mTitle.setText(bucket.getName());
         mDescription.setText(String.format(AppData.getString(R.string.bucket_description)
-                , MyAccountManager.getCurrentUser().getUser().getName()
+                , MyAccountManager.getCurrentUser().getName()
                 , bucket.getShots_count()));
         BucketInShotFragment bucketInShotFragment = BucketInShotFragment.newInstance(bucket);
         getSupportFragmentManager().beginTransaction()

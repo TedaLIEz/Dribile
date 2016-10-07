@@ -60,7 +60,7 @@ public class CommentListPresenter extends BaseListPresenter<Comments, CommentLis
             view().setSubTitle(String.format(AppData.getString(R.string.comments_subtitle)
                     , mShot.getTitle()
                     , mShot.getUser().getName()));
-            view().setAvatar(Uri.parse(MyAccountManager.getCurrentUser().getUser().getAvatar_url()));
+            view().setAvatar(Uri.parse(MyAccountManager.getCurrentUser().getAvatar_url()));
         }
     }
 

@@ -44,7 +44,7 @@ public class MyAccountManager {
         currUser = oAuthUser;
     }
 
-    public static OAuthUser getCurrentUser() {
+    public static User getCurrentUser() {
         if (hasAccount()) {
             currAccount = getAccounts()[0];
             String userData = accountManager.getUserData(currAccount, USER_DATA);
@@ -56,7 +56,7 @@ public class MyAccountManager {
             currUser.setAccessToken(accessToken);
             currUser.setUser(user);
         }
-        return currUser;
+        return currUser.getUser();
     }
 
     public static AccessToken getCurrentToken() {
@@ -69,7 +69,7 @@ public class MyAccountManager {
         currUser = null;
     }
 
-    private static boolean hasAccount() {
+    public static boolean hasAccount() {
         return accountManager.getAccountsByType(AccountGeneral.ACCOUNT_TYPE).length != 0;
     }
 

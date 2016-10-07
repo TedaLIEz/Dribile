@@ -27,13 +27,6 @@ public class MyApp extends Application {
         registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-//                if (activity instanceof LoginActivity) {
-//                    if (null != MyAccountManager.getCurrentUser()) {
-//                        Intent intent = new Intent(activity, MainActivity.class);
-//                        activity.startActivity(intent);
-//                        activity.finish();
-//                    }
-//                }
             }
 
             @Override
@@ -44,7 +37,7 @@ public class MyApp extends Application {
             @Override
             public void onActivityResumed(Activity activity) {
                 if (activity instanceof LoginActivity) {
-                    if (null != MyAccountManager.getCurrentUser()) {
+                    if (MyAccountManager.hasAccount()) {
                         Intent intent = new Intent(activity, MainActivity.class);
                         activity.startActivity(intent);
                         activity.finish();
