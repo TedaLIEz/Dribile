@@ -13,6 +13,7 @@ import com.hustunique.jianguo.dribile.utils.Utils;
  * Created by JianGuo on 4/21/16.
  * Basic Fragment for loading shots
  */
+//TODO: Error handling when no network
 public class ShotListFragment extends BaseShotListFragment implements IFabClickFragment {
 
 

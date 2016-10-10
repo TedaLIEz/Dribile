@@ -114,7 +114,6 @@ public class MainActivity extends BaseActivity {
     public void setTitle(String title) {
         mToolbar.setTitle(title);
     }
-    //TODO: find icons for buckets!
     private void setSetupDrawerContent() {
         onShotsSelected();
         navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);

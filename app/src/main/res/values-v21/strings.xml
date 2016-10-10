@@ -83,6 +83,7 @@
 
     <string name="bucket_dialog_error">Name should be given!</string>
     <string name="create_bucket_fail">Failed to create bucket</string>
+    <string name="no_connection">No Internet Connection!</string>
 
 
 </resources>

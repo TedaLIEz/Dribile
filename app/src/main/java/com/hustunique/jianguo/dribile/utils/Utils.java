@@ -10,6 +10,8 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
@@ -19,7 +21,9 @@ import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
+import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.models.Buckets;
 import com.hustunique.jianguo.dribile.models.Shots;
@@ -233,6 +237,16 @@ public class Utils {
         Intent intent = new Intent(context, clazz);
         intent.putExtra(EXTRA_BUCKET, buckets);
         context.startActivity(intent);
+    }
+
+    public static boolean checkConnection(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if (networkInfo == null || !networkInfo.isConnectedOrConnecting()) {
+            Toast.makeText(context, Toast.LENGTH_SHORT, R.string.no_connection).show();
+            return false;
+        }
+        return true;
     }
 
 

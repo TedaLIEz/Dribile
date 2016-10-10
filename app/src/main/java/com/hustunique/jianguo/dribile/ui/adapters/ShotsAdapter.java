@@ -48,7 +48,7 @@ public class ShotsAdapter extends MvpRecyclerListAdapter<Shots, ShotPresenter, S
     @Override
     public ShotsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ShotsViewHolder shotsViewHolder = new ShotsViewHolder(LayoutInflater.from(parent.getContext()).inflate(layout, parent, false));
-        //// TODO: 4/15/16 Confusing colorFilter when doesn't set this to false
+        //// fixme: 4/15/16 Confusing colorFilter when doesn't set this to false
         shotsViewHolder.setIsRecyclable(false);
         shotsViewHolder.setListener(listener);
         return shotsViewHolder;

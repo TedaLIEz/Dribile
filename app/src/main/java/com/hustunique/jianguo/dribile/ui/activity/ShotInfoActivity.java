@@ -364,7 +364,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
                             @Override
                             public void onGenerated(Palette palette) {
                                 vibrantColor = palette.getVibrantColor(AppData.getColor(R.color.colorPrimaryDark));
-                                //TODO: I hate you Google!
+                                //I hate you Google!
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                     getWindow().setStatusBarColor(vibrantColor);
                                 }
