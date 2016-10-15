@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".app.MyApp"
@@ -67,9 +68,6 @@
                 <data android:pathPattern="/shots/.*" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activity.ImageDetailActivity"
-            android:theme="@style/Base.Theme.DesignDemo.ImageDetail" />
         <activity android:name=".ui.activity.ProfileActivity">
             <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.VIEW" />
@@ -106,8 +104,14 @@
         <activity
             android:name=".ui.activity.AboutActivity"
             android:theme="@style/Base.Theme.DesignDemo.About" />
-        <activity android:name=".ui.activity.LicenseActivity"
+        <activity
+            android:name=".ui.activity.LicenseActivity"
             android:theme="@style/Base.Theme.DesignDemo.License" />
+        <activity
+            android:name=".ui.activity.ImageDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_imagedetail"
+            android:theme="@style/FullscreenTheme"/>
     </application>
 
 </manifest>

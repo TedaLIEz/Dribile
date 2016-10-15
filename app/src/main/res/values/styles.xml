@@ -32,6 +32,7 @@
     <style name="Base.Theme.DesignDemo.ShotInfo" parent="Base.Theme.DesignDemo.BaseActivity">
 
     </style>
+
     <style name="Base.Theme.DesignDemo.ShotBucket" parent="Base.Theme.DesignDemo.BaseActivity">
 
     </style>
@@ -48,7 +49,9 @@
     <style name="Base.Theme.DesignDemo.ShotList" parent="Base.Theme.DesignDemo.BaseActivity"></style>
 
     <style name="Base.Theme.DesignDemo.LikeList" parent="Base.Theme.DesignDemo.BaseActivity"></style>
+
     <style name="Base.Theme.DesignDemo.Setting" parent="Base.Theme.DesignDemo.BaseActivity"></style>
+
     <style name="Base.Theme.DesignDemo.About" parent="Base.Theme.DesignDemo.BaseActivity">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
@@ -130,7 +133,7 @@
         <item name="android:textAppearance">@style/TextAppearance.Shots.Item</item>
     </style>
 
-    <style name="About" parent="Base.Theme.DesignDemo"/>
+    <style name="About" parent="Base.Theme.DesignDemo" />
 
     <style name="About.SubTitle" parent="About">
         <item name="android:layout_marginTop">@dimen/settings_margin</item>
@@ -150,6 +153,19 @@
     </style>
 
     <style name="Base.Theme.DesignDemo.License" parent="Base.Theme.DesignDemo.BaseActivity"></style>
+
+    <style name="FullscreenTheme" parent="Base.Theme.DesignDemo">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
+    <style name="FullscreenActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">@color/black_overlay</item>
+    </style>
 
 
 </resources>

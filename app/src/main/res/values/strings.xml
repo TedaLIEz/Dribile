@@ -13,6 +13,9 @@
     <string name="network_error">Network Error!</string>
 
     <string name="shared_shot_image">shared_shot_image</string>
+    <string name="no_connection">No Internet Connection!</string>
+    <string name="title_activity_imagedetail">ImageDetailActivity</string>
+
     <!-- AboutActivity -->
     <string name="version">Version 0.1</string>
     <string name="change_log">Changelog</string>
@@ -89,6 +92,6 @@
 
     <string name="bucket_dialog_error">Name should be given!</string>
     <string name="create_bucket_fail">Failed to create bucket</string>
-    <string name="no_connection">No Internet Connection!</string>
+
 
 </resources>

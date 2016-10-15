@@ -1,10 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<com.hustunique.jianguo.dribile.ui.widget.DetailImageLayout android:layout_width="match_parent"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/image_shot_detail"
-    android:transitionName="@string/shared_shot_image"
-    android:fitsSystemWindows="true"
-    android:background="@android:color/black"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    tools:context="com.hustunique.jianguo.dribile.ui.activity.ImageDetailActivity">
 
-</com.hustunique.jianguo.dribile.ui.widget.DetailImageLayout>
+    <!-- The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc. -->
+    <com.hustunique.jianguo.dribile.ui.widget.DetailImageLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fullscreen_content"
+        android:background="@android:color/black">
+    </com.hustunique.jianguo.dribile.ui.widget.DetailImageLayout>
+
+</FrameLayout>

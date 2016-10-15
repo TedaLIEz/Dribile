@@ -396,7 +396,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
 
     @Override
     public void goToDetailView(Shots model) {
-        Utils.startActivityWithShot(this, ShotInfoActivity.class, model);
+        Utils.startActivityWithShot(this, ImageDetailActivity.class, model);
     }
 
     @Override
@@ -474,7 +474,7 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     public void onError(Throwable e) {
         Logger.wtf(TAG, e);
         Toast.makeText(this, AppData.getString(R.string.load_shots_error), Toast.LENGTH_SHORT).show();
-        finish();
+//        finish();
     }
 
     @Override

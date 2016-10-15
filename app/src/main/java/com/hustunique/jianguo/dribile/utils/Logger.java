@@ -10,15 +10,11 @@ import com.hustunique.jianguo.dribile.BuildConfig;
  */
 public class Logger {
     public static void e(String tag, String msg) {
-        if (BuildConfig.DEBUG) {
-            Log.e(tag, msg);
-        }
+        Log.e(tag, msg);
     }
 
     public static void e(String tag, String msg, Throwable tr) {
-        if (BuildConfig.DEBUG) {
-            Log.e(tag, msg, tr);
-        }
+        Log.e(tag, msg, tr);
     }
 
     public static void d(String tag, String msg) {
@@ -46,8 +42,6 @@ public class Logger {
     }
 
     public static void wtf(String tag, Throwable tr) {
-        if (BuildConfig.DEBUG) {
-            Log.wtf(tag, tr);
-        }
+        Log.wtf(tag, tr);
     }
 }

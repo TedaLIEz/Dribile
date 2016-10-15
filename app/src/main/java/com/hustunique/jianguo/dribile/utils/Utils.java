@@ -243,7 +243,7 @@ public class Utils {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         final NetworkInfo networkInfo = cm.getActiveNetworkInfo();
         if (networkInfo == null || !networkInfo.isConnectedOrConnecting()) {
-            Toast.makeText(context, Toast.LENGTH_SHORT, R.string.no_connection).show();
+            Toast.makeText(context, R.string.no_connection, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

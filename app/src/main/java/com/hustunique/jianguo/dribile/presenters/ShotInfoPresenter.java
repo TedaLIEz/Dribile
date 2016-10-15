@@ -11,6 +11,7 @@ import com.hustunique.jianguo.dribile.service.DribbbleLikeService;
 import com.hustunique.jianguo.dribile.service.DribbbleShotsService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.ShotInfoView;
@@ -25,6 +26,7 @@ import rx.functions.Action1;
  */
 public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
     private boolean isLike = false;
+    private static final String TAG = "ShotInfoPresenter";
     @Override
     protected void updateView() {
         view().setCommentCount(String.format(AppData.getString(R.string.comments), model.getComments_count()));
@@ -54,6 +56,11 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
                             isLike = true;
                         }
                     }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Logger.wtf(TAG, throwable);
+                    }
                 });
     }
 
@@ -69,6 +76,11 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
                     @Override
                     public void call(Shots shots) {
                         setModel(shots);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Logger.wtf(TAG, throwable);
                     }
                 });
     }
@@ -110,6 +122,7 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+                        Logger.wtf(TAG, throwable);
                         view().onLike();
                     }
                 });
@@ -131,6 +144,7 @@ public class ShotInfoPresenter extends BasePresenter<Shots, ShotInfoView> {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
+                        Logger.wtf(TAG, throwable);
                         view().onUnlike();
                     }
                 });

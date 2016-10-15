@@ -5,6 +5,7 @@ import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetCommentsByIdStrategy;
 import com.hustunique.jianguo.dribile.service.DribbbleShotsService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;
 import com.hustunique.jianguo.dribile.views.ShotInfoCommentView;
 
@@ -19,7 +20,7 @@ import rx.functions.Action1;
 public class ShotInfoCommentsPresenter extends BaseListPresenter<Comments, ShotInfoCommentView> {
     private Shots mShot;
     private static final int COMMENTS_PER_PAGE = 5;
-
+    private static final String TAG = "ShotInfoCommentsPresenter";
     public ShotInfoCommentsPresenter(Shots shots) {
         super();
         this.mShot = shots;
@@ -37,6 +38,11 @@ public class ShotInfoCommentsPresenter extends BaseListPresenter<Comments, ShotI
                     public void call(Shots shots) {
                         ShotInfoCommentsPresenter.this.mShot = shots;
 
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        Logger.wtf(TAG, throwable);
                     }
                 });
         mLoadDel.setLoadStrategy(new GetCommentsByIdStrategy(id));

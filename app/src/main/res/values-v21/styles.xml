@@ -41,6 +41,7 @@
 
     <style name="Base.Theme.DesignDemo.ImageDetail" parent="Base.Theme.DesignDemo.BaseActivity">
         <item name="android:statusBarColor">@android:color/black</item>
+
     </style>
 
     <style name="Base.Theme.DesignDemo.ShotList" parent="Base.Theme.DesignDemo.BaseActivity"></style>
@@ -144,6 +145,16 @@
     <style name="CustomDialog" parent="@android:style/Theme.Holo.Dialog">
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <style name="FullscreenTheme" parent="Base.Theme.DesignDemo">
+        <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="metaButtonBarStyle">?android:attr/buttonBarStyle</item>
+        <item name="metaButtonBarButtonStyle">?android:attr/buttonBarButtonStyle</item>
+        <item name="android:windowTranslucentStatus">true</item>
+    </style>
+
 
     <style name="Base.Theme.DesignDemo.License" parent="Base.Theme.DesignDemo.BaseActivity"></style>
 
