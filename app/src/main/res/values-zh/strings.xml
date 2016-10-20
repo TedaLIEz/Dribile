@@ -114,6 +114,7 @@
     <string name="dialog_description">描述</string>
     <string name="create_a_bucket">创建收藏夹</string>
     <string name="undo">撤销</string>
+    <string name="attachments">%1$s 被附加</string>
 
 
 </resources>
