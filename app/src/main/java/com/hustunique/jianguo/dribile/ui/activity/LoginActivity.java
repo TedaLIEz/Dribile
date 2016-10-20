@@ -15,7 +15,7 @@ import com.hustunique.jianguo.dribile.app.PresenterManager;
 import com.hustunique.jianguo.dribile.presenters.LoginPresenter;
 import com.hustunique.jianguo.dribile.views.LoginView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -31,7 +31,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     private boolean animationStarted = false;
 
     private LoginPresenter mLoginPresenter;
-    @Bind(R.id.btn_login)
+    @BindView(R.id.btn_login)
     Button login;
 
 

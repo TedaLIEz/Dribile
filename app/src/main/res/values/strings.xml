@@ -17,7 +17,7 @@
     <string name="title_activity_imagedetail">ImageDetailActivity</string>
 
     <!-- AboutActivity -->
-    <string name="version">Version 0.1</string>
+    <string name="version">Version 1.0</string>
     <string name="change_log">Changelog</string>
     <string name="description">Simple Application using dribbble api</string>
     <string name="connect">Connect to us</string>
@@ -92,6 +92,27 @@
 
     <string name="bucket_dialog_error">Name should be given!</string>
     <string name="create_bucket_fail">Failed to create bucket</string>
+    <string name="no_tags_yet">No tags yet :(</string>
+    <string name="menu_shots">Shots</string>
+    <string name="menu_buckets">Buckets</string>
+    <string name="menu_favorites">Favorites</string>
+    <string name="menu_settings">Settings</string>
+    <string name="clear_cache">Clear Cache</string>
+    <string name="clear_all_cache">Clear all cache</string>
+    <string name="about">About</string>
+    <string name="open_source_license">Open Source License</string>
+    <string name="about_the_app">About the app</string>
+    <string name="contact">Contact</string>
+    <string name="send_me_an_email">Send me an email</string>
+    <string name="accounts">Accounts</string>
+    <string name="log_out">Log out</string>
+    <string name="general">General</string>
+    <string name="no_comments_yet">No comments yet :(</string>
+    <string name="add_your_comment">Add your comment</string>
+    <string name="name">Name</string>
+    <string name="dialog_description">Description</string>
+    <string name="create_a_bucket">Create a bucket</string>
+    <string name="undo">Undo</string>
 
 
 </resources>

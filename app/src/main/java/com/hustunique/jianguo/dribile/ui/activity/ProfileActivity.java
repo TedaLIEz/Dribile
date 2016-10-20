@@ -21,7 +21,7 @@ import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.ProfileView;
 import com.squareup.picasso.Picasso;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -30,33 +30,33 @@ public class ProfileActivity extends BaseActivity implements ProfileView {
     private static final int POS_LOADED = 0;
     private static final int POS_LOADING = 1;
     private static final String TAG = "ProfileActivity";
-    @Bind(R.id.user_bio)
+    @BindView(R.id.user_bio)
     TextView mBio;
-    @Bind(R.id.user_followers_count)
+    @BindView(R.id.user_followers_count)
     TextView mFollowersCount;
-    @Bind(R.id.user_followings_count)
+    @BindView(R.id.user_followings_count)
     TextView mFollowingsCount;
-    @Bind(R.id.user_location)
+    @BindView(R.id.user_location)
     TextView mLocation;
-    @Bind(R.id.user_name)
+    @BindView(R.id.user_name)
     TextView mName;
-    @Bind(R.id.user_shot_count)
+    @BindView(R.id.user_shot_count)
     TextView mShotCount;
-    @Bind(R.id.user_like_count)
+    @BindView(R.id.user_like_count)
     TextView mLikeCount;
-    @Bind(R.id.user_avatar)
+    @BindView(R.id.user_avatar)
     CircleImageView mAvatar;
-    @Bind(R.id.user_twitter)
+    @BindView(R.id.user_twitter)
     CircleImageView mTwitter;
-    @Bind(R.id.user_dribbble)
+    @BindView(R.id.user_dribbble)
     CircleImageView mDribbble;
-    @Bind(R.id.btn_follow)
+    @BindView(R.id.btn_follow)
     Button mFollow;
-    @Bind(R.id.profile_shots)
+    @BindView(R.id.profile_shots)
     LinearLayout mShots;
-    @Bind(R.id.profile_likes)
+    @BindView(R.id.profile_likes)
     LinearLayout mLikes;
-    @Bind(R.id.animator)
+    @BindView(R.id.animator)
     ViewAnimator mAnimator;
 
 

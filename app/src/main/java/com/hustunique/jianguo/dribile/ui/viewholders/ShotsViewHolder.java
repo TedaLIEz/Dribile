@@ -13,7 +13,7 @@ import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.views.ShotView;
 import com.squareup.picasso.Picasso;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -25,21 +25,21 @@ import butterknife.ButterKnife;
 public class ShotsViewHolder extends MvpViewHolder<ShotPresenter> implements ShotView {
 
 
-    @Bind(R.id.image)
+    @BindView(R.id.image)
     public ImageView mImage;
-    @Bind(R.id.gif_icon)
+    @BindView(R.id.gif_icon)
     public ImageView mGif;
-    @Bind(R.id.like_count)
+    @BindView(R.id.like_count)
     public TextView mLikeCount;
-    @Bind(R.id.comment_count)
+    @BindView(R.id.comment_count)
     public TextView mCommentCount;
-    @Bind(R.id.view_count)
+    @BindView(R.id.view_count)
     public TextView mViewCount;
 
-    @Bind(R.id.shots_avatar)
+    @BindView(R.id.shots_avatar)
     public ImageView mAvatar;
 
-    @Bind(R.id.shots_title)
+    @BindView(R.id.shots_title)
     public TextView mTitle;
 
     @Nullable OnShotClickListener mOnShotClickListener;

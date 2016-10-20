@@ -14,7 +14,7 @@ import com.hustunique.jianguo.dribile.ui.widget.HTMLTextView;
 import com.hustunique.jianguo.dribile.views.CommentView;
 import com.squareup.picasso.Picasso;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -22,19 +22,19 @@ import butterknife.ButterKnife;
  * ViewHolder for shot's comments.
  */
 public class CommentsViewHolder extends MvpViewHolder<CommentPresenter> implements CommentView {
-    @Bind(R.id.comment_avatar)
+    @BindView(R.id.comment_avatar)
     public ImageView mAvatar;
-    @Bind(R.id.comment_name)
+    @BindView(R.id.comment_name)
     public TextView mUsername;
-    @Bind(R.id.comment_body)
+    @BindView(R.id.comment_body)
     public HTMLTextView mCommentBody;
-    @Bind(R.id.comment_time)
+    @BindView(R.id.comment_time)
     public TextView mCommentTime;
 
-    @Bind(R.id.comment_like)
+    @BindView(R.id.comment_like)
     public ImageView mCommentLike;
 
-    @Bind(R.id.comment_like_count)
+    @BindView(R.id.comment_like_count)
     public TextView mLikeCount;
 
     @Nullable

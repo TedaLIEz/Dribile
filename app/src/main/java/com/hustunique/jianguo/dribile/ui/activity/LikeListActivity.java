@@ -10,11 +10,11 @@ import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.ui.fragments.LikesListFragment;
 import com.hustunique.jianguo.dribile.utils.Utils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LikeListActivity extends BaseActivity {
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
     private User mUser;
     @Override

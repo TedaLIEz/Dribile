@@ -16,7 +16,7 @@ import com.hustunique.jianguo.dribile.presenters.SettingPresenter;
 import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.views.SettingView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -24,22 +24,22 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     private static final int SETTING = 0x000000;
     private static final String TAG = "SettingActivity";
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.layout_clear)
+    @BindView(R.id.layout_clear)
     LinearLayout mClean;
-    @Bind(R.id.layout_contact)
+    @BindView(R.id.layout_contact)
     LinearLayout mContact;
 
-    @Bind(R.id.layout_about)
+    @BindView(R.id.layout_about)
     LinearLayout mAbout;
 
-    @Bind(R.id.layout_logout)
+    @BindView(R.id.layout_logout)
     LinearLayout mLogout;
-    @Bind(R.id.layout_license)
+    @BindView(R.id.layout_license)
     LinearLayout mLicense;
 
-    @Bind(R.id.rootView)
+    @BindView(R.id.rootView)
     CoordinatorLayout rootView;
 
     private SettingPresenter mPresenter;

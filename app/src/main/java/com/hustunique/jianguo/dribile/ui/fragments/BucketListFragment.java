@@ -30,7 +30,7 @@ import com.hustunique.jianguo.dribile.views.BucketListView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -42,11 +42,11 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
     private static final int POS_EMPTY = 2;
     private static final int POS_LOADING = 0;
     private static final String TAG = "BucketListFragment";
-    @Bind(R.id.rv_buckets)
+    @BindView(R.id.rv_buckets)
     RecyclerView mBuckets;
 
 
-    @Bind(R.id.animator)
+    @BindView(R.id.animator)
     ViewAnimator mViewAnimator;
 
     private BucketsAdapter mAdapter;

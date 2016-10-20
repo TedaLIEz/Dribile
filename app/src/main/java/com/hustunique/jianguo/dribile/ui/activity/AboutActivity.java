@@ -2,12 +2,10 @@ package com.hustunique.jianguo.dribile.ui.activity;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.app.AppData;
 
-import butterknife.Bind;
 import butterknife.ButterKnife;
 import mehdi.sakout.aboutpage.AboutPage;
 import mehdi.sakout.aboutpage.Element;

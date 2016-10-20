@@ -177,7 +177,7 @@
                     android:gravity="start|top"></com.wefika.flowlayout.FlowLayout>
                 <TextView
                     android:layout_width="match_parent"
-                    android:text="No tags yet :("
+                    android:text="@string/no_tags_yet"
                     android:gravity="center"
                     android:layout_height="match_parent" />
             </ViewAnimator>

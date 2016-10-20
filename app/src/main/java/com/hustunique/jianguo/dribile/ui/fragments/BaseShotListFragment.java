@@ -24,10 +24,11 @@ import com.hustunique.jianguo.dribile.views.ILoadListView;
 
 import java.util.List;
 
-import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.BindDimen;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 /**
@@ -46,17 +47,18 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
     @BindDimen(R.dimen.item_divider_size)
     int dividerSize;
 
-    @Bind(R.id.layout_swipe)
+    @BindView(R.id.layout_swipe)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    @Bind(R.id.rv_shots)
+    @BindView(R.id.rv_shots)
     RecyclerView mRecyclerView;
 
-    @Bind(R.id.loading)
+    @BindView(R.id.loading)
     ProgressBar mProgress;
 
     private ShotListPresenter mShotListPresenter;
 
+    private Unbinder unbinder;
     public BaseShotListFragment() {
 
     }
@@ -78,7 +80,7 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shots, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         mProgress.setPadding(0, 0, 0, Utils.getTransparentNavigationBarHeight(getActivity()));
         initSwipeLayout();
         initRecyclerView();
@@ -159,7 +161,7 @@ public abstract class BaseShotListFragment extends BaseFragment implements Swipe
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
 

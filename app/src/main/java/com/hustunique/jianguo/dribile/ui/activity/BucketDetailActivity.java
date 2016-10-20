@@ -11,13 +11,13 @@ import com.hustunique.jianguo.dribile.models.Buckets;
 import com.hustunique.jianguo.dribile.ui.fragments.BucketInShotFragment;
 import com.hustunique.jianguo.dribile.utils.Utils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class BucketDetailActivity extends BaseActivity {
-    @Bind(R.id.bucket_detail)
+    @BindView(R.id.bucket_detail)
     TextView mDescription;
-    @Bind(R.id.bucket_name)
+    @BindView(R.id.bucket_name)
     TextView mTitle;
 
     private Buckets bucket;

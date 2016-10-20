@@ -10,7 +10,7 @@
     <TextView
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:textAppearance="@style/TextAppearance.Nav.Title"
-        android:text="Create a bucket"
+        android:text="@string/create_a_bucket"
         android:id="@+id/bucket_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -18,7 +18,7 @@
         app:met_baseColor="@color/colorPrimary"
         app:met_primaryColor="@color/colorAccent"
         app:met_minCharacters="0"
-        android:hint="Name"
+        android:hint="@string/name"
         app:met_errorColor="@color/colorPrimaryDark"
         android:id="@+id/et_name"
         android:layout_marginLeft="16dp"
@@ -33,7 +33,7 @@
         app:met_primaryColor="@color/colorAccent"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:hint="Description"
+        android:hint="@string/dialog_description"
         app:met_floatingLabel="highlight"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"/>

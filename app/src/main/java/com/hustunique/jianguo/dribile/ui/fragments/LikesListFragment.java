@@ -24,16 +24,17 @@ import com.hustunique.jianguo.dribile.ui.activity.ShotInfoActivity;
 import com.hustunique.jianguo.dribile.ui.adapters.ShotsAdapter;
 import com.hustunique.jianguo.dribile.ui.viewholders.ShotsViewHolder;
 import com.hustunique.jianguo.dribile.ui.widget.PaddingItemDecoration;
-import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.utils.Logger;
+import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.views.LikeListView;
 
 import java.util.List;
 
-import butterknife.Bind;
 import butterknife.BindColor;
 import butterknife.BindDimen;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
 
 
@@ -46,7 +47,7 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
     public static final String ID = "id";
     public static final String TAG = "LikesListFragment";
     private LikeListPresenter mLikeListPresenter;
-
+    private Unbinder unbinder;
 
     private ShotsAdapter mAdapter;
 
@@ -58,13 +59,13 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
     @BindDimen(R.dimen.item_divider_size)
     int dividerSize;
 
-    @Bind(R.id.layout_swipe)
+    @BindView(R.id.layout_swipe)
     SwipeRefreshLayout swipeRefreshLayout;
 
-    @Bind(R.id.rv_shots)
+    @BindView(R.id.rv_shots)
     RecyclerView mRecyclerView;
 
-    @Bind(R.id.loading)
+    @BindView(R.id.loading)
     ProgressBar mProgress;
 
     public LikesListFragment() {
@@ -75,7 +76,7 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_shots, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         mProgress.setPadding(0, 0, 0, Utils.getTransparentNavigationBarHeight(getActivity()));
         initSwipeLayout();
         initRecyclerView();
@@ -118,6 +119,7 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
     public void onDestroy() {
         super.onDestroy();
         mLikeListPresenter.unbindView();
+        unbinder.unbind();
     }
 
     private void initSwipeLayout() {
@@ -193,7 +195,6 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
 
@@ -273,7 +274,7 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
     public void showUndo(final int pos) {
         Snackbar snackbar = Snackbar
                 .make(mRecyclerView, AppData.getString(R.string.unlike_shots), Snackbar.LENGTH_LONG)
-                .setAction("UNDO", new View.OnClickListener() {
+                .setAction(AppData.getString(R.string.undo), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         mLikeListPresenter.restoreShot(pos);

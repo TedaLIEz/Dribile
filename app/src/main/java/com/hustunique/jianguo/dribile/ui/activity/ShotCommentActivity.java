@@ -27,7 +27,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 import jp.wasabeef.recyclerview.adapters.SlideInBottomAnimationAdapter;
@@ -38,19 +38,19 @@ public class ShotCommentActivity extends BaseActivity implements CommentListView
     private static final int POS_EMPTY = 2;
     private static final String TAG = "ShotCommentActivity";
 
-    @Bind(R.id.comments_count)
+    @BindView(R.id.comments_count)
     TextView mCommentsTitle;
-    @Bind(R.id.comments_detail)
+    @BindView(R.id.comments_detail)
     TextView mCommentsSubtitle;
-    @Bind(R.id.comments_list)
+    @BindView(R.id.comments_list)
     RecyclerView mComments;
-    @Bind(R.id.avatar_comments)
+    @BindView(R.id.avatar_comments)
     CircleImageView mAvatar;
-    @Bind(R.id.btn_send_comments)
+    @BindView(R.id.btn_send_comments)
     FloatingActionButton mSend;
-    @Bind(R.id.et_add_comment)
+    @BindView(R.id.et_add_comment)
     EditText mEditText;
-    @Bind(R.id.animator)
+    @BindView(R.id.animator)
     ViewAnimator mAnimator;
 
     private CommentsAdapter mAdapter;

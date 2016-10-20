@@ -11,7 +11,7 @@ import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.ui.widget.DetailImageLayout;
 import com.hustunique.jianguo.dribile.utils.Utils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ImageDetailActivity extends BaseActivity {
@@ -57,7 +57,7 @@ public class ImageDetailActivity extends BaseActivity {
         }
     };
 
-    @Bind(R.id.fullscreen_content)
+    @BindView(R.id.fullscreen_content)
     DetailImageLayout mContentView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

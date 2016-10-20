@@ -7,12 +7,12 @@ import android.view.MenuItem;
 import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.app.AppData;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LicenseActivity extends BaseActivity {
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

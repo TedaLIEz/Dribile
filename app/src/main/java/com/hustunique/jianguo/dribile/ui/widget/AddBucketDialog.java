@@ -11,7 +11,7 @@ import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.app.AppData;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import butterknife.Bind;
+import butterknife.BindView;
 
 
 /**
@@ -19,13 +19,13 @@ import butterknife.Bind;
  * AlertDialog for adding a new bucket
  */
 public class AddBucketDialog extends Dialog implements View.OnClickListener {
-    @Bind(R.id.et_name)
+    @BindView(R.id.et_name)
     MaterialEditText mName;
-    @Bind(R.id.et_description)
+    @BindView(R.id.et_description)
     MaterialEditText mDescription;
-    @Bind(R.id.bucket_positive)
+    @BindView(R.id.bucket_positive)
     Button mPositive;
-    @Bind(R.id.bucket_negative)
+    @BindView(R.id.bucket_negative)
     Button mNegative;
 
     public AddBucketDialog(Context context) {

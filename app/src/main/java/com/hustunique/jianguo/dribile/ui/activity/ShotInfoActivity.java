@@ -49,8 +49,8 @@ import com.wefika.flowlayout.FlowLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
 import butterknife.BindDimen;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -62,75 +62,75 @@ public class ShotInfoActivity extends BaseActivity implements ShotInfoView, Shot
     private final static int POS_SHOT_TAGS = 0;
     private final static int POS_TAGS_SHOW_EMPTY = 1;
     private static final String TAG = "ShotInfoActivity";
-    @Bind(R.id.rv_comments)
+    @BindView(R.id.rv_comments)
     RecyclerView mComments;
 
-    @Bind(R.id.appbar)
+    @BindView(R.id.appbar)
     AppBarLayout mAppBarLayout;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    @Bind(R.id.shot_image)
+    @BindView(R.id.shot_image)
     ImageView mImageView;
 
 
-    @Bind(R.id.shot_play)
+    @BindView(R.id.shot_play)
     ImageView mPlay;
-    @Bind(R.id.collapse_toolbar)
+    @BindView(R.id.collapse_toolbar)
     CollapsingToolbarLayout toolbarLayout;
 
-    @Bind(R.id.shots_description)
+    @BindView(R.id.shots_description)
     HTMLTextView mShotsDescription;
 
-    @Bind(R.id.shots_user)
+    @BindView(R.id.shots_user)
     TextView mShotsUser;
 
-    @Bind(R.id.shots_time)
+    @BindView(R.id.shots_time)
     TextView mShotsTime;
 
-    @Bind(R.id.avatar_shots)
+    @BindView(R.id.avatar_shots)
     ImageView mAvatar;
 
-    @Bind(R.id.fabtoolbar)
+    @BindView(R.id.fabtoolbar)
     FABToolbarLayout mFabLayout;
 
-    @Bind(R.id.btn_add_comments)
+    @BindView(R.id.btn_add_comments)
     ImageButton mAddComments;
 
-    @Bind(R.id.btn_add_like)
+    @BindView(R.id.btn_add_like)
     ImageButton mAddLike;
 
-    @Bind(R.id.btn_add_share)
+    @BindView(R.id.btn_add_share)
     ImageButton mAddShare;
 
-    @Bind(R.id.btn_add_buckets)
+    @BindView(R.id.btn_add_buckets)
     ImageButton mAddBuckets;
 
-    @Bind(R.id.fabtoolbar_fab)
+    @BindView(R.id.fabtoolbar_fab)
     FloatingActionButton mFab;
-    @Bind(R.id.scroll_content)
+    @BindView(R.id.scroll_content)
     NestedScrollView mScrollView;
 
-    @Bind(R.id.tag_layout)
+    @BindView(R.id.tag_layout)
     FlowLayout mTagLayout;
 
     //TODO: Find some icons for them!
-    @Bind(R.id.shot_bucket_count)
+    @BindView(R.id.shot_bucket_count)
     TextView mBucketCount;
-    @Bind(R.id.shot_like_count)
+    @BindView(R.id.shot_like_count)
     TextView mLikeCount;
-    @Bind(R.id.shot_comments_count)
+    @BindView(R.id.shot_comments_count)
     TextView mCommentsCount;
-    @Bind(R.id.shot_view_count)
+    @BindView(R.id.shot_view_count)
     TextView mViewCount;
 
-    @Bind(R.id.comments_animator)
+    @BindView(R.id.comments_animator)
     ViewAnimator mCommentAnimator;
-    @Bind(R.id.tags_animator)
+    @BindView(R.id.tags_animator)
     ViewAnimator mTagAnimator;
 
-    @Bind(R.id.comments_footer)
+    @BindView(R.id.comments_footer)
     LinearLayout mFooter;
     @BindDimen(R.dimen.item_divider_size)
     int dividerSize;

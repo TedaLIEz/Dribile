@@ -24,7 +24,7 @@ import com.hustunique.jianguo.dribile.presenters.AuthPresenter;
 import com.hustunique.jianguo.dribile.ui.widget.OAuthWebView;
 import com.hustunique.jianguo.dribile.views.AuthView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -32,10 +32,10 @@ import butterknife.ButterKnife;
  * Activity for auth including a webView
  */
 public class AuthActivity extends AccountAuthenticatorActivity implements AppCompatCallback, AuthView {
-    @Bind(R.id.view_auth)
+    @BindView(R.id.view_auth)
     OAuthWebView webView;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
 

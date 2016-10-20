@@ -28,7 +28,7 @@
                 <TextView
                     android:textSize="@dimen/text_size_body2"
                     android:textColor="@color/colorPrimary"
-                    android:text="General"
+                    android:text="@string/general"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -46,12 +46,12 @@
                 <TextView
                     android:textSize="@dimen/text_size_subheading"
                     android:textColor="@android:color/black"
-                    android:text="Clear Cache"
+                    android:text="@string/clear_cache"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
                 <TextView
                     android:textSize="@dimen/text_size_body2"
-                    android:text="Clear all cache"
+                    android:text="@string/clear_all_cache"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </LinearLayout>
@@ -69,7 +69,7 @@
                 <TextView
                     android:textSize="@dimen/text_size_body2"
                     android:textColor="@color/colorPrimary"
-                    android:text="About"
+                    android:text="@string/about"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -86,7 +86,7 @@
                     android:paddingBottom="@dimen/activity_vertical_margin"
                     android:textSize="@dimen/text_size_subheading"
                     android:textColor="@android:color/black"
-                    android:text="Open Source License"
+                    android:text="@string/open_source_license"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </LinearLayout>
@@ -103,7 +103,7 @@
                     android:paddingBottom="@dimen/activity_vertical_margin"
                     android:textSize="@dimen/text_size_subheading"
                     android:textColor="@android:color/black"
-                    android:text="About the app"
+                    android:text="@string/about_the_app"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </LinearLayout>
@@ -125,13 +125,13 @@
                 <TextView
                     android:textSize="@dimen/text_size_subheading"
                     android:textColor="@android:color/black"
-                    android:text="Contact"
+                    android:text="@string/contact"
                     android:layout_height="match_parent"
                     android:layout_width="match_parent" />
                 <TextView
                     android:layout_height="match_parent"
                     android:textSize="@dimen/text_size_body2"
-                    android:text="Send me an email"
+                    android:text="@string/send_me_an_email"
                     android:layout_width="match_parent" />
             </LinearLayout>
         </LinearLayout>
@@ -148,7 +148,7 @@
                 <TextView
                     android:textSize="@dimen/text_size_body2"
                     android:textColor="@color/colorPrimary"
-                    android:text="Accounts"
+                    android:text="@string/accounts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
@@ -165,7 +165,7 @@
                     android:paddingBottom="@dimen/activity_vertical_margin"
                     android:textSize="@dimen/text_size_subheading"
                     android:textColor="@android:color/black"
-                    android:text="Log out"
+                    android:text="@string/log_out"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

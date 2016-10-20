@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Dribile</string>
+    <string name="action_settings">设置</string>
+    <string name="log_in">登录</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="sign_up">注册</string>
+    <string name="label">Dribile</string>
+    <string name="drawer_close">关闭</string>
+    <string name="drawer_open">打开</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="network_error">网络连接异常！</string>
+
+    <string name="shared_shot_image">shared_shot_image</string>
+    <string name="no_connection">没有网络连接</string>
+    <string name="title_activity_imagedetail">ImageDetailActivity</string>
+
+    <!-- AboutActivity -->
+    <string name="version">Version 1.0</string>
+    <string name="change_log">Changelog</string>
+    <string name="description">Simple Application using dribbble api</string>
+    <string name="connect">联系我们</string>
+
+    <!-- ShotInfoActivity-->
+    <string name="no_description">(没有给出相关描述)</string>
+    <string name="comments"> %1$s条评论</string>
+    <string name="views"> %1$s次查看</string>
+    <string name="buckets">%1$s次添加到收藏夹</string>
+    <string name="likes">%1$s次喜欢</string>
+    <string name="shots_time">于 %1$s</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="shot_comments">评论</string>
+    <string name="read_all_reviews">查看所有评论</string>
+    <string name="welcome">欢迎</string>
+    <string name="log_in_to_dribbble">登录Dribbble</string>
+    <string name="title_activity_shot_comment">ShotCommentActivity</string>
+
+
+    <!-- ShotCommentsActivity -->
+    <string name="comments_title">%1$s 评论</string>
+    <string name="comments_subtitle">在 %1$s by %2$s</string>
+
+    <!-- ShotBucketsActivity -->
+    <string name="buckets_count">%1$s shots</string>
+    <string name="add_to_your_bucket">添加到 …</string>
+
+    <!-- BucketDetailActivity -->
+    <string name="bucket_description">%1$s\'s bucket %2$s shots\'\'</string>
+
+    <!-- ShotListActivity -->
+    <string name="user_shots">%1$s\'s shots</string>
+
+    <string name="create_bucket_success"><![CDATA[创建 bucket <font color="%1$s"><b>%2$s</b></font>]]> Success!</string>
+    <string name="delete_bucket_success"><![CDATA[删除 bucket <font color="%1$s"><b>%2$s</b></font>]]> Success!</string>
+    <string name="add_to_bucket_success">成功添加到%1$s！</string>
+
+    <!-- LikeListActivity -->
+    <string name="user_likes">有%1$s\'s喜欢</string>
+
+    <!-- BaseActivity -->
+    <string name="share_from_dribile">- Shared from Dribile</string>
+
+    <!-- LicenseActivity -->
+    <string name="open_source">开源协议</string>
+
+    <!-- ProfileActivity -->
+    <string name="followed">FOLLOWED</string>
+    <string name="follow">FOLLOW</string>
+    <string name="no_twitter">Wops! He didn\'t leave his twitter here</string>
+
+    <!-- SettingActivity -->
+    <string name="clear_cache_success">清空所有缓存</string>
+    <string name="log_out_success">退出登录</string>
+    <string name="send_mail">Send mail…</string>
+    <string name="settings">设置</string>
+
+    <!-- ShotBucketActivity -->
+    <string name="delete_bucket_title">收藏夹</string>
+    <string name="delete_bucket_content">您确定要删除这个收藏夹?</string>
+
+    <!-- ShotInfoActivity -->
+    <string name="load_shots_error">加载数据失败</string>
+
+    <!-- MainActivity -->
+    <string name="my_likes">我的最爱</string>
+    <string name="my_buckets">我的收藏</string>
+    <string name="shots_title">作品</string>
+
+    <!-- LikesListFragment -->
+    <string name="unlike_shots">取消喜欢</string>
+
+    <string name="bucket_dialog_error">需要有一个名字</string>
+    <string name="create_bucket_fail">创建收藏夹失败</string>
+    <string name="no_tags_yet">没有相关标签</string>
+    <string name="menu_shots">作品</string>
+    <string name="menu_buckets">收藏夹</string>
+    <string name="menu_favorites">我喜欢的</string>
+    <string name="menu_settings">设置</string>
+    <string name="clear_cache">清空缓存</string>
+    <string name="clear_all_cache">清空所有缓存</string>
+    <string name="about">关于</string>
+    <string name="open_source_license">开源协议</string>
+    <string name="about_the_app">关于</string>
+    <string name="contact">联系我们</string>
+    <string name="send_me_an_email">邮件联系</string>
+    <string name="accounts">账户管理</string>
+    <string name="log_out">退出登录</string>
+    <string name="general">General</string>
+    <string name="no_comments_yet">暂无评论！</string>
+    <string name="add_your_comment">添加评论</string>
+    <string name="name">名字</string>
+    <string name="dialog_description">描述</string>
+    <string name="create_a_bucket">创建收藏夹</string>
+    <string name="undo">撤销</string>
+
+
+</resources>

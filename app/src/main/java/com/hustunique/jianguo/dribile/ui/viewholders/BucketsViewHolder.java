@@ -9,7 +9,7 @@ import com.hustunique.jianguo.dribile.models.Buckets;
 import com.hustunique.jianguo.dribile.presenters.BucketPresenter;
 import com.hustunique.jianguo.dribile.views.BucketView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -18,9 +18,9 @@ import butterknife.ButterKnife;
  */
 public class BucketsViewHolder extends MvpViewHolder<BucketPresenter> implements BucketView {
 
-    @Bind(R.id.bucket_count)
+    @BindView(R.id.bucket_count)
     public TextView mCount;
-    @Bind(R.id.bucket_name)
+    @BindView(R.id.bucket_name)
     public TextView mName;
 
     @Nullable

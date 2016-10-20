@@ -29,7 +29,7 @@ import com.hustunique.jianguo.dribile.ui.fragments.ShotListFragment;
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.squareup.picasso.Picasso;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -37,19 +37,19 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends BaseActivity {
 
     private static final int SETTING = 0x000000;
-    @Bind(R.id.drawer_layout)
+    @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
 
-    @Bind(R.id.nav_view)
+    @BindView(R.id.nav_view)
     NavigationView navigationView;
 
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton mFab;
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @Bind(R.id.searchView)
+    @BindView(R.id.searchView)
     MaterialSearchView mSearchView;
 
     private ActionBarDrawerToggle mToggle;

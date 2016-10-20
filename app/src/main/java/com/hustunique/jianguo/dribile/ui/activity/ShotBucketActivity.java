@@ -29,7 +29,7 @@ import com.hustunique.jianguo.dribile.views.BucketInShotListView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -41,15 +41,15 @@ public class ShotBucketActivity extends BaseActivity implements BucketInShotList
     private static final int POS_LOADING = 0;
     private static final int POS_EMPTY = 2;
     private static final String TAG = "ShotBucketActivity";
-    @Bind(R.id.rv_buckets)
+    @BindView(R.id.rv_buckets)
     RecyclerView mBuckets;
-    @Bind(R.id.fab)
+    @BindView(R.id.fab)
     FloatingActionButton mFab;
-    @Bind(R.id.shots_detail)
+    @BindView(R.id.shots_detail)
     TextView mTextView;
-    @Bind(R.id.animator)
+    @BindView(R.id.animator)
     ViewAnimator mViewAnimator;
-    @Bind(R.id.rootView)
+    @BindView(R.id.rootView)
     CoordinatorLayout mCoordinatorLayout;
     private BucketsAdapter mAdapter;
 
