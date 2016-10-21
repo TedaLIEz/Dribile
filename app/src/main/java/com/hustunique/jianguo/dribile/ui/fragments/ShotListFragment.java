@@ -15,7 +15,6 @@ import com.hustunique.jianguo.dribile.utils.Utils;
  */
 public class ShotListFragment extends BaseShotListFragment implements IFabClickFragment {
 
-
     public ShotListFragment() {
         // Required empty public constructor
     }
@@ -30,8 +29,9 @@ public class ShotListFragment extends BaseShotListFragment implements IFabClickF
             shotListPresenter.setLoadStrategy(getAllShotsStrategy);
             shotListPresenter.setCacheStrategy(getAllShotsStrategy);
         }
-
     }
+
+
 
 
 
@@ -47,5 +47,7 @@ public class ShotListFragment extends BaseShotListFragment implements IFabClickF
     public void onFabClick() {
 
     }
+
+
 
 }

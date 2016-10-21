@@ -23,6 +23,7 @@ import butterknife.OnClick;
 public class SettingActivity extends BaseActivity implements SettingView {
 
     private static final int SETTING = 0x000000;
+    private static final int CLEAR_DATA = 0x000001;
     private static final String TAG = "SettingActivity";
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -116,7 +117,9 @@ public class SettingActivity extends BaseActivity implements SettingView {
 
     @Override
     public void onClearSuccess() {
-        Snackbar.make(rootView, AppData.getString(R.string.clear_cache_success), Snackbar.LENGTH_SHORT).show();
+        setResult(CLEAR_DATA);
+        Toast.makeText(this, R.string.clear_cache_success, Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

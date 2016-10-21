@@ -37,6 +37,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MainActivity extends BaseActivity {
 
     private static final int SETTING = 0x000000;
+    private static final int CLEAR_DATA = 0x000001;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
 
@@ -115,14 +116,14 @@ public class MainActivity extends BaseActivity {
         mToolbar.setTitle(title);
     }
     private void setSetupDrawerContent() {
-        onShotsSelected();
+        onShotsSelected(false);
         navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_home:
-                        onShotsSelected();
+                        onShotsSelected(false);
                         break;
                     case R.id.nav_settings:
                         onSettingSelected();
@@ -186,11 +187,11 @@ public class MainActivity extends BaseActivity {
     }
 
 
-    private void onShotsSelected() {
+    private void onShotsSelected(boolean reloaded) {
         mToolbar.setTitle(AppData.getString(R.string.shots_title));
         mFab.hide();
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-        if (null == mFragmentManager.findFragmentByTag(ShotListFragment.class.getName())) {
+        if (reloaded || null == mFragmentManager.findFragmentByTag(ShotListFragment.class.getName())) {
             mContentFragment = new ShotListFragment();
         }
         fragmentTransaction
@@ -256,7 +257,7 @@ public class MainActivity extends BaseActivity {
         if (mSearchView.isSearchOpen()) {
             mSearchView.closeSearch();
         } else if (!(mContentFragment instanceof ShotListFragment)){
-            onShotsSelected();
+            onShotsSelected(false);
         } else {
             super.onBackPressed();
         }
@@ -267,7 +268,10 @@ public class MainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SETTING && resultCode == SETTING) {
             navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
-            onShotsSelected();
+            onShotsSelected(false);
+        } else if (requestCode == SETTING && resultCode == CLEAR_DATA) {
+            navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
+            onShotsSelected(true);
         }
     }
 }
