@@ -4,8 +4,7 @@ jdk:
   - oraclejdk8
 
 env:
-  - ANDROID_TARGET = android-21
-  - ANDROID_ABI = armeabi-v7a
+  - ANDROID_TARGET = android-21 ANDROID_ABI = armeabi-v7a
 
 sudo: required
 before_install:
