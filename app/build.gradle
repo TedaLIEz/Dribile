@@ -21,6 +21,9 @@ android {
         targetCompatibility 1.7
         sourceCompatibility 1.7
     }
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
