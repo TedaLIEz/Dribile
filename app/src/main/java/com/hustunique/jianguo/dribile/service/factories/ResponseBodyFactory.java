@@ -4,13 +4,9 @@ import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.models.AccessToken;
 import com.hustunique.jianguo.dribile.service.api.Constants;
 
-import java.io.IOException;
-
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
 /**
  * Created by JianGuo on 4/13/16.
@@ -26,19 +22,9 @@ public class ResponseBodyFactory extends ServiceFactory {
         return createService(serviceClass, MyAccountManager.getCurrentToken());
     }
 
-    public static <S> S createService(Class<S> serviceClass, final AccessToken token) {
+    public static <S> S createService(Class<S> serviceClass, AccessToken token) {
         if (token != null) {
-            httpClient.addInterceptor(new Interceptor() {
-                @Override
-                public Response intercept(Chain chain) throws IOException {
-                    Request original = chain.request();
-                    Request.Builder requestBuilder = original.newBuilder()
-                            .header("Authorization", token.toString())
-                            .method(original.method(), original.body());
-                    Request request = requestBuilder.build();
-                    return chain.proceed(request);
-                }
-            });
+            httpClient.addInterceptor(new MyInterceptor(token));
         }
         OkHttpClient client = httpClient.build();
         Retrofit retrofit = builder.client(client).build();

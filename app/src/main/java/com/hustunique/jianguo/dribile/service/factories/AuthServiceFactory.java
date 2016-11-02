@@ -3,6 +3,7 @@ package com.hustunique.jianguo.dribile.service.factories;
 import com.hustunique.jianguo.dribile.service.api.Constants;
 
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**

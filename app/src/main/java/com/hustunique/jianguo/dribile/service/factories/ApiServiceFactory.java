@@ -13,6 +13,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -49,17 +50,7 @@ public class ApiServiceFactory extends ServiceFactory {
      */
     public static <S> S createService(Class<S> serviceClass, final AccessToken token) {
         if (token != null) {
-            httpClient.addInterceptor(new Interceptor() {
-                @Override
-                public Response intercept(Chain chain) throws IOException {
-                    Request original = chain.request();
-                    Request.Builder requestBuilder = original.newBuilder()
-                            .header("Authorization", token.toString())
-                            .method(original.method(), original.body());
-                    Request request = requestBuilder.build();
-                    return chain.proceed(request);
-                }
-            });
+            httpClient.addInterceptor(new MyInterceptor(token));
         }
         OkHttpClient client = httpClient.build();
         Retrofit retrofit = builder.client(client).build();
