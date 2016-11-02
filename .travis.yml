@@ -3,15 +3,23 @@ language: android
 jdk:
   - oraclejdk8
 
+sudo: required
+before_install:
+    - sudo apt-get update
+    
 android:
   components:
     - tools
     - platform-tools
     - build-tools-24.0.2
     - android-24
+    - android-23
+    - build-tools-23.0.2
+    - extra-android-support
     - extra-android-m2repository
 
 licenses:
     - 'android-sdk-preview-license-.+'
+    - 'android-sdk-preview-license-52d11cd2'
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
