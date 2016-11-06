@@ -28,15 +28,17 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin">
             <LinearLayout
+                android:layout_marginBottom="@dimen/activity_horizontal_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
             <LinearLayout
+                android:layout_weight="1000"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_gravity="center_vertical"
-                android:layout_marginBottom="96dp"
+                android:layout_marginBottom="32dp"
                 android:layout_marginTop="@dimen/profile_margin"
                 android:orientation="vertical">
 
@@ -61,7 +63,7 @@
                 <com.hustunique.jianguo.dribile.ui.widget.HTMLTextView
                     android:id="@+id/user_bio"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:textAppearance="@style/TextAppearance.Profile.Title"
@@ -70,9 +72,9 @@
             </LinearLayout>
 
             <LinearLayout
+                android:layout_weight="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -92,7 +94,7 @@
                         android:gravity="center"
                         android:textAppearance="@style/TextAppearance.Profile.Title"
                         android:textSize="@dimen/text_profile_lv2"
-                        tools:text="11111" />
+                        tools:text="11k" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -123,7 +125,7 @@
                         android:gravity="center"
                         android:textAppearance="@style/TextAppearance.Profile.Title"
                         android:textSize="@dimen/text_profile_lv2"
-                        tools:text="23337" />
+                        tools:text="23k" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -186,7 +188,7 @@
                         android:gravity="center"
                         android:textAppearance="@style/TextAppearance.Profile.Title"
                         android:textSize="@dimen/text_profile_lv2"
-                        tools:text="3386" />
+                        tools:text="3k" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -198,37 +200,39 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/user_twitter"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                <LinearLayout
                     android:layout_weight="1"
-                    android:elevation="2dp"
-                    android:src="@drawable/ic_twitter" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/item_pic_margin"
+                    android:layout_marginBottom="@dimen/item_pic_margin"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <View
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1" />
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/user_twitter"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:elevation="2dp"
+                        android:src="@drawable/ic_twitter" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/user_dribbble"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:elevation="2dp"
-                    android:src="@drawable/ic_dribbble" />
-            </LinearLayout>
+                    <View
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1" />
 
-            <Button
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/user_dribbble"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:elevation="2dp"
+                        android:src="@drawable/ic_dribbble" />
+                </LinearLayout>
+
+                <Button
                 android:id="@+id/btn_follow"
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
