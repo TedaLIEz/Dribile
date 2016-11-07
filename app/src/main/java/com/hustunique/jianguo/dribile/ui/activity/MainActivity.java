@@ -29,6 +29,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,10 +40,9 @@ import com.hustunique.jianguo.dribile.R;
 import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.ui.fragments.BucketListFragment;
-import com.hustunique.jianguo.dribile.ui.fragments.IFabClickFragment;
+import com.hustunique.jianguo.dribile.ui.fragments.IShotFragment;
 import com.hustunique.jianguo.dribile.ui.fragments.LikesListFragment;
 import com.hustunique.jianguo.dribile.ui.fragments.ShotListFragment;
-import com.miguelcatalan.materialsearchview.MaterialSearchView;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -51,7 +51,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity {
-
+    private static final String TAG = "MainActivity";
     private static final int SETTING = 0x000000;
     private static final int CLEAR_DATA = 0x000001;
     @BindView(R.id.drawer_layout)
@@ -66,12 +66,15 @@ public class MainActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.searchView)
-    MaterialSearchView mSearchView;
+
+    SearchView mSearchView;
+//    @BindView(R.id.searchView)
+//    SearchView mSearchView;
 
     private ActionBarDrawerToggle mToggle;
-    private IFabClickFragment mContentFragment;
+    private IShotFragment mContentFragment;
     private FragmentManager mFragmentManager = getSupportFragmentManager();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,36 +91,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initSearchView() {
-
-        mSearchView.setVoiceSearch(false);
-        mSearchView.setHintTextColor(R.color.grey20_color);
-        mSearchView.setHint(AppData.getString(R.string.search_hint));
-        mSearchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
-
-        mSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
-                mFab.hide();
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-                if (!(mContentFragment instanceof ShotListFragment)) {
-                    mFab.show();
-                }
-            }
-        });
-        mSearchView.setSuggestions(getResources().getStringArray(R.array.query_suggestions));
+//        mSearchView.setHint(AppData.getString(R.string.search_hint));
     }
 
 
@@ -131,6 +105,7 @@ public class MainActivity extends BaseActivity {
     public void setTitle(String title) {
         mToolbar.setTitle(title);
     }
+
     private void setSetupDrawerContent() {
         onShotsSelected(false);
         navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
@@ -219,18 +194,20 @@ public class MainActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
         MenuItem item = menu.findItem(R.id.action_search);
-        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        mSearchView = (SearchView) item.getActionView();
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                mSearchView.showSearch();
-                mSearchView.setVisibility(View.VISIBLE);
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mContentFragment.search(newText);
                 return false;
             }
         });
-
-
         return true;
     }
 
@@ -270,9 +247,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (mSearchView.isSearchOpen()) {
-            mSearchView.closeSearch();
-        } else if (!(mContentFragment instanceof ShotListFragment)){
+        if (!mSearchView.isIconified()) {
+            mSearchView.clearFocus();
+            mSearchView.setIconified(true);
+        } else if (!(mContentFragment instanceof ShotListFragment)) {
             onShotsSelected(false);
         } else {
             super.onBackPressed();

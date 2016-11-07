@@ -28,7 +28,7 @@ import java.util.List;
  * Base ListAdapter for RecyclerView in MVP design pattern.
  */
 public abstract class MvpRecyclerListAdapter<M, P extends BasePresenter, VH extends MvpViewHolder<P>> extends MvpRecyclerAdapter<M, P, VH> {
-    private final List<M> models;
+    protected final List<M> models;
 
     public MvpRecyclerListAdapter() {
         models = new ArrayList<>();
@@ -100,6 +100,7 @@ public abstract class MvpRecyclerListAdapter<M, P extends BasePresenter, VH exte
         if (position >= 0) {
             notifyItemRemoved(position);
         }
+
     }
 
     private int getItemPosition(M item) {

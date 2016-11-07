@@ -29,7 +29,7 @@ import com.hustunique.jianguo.dribile.utils.Utils;
  * Created by JianGuo on 4/21/16.
  * Basic Fragment for loading shots
  */
-public class ShotListFragment extends BaseShotListFragment implements IFabClickFragment {
+public class ShotListFragment extends BaseShotListFragment implements IShotFragment {
 
     public ShotListFragment() {
         // Required empty public constructor
@@ -64,6 +64,10 @@ public class ShotListFragment extends BaseShotListFragment implements IFabClickF
 
     }
 
+    @Override
+    public void search(String query) {
+        mAdapter.getFilter().filter(query);
+    }
 
 
 }

@@ -53,7 +53,7 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
  */
 public abstract class BaseShotListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener,ILoadListView<Shots> {
 
-    private ShotsAdapter mAdapter;
+    protected ShotsAdapter mAdapter;
     private static final String TAG = "BaseShotListFragment";
     private GridLayoutManager mGridLayoutManager;
 

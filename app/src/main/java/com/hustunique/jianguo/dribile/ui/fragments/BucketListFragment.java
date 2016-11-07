@@ -53,7 +53,7 @@ import butterknife.ButterKnife;
  * Use the {@link BucketListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BucketListFragment extends BaseFragment implements BucketListView, IFabClickFragment {
+public class BucketListFragment extends BaseFragment implements BucketListView, IShotFragment {
     private static final int POS_LIST = 1;
     private static final int POS_EMPTY = 2;
     private static final int POS_LOADING = 0;
@@ -91,6 +91,11 @@ public class BucketListFragment extends BaseFragment implements BucketListView, 
                 dialog.dismiss();
             }
         });
+    }
+
+    @Override
+    public void search(String query) {
+
     }
 
     /**

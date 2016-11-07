@@ -59,7 +59,7 @@ import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter;
  * Fragment for loading shots in a user's likes, if you don't give a user id it will load the auth
  * user's likes by default.
  */
-public class LikesListFragment extends BaseFragment implements LikeListView, IFabClickFragment, SwipeRefreshLayout.OnRefreshListener {
+public class LikesListFragment extends BaseFragment implements LikeListView, IShotFragment, SwipeRefreshLayout.OnRefreshListener {
     public static final String ID = "id";
     public static final String TAG = "LikesListFragment";
     private LikeListPresenter mLikeListPresenter;
@@ -271,6 +271,11 @@ public class LikesListFragment extends BaseFragment implements LikeListView, IFa
     @Override
     public void onFabClick() {
 
+    }
+
+    @Override
+    public void search(String query) {
+        mAdapter.getFilter().filter(query);
     }
 
     @Override

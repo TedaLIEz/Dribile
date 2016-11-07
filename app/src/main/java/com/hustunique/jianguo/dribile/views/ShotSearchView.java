@@ -16,20 +16,17 @@
 
 package com.hustunique.jianguo.dribile.views;
 
-import android.content.Intent;
+
 import android.net.Uri;
 
 import com.hustunique.jianguo.dribile.models.Shots;
-import com.hustunique.jianguo.dribile.models.User;
-
-import java.util.ArrayList;
 
 /**
- * Created by JianGuo on 5/6/16.
- * View shots for {@link com.hustunique.jianguo.dribile.ui.activity.ShotInfoActivity}
+ * Created by JianGuo on 5/3/16.
+ * View shots for {@link com.hustunique.jianguo.dribile.ui.viewholders.ShotsViewHolder}
  */
-public interface ShotInfoView {
-    void setShotTitle(String title);
+public interface ShotSearchView {
+    void setShotTitle(String title, String keywords);
     void setViewCount(String viewCount);
     void setCommentCount(String commentCount);
     void setLikeCount(String likeCount);
@@ -38,17 +35,6 @@ public interface ShotInfoView {
     void setAvatar(Uri avatar_url);
     void goToDetailView(Shots model);
     void setDefaultAvatar();
-    void setDescription(String description);
-    void setTime(String time);
-    void setBucketCount(String bucketCount);
-    void setUserName(String userName);
-    void goToProfile(User user);
 
-    void addToBucket(Shots model);
 
-    void setTags(ArrayList<String> tags);
-    void onLike();
-    void onUnlike();
-    void sendSharedIntent(Intent sendIntent);
-    void addComments(Shots model);
 }

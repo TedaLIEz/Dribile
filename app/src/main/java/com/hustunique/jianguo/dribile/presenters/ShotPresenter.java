@@ -17,22 +17,24 @@
 package com.hustunique.jianguo.dribile.presenters;
 
 import android.net.Uri;
+import android.support.annotation.Nullable;
 
 import com.hustunique.jianguo.dribile.models.Shots;
-import com.hustunique.jianguo.dribile.views.ShotView;
+import com.hustunique.jianguo.dribile.views.ShotSearchView;
 
 /**
  * Created by JianGuo on 5/3/16.
  * Presenter of shot item in adapter
  */
-public class ShotPresenter extends BasePresenter<Shots, ShotView> {
-
+public class ShotPresenter extends BasePresenter<Shots, ShotSearchView> {
+    private String keywords;
     @Override
     protected void updateView() {
         view().setAnimated(model.getAnimated().equals("true"));
         view().setCommentCount(model.getComments_count());
         view().setLikeCount(model.getLikes_count());
-        view().setShotTitle(model.getTitle());
+
+        view().setShotTitle(model.getTitle(), keywords);
         view().setViewCount(model.getViews_count());
         view().setShotImage(model.getImages().getNormal());
         if (model.getUser() != null) {
@@ -50,5 +52,7 @@ public class ShotPresenter extends BasePresenter<Shots, ShotView> {
     }
 
 
-
+    public void setHighLight(@Nullable String searchKeyWords) {
+        keywords = searchKeyWords;
+    }
 }

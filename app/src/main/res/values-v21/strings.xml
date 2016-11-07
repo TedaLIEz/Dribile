@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="search_hint">Search…</string>
     <string name="log_in">Log in</string>
     <string name="sign_up">Sign Up</string>
     <string name="label">Dribile</string>
