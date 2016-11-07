@@ -43,8 +43,9 @@ import com.hustunique.jianguo.dribile.ui.fragments.BucketListFragment;
 import com.hustunique.jianguo.dribile.ui.fragments.IShotFragment;
 import com.hustunique.jianguo.dribile.ui.fragments.LikesListFragment;
 import com.hustunique.jianguo.dribile.ui.fragments.ShotListFragment;
+import com.hustunique.jianguo.dribile.utils.Logger;
 import com.squareup.picasso.Picasso;
-
+import com.hustunique.jianguo.mysearchview.MaterialSearchView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -67,9 +68,8 @@ public class MainActivity extends BaseActivity {
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
 
-    SearchView mSearchView;
-//    @BindView(R.id.searchView)
-//    SearchView mSearchView;
+    @BindView(R.id.searchView)
+    MaterialSearchView mSearchView;
 
     private ActionBarDrawerToggle mToggle;
     private IShotFragment mContentFragment;
@@ -195,16 +195,17 @@ public class MainActivity extends BaseActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         MenuItem item = menu.findItem(R.id.action_search);
-        mSearchView = (SearchView) item.getActionView();
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        mSearchView.setMenuItem(item);
+        mSearchView.setOnQueryListener(new MaterialSearchView.OnTextQueryListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
+            public boolean onQueryTextSubmit(CharSequence query) {
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                mContentFragment.search(newText);
+            public boolean onQueryTextChange(CharSequence newText) {
+                mContentFragment.search(newText.toString());
+                Logger.d(TAG, "Search: " + newText);
                 return false;
             }
         });
@@ -247,10 +248,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (!mSearchView.isIconified()) {
-            mSearchView.clearFocus();
-            mSearchView.setIconified(true);
-        } else if (!(mContentFragment instanceof ShotListFragment)) {
+        if (!(mContentFragment instanceof ShotListFragment)) {
             onShotsSelected(false);
         } else {
             super.onBackPressed();
