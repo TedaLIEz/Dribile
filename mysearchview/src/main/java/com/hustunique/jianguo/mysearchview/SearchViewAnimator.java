@@ -56,11 +56,7 @@ public class SearchViewAnimator {
     }
 
 
-    private static int getRightX(View view) {
-        int[] location = new int[2];
-        view.getLocationOnScreen(location);
-        return location[0] + view.getWidth();
-    }
+
 
     private static int getRightX(View view, int x) {
         int[] location = new int[2];
@@ -69,17 +65,13 @@ public class SearchViewAnimator {
         return location[0] + x;
     }
 
-    private static int getUpY(View view) {
-        int[] location = new int[2];
-        view.getLocationOnScreen(location);
-        return location[1];
-    }
+
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     static void revealOpen(View view, int x, int y, int duration, Context context, final EditText editText, final boolean shouldClearOnOpen, final MaterialSearchView.OnOpenCloseListener listener) {
 
         int cx = getRightX(view, x);
-        int cy = getUpY(view);
+        int cy = SearchViewUtil.getUpY(view);
         Point displaySize = new Point();
         ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getSize(displaySize);
         float finalRadius = (float) Math.hypot(Math.max(cx, displaySize.x - cx), cy);
@@ -120,7 +112,7 @@ public class SearchViewAnimator {
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     static void revealClose(final View view, int duration, Context context, final EditText editText, final boolean shouldClearOnClose, final MaterialSearchView.OnOpenCloseListener listener) {
-        int cx = getRightX(view);
+        int cx = SearchViewUtil.getRightX(view);
         if (cx <= 0) {
             int padding = context.getResources().getDimensionPixelSize(R.dimen.search_reveal);
             if (SearchViewUtils.isRtlLayout(context))

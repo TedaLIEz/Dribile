@@ -19,23 +19,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="?android:actionBarSize">
 
         <LinearLayout
+            android:layout_marginTop="@dimen/searchView_margin_vertical"
+            android:layout_marginBottom="@dimen/searchView_margin_vertical"
             android:id="@+id/linearLayout_search"
             android:layout_width="match_parent"
-            android:layout_height="?android:actionBarSize"
-            android:background="@android:color/white"
+            android:layout_height="match_parent"
+            android:background="@color/searchView_bg"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/searchView_margin"
-            android:paddingRight="@dimen/searchView_margin"
             android:visibility="visible"
             tools:visibility="visible">
 
             <ImageView
+                android:layout_marginStart="@dimen/searchView_image_margin"
                 android:id="@+id/imageView_arrow_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,7 +45,7 @@
                 android:background="@drawable/ic_action_navigation_arrow_back" />
 
             <EditText
-                android:layout_marginLeft="@dimen/searchView_margin"
+                android:layout_marginStart="@dimen/searchView_image_margin"
                 android:id="@+id/editText_input"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -53,6 +55,7 @@
                 android:imeOptions="actionSearch"
                 android:inputType="textNoSuggestions"
                 android:maxLines="1"
+                tools:text="test"
                 android:textColor="@color/searchView_text"
                 android:textColorHint="@color/searchView_text_hint"
                 android:textSize="@dimen/searchView_text_size" />
@@ -63,14 +66,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@drawable/ic_action_navigation_close"
+                android:layout_marginEnd="@dimen/searchView_image_margin"
                 android:visibility="gone"
                 tools:visibility="visible" />
         </LinearLayout>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView_suggestions"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
     </LinearLayout>
+
 
 </merge>

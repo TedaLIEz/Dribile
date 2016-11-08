@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright (c) 2016.  TedaLIEz <aliezted@gmail.com>
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,10 +15,7 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <color name="searchView_text">#212121</color>
-    <color name="searchView_text_hint">#727272</color>
-    <color name="searchView_bg">#FFFFFF</color>
-
-    <color name="search_shadow_layout">#50000000</color>
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="@color/search_shadow_layout"/>
+</shape>

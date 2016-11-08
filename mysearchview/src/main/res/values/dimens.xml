@@ -16,8 +16,15 @@
   -->
 
 <resources>
+    <dimen name="search_divider">1dp</dimen>
     <dimen name="search_height">48dp</dimen>
-    <dimen name="searchView_margin">16dp</dimen>
+    <dimen name="searchView_margin_horizontal">8dp</dimen>
+    <dimen name="searchView_margin_vertical">2dp</dimen>
+    <dimen name="searchView_image_margin">16dp</dimen>
     <dimen name="searchView_text_size">16sp</dimen>
     <dimen name="search_reveal">24dp</dimen>
+    <dimen name="suggestion_item_keywords">14sp</dimen>
+    <dimen name="suggestion_item_drawable_padding">4dp</dimen>
+    <dimen name="popup_paddingTop">8dp</dimen>
+    <dimen name="suggestion_item_margin">16dp</dimen>
 </resources>
