@@ -26,8 +26,6 @@
         android:layout_height="?android:actionBarSize">
 
         <LinearLayout
-            android:layout_marginTop="@dimen/searchView_margin_vertical"
-            android:layout_marginBottom="@dimen/searchView_margin_vertical"
             android:id="@+id/linearLayout_search"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -58,7 +56,10 @@
                 tools:text="test"
                 android:textColor="@color/searchView_text"
                 android:textColorHint="@color/searchView_text_hint"
-                android:textSize="@dimen/searchView_text_size" />
+                android:windowSoftInputMode="stateAlwaysHidden"
+                android:textSize="@dimen/searchView_text_size">
+                <requestFocus />
+            </EditText>
 
             <ImageView
                 android:id="@+id/imageView_clear"

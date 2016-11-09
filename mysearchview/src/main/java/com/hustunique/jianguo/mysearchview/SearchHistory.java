@@ -20,20 +20,21 @@ import android.support.annotation.NonNull;
 
 /**
  * Created by JianGuo on 11/8/16.
- * SearchItem in {@link SearchAdapter}
+ * SearchHistory in {@link SearchAdapter}
  */
 
-public class SearchItem implements Comparable<SearchItem> {
+public class SearchHistory implements Comparable<SearchHistory> {
     final String keywords;
     int searchTimes;
-
-    public SearchItem(String keywords) {
+    long _id;
+    public SearchHistory(String keywords) {
         this(keywords, 0);
     }
 
-    public SearchItem(String keywords, int searchTimes) {
+    public SearchHistory(String keywords, int searchTimes) {
         this.keywords = keywords;
         this.searchTimes = searchTimes;
+        this._id = -1;
     }
 
     public int incrementAndGet() {
@@ -44,7 +45,7 @@ public class SearchItem implements Comparable<SearchItem> {
 
     @Override
     public String toString() {
-        return "SearchItem{" +
+        return "SearchHistory{" +
                 "keywords='" + keywords + '\'' +
                 ", searchTimes=" + searchTimes +
                 '}';
@@ -54,11 +55,8 @@ public class SearchItem implements Comparable<SearchItem> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        SearchItem that = (SearchItem) o;
-
+        SearchHistory that = (SearchHistory) o;
         return keywords.equals(that.keywords);
-
     }
 
     @Override
@@ -67,7 +65,7 @@ public class SearchItem implements Comparable<SearchItem> {
     }
 
     @Override
-    public int compareTo(@NonNull SearchItem another) {
+    public int compareTo(@NonNull SearchHistory another) {
         return Integer.compare(searchTimes, another.searchTimes);
     }
 

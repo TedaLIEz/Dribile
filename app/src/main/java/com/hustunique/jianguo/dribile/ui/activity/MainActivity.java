@@ -199,14 +199,15 @@ public class MainActivity extends BaseActivity {
         mSearchView.setOnQueryListener(new MaterialSearchView.OnTextQueryListener() {
             @Override
             public boolean onQueryTextSubmit(CharSequence query) {
-                return false;
+                mContentFragment.search(query.toString());
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(CharSequence newText) {
                 mContentFragment.search(newText.toString());
                 Logger.d(TAG, "Search: " + newText);
-                return false;
+                return true;
             }
         });
         return true;

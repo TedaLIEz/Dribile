@@ -18,6 +18,7 @@ package com.hustunique.jianguo.mysearchview;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,34 +28,46 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by JianGuo on 11/8/16.
  * Adapter holding search suggestions.
  */
-// TODO: 11/8/16 Save search history!
+// FIXME: 11/9/16 drop frames when initialize data.
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> implements Filterable {
     private Context mContext;
-    private List<SearchItem> mSuggestions;
-    private List<SearchItem> mfilterData;
+    private List<SearchHistory> mSuggestions;
+    private List<SearchHistory> mHistory;
+    private HistoryDbHelper dbHelper;
     private OnItemClickListener mOnItemClickListener;
 
     public SearchAdapter(Context context) {
         mContext = context;
-        mSuggestions = new ArrayList<>();
+        dbHelper = HistoryDbHelper.getInstance(context);
+        initData();
     }
 
-    public SearchAdapter(Context context, List<SearchItem> suggestions) {
+    private void initData() {
+        mHistory = dbHelper.getAllHistories();
+        mSuggestions = new ArrayList<>(mHistory);
+    }
+
+    public SearchAdapter(Context context, List<SearchHistory> suggestions) {
+        mContext = context;
         mSuggestions = suggestions;
-        mfilterData = suggestions;
+        mHistory = suggestions;
     }
 
 
-    public void addItem(SearchItem item) {
+    public void addItem(SearchHistory item) {
+        dbHelper.addItem(item);
         if (mSuggestions.contains(item)) {
+            mHistory.get(mHistory.indexOf(item)).incrementAndGet();
             mSuggestions.get(mSuggestions.indexOf(item)).incrementAndGet();
             return;
         }
+        mHistory.add(item);
         mSuggestions.add(item);
         notifyItemInserted(mSuggestions.size());
     }
@@ -90,16 +103,37 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         return new ItemFilter();
     }
 
-    private class ItemFilter extends Filter {
 
+    private class ItemFilter extends Filter {
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+            if (!TextUtils.isEmpty(constraint) && mSuggestions != null && mHistory.size() != 0) {
+                FilterResults results = new FilterResults();
+                String filterString = constraint.toString().trim().toLowerCase(Locale.getDefault());
+                List<SearchHistory> rst = new ArrayList<>();
+
+                for (SearchHistory item : mHistory) {
+                    if (item.keywords.toLowerCase().contains(filterString)) {
+                        rst.add(item);
+                    }
+                }
+                results.values = rst;
+                results.count = rst.size();
+                return results;
+            }
             return null;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-
+            if (results == null) {
+                clearAndAddAll(mHistory);
+                return;
+            }
+            // Only List<SearchHistory> will be gotten here
+            @SuppressWarnings("unchecked")
+            List<SearchHistory> rst = (List<SearchHistory>) results.values;
+            clearAndAddAll(rst);
         }
     }
 
@@ -109,6 +143,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     public interface OnItemClickListener {
         void onItemClick(View view, String text);
+    }
+
+    private void clearAndAddAll(List<SearchHistory> data) {
+        mSuggestions = new ArrayList<>(data);
+        notifyDataSetChanged();
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

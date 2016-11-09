@@ -16,21 +16,17 @@
 
 package com.hustunique.jianguo.mysearchview;
 
-import android.animation.LayoutTransition;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
-import android.support.annotation.DimenRes;
 import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
-import android.support.annotation.StyleRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -40,15 +36,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -62,6 +57,7 @@ import android.widget.TextView;
  * SearchView in material design style.
  */
 // TODO: 11/8/16 Change Layout to material design spec
+// TODO: 11/9/16 Refactoring code
 public class MaterialSearchView extends FrameLayout implements View.OnClickListener {
     private Context mContext;
     private MenuItem mMenuItem;
@@ -75,30 +71,49 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
 
     private static Typeface mTextFont = Typeface.DEFAULT;
     private int mTextStyle;
+    private CharSequence mOldQueryText;
+
     private
     @ColorInt
     int mTextColor;
     private
     @ColorInt
     int mBackgroundColor;
+
     private
     @ColorInt
     int mHintColor;
-
     private float mTextSize;
-    private String mHint;
 
+    private String mHint;
     PopupWindow mPopWindow;
     ImageView mBackImageView;
     ImageView mClearImageView;
     RecyclerView mSuggestions;
     EditText mInputEditText;
     LinearLayout mSearchLayout;
-    LinearLayout mPopupLayout;
 
+    LinearLayout mPopupLayout;
     private OnTextQueryListener mOnQueryListener;
     private OnOpenCloseListener mOnOpenCloseListener;
 
+    private TextWatcher mTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (mInputEditText.hasFocus()) {
+                MaterialSearchView.this.handleChangedText(s);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+        }
+    };
 
     public interface OnTextQueryListener {
         boolean onQueryTextSubmit(CharSequence query);
@@ -213,6 +228,7 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
                 mSearchLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
+
     }
 
     private void initPopupView() {
@@ -234,7 +250,7 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         display.getSize(size);
         mPopWindow = new PopupWindow(popupView, size.x, WindowManager.LayoutParams.MATCH_PARENT, false);
         mPopWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.popup_hg));
-        mPopWindow.setOutsideTouchable(false);
+        mPopWindow.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
         mSuggestions.setNestedScrollingEnabled(false);
         mSuggestions.setLayoutManager(new LinearLayoutManager(mContext));
         mSuggestions.setItemAnimator(null);
@@ -243,16 +259,9 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
     }
 
 
-    private LayoutTransition getRecyclerViewLayoutTransition() {
-        LayoutTransition layoutTransition = new LayoutTransition();
-        layoutTransition.setDuration(LAYOUT_TRANSITION_DURATION);
-        return layoutTransition;
-    }
-
     private void showKeyboard() {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(mInputEditText, 0);
-        imm.showSoftInput(this, 0);
+        imm.toggleSoftInputFromWindow(getWindowToken(), InputMethodManager.SHOW_IMPLICIT, 0);
     }
 
     private void hideKeyboard() {
@@ -266,31 +275,15 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         mInputEditText.setHint(mHint);
         mInputEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
         mInputEditText.setHintTextColor(mHintColor);
-        mInputEditText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO: add more features at here.
-                MaterialSearchView.this.handleChangedText(s);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
+        mInputEditText.addTextChangedListener(mTextWatcher);
         mInputEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (event.getAction() != KeyEvent.ACTION_DOWN) {
-                    return false;
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    handleSubmit(mInputEditText.getText());
+                    return true;
                 }
-                handleSubmit(mInputEditText.getText());
-                return true;
+                return false;
             }
         });
 
@@ -300,39 +293,44 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
                 if (MotionEvent.ACTION_UP == event.getAction()) {
                     if (mPopWindow.isShowing()) {
                         hideSuggestions();
+                        hideKeyboard();
                     } else {
                         showSuggestions();
+                        showKeyboard();
                     }
                 }
-                return true; // return is important...
+                return true;
             }
         });
-    }
 
+    }
 
     private void handleSubmit(CharSequence query) {
         if (query != null && TextUtils.getTrimmedLength(query) > 0) {
-            // TODO: add query to filter to get suggestions.
-            if (mOnQueryListener == null || !mOnQueryListener.onQueryTextSubmit(query)) {
+            mUserQuery = query.toString();
+            if (mOnQueryListener == null || !mOnQueryListener.onQueryTextSubmit(mUserQuery)) {
                 // move the cursor to the end of text
                 // http://stackoverflow.com/a/37417170/4380801
                 mInputEditText.setText("");
-                mInputEditText.append(query);
+                mInputEditText.append(mUserQuery);
             }
-            close(true);
-            mAdapter.addItem(new SearchItem(query.toString()));
+            mAdapter.addItem(new SearchHistory(mUserQuery));
         }
+        close();
     }
 
-    private void handleChangedText(CharSequence s) {
-        mUserQuery = s.toString();
+    private void handleChangedText(CharSequence newText) {
+        mClearImageView.setVisibility(TextUtils.isEmpty(newText) ? View.GONE : View.VISIBLE);
+        CharSequence text = mInputEditText.getText();
+        mUserQuery = text.toString();
         if (mAdapter != null) {
-            mAdapter.getFilter().filter(s);
+            mAdapter.getFilter().filter(newText);
+            showSuggestions();
         }
-        mClearImageView.setVisibility(TextUtils.isEmpty(s) ? View.GONE : View.VISIBLE);
         if (mOnQueryListener != null) {
-            mOnQueryListener.onQueryTextChange(s);
+            mOnQueryListener.onQueryTextChange(newText.toString());
         }
+        mOldQueryText = newText.toString();
     }
 
 
@@ -364,6 +362,8 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         if (isSearchOpen()) {
             return;
         }
+        mInputEditText.requestFocus();
+        mInputEditText.setText("");
         if (animated) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 revealOpen();
@@ -373,14 +373,12 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         } else {
             mSearchLayout.setVisibility(View.VISIBLE);
         }
-        showSuggestions();
         showKeyboard();
-        mInputEditText.requestFocus();
         mSearchOpen = true;
     }
 
     public void showSuggestions() {
-        if (mAdapter != null && mAdapter.getItemCount() > 0) {
+        if (mAdapter != null) {
             mPopWindow.showAsDropDown(mSearchLayout);
         }
     }
@@ -403,7 +401,7 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         SearchViewAnimator.fadeClose(mSearchLayout,
                 mAnimationDuration,
                 mInputEditText,
-                true,
+                false,
                 mOnOpenCloseListener);
     }
 
@@ -425,14 +423,12 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
                 mAnimationDuration,
                 mContext,
                 mInputEditText,
-                true,
+                false,
                 mOnOpenCloseListener);
     }
 
 
-
     public void close(boolean animated) {
-        mInputEditText.getText().clear();
         if (animated) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 revealClose();
@@ -442,6 +438,7 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         } else {
             mSearchLayout.setVisibility(View.GONE);
         }
+        mInputEditText.clearFocus();
         hideSuggestions();
         hideKeyboard();
         mSearchOpen = false;
@@ -455,6 +452,10 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
         mAnimationDuration = duration;
     }
 
+    private void close() {
+        close(true);
+    }
+
     @Override
     public void onClick(View v) {
         if (v == mClearImageView) {
@@ -462,11 +463,81 @@ public class MaterialSearchView extends FrameLayout implements View.OnClickListe
                 mInputEditText.getText().clear();
             }
         } else if (v == mBackImageView) {
-            close(true);
+            close();
         } else if (v == mPopupLayout) {
-            close(true);
+            hideSuggestions();
+            hideKeyboard();
         }
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return isSearchOpen() || super.onTouchEvent(event);
+    }
 
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState ss = new SavedState(superState);
+        ss.query = mUserQuery != null ? mUserQuery : null;
+        ss.isSearchOpen = mSearchOpen;
+        return ss;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (!(state instanceof SavedState)) {
+            super.onRestoreInstanceState(state);
+            return;
+        }
+        SavedState ss = (SavedState) state;
+        if (ss.isSearchOpen) {
+            open(true);
+            setQuery(ss.query, false);
+            mInputEditText.requestFocus();
+        }
+        super.onRestoreInstanceState(state);
+        requestLayout();
+    }
+
+    public void setQuery(String query, boolean submit) {
+        mInputEditText.setText(query);
+        if (submit) {
+            handleSubmit(query);
+        }
+    }
+
+    private static class SavedState extends BaseSavedState {
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel source) {
+                return new SavedState(source);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+
+        String query;
+        boolean isSearchOpen;
+
+        SavedState(Parcel source) {
+            super(source);
+            this.query = source.readString();
+            this.isSearchOpen = source.readInt() == 1;
+        }
+
+        SavedState(Parcelable parcelable) {
+            super(parcelable);
+        }
+
+        @Override
+        public void writeToParcel(Parcel out, int flags) {
+            super.writeToParcel(out, flags);
+            out.writeString(query);
+            out.writeInt(isSearchOpen ? 1 : 0);
+        }
+    }
 }
