@@ -29,7 +29,7 @@
                 android:layout_marginRight="8dp"
                 android:gravity="center_vertical"
                 android:ellipsize="end"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textAppearance="@style/TextAppearance.Shots"
                 tools:text="WIP-Google Home: New Google Product Landing"
                 android:layout_width="match_parent"
@@ -39,23 +39,21 @@
             android:id="@+id/shots_preview"
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <ImageView
                 android:id="@+id/gif_icon"
-                android:visibility="gone"
-                android:layout_gravity="end|top"
+                android:layout_gravity="top|end"
                 android:src="@drawable/ic_gif_white_36dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <com.hustunique.jianguo.dribile.ui.widget.AspectRatioImageView
+            <ImageView
                 android:id="@+id/image"
+                android:adjustViewBounds="true"
                 tools:src="@drawable/shots_default"
-                app:aspectRatioEnabled="true"
-                app:aspectRatio="0.75"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="match_parent"/>
         </FrameLayout>
 
         <LinearLayout

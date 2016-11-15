@@ -95,23 +95,25 @@ public class ShotsViewHolder extends MvpViewHolder<ShotPresenter> implements Sho
 
     @Override
     public void setViewCount(String viewCount) {
-        mViewCount.setText(viewCount);
+        mViewCount.setText(Utils.numToK(viewCount));
     }
 
     @Override
     public void setCommentCount(String commentCount) {
-        mCommentCount.setText(commentCount);
+        mCommentCount.setText(Utils.numToK(commentCount));
     }
 
     @Override
     public void setLikeCount(String likeCount) {
-        mLikeCount.setText(likeCount);
+        mLikeCount.setText(Utils.numToK(likeCount));
     }
 
     @Override
     public void setAnimated(boolean animated) {
         if (animated) {
             mGif.setVisibility(View.VISIBLE);
+            mGif.bringToFront();
+            mGif.getParent().requestLayout();
             mImage.setColorFilter(Utils.brightIt(-100));
         } else {
             mGif.setVisibility(View.INVISIBLE);
