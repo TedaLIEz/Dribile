@@ -16,7 +16,7 @@
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <de.hdodenhof.circleimageview.CircleImageView
                 android:layout_margin="8dp"
                 android:id="@+id/shots_avatar"
@@ -40,13 +40,7 @@
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <com.hustunique.jianguo.dribile.ui.widget.AspectRatioImageView
-                android:id="@+id/image"
-                tools:src="@drawable/shots_default"
-                app:aspectRatioEnabled="true"
-                app:aspectRatio="0.75"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+
             <ImageView
                 android:id="@+id/gif_icon"
                 android:visibility="gone"
@@ -54,6 +48,14 @@
                 android:src="@drawable/ic_gif_white_36dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
+
+            <com.hustunique.jianguo.dribile.ui.widget.AspectRatioImageView
+                android:id="@+id/image"
+                tools:src="@drawable/shots_default"
+                app:aspectRatioEnabled="true"
+                app:aspectRatio="0.75"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </FrameLayout>
 
         <LinearLayout

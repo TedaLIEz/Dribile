@@ -29,7 +29,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -44,8 +43,9 @@ import com.hustunique.jianguo.dribile.ui.fragments.IShotFragment;
 import com.hustunique.jianguo.dribile.ui.fragments.LikesListFragment;
 import com.hustunique.jianguo.dribile.ui.fragments.ShotListFragment;
 import com.hustunique.jianguo.dribile.utils.Logger;
+import com.hustunique.jianguo.materialsearchview.MaterialSearchView;
 import com.squareup.picasso.Picasso;
-import com.hustunique.jianguo.mysearchview.MaterialSearchView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
