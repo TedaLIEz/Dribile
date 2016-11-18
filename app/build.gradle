@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
 android {
     compileSdkVersion 23
     buildToolsVersion "24.0.2"
@@ -13,11 +15,23 @@ android {
     }
     buildTypes {
         debug {
+            def id = properties.getProperty("dribile.id")
+            def secret = properties.getProperty("dribile.secret")
+            def url = properties.getProperty("dribile.url")
+            buildConfigField "String", "client_id", "\"$id\""
+            buildConfigField "String", "client_secret", "\"$secret\""
+            buildConfigField "String", "redirect_url", "\"$url\""
             applicationIdSuffix '.debug'
             versionNameSuffix '-DEBUG'
         }
 
         release {
+            def id = properties.getProperty("dribile.id")
+            def secret = properties.getProperty("dribile.secret")
+            def url = properties.getProperty("dribile.url")
+            buildConfigField "String", "client_id", "\"$id\""
+            buildConfigField "String", "client_secret", "\"$secret\""
+            buildConfigField "String", "redirect_url", "\"$url\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -61,3 +75,12 @@ dependencies {
     testCompile 'org.robolectric:robolectric:3.1'
     compile 'com.hustunique:materialsearchview:1.0.0'
 }
+
+task copyApks(type: Copy, dependsOn: "assembleRelease") {
+    from("$buildDir/outputs/apk") {
+        exclude '**/*unsigned.apk', '**/*unaligned.apk'
+    }
+    into '../apks'
+}
+
+build.dependsOn copyApks

@@ -21,6 +21,7 @@ import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.hustunique.jianguo.dribile.BuildConfig;
 import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.ui.activity.LoginActivity;
 import com.hustunique.jianguo.dribile.ui.activity.MainActivity;
@@ -31,9 +32,9 @@ import com.hustunique.jianguo.dribile.ui.activity.MainActivity;
  */
 public class MyApp extends Application {
 
-    public static final String client_id = "1a0491ebe3baf11a4075942e5a4c8b7f9e3a45d5f6ebdc04efe09a9f6488663e";
-    public static final String client_secret = "c347124356e372468d2a757ef0cfdf1c977627a22bd0d352610755fc6bf34618";
-    public static final String redirect_url = "http://127.0.0.1";
+    public static final String client_id = BuildConfig.client_id;
+    public static final String client_secret = BuildConfig.client_secret;
+    public static final String redirect_url = BuildConfig.redirect_url;
 
 
     @Override
