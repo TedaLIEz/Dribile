@@ -18,6 +18,8 @@ package com.hustunique.jianguo.dribile.ui.widget;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -37,12 +39,14 @@ import com.squareup.picasso.Picasso;
  * Created by JianGuo on 4/11/16.
  * FrameLayout for full image of a shot, gif is supported.
  */
+//TODO: not in mvp design!
 public class DetailImageLayout extends FrameLayout {
 
     private static final String TAG = "DetailImageLayout";
     private Context ctx;
     private ProgressBar mProgressBar;
     private GifImageView mGif;
+    private GifImageLoader loader;
 
     public DetailImageLayout(Context context) {
         this(context, null);
@@ -59,6 +63,7 @@ public class DetailImageLayout extends FrameLayout {
     }
 
     private void initView() {
+        loader = new GifImageLoader(ctx);
         mGif = new GifImageView(ctx);
         mProgressBar = new ProgressBar(ctx);
         FrameLayout.LayoutParams imageParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -75,7 +80,7 @@ public class DetailImageLayout extends FrameLayout {
     public void load(@NonNull Shots shots) {
         Logger.i(TAG, "loading url " + shots.getJson());
         if (Utils.isGif(shots)) {
-            new GifImageLoader(ctx).display(shots.getImages().getHidpi() == null ? shots.getImages().getNormal() : shots.getImages().getHidpi(), mGif).callback(new GifImageLoader.Callback() {
+            loader.display(shots.getImages().getHidpi() == null ? shots.getImages().getNormal() : shots.getImages().getHidpi(), mGif).callback(new GifImageLoader.Callback() {
                 @Override
                 public void onCompleted() {
                     mProgressBar.setVisibility(GONE);
@@ -113,4 +118,5 @@ public class DetailImageLayout extends FrameLayout {
             mGif.stopAnimation();
         }
     }
+
 }

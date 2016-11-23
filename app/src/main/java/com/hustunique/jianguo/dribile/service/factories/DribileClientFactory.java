@@ -44,7 +44,7 @@ public class DribileClientFactory {
     private static final long TIMEOUT_CONNECT = 30 * 1000;
     private static final long CACHE_SIZE = 1024 * 1024 * 50;
 
-    public static OkHttpClient createAuthClient() {
+    public static OkHttpClient createBasicClient() {
         if (mAuthClient == null) {
             mAuthClient = cacheBuilder().build();
         }

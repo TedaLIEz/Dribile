@@ -22,14 +22,24 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.LruCache;
 
 import com.felipecsl.gifimageview.library.GifImageView;
+import com.hustunique.jianguo.dribile.service.factories.DribileClientFactory;
 import com.hustunique.jianguo.dribile.utils.NetUtils;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by JianGuo on 4/12/16.
@@ -38,10 +48,16 @@ import java.net.URL;
 public class GifImageLoader implements ComponentCallbacks2 {
     private GifLruCache cache;
     private int COMPLETE = 0;
+    private static Handler mHandler = new Handler();
+
+
+
     public interface Callback {
         void onCompleted();
+
         void onFailed();
     }
+
     private Callback mCallback;
 
     public GifImageLoader(Context ctx) {
@@ -52,35 +68,57 @@ public class GifImageLoader implements ComponentCallbacks2 {
         ctx.registerComponentCallbacks(this);
     }
 
+
     public GifImageLoader display(String url, GifImageView imageView) {
-        Byte[] bytes = cache.get(url);
+        byte[] bytes = cache.get(url);
         if (bytes != null) {
-            imageView.setBytes(convertToByte(bytes));
+            imageView.setBytes(bytes);
         } else {
-            new LoadGifTask(imageView).execute(url);
+            doRequest(url, imageView);
         }
         return this;
+    }
+
+    private void doRequest(String url, final GifImageView imageView) {
+        OkHttpClient client = DribileClientFactory.createBasicClient();
+        Request request = new Request.Builder().url(url).build();
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mCallback != null) {
+                            mCallback.onFailed();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                byte[] bytes = response.body().bytes();
+                cache.put(response.request().url().toString(), bytes);
+                imageView.setBytes(bytes);
+                imageView.startAnimation();
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mCallback != null) {
+                            mCallback.onCompleted();
+                        }
+                    }
+                });
+
+            }
+        });
+
     }
 
     public void callback(Callback callback) {
         this.mCallback = callback;
     }
 
-    private Byte[] convertTobyte(byte[] bytes) {
-        Byte[] rst = new Byte[bytes.length];
-        for (int i = 0; i < bytes.length; i++) {
-            rst[i] = bytes[i];
-        }
-        return rst;
-    }
-
-    private byte[] convertToByte(Byte[] bytes) {
-        byte[] ret = new byte[bytes.length];
-        for (int i = 0; i < bytes.length; i++) {
-            ret[i] = bytes[i];
-        }
-        return ret;
-    }
 
     @Override
     public void onTrimMemory(int level) {
@@ -101,23 +139,30 @@ public class GifImageLoader implements ComponentCallbacks2 {
 
     }
 
-    class GifLruCache extends LruCache<String, Byte[]> {
+    private class GifLruCache extends LruCache<String, byte[]> {
 
         /**
          * @param maxSize for caches that do not override {@link #sizeOf}, this is
          *                the maximum number of entries in the cache. For all other caches,
          *                this is the maximum sum of the sizes of the entries in this cache.
          */
-        public GifLruCache(int maxSize) {
+        GifLruCache(int maxSize) {
             super(maxSize);
         }
 
         @Override
-        protected int sizeOf(String key, Byte[] value) {
+        protected int sizeOf(String key, byte[] value) {
             return super.sizeOf(key, value);
         }
     }
 
+
+
+    /**
+     * Deprecated because we use the singleton okhttpclient in application instead.
+     * Check {@link DribileClientFactory} for more information.
+     */
+    @Deprecated
     private class LoadGifTask extends AsyncTask<String, Void, Integer> {
 
         private byte[] gifByte;
@@ -146,12 +191,13 @@ public class GifImageLoader implements ComponentCallbacks2 {
 
         @Override
         protected Integer doInBackground(String... params) {
+
             try {
                 URL url = new URL(params[0]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 gifByte = NetUtils.streamToBytesNio(connection.getInputStream());
                 if (gifByte != null) {
-                    cache.put(params[0], convertTobyte(gifByte));
+                    cache.put(params[0], gifByte);
                 }
                 return COMPLETE;
             } catch (IOException e) {
@@ -159,7 +205,6 @@ public class GifImageLoader implements ComponentCallbacks2 {
             }
             return 1;
         }
-
 
 
     }

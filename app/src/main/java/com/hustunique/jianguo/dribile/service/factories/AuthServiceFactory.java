@@ -43,7 +43,7 @@ public class AuthServiceFactory extends ServiceFactory {
      * @return the service
      */
     public static <S> S createAuthService(@NonNull Class<S> serviceClass) {
-        Retrofit retrofit = authBuilder.client(DribileClientFactory.createAuthClient()).build();
+        Retrofit retrofit = authBuilder.client(DribileClientFactory.createBasicClient()).build();
         return retrofit.create(serviceClass);
     }
 
