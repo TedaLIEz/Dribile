@@ -53,7 +53,7 @@ public class GifImageLoader implements ComponentCallbacks2 {
 
 
     public interface Callback {
-        void onCompleted();
+        void onCompleted(byte[] bytes);
 
         void onFailed();
     }
@@ -69,17 +69,17 @@ public class GifImageLoader implements ComponentCallbacks2 {
     }
 
 
-    public GifImageLoader display(String url, GifImageView imageView) {
+    public GifImageLoader display(String url) {
         byte[] bytes = cache.get(url);
         if (bytes != null) {
-            imageView.setBytes(bytes);
+            mCallback.onCompleted(bytes);
         } else {
-            doRequest(url, imageView);
+            doRequest(url);
         }
         return this;
     }
 
-    private void doRequest(String url, final GifImageView imageView) {
+    private void doRequest(String url) {
         OkHttpClient client = DribileClientFactory.createBasicClient();
         Request request = new Request.Builder().url(url).build();
         client.newCall(request).enqueue(new okhttp3.Callback() {
@@ -97,15 +97,13 @@ public class GifImageLoader implements ComponentCallbacks2 {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                byte[] bytes = response.body().bytes();
+                final byte[] bytes = response.body().bytes();
                 cache.put(response.request().url().toString(), bytes);
-                imageView.setBytes(bytes);
-                imageView.startAnimation();
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         if (mCallback != null) {
-                            mCallback.onCompleted();
+                            mCallback.onCompleted(bytes);
                         }
                     }
                 });
@@ -179,7 +177,7 @@ public class GifImageLoader implements ComponentCallbacks2 {
                 imageView.setBytes(gifByte);
                 imageView.startAnimation();
                 if (mCallback != null) {
-                    mCallback.onCompleted();
+                    mCallback.onCompleted(gifByte);
                 }
             } else {
                 if (mCallback != null) {

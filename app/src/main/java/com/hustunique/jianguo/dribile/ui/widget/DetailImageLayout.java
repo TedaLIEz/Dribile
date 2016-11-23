@@ -38,8 +38,10 @@ import com.squareup.picasso.Picasso;
 /**
  * Created by JianGuo on 4/11/16.
  * FrameLayout for full image of a shot, gif is supported.
+ * Deprecated, see {@link com.hustunique.jianguo.dribile.presenters.GifPresenter} for more information
  */
 //TODO: not in mvp design!
+    @Deprecated
 public class DetailImageLayout extends FrameLayout {
 
     private static final String TAG = "DetailImageLayout";
@@ -80,9 +82,9 @@ public class DetailImageLayout extends FrameLayout {
     public void load(@NonNull Shots shots) {
         Logger.i(TAG, "loading url " + shots.getJson());
         if (Utils.isGif(shots)) {
-            loader.display(shots.getImages().getHidpi() == null ? shots.getImages().getNormal() : shots.getImages().getHidpi(), mGif).callback(new GifImageLoader.Callback() {
+            loader.display(shots.getImages().getHidpi() == null ? shots.getImages().getNormal() : shots.getImages().getHidpi()).callback(new GifImageLoader.Callback() {
                 @Override
-                public void onCompleted() {
+                public void onCompleted(byte[] bytes) {
                     mProgressBar.setVisibility(GONE);
                 }
 

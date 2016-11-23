@@ -1,16 +1,28 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.hustunique.jianguo.dribile.ui.activity.ImageDetailActivity">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@android:color/black"
+             tools:context="com.hustunique.jianguo.dribile.ui.activity.ImageDetailActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
          is needed to present your content, e.g. VideoView, SurfaceView,
          TextureView, etc. -->
-    <com.hustunique.jianguo.dribile.ui.widget.DetailImageLayout android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <ViewAnimator
         android:id="@+id/fullscreen_content"
-        android:background="@android:color/black">
-    </com.hustunique.jianguo.dribile.ui.widget.DetailImageLayout>
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"/>
+
+        <com.felipecsl.gifimageview.library.GifImageView
+            android:id="@+id/gifImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"/>
+    </ViewAnimator>
 
 </FrameLayout>
