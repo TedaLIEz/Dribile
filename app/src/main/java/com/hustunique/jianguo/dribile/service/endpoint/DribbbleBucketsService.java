@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.hustunique.jianguo.dribile.service;
+package com.hustunique.jianguo.dribile.service.endpoint;
 
 import com.hustunique.jianguo.dribile.models.Buckets;
 import com.hustunique.jianguo.dribile.models.Shots;

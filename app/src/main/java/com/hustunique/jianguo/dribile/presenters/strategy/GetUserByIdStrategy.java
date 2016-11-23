@@ -17,7 +17,7 @@
 package com.hustunique.jianguo.dribile.presenters.strategy;
 
 import com.hustunique.jianguo.dribile.models.User;
-import com.hustunique.jianguo.dribile.service.DribbbleUserService;
+import com.hustunique.jianguo.dribile.service.endpoint.DribbbleUserService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 
 import java.util.Map;

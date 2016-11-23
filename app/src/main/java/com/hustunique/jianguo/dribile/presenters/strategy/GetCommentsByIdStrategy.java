@@ -17,7 +17,7 @@
 package com.hustunique.jianguo.dribile.presenters.strategy;
 
 import com.hustunique.jianguo.dribile.models.Comments;
-import com.hustunique.jianguo.dribile.service.DribbbleShotsService;
+import com.hustunique.jianguo.dribile.service.endpoint.DribbbleShotsService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 
 import java.util.List;

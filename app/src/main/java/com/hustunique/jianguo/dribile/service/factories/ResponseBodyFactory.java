@@ -16,11 +16,12 @@
 
 package com.hustunique.jianguo.dribile.service.factories;
 
+import android.support.annotation.NonNull;
+
 import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.models.AccessToken;
 import com.hustunique.jianguo.dribile.service.api.Constants;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 
@@ -34,16 +35,12 @@ public class ResponseBodyFactory extends ServiceFactory {
             .addCallAdapterFactory(RxJavaCallAdapterFactory.create());
 
 
-    public static <S> S createService(Class<S> serviceClass) {
+    public static <S> S createService(@NonNull Class<S> serviceClass) {
         return createService(serviceClass, MyAccountManager.getCurrentToken());
     }
 
-    public static <S> S createService(Class<S> serviceClass, AccessToken token) {
-        if (token != null) {
-            httpClient.addInterceptor(new MyInterceptor(token));
-        }
-        OkHttpClient client = httpClient.build();
-        Retrofit retrofit = builder.client(client).build();
+    public static <S> S createService(@NonNull Class<S> serviceClass, @NonNull AccessToken token) {
+        Retrofit retrofit = builder.client(DribileClientFactory.createTokenClient(token)).build();
         return retrofit.create(serviceClass);
     }
 }

@@ -20,7 +20,7 @@ import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.strategy.ICacheDataStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.ILoadListDataStrategy;
-import com.hustunique.jianguo.dribile.service.DribbbleLikeService;
+import com.hustunique.jianguo.dribile.service.endpoint.DribbbleLikeService;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;

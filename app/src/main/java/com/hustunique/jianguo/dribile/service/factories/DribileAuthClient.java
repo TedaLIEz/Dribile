@@ -16,10 +16,25 @@
 
 package com.hustunique.jianguo.dribile.service.factories;
 
-/**
- * Created by JianGuo on 3/30/16.
- * Skeleton class for service factory
- */
-abstract class ServiceFactory {
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.OkHttpClient;
+
+/**
+ * Created by JianGuo on 11/23/16.
+ * Deprecated, use {@link DribileClientFactory} instead
+ */
+@Deprecated
+public class DribileAuthClient {
+    private static final long TIMEOUT_CONNECT = 30 * 1000;
+
+    private static OkHttpClient client;
+
+    public static OkHttpClient create() {
+        if (client == null) {
+            client = new OkHttpClient.Builder().connectTimeout(TIMEOUT_CONNECT, TimeUnit.MILLISECONDS)
+                    .build();
+        }
+        return client;
+    }
 }

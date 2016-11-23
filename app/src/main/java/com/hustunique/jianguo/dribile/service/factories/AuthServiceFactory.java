@@ -16,6 +16,8 @@
 
 package com.hustunique.jianguo.dribile.service.factories;
 
+import android.support.annotation.NonNull;
+
 import com.hustunique.jianguo.dribile.service.api.Constants;
 
 import retrofit2.Retrofit;
@@ -40,8 +42,8 @@ public class AuthServiceFactory extends ServiceFactory {
      * @param <S> class name
      * @return the service
      */
-    public static <S> S createAuthService(Class<S> serviceClass) {
-        Retrofit retrofit = authBuilder.client(httpClient.build()).build();
+    public static <S> S createAuthService(@NonNull Class<S> serviceClass) {
+        Retrofit retrofit = authBuilder.client(DribileClientFactory.createAuthClient()).build();
         return retrofit.create(serviceClass);
     }
 

@@ -24,7 +24,7 @@ import com.hustunique.jianguo.dribile.am.MyAccountManager;
 import com.hustunique.jianguo.dribile.models.User;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetUserByIdStrategy;
 import com.hustunique.jianguo.dribile.presenters.strategy.ILoadDataStrategy;
-import com.hustunique.jianguo.dribile.service.DribbbleUserService;
+import com.hustunique.jianguo.dribile.service.endpoint.DribbbleUserService;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.dribile.utils.Utils;
 import com.hustunique.jianguo.dribile.utils.Logger;

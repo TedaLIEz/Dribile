@@ -18,7 +18,7 @@ package com.hustunique.jianguo.dribile.presenters.strategy;
 
 import com.hustunique.jianguo.dribile.models.Likes;
 import com.hustunique.jianguo.dribile.models.Shots;
-import com.hustunique.jianguo.dribile.service.DribbbleUserService;
+import com.hustunique.jianguo.dribile.service.endpoint.DribbbleUserService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 
 import java.util.ArrayList;

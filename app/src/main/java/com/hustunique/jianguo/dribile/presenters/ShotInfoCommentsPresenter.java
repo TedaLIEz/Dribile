@@ -19,7 +19,7 @@ package com.hustunique.jianguo.dribile.presenters;
 import com.hustunique.jianguo.dribile.models.Comments;
 import com.hustunique.jianguo.dribile.models.Shots;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetCommentsByIdStrategy;
-import com.hustunique.jianguo.dribile.service.DribbbleShotsService;
+import com.hustunique.jianguo.dribile.service.endpoint.DribbbleShotsService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.utils.Logger;
 import com.hustunique.jianguo.dribile.utils.ObservableTransformer;

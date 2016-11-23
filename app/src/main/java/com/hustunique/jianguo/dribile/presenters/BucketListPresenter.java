@@ -16,11 +16,9 @@
 
 package com.hustunique.jianguo.dribile.presenters;
 
-import android.app.usage.NetworkStats;
-
 import com.hustunique.jianguo.dribile.models.Buckets;
 import com.hustunique.jianguo.dribile.presenters.strategy.GetMyBucketStrategy;
-import com.hustunique.jianguo.dribile.service.DribbbleBucketsService;
+import com.hustunique.jianguo.dribile.service.endpoint.DribbbleBucketsService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.service.factories.ResponseBodyFactory;
 import com.hustunique.jianguo.dribile.utils.Logger;
@@ -32,9 +30,7 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by JianGuo on 5/3/16.

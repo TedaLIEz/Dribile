@@ -19,14 +19,13 @@ package com.hustunique.jianguo.dribile.am;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.hustunique.jianguo.dribile.app.AppData;
 import com.hustunique.jianguo.dribile.models.AccessToken;
 import com.hustunique.jianguo.dribile.models.OAuthUser;
 import com.hustunique.jianguo.dribile.models.User;
-import com.hustunique.jianguo.dribile.service.DribbbleUserService;
+import com.hustunique.jianguo.dribile.service.endpoint.DribbbleUserService;
 import com.hustunique.jianguo.dribile.service.factories.ApiServiceFactory;
 import com.hustunique.jianguo.dribile.utils.Logger;
 
